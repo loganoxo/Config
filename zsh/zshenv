@@ -1,0 +1,13 @@
+# zshenv : 运行于每个 Zsh 实例中,始终会被加载，不管是 login、interactive 还是非交互式的 shell。
+# 执行脚本 zsh a.sh 会开启一个非交互非登录的shell, 会继承父shell的全局环境变量(export), 会加载zshenv(可以让脚本能访问zshenv中的全局变量、局部变量或方法), 不会加载zshrc和zprofile
+# 有关 $PATH 的配置不能放在这里, 因为有可能会被 /etc/zprofile 中的配置所覆盖
+
+export __PATH_MY_CNF="$HOME/Data/Config"                    # 我自己的配置文件目录
+export __PATH_MY_SOFT="$HOME/Data/Software"                 # 我自己的软件目录
+export __PATH_MY_CNF_SENSITIVE="$HOME/Data/ConfigSensitive" # 本地敏感数据目录
+export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
+
+# idea
+
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"
+if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi

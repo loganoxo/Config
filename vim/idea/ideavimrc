@@ -1,0 +1,136 @@
+" leader key的键位先于任何配置
+let mapleader=' '
+
+"----------------------------------------------- ideavim支持良好的设置 -----------------------------------------
+
+" 用系统剪切板;ideaput:用idea自己的行为来粘贴,默认存在
+set clipboard^=unnamedplus,ideaput
+
+" 记录200条命令;默认是50条
+set history=200
+
+" 高亮搜索的字符串 :set nohls 暂时清除高亮,用<Leader>?0切换
+set hlsearch
+" 即时搜索高亮
+set incsearch
+" 搜索时忽略大小写
+set ignorecase
+" 智能大小写敏感，只要有一个字母大写，就大小写敏感，否则不敏感
+set smartcase
+" 开启后,搜索到达文件开头和结尾时,会继续搜索
+set wrapscan
+
+" 自定义哪些字符被视为单词的一部分,影响换行和单词跳转和diw等操作;48到57的ascii码是数字0-9;192-255为重音字符
+set iskeyword+=@,48-57,_,$,%,#,-,192-255
+
+" 默认为(:),{:},[:]; 功能%能匹配的符号
+set matchpairs+=<:>
+" 匹配的最大深度;默认为20
+set maxmapdepth=20
+
+" 默认为inclusive;指定在选择文本时光标所在位置也属于被选中的范围,会影响插件vim-move,vim-visual-multi
+set selection=inclusive
+
+" 默认禁用;开启后,在:substitute中默认加g
+set nogdefault
+
+" CTRL-U和CTRL-D滚动的行数;默认为0,代表半屏
+set scroll=0
+
+" 输入的命令显示出来
+set showcmd
+" 显示当前vim模式
+set showmode
+" mouse:让鼠标选中时为select模式;key: shift+方向键/<End>/<Home>/<PageUp>/<PageDown>; ideaselection: idea中的一些操作,如撤销(Command_+Z)、选中当前单词(Option+w)
+set selectmode=
+" startsel:shift+方向键能开始选区;continueselect:select模式下,用shift+方向键可以扩展选区,stopselect:select模式下敲击其他字母键时,直接删除选区并进入插入模式(并插入之前敲击的字母)
+set keymodel=startsel,continueselect,stopselect
+" 默认开启;开启后执行某些命令(如<<调整缩进),光标会移动到行首非空格字符处;关闭后,光标位置保持不变
+set startofline
+
+" 为了which-key设置notimeout; timeoutlen: mapping组合键序列等待时间; ttimeoutlen:keycode键(Esc键等),idea不支持这个ttimeoutlen选项
+set timeout
+set timeoutlen=5000
+
+" 遇到错误时发出声音;visualbell:不发出声音
+set novisualbell
+
+" 默认为b,s 表示退格和空格;当光标位于行尾时，按下 h/左箭头 键会将光标移动到前一行的行尾;当光标位于行首时，按下 l/右箭头 键会将光标移动到下一行的行首。
+" idea中增加了[,],表示insert模式中的左右箭头
+set whichwrap=<,>,h,l,[,]
+
+" 执行终端命令时的shell;mac中默认用zsh
+" set shell=/bin/zsh
+" 执行终端命令时,给shell传递的标志;如 :!ls 执行的是 zsh -c ls
+" set shellcmdflag=-c
+" 执行终端命令时,需要转译的字符;默认为空
+" set shellxescape=
+" 执行终端命令时,规定引号的字符;默认为空
+" set shellxquote=
+" 使用默认的设置;控制不同模式下光标的形状
+" set guicursor=
+" 允许光标移动到行尾之后一个位置(虚拟的,实际并没有多一个空格)
+" set virtualedit=onemore
+
+"------------------------------------------------ 由idea原生配置模拟实现的 ------------------------------------
+
+" 光标距离顶部和底部 4 行,当光标接近窗口的顶部或底部边界时，Vim 会自动滚动文本
+set scrolloff=4
+" 当scrolloff的行为被触发时,滚动时的最小行数
+set scrolljump=1
+" 与scrolloff相似,只不过是水平滚动
+set sidescrolloff=15
+" 与scrolljump相似,只不过是水平滚动
+set sidescroll=1
+
+"----------------------------------------------- 局部编辑器或窗口的设置 ------------------------------------
+
+" 显示行号,用<Leader>?1切换
+set number
+" 行号以相对当前行的方式显示，可以用 nj/nk 进行跳转;用<Leader>?2切换
+set relativenumber
+" 默认启用;某行软换行后保持和该行相同的缩进
+set breakindent
+" 突出显示当前行;与vim不同,不支持cursorcolumn
+set cursorline
+" 会在第 100 列显示一条垂直线;Maps to IntelliJ's visual guide columns
+set colorcolumn=100
+" 显示空格,在idea设置中得到更详细的配置(Editor>General>Appearance>Show whitespaces)
+set list
+
+" 不要显式设置换行或不换行,用idea自身的配置(Editor>General>Soft Wraps);或者用:set wrap切换
+" set nowrap
+" 触发换行的列数,用idea默认行为
+" set textwidth=0
+" 下面三个使用idea自己的配置;nobomb:不让文件加入BOM标记
+" set fileencoding=utf-8
+" set fileformat=unix
+" set nobomb
+
+"---------------------------------------- IdeaVim 特有的配置 (vim中没有) --------------------------------------
+" 使用大写J将多行变成一行时,用idea提供的语法支持
+set ideajoin
+" vim中的m命令使用idea的书签功能;要想把书签添加到idea的bookmarks里,m命令后面只能跟着数字和大写字母
+set ideamarks
+" 默认为select;使用idea的重构功能时切换到select模式;只用于在Normal,Insert,Replace模式下开始的重构; Visual和Select模式下开始的重构会保持模式
+set idearefactormode=select
+" 开启时，IdeaVim 会尝试跟踪当前 IDE 的操作，并在通知中显示操作ID,以便于写映射map
+"set trackactionids
+" 默认规定在代码补全时,以下按键的功能将由idea处理;默认为<Tab>,<Down>,<Up>,<Enter>,<Left>,<Right>,<C-Down>,<C-Up>,<PageUp>,<PageDown>,<C-J>,<C-Q>
+" 在idea的keymap中配置了C-kjhl为上下左右
+set lookupkeys+=<C-H>,<C-J>,<C-K>,<C-L>
+" 默认为dialog;在idea一些内置功能的文本编辑窗口中也使用vim;如git commit的message
+set ideavimsupport=
+" set visualdelay=100 默认为100毫秒,设置在idea某些功能的文本选择和鼠标选择等时候,visual模式出现的延迟时间
+" set ideaglobalmode 在多个窗口中使用相同的模式;如当一个窗口使用insert,其他所有窗口都会变成insert
+" set ideacopypreprocess 复制内容预处理;默认关闭
+" set ideastatusicon=enabled 默认启用;底部状态栏显示图标
+" set ideawrite=all 默认为all; 当用:w保存时,会保存所有文件
+
+
+"---------------------------------------- 映射 ----------------------------------------------------
+source ~/Data/Config/vim/idea/mappings.vim
+"---------------------------------------- 插件 ----------------------------------------------------
+source ~/Data/Config/vim/idea/plugin.vim
+"---------------------------------------- handler ----------------------------------------------------
+source ~/Data/Config/vim/idea/handler.vim

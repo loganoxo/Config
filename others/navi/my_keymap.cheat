@@ -1,0 +1,74 @@
+# 界面提示在括号内输入变量名（例如 <branch> ）
+# 如果有一个以 $ 开头的对应行，则会显示建议。否则，用户将能够为它键入任何值。
+
+% my, keymap-common
+# mac隐藏当前窗口，可以通过<command+Tab>再次打开
+echo "command + H"
+# mac最小化当前窗口
+echo "command + M"，不可以通过<command+Tab>再次打开
+
+% my, keymap-terminal
+# 清屏但是可以回滚 
+echo "ctrl+L 或者clear"
+# 完全清屏
+echo "command+K"
+# 删除一行
+echo "ctrl+u"
+# 删除上一个字符
+echo "ctrl+w"
+# 回到行首
+echo "ctrl+a"
+# 到行尾
+echo "ctrl+e"
+# 按单词移动光标
+echo "option+左右箭头"
+
+% my, keymap-finder
+# mac原生复制finder中选中的文件的绝对路径
+echo "option + command + C"
+# 显示或隐藏finder边栏
+echo "ctrl + command + S"
+# 前往文件夹
+echo "shift + command + G"
+# 连接服务器
+echo "command + K"
+
+% my, keymap-alfred
+# (alfred) 出现次级菜单后，回退，例如 rct 后，回退
+echo "command + Backspace"
+# (alfred) 选中文本后翻译
+echo "command + command"
+# (alfred) 在alfred外，选中文本或者文件后，快捷操作
+echo "ctrl + command + \"
+# (alfred) 显示预览-在alfred文件搜索列表里（空格 + 搜索词）
+echo "shift"
+# (alfred) 快捷操作-在alfred文件搜索列表里（空格 + 搜索词）
+echo "右箭头"
+# (alfred) 将选中的文件目录移到alfred搜索框中-在alfred文件搜索列表里（空格 + 搜索词）
+echo "command + 下箭头"
+# (alfred) 回退一个目录-在alfred文件搜索列表里（空格 + 搜索词）
+echo "Backspace"
+# (alfred) 进入文件夹-alfred直接显示目录: ~ 或者 / 后
+echo "回车"
+# (alfred) 回车进入文件夹之后-后退一个文件夹，alfred直接显示目录: ~ 或者 / 后
+echo "Backspace"
+# (alfred) 向上一页，向下一页
+echo "pageup pagedown"
+# (alfred) 在home目录打开iterm2
+echo "ctrl + command + option + K"
+# (alfred) 当前目录打开iterm2
+echo "ctrl + command + option + J"
+# (alfred) 复制finder窗口
+echo "command + option + N"
+# (alfred) 打开~/.config目录
+echo "关键字:config"
+# (alfred) nav打开目录先搜索，再浏览
+echo "关键字:nav"
+# (alfred) fnav直接打开再浏览
+echo "关键字:fnav"
+# (alfred) nav或者fnav浏览文件时
+echo "回车:进入文件夹;shift+回车:进入父文件夹"
+# (alfred) 锁屏
+echo "command+shift+L"
+# (alfred) 有道翻译
+echo "关键字:yd"

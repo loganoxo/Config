@@ -1,0 +1,6 @@
+jetbra不能换位置;
+
+jetbrains.vmoptions.plist 放到    /Users/logan/Library/LaunchAgents/
+
+jetbrains.vmoptions.sh 改成   .jetbrains.vmoptions.sh    放到 $HOME下
+

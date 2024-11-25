@@ -1,0 +1,150 @@
+# 界面提示在括号内输入变量名（例如 <branch> ）
+# 如果有一个以 $ 开头的对应行，则会显示建议。否则，用户将能够为它键入任何值。
+
+% my, common
+# find查找文件; -print0 选项来以空字符分隔文件名输出。xargs 命令使用 -0 选项来接受以空字符分隔的输入，并使用 -I {} 来指定占位符。echo "\"{}\"" 用来确保参数被双引号包围。
+$ file: find . -maxdepth 1 -type f ! -name ".DS_Store" -print0 | xargs -0 -I {} echo "\"{}\""
+# 测试
+echo "hello"
+# (全局变量)__PATH_MY_CNF="$HOME/Data/Config"
+echo ${__PATH_MY_CNF}
+# (全局变量)__PATH_MY_SOFT="$HOME/Data/Software"
+echo ${__PATH_MY_SOFT}
+# (全局变量)__PATH_HOME_CONFIG="$HOME/.config"
+echo ${__PATH_HOME_CONFIG}
+# zz 通过fzf跳转到目录
+zz
+# z 直接跳转到最佳匹配的目录
+z
+# 通过fzf选择一个进程，kill掉
+fkill
+# 查看文件的换行符
+od -c <file>
+# 进入~/Temp
+tt
+# 进入Home目录~
+th
+# 进入桌面目录Desktop
+tw
+# 进入~/Data目录
+td
+# 进入~/Data/Config目录
+tc
+# ping google.com(网络)
+pinggoogle
+# 获取本机公网 IP 地址(网络)
+myip
+# 获取局域网ip(网络)
+lanip
+# 增强mac的open命令
+op <path_or_name>
+# fzf在当前目录查找文件，然后选中文件后回车，会自动cd到该文件所在目录
+fcd
+# fzf从某个目录查找
+ff <dir>
+# neovim
+nv
+# neovim
+nvim
+# 调用tmux脚本
+tm
+# 重载配置文件(source ~/.bashrc)
+rr
+# xxm 安全的删除一个文件
+xxm
+# bulk_rename 批量重命名
+bulk_rename
+# 查看路由表
+netstat -nr
+# 复制文件内容到剪切板
+pbcopy < <file>
+# 生成非对称密钥
+ssh-keygen -t ed25519 -C <email>
+# 查看所有hosts
+dscacheutil -q host
+# 查看域名解析过程
+traceroute <url>
+# curl 访问url
+curl --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36" <url>
+
+% my, shasum
+$ file_path: find . -maxdepth 1 -type f ! -name ".DS_Store" -print0 | xargs -0 -I {} echo "\"{}\""
+# 获取文件的sha值(sha256)
+shasum --algorithm 256 <file_path>
+# 获取文件的sha值(sha512)
+shasum --algorithm 512 <file_path>
+# 判断文件的sha值
+shasum --algorithm 256 <file_path> | grep <sha值>
+# (用sha比较文件夹的不同)1、将某个文件夹下所有文件的sha值写入文件中
+fd -HIi -E "file.sha256" -t f -X shasum --algorithm 512 >> ./file.sha512
+# (用sha比较文件夹的不同)2、通过file.sha512检查文件夹下所有文件的sha值能否对应上，-q表示只显示不同
+shasum --check -q file.sha512
+
+% my, mac定时任务
+# 将plist文件复制到~/Library/LaunchAgents文件夹中，当前用户登录后便会自动加载该定时任务
+cp -iv <file_path> ~/Library/LaunchAgents
+# 加载定时任务，如果没有报错则任务就加载成功了,-w表示重新登录或重新启动时就加载该服务
+launchctl load -w ~/Library/LaunchAgents/<plist_file>
+# 如果要调整plist文件或是停止任务，请执行以下命令后再进行调整
+launchctl list|grep <plist_file_name>;
+launchctl stop <plist_file_name>;
+launchctl kill <plist_file_name>;
+launchctl unload -w ~/Library/LaunchAgents/<plist_file>;
+
+% my, mac
+# 安装 Xcode 命令行工具
+xcode-select --install
+# 打开app显示已损坏时，去除应用程序中所有文件的下载标记，这样系统就不会再警告说这个应用程序是从互联网下载的
+sudo xattr -r -d com.apple.quarantine <app_path>
+# mac网络共享上默认存在.DS_Store 文件，防止Mac在网络共享上创建 .DS_Store 文件，请打开终端并输入;如果网络共享不允许使用 .DS_Store 文件，DSDontWriteNetworkStores = 1
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
+# 检查当前的策略，如果网络共享不允许使用 .DS_Store 文件，DSDontWriteNetworkStores = 1
+defaults read com.apple.desktopservices
+# 要删除DS_Store策略并恢复默认行为，请输入
+defaults delete com.apple.desktopservices DSDontWriteNetworkStores
+# 打开mac长按连续输入
+defaults write -g ApplePressAndHoldEnabled -bool false
+# 打开mac长按连续输入，还可以
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -boolean false
+# 正对某个应用，打开mac长按连续输入，还可以
+defaults write 'com.microsoft.VSCode' ApplePressAndHoldEnabled -bool false
+# 查看当前系统 长按连续 ApplePressAndHoldEnabled配置的启用情况。
+defaults read | grep ApplePressAndHoldEnabled
+# 查看mac上的java版本和目录
+/usr/libexec/java_home -V
+# 隐藏文件，mac和其他类 Unix 系统
+chflags hidden a.txt
+# 取消隐藏文件，mac和其他类 Unix 系统
+chflags nohidden a.txt
+
+% my, proxy
+# 获取当前所有代理 (网络)
+getproxy
+# 设置某代理 (网络)
+setproxy <scope>
+# 取消当前某代理 (网络)
+unproxy <scope>
+$ scope: echo "git term all" | tr ' ' '\n'
+
+% my, sdkman
+# 列出所有版本java(已安装和未安装)
+sdk list java
+# 获取当前使用的版本
+sdk current
+# 使用某个版本
+sdk use <candidate> <version>
+# 安装某个sdk
+sdk install <candidate> <version> <path>
+# 卸载某个sdk
+sdk uninstall <candidate> <version>
+
+% my, navi
+# navi欢迎页面
+navi fn welcome
+# navi打印备忘录的默认路径
+navi info cheats-path
+# navi打印配置文件的默认路径
+navi info config-path
+
+
+

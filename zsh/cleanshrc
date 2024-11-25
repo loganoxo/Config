@@ -1,0 +1,17 @@
+# $PATH 路径去重
+foo="$(bash "${__PATH_MY_CNF}/shell/clean_path.sh")"
+# 检查 PATH 是否不为空时才导出
+if [ -n "$foo" ]; then
+    export PATH="$foo"
+else
+    echo "Warning: PATH is empty. Not exporting."
+fi
+
+# 默认情况下 FPATH 没有用export导出,所以不能在脚本去重了,而且bash中都没这个变量;所以就不做去重了
+#foo="$(bash "${__PATH_MY_CNF}/shell/clean_path.sh" 'fpath')"
+# 检查 FPATH 是否不为空时才导出
+#if [ -n "$foo" ]; then
+#    export FPATH="$foo"
+#else
+#    echo "Warning: FPATH is empty. Not exporting."
+#fi

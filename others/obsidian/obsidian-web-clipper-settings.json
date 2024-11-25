@@ -1,0 +1,172 @@
+{
+  "general_settings": {
+    "betaFeatures": false,
+    "legacyMode": false,
+    "showMoreActionsButton": false,
+    "silentOpen": false
+  },
+  "highlighter_settings": {
+    "alwaysShowHighlights": true,
+    "highlightBehavior": "replace-content",
+    "highlighterEnabled": true
+  },
+  "interpreter_settings": {
+    "anthropicApiKey": "",
+    "defaultPromptContext": "{{fullHtml|strip_tags:(\"script,h1,h2,h3,h4,h5,h6,meta,a,ol,ul,li,p,em,strong,i,b,img,video,audio,math,tablecite,strong,td,th,tr,caption,u\")|strip_attr:(\"alt,src,href,id,content,property,name,datetime,title\")}}",
+    "interpreterAutoRun": false,
+    "interpreterEnabled": false,
+    "interpreterModel": "gpt-4o-mini",
+    "models": [
+      {
+        "baseUrl": "https://api.openai.com/v1/chat/completions",
+        "enabled": true,
+        "id": "gpt-4o-mini",
+        "name": "GPT-4o Mini",
+        "provider": "OpenAI"
+      },
+      {
+        "baseUrl": "https://api.openai.com/v1/chat/completions",
+        "enabled": true,
+        "id": "gpt-4o",
+        "name": "GPT-4o",
+        "provider": "OpenAI"
+      },
+      {
+        "baseUrl": "https://api.openai.com/v1/chat/completions",
+        "enabled": true,
+        "id": "gpt-o1-mini",
+        "name": "GPT-o1 Mini",
+        "provider": "OpenAI"
+      },
+      {
+        "baseUrl": "https://api.anthropic.com/v1/messages",
+        "enabled": true,
+        "id": "claude-3-5-sonnet-20240620",
+        "name": "Claude 3.5 Sonnet",
+        "provider": "Anthropic"
+      },
+      {
+        "baseUrl": "https://api.anthropic.com/v1/messages",
+        "enabled": true,
+        "id": "claude-3-haiku-20240307",
+        "name": "Claude 3 Haiku",
+        "provider": "Anthropic"
+      },
+      {
+        "baseUrl": "https://api.anthropic.com/v1/messages",
+        "enabled": true,
+        "id": "claude-3-opus-20240229",
+        "name": "Claude 3 Opus",
+        "provider": "Anthropic"
+      }
+    ],
+    "openaiApiKey": ""
+  },
+  "property_types": [
+    {
+      "defaultValue": "{{title}}",
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "defaultValue": "{{url}}",
+      "name": "source",
+      "type": "text"
+    },
+    {
+      "defaultValue": "{{author|split:\", \"|wikilink|join}}",
+      "name": "author",
+      "type": "multitext"
+    },
+    {
+      "defaultValue": "{{published}}",
+      "name": "published",
+      "type": "date"
+    },
+    {
+      "defaultValue": "{{date}}",
+      "name": "created",
+      "type": "date"
+    },
+    {
+      "defaultValue": "{{description}}",
+      "name": "description",
+      "type": "text"
+    },
+    {
+      "name": "tags",
+      "type": "multitext"
+    },
+    {
+      "name": "date",
+      "type": "date"
+    },
+    {
+      "name": "lastmod",
+      "type": "date"
+    },
+    {
+      "name": "url",
+      "type": "text"
+    },
+    {
+      "name": "image",
+      "type": "text"
+    },
+    {
+      "name": "categories",
+      "type": "multitext"
+    },
+    {
+      "name": "aliases",
+      "type": "multitext"
+    },
+    {
+      "name": "keywords",
+      "type": "multitext"
+    },
+    {
+      "name": "weight",
+      "type": "number"
+    },
+    {
+      "name": "toc",
+      "type": "checkbox"
+    },
+    {
+      "name": "comments",
+      "type": "checkbox"
+    },
+    {
+      "name": "readingTime",
+      "type": "checkbox"
+    },
+    {
+      "name": "license",
+      "type": "checkbox"
+    },
+    {
+      "name": "math",
+      "type": "checkbox"
+    },
+    {
+      "name": "draft",
+      "type": "checkbox"
+    },
+    {
+      "name": "slug",
+      "type": "text"
+    }
+  ],
+  "template_17306283072978igaua3mo": [
+    "ᯡࡅ䁬⁼ၦǸڀƠ㘡ᠡ敢ᡇŌ怮〰恋䳄˸ߑ-Р的栴挨dᰦ㓀΀̄戠ࣣ䀥䲠᮸ᴠ➎æ┼摥㭑㏍倮⻣䀸奭ᜎ惠⋠䔨瀫璞အ旚㮠グ塷垀ᘲS屯ⷅ珁㎋⋬䨶ㅸ㗊䩆ቌ眱❤㠠ẩၗኽᗣ䓋ㄅݠǕ₰湤⩆ܥި₠ϘÌ摢㩐Ⴐ䱘淫㟑梡撚ᑼⒻᶣ䍑棫⪥䁗凑㠤Шٛ┵怨瑘†墧᳼惚Բ啼㥔ᚺ嬢溥௫灵籒Ι嫰䀡ḸႽ傰⡨ሠې岆၅Ɇ䦴煃洕䰱⑲䀡笥⹿ѭ 㩬 䱪揺〴ῴӁⲇ⟱ぞᗝⰒ㓖䈲䠩偐椺в憁湋䅠䦜惔䇢䆸呼ᶁ૥〤啎㋞嚃⧑㗖Ⱕࠬ瓐㩑¢஀畆䷆䩆⦼尠䃔✫䓑㋶㚆倬Ჰ簤లॴ籊䊉@૚䠅壂ᒕ化ޢ儋为㌽侽⌈氞淉澧灐⢁暥㧮嵐次ࣨჄ㔓䍴彟䠷᜼N妢ᅉ␲ᓉ⥴෧ࠠ "
+  ],
+  "template_17306298994136ipt6xpwd": [
+    "ᯡࡅ䁬⁼ၦǸڀƠ㘡ᠩ性୸˧॔怠瀥暠དྷϙ…䈠㬡آ氥ᣢQG\"% 未წ¬尠⳸Ǚ䌭瀬㈵曢䟓ଡ素犼崥ғ渌ఢ䰥;ᜠ彷奀攖ᜐز㮱䣠Ⱐ獩➱彯恂柳䙻ⲅゖ䵸籥ᷳ暷ଆ卄䅜摢Œᜰ䇫䄽&檢↙ࣈ䰼⨢ᬡħ•姑ᰤ恮❨秏ǹ悂ų琢岘⨖䜷ᚓʠਆ⬻擪崹異塆稦ᗅ໵䁣ⲁᴈ牓⑄U䒛䯦憸剈㖹卮㧻〽甛Р࿄䙤ш栠ϋۨ≸㨲¢瑐ለᢥ༰㯀ᣐ⬰ᶉ嫠᰹䧮ᮌ⁽很歁䝳崉梀琴ಠɚ夨ĥ瞸䂲¦㈲㒳⿿灸ծ㹐䨇甙╏㜠༐ⵅ厈㫌别¢⑮⚫ӳ㧜Ъ図䠮ⱳ愴禖ᇒ⅖⤊ṃ數㛲䕊䡴槭㘫\"堰㐪ܤ㳰㩋ᨑ悆㘡嬠䄔憌斎ƃ組匌ᬃ㦕ᢖ⯝嚦ࠋᄄᘮ෱篚㈷ᢅ඀✻ീ瀤☴悽煜⦚㿄晝泷徢惰戡\"稈ᑐ獭桁冰ᱱ㓗ざ浛ê㮙⇃淳⪫䡦墐ᡥദँ叒ڇሥብத湺ó紖ɿ埴梲͆㲗㶔坕⠬̦䌚ᐵ୰傻倠㍔إᮖ଒悍⍒䉙栒᎑䳑ᴢⓘॗ⛚ᕃ䚢罄Π紴΢ᒎ䅙摐ܢᑒ൙䂋ਲ਼掄᫻ᵷ拙㭏枦缢`索¡హ䥀ぁ撣㨹䵚㑘樳ѐձჱ⡲墾≩䥧ඥ㎏槙丮䁡ぐᆢṶ⚠⮉慡墐䃄祭࠱䢀䘰⊅ᯢ唒⭊㽼᳊缤Π࢔ܢ㐿⡐⸡૫❞䘡殙ᐓ杅ᆦ強ễ岼ᨋ偿斡悜Ꭲ䒴ρ塧䛐綉椑㡕䝣э▄壘勆䥷᫚㓎ኣ〡搈絕䒡摭ค塎́⭸ሡ桎آ䉥߷ᮆკ᳸ˠ昮ÁЮሄ缴ઢ紌਱䡥ء桒ˢ❓၃疈奔ुဓ⚰ু⽭ऑ搡ൡᚴ徦囘ʣ瀢ҕ怪Ġѕ䑁⎞嶄Ю෡执ᅖᒪຖ⚖欣⻎஗滧弇Ỵҡ怿Ⰸࡰ䐋ఴa᱔C❼儠䉰䀠嘈匵ځ挊簱剐窾䜂穑䗮笾ન㈨⚧₧ⓣʙ⁤ᑸ⒫⟅㵙㪹已東孞䟐ฤ⍔↉偈⡢则㔄䦜৸刹疳㬅䩜䬵櫴䆜愦悧⤣瓸ᬥ䁐㔁!堾ᮏᓽ⫔ড়䝉+啸䈨沂䉕⇈ȋ䈠 "
+  ],
+  "template_list": [
+    "17306298994136ipt6xpwd",
+    "17306283072978igaua3mo"
+  ],
+  "vaults": []
+}

@@ -1,0 +1,56 @@
+# 界面提示在括号内输入变量名（例如 <branch> ）
+# 如果有一个以 $ 开头的对应行，则会显示建议。否则，用户将能够为它键入任何值。
+% my, brew
+# 显示已安装软件包的依赖关系
+brew deps --installed
+# 查看依赖树
+brewtree
+# 查看依赖列表
+brewlist
+# 查看所有已安装的软件包
+brew list
+# 列出所有已安装的mac应用程序
+brew list --cask
+# 安装软件包
+brew install <package_name>
+# 安装mac应用程序
+brew install --cask <package_name>
+# 卸载软件包
+brew uninstall <package_name>
+# 卸载mac应用程序
+brew uninstall --cask <package_name>
+# 卸载mac应用程序,彻底删除指定的软件包及其相关文件，包括配置文件和其他相关文件。这个命令会删除所有与软件包关联的文件，包括可能在其他位置创建的文件，以确保彻底地清理系统
+brew uninstall --cask <package_name> --zap
+# 卸载软件包 输出更详细的信息
+brew uninstall <package_name> -v
+# 卸载软件包,彻底删除指定的软件包及其相关文件，包括配置文件和其他相关文件。这个命令会删除所有与软件包关联的文件，包括可能在其他位置创建的文件，以确保彻底地清理系统
+brew uninstall <package_name> --zap
+# 更新Homebrew自身,这将更新Homebrew到最新版本
+brew update
+# 更新已安装的软件包,这将更新所有已安装软件包到最新版本
+brew upgrade
+# 更新已安装的某个软件包
+brew upgrade <package_name>
+# 查找软件包，这将搜索包含关键字 keyword 的软件包
+brew search <keyword>
+# 显示软件包信息
+brew info <package_name>
+# 清理不需要的安装文件,这将清理掉 Homebrew 缓存的旧版本文件和不需要的安装文件
+brew cleanup --prune=all
+# -n 命令将以模拟模式运行，显示要删除的文件，但不会真正执行删除操作
+brew cleanup --prune=all -n
+# 列出没有被其他软件包依赖的软件包，也就是说，它列出了当前系统中由用户显式安装的软件包
+brew leaves
+# 显示已安装的软件包中，使用了 package_name 软件包的其他软件包
+brew uses <package_name> --installed
+# 显示已安装和未安装的软件包中，使用了 package_name 软件包的其他软件包
+brew uses <package_name> --eval-all
+# 列出已安装的但版本已经过时的软件包
+brew outdated
+# 检查Homebrew系统的健康状态，并提供可能的修复建议
+brew doctor
+# 显示软件包的文件列表
+brew ls --verbose <package_name>
+
+
+

@@ -1,0 +1,46 @@
+# 界面提示在括号内输入变量名（例如 <branch> ）
+# 如果有一个以 $ 开头的对应行，则会显示建议。否则，用户将能够为它键入任何值。
+
+% my, demo
+
+# 切换分支
+git checkout <branch>
+$ branch: git branch | awk '{print $NF}'
+
+# 删除本地系统中的 Docker 镜像
+docker rmi <image_id>
+$ image_id: docker images --- --column 3 --header-lines 1 --delimiter '\s\s+'
+
+# 通过显示 "false/true", 打印 "0/1"
+echo <mapped>
+$ mapped: echo 'false true' | tr ' ' '\n' --- --map "grep -q t && echo 1 || echo 0"
+
+# 字符串变量拼接
+echo "<wallpaper_folder>"
+$ pictures_folder: echo "/my/pictures"
+$ wallpaper_folder: echo "<pictures_folder>/wallpapers"
+
+# 测试变量拼接
+echo <x> <y>
+# 测试变量拼接,忽略x，只输出y
+: <x>; echo <y>
+$ x: echo "hello hi" | tr ' ' '\n'
+$ y: echo "$x foo;$x bar" | tr ';' '\n'
+
+# 测试变量为多个参数，需要在当前目录创建多个*.json
+cat <jsons>
+$ jsons: find . -iname '*.json' -type f -print --- --multi --expand
+
+% my, demo1
+$ pictures_folder: echo "/my/pictures"
+% my, demo2
+@ my, demo1
+# 测试多个备忘单中变量复用
+echo "<pictures_folder>/wallpapers"
+
+# 测试多行命令
+echo foo
+true \
+   && echo yes \
+   || echo no
+

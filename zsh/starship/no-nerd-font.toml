@@ -1,0 +1,46 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$os\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$status\
+$sudo\
+$cmd_duration\
+$shell\
+$java\
+$python\
+$nodejs\
+$c\
+$bun\
+$dotnet\
+$deno\
+$time\
+$username\
+$hostname\
+$line_break\
+$character\
+"""
+# $aws\
+add_newline = true
+
+[battery]
+full_symbol = "• "
+charging_symbol = "⇡ "
+discharging_symbol = "⇣ "
+unknown_symbol = "❓ "
+empty_symbol = "❗ "
+
+[erlang]
+symbol = "ⓔ "
+
+[nodejs]
+symbol = "[⬢](bold green) "
+
+[pulumi]
+symbol = "🧊 "
+
+[typst]
+symbol = "t "

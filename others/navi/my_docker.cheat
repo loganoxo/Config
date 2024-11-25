@@ -1,0 +1,150 @@
+# 界面提示在括号内输入变量名（例如 <branch> ）
+# 如果有一个以 $ 开头的对应行，则会显示建议。否则，用户将能够为它键入任何值。
+% my, docker
+$ container_id: docker container ls --- --column 1 --header-lines 1 --delimiter '\s\s+'
+$ container_id_all: docker container ls -a --- --column 1 --header-lines 1 --delimiter '\s\s+'
+$ image_id: docker images --- --column 3 --header-lines 1 --delimiter '\s\s+'
+$ network_name: docker network ls --- --column 2 --header-lines 1 --delimiter '\s\s+'
+$ repository: echo "repository其实就是远程仓库中的镜像名字，常为：username/repository;也就是说跟image_name是一个东西"
+# 显示所有docker容器 (bash>=4)
+dops
+# 显示所有docker容器 (bash>=4)
+dops1
+# 显示所有docker容器 (bash<4) 
+dops2
+# 显示Docker守护程序的系统信息，包括 Docker 版本、运行时信息、镜像和容器数量等。这个命令通常用于获取有关 Docker 环境的详细信息，例如了解 Docker 安装的配置和资源使用情况
+docker info
+# docker容器cpu和内存和IO使用情况
+docker stats
+# 显示容器中文件系统的变化
+docker diff <container_id_all>
+# 显示 Docker 使用的磁盘空间情况
+docker system df
+# 清理未使用的资源，如停止的容器、未引用的镜像、未使用的卷等
+docker system prune
+# 更新容器的资源限制
+docker update --memory 512m <container_id_all>
+# 监听 Docker 事件，并通过过滤器筛选感兴趣的事件
+docker events --filter 'type=container' --filter 'event=start'
+
+# docker版本详细信息
+docker version
+# docker版本简要信息
+docker -v
+# 列出本地系统中的所有 Docker 镜像，包括已下载的和已创建的镜像。 -a 参数表示显示所有镜像，即包括悬空镜像和中间层镜像
+docker images -a
+# 删除本地系统中的 Docker 镜像，等效于：docker images rm <image_id>
+docker rmi <image_id>
+# 根据当前目录下的 Dockerfile 构建镜像,<build_context>：构建上下文的路径，包含了构建所需的所有文件, 常用"."
+docker build -t <image_name>:<tag_name> <build_context>
+# 指定其他目录下的Dockerfile文件, 构建镜像,<build_context>：构建上下文的路径，包含了构建所需的所有文件, 常用"."
+docker build -f <Dockerfile_path> -t <image_name>:<tag_name> <build_context>
+# 使用 Buildx 工具构建多平台镜像
+docker buildx build --platform linux/amd64,linux/arm64 -t -t <image_name>:<tag_name> <build_context>
+
+# 将容器的文件系统打包为一个 tar 文件,不会导出与容器关联的卷的内容
+docker export --output="<file_name>.tar" <container_id>
+# 从 tar 文件创建一个新的镜像
+docker import <url_or_file>
+# 从 tar 文件创建一个新的镜像,--message给导入的镜像设置提交信息, --change导入镜像时对镜像进行修改, - <repository>:<tag_name>给导入的镜像指定仓库和标签(可选)
+docker import <url_or_file> --message "New image imported from tarball" --change "ENV DEBUG=true" - <repository>:<tag_name>
+# 从 tar 文件创建一个新的镜像
+cat <file_name>.tar | docker import - <repository>:<tag_name>
+# 从本地目录导入docker镜像
+tar -c <dir> | docker import - <repository>:<tag_name>
+# 登录Docker 仓库,如果没有指定 SERVER，默认会登录到 Docker Hub
+docker login --username <username> --password <password> <server_url>
+# 退出 Docker Hub 或其他 Docker 仓库的登录状态
+docker logout
+# 将容器的当前状态保存为一个新的镜像,--author为作者信息(可选),--message为提交信息(可选),<repository>:<tag_name>为可选
+docker commit --author <author> --message "<message>" <container_id> <repository>:<tag_name>
+# 给一个现有的镜像打标签，以便上传到指定的 Docker 仓库
+docker [image] tag <image_name>:<tag_name> <repository>:<tag_name>
+# 将一个或多个镜像保存为一个 tar 归档文件
+docker image save -o <file_name>.tar <image_name>:<tag_name>
+# 从一个 tar 归档文件中加载镜像，-i表示从文件加载；不加-i表示从标准输入加载，即docker load < busybox.tar.gz
+docker image load -i <file_name>.tar
+# 显示镜像的历史记录
+docker image history <image_name>
+# 将本地的镜像推送到 Docker 仓库，--all-tags不显示指定tag，push该镜像的所有标签
+docker push <image_and_tag>
+# 命令用于在 Docker Hub 上搜索与指定名称相关的镜像
+docker search <image_and_tag>
+# 从 Docker 镜像仓库中拉取指定名称的镜像到本地系统
+docker pull <image_and_tag>
+# 显示镜像的详细信息
+docker image inspect <image_id>
+
+
+# 创建一个新的数据卷
+docker volume create <volume_name>
+# 列出 Docker 中定义的数据卷
+docker volume ls
+# 删除一个或多个数据卷
+docker volume rm <volume_name>
+# 返回有关卷的详细信息，包括哪些容器正在使用它
+docker volume inspect <volume_name>
+# 列出所有的 Docker 容器，包括正在运行的和已经停止的
+docker ps -a
+# 列出所有的 Docker 容器，包括正在运行的和已经停止的
+docker container ls -a
+# 列出所有的 Docker 容器，不截断字符串
+docker container ls -a --no-trunc
+# 查看容器的某项信息，不截断字符串
+docker container ls -a --no-trunc --format "{{.ID}}:{{.Command}}" | awk -F ':' "/<container_id_all>/{print $2}"
+# 停止指定的 Docker 容器
+docker stop <container_id>
+# 暂停正在运行的容器
+docker pause <container_id>
+# 恢复暂停的容器
+docker unpause <container_id>
+# 显示容器中正在运行的进程列表
+docker top <container_id>
+# 删除指定的 Docker 容器,如果容器正在运行，你可能需要先停止容器，然后再删除它
+docker rm <container_id_all>
+# 查看容器的日志输出
+docker logs <container_id>
+# 查看容器的日志输出,-f 或 --follow：这个选项让日志输出保持持续更新，类似于 Unix 的 tail -f 命令。当新的日志条目被添加到容器中时，它们会实时地显示在你的终端上
+docker logs -f <container_id>
+
+# 查看容器的详细信息(json格式)
+docker inspect "<container_id_all>"
+# 查看容器的某项信息
+docker inspect  --format '{{.State.Status}}' "<container_id_all>"
+# 在运行中的容器中执行命令,-it: 这两个参数结合在一起，表示以交互式（interactive）和终端（tty）模式运行命令。这使得你可以与容器的终端进行交互，输入命令并查看输出
+docker exec -it <container_id> bash
+# 连接到正在运行的容器，和exec不用，attach只是连接到容器的主进程(cmd/ENTRYPOINT)的标准输入输出上，不会启动新的进程
+docker attach <container_id>
+# 将本地文件复制到容器内的指定路径
+docker cp <file> <container_id>:<dir>
+
+
+
+# 列出 Docker 中定义的网络
+docker network ls
+# 在 Docker 中创建一个新的网络,你可以通过选项来配置网络的各种属性，例如名称、驱动程序、子网、网关等。默认是桥接网络(--driver=bridge),--driver=host为主机网络模式，容器将与主机的网络共享相同的网络命名空间，使用宿主机的IP和端口，不需要端口映射，网络性能更好，因为不需要进行额外的网络地址转换（NAT）。同时也意味着容器之间不具备网络隔离性，所有容器都将共享宿主机的网络环境
+docker network create <network_name>
+# 用于获取指定网络的详细信息。这个命令会返回一个 JSON 格式的字符串，其中包含了网络的配置、状态、以及连接到该网络的容器列表等详细信息
+docker network inspect <network_name>
+# 将容器连接到一个网络
+docker network connect <network_name> <container_id_all>
+# 从一个网络中断开容器的连接
+docker network disconnect <network_name> <container_id_all>
+# 用于启动 Docker Compose 定义的服务。-d 参数表示以守护进程（后台）模式运行服务，即服务将在后台运行，而不会阻塞当前终端。
+docker-compose up -d
+# 用于停止并删除通过 docker-compose up 命令创建的所有容器，默认情况下，这个命令会删除在 Compose 文件中定义的服务容器、网络。但是，定义为 external 的网络和卷则不会被删除。此外，默认情况下不会删除匿名卷
+docker-compose down
+# 查看 Docker Compose 定义的服务的日志
+docker-compose logs
+# 查看 Docker Compose 定义的服务的日志,-f 或 --follow：这个选项让日志输出保持持续更新，类似于 Unix 的 tail -f 命令。当新的日志条目被添加到容器中时，它们会实时地显示在你的终端上
+docker-compose logs -f
+# 显示 Docker Compose 定义的服务的状态
+docker-compose ps
+# 停止 Docker Compose 定义的服务
+docker-compose stop <service_name>
+# 启动 Docker Compose 定义的服务
+docker-compose start <service_name>
+# 重启 Docker Compose 定义的服务
+docker-compose restart <service_name>
+# docker run 启动一个容器，-e环境变量，-d在后台模式下运行容器,-it使用交互式终端模式运行容器,--privileged=true它会给容器完全的主机访问权限。这意味着容器内的 root 用户将获得主机上的几乎全部权限，并且可以执行几乎所有的操作，就像它是在物理机或虚拟机上直接运行的一样;cmd容器运行的主进程命令，如果dockerfile定义了默认的Cmd，可不加；如果dockerfile定义了默认的ENTRYPOINT，则Cmd会当作参数传给ENTRYPOINT
+docker run -p <host_port>:<container_port> -v <host_path>:<container_path> --name mysql -e MYSQL_ROOT_PASSWORD=123456 -d <image_id> <Cmd>

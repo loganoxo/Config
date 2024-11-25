@@ -1,0 +1,322 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[╭](fg:current_line)\
+$os\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$status\
+$cmd_duration\
+$java\
+$python\
+$conda\
+$nodejs\
+$c\
+$bun\
+$dotnet\
+$deno\
+$sudo\
+$time\
+$shell\
+$username\
+$hostname\
+[](fg:box)\
+$line_break\
+$character\
+"""
+# $aws\
+
+scan_timeout = 30 #Starship扫描当前目录下文件(不会扫描子目录内的文件)的超时时间; 单位为毫秒; 默认为30ms
+command_timeout = 1000 #Starship执行命令(如获取java版本等)的超时;单位为毫秒; 默认为500ms
+add_newline = true
+palette = 'logan'
+
+[palettes.logan]
+foreground = '#F8F8F2'
+background = '#282A36'
+current_line = '#44475A'
+primary = '#352F44'
+light_primary = '#4A4947'
+#primary = '#1E1F29'
+#box = '#44475A'
+box = '#686D76'
+blue = '#6272A4'
+cyan = '#8BE9FD'
+#green = '#9EDF9C'
+green = '#86D293'
+light_green = '#77E4C8'
+orange = '#FFB86C'
+light_orange = '#FDDBBB'
+other_orange = '#FAEED1'
+pink = '#FF79C6'
+other_pink = '#F6D6D6'
+light_pink = '#E5D9F2'
+purple = '#BD93F9'
+big_purple = '#8B2F8A'
+light_purple = '#9694FF'
+red = '#FF5555'
+light_red = '#CA498C'
+big_red = '#D91656'
+yellow = '#F1FA8C'
+light_yellow = '#F4DEB3'
+sage_green = '#6272A4'
+peach = '#FFB1B1'
+dark = '#31304D'
+gray = '#B7B7B7'
+
+
+
+[os]
+format = '[─](fg:current_line)[](fg:light_pink)[$symbol ](fg:light_primary bg:light_pink)[](fg:light_pink)'
+disabled = true
+
+[os.symbols]
+Alpine = ''
+Amazon = ''
+Android = ''
+Arch = ''
+CentOS = ''
+Debian = ''
+EndeavourOS = ''
+Fedora = ''
+FreeBSD = ''
+Garuda = ''
+Gentoo = ''
+Linux = ''
+Macos = ''
+Manjaro = ''
+Mariner = ''
+Mint = ''
+NetBSD = ''
+NixOS = ''
+OpenBSD = ''
+OpenCloudOS = ''
+openEuler = ''
+openSUSE = ''
+OracleLinux = '⊂⊃'
+Pop = ''
+Raspbian = ''
+Redhat = ''
+RedHatEnterprise = ''
+Solus = ''
+SUSE = ''
+Ubuntu = ''
+Unknown = ''
+Windows = ''
+
+[directory]
+#   📂 |
+format = """
+[─](fg:current_line)\
+[](fg:blue)\
+[📂 ](fg:foreground bg:blue)\
+[⎪](bold fg:blue bg:box)\
+[ $path$read_only](fg:foreground bg:box)\
+[](fg:box)\
+"""
+home_symbol = "~"
+truncation_symbol = '…/'
+truncation_length = 3
+read_only = ' 🔒'
+read_only_style = ''
+use_os_path_sep = true
+#fish_style_pwd_dir_length = 1 #全路径显示;但是truncation_length之前的父目录只用一个首字母代替
+truncate_to_repo = true #当当前目录离项目仓库主目录层级小于truncation_length时,只显示到仓库主目录
+
+[git_branch]
+format = """
+[─](fg:current_line)\
+[](fg:green)[$symbol](fg:light_primary bg:green)[](fg:green bg:box)\
+[ $branch](fg:foreground bg:box)\
+[( $remote_name:$remote_branch)](fg:light_orange bg:box)\
+"""
+#              |
+symbol = ' '
+always_show_remote = false
+disabled = false
+
+[git_status]
+format = '[( \[$all_status\])](bold fg:peach bg:box)[](fg:box)'
+# untracked:'?'; staged:'+'; modified:'!'; deleted:'x';
+#windows_starship = '/mnt/c/Users/username/scoop/apps/starship/current/starship.exe' # windows上的WSL环境下开启增加性能
+
+[fill]
+symbol = '─'
+style = 'fg:current_line'
+disabled = false
+
+[status]
+# '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
+format = """
+[─](fg:current_line)\
+$symbol\
+"""
+#format = '[─](fg:current_line)[$symbol]($style)'
+symbol = '[](fg:light_yellow)[🔴\($status\)](fg:light_primary bg:light_yellow)[](fg:light_yellow)' #程序错误时显示的符号
+success_symbol = '🟢'
+not_executable_symbol = '[](fg:light_yellow)[🚫\($status\)](fg:light_primary bg:light_yellow)[](fg:light_yellow)' #文件不可执行时显示的符号
+not_found_symbol = '[](fg:light_yellow)[🈚\($status\)](fg:light_primary bg:light_yellow)[](fg:light_yellow)' #找不到命令时显示的符号
+sigint_symbol = '[](fg:light_yellow)[🧱\($status\)](fg:light_primary bg:light_yellow)[](fg:light_yellow)' #SIGINT 上显示的符号 (Ctrl + c)
+signal_symbol = '[](fg:light_yellow)[⚡ \($status\)](fg:light_primary bg:light_yellow)[](fg:light_yellow)' # 任何信号上显示的符号
+recognize_signal_code = true #根据退出码区分命令的退出是因为正常执行还是被信号终止,比如:退出码 130：一般表示进程被 SIGINT (Ctrl+C) 终止
+map_symbol = true #启用退出代码的符号映射(控制 除了symbol和success_symbol 之外的符号)
+disabled = false
+
+[cmd_duration] #      | [](fg:peach bg:box)
+format = '[─](fg:current_line)[](fg:dark)[ ](fg:light_red bg:dark)[ $duration](fg:foreground bg:box)[](fg:box)'
+min_time = 2000 #毫秒,超过这个时间才会显示
+show_milliseconds = true #除了秒数之外,还显示毫秒数
+
+[java]
+# 'via [${symbol}(${version} )]($style)'
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[( $version)](fg:foreground bg:box)[](fg:box)'
+symbol = '☕️Java'
+detect_extensions = ['java', 'class', 'gradle', 'jar', 'cljs', 'cljc']
+detect_files = ['pom.xml', 'build.gradle.kts', 'build.sbt', '.java-version', 'deps.edn', 'project.clj', 'build.boot', '.sdkmanrc']
+version_format = '${major}.${minor}' # raw:完整版本号(1.2.3); major:主版本号(1); minor:次版本号(2); patch:补丁版本号(3)
+disabled = false
+
+[python]
+# 'via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[( $version)(\($virtualenv\))](fg:foreground bg:box)[](fg:box)'
+symbol = '󰌠 PY' # 󰌠  🐍 👾  |
+#detect_files = [['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'pixi.toml']] #默认值
+version_format = '${major}.${minor}' # raw:完整版本号(1.2.3); major:主版本号(1); minor:次版本号(2); patch:补丁版本号(3)
+disabled = false
+
+[conda]
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[ $environment](fg:foreground bg:box)[](fg:box)'
+symbol = '👾Conda' # 󰌠  🐍 👾  |
+style = 'bright-purple'
+truncation_length = 1 #默认为1;如果环境是通过conda create -p [path]创建的，则环境路径应截断为的目录数。 0表示不截断
+ignore_base = true #默认为true; 激活时忽略base环境
+disabled = false
+
+[nodejs]
+# 'via [$symbol($version )]($style)'
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[( $version)]($style)[](fg:box)'
+symbol = ' JS'
+#detect_extensions = [] #默认为['js', 'mjs', 'cjs', 'ts', 'mts', 'cts'],目录下但凡有这些后缀名的文件则激活
+detect_files = ['package.json', '.node-version', '.nvmrc']
+detect_folders = ['node_modules']
+style = 'fg:foreground bg:box'
+not_capable_style = 'bold fg:red bg:box'
+version_format = '${major}.${minor}' # raw:完整版本号(1.2.3); major:主版本号(1); minor:次版本号(2); patch:补丁版本号(3)
+disabled = false
+
+[c]
+# 'via [$symbol($version(-$name) )]($style)'
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[( ($name-)$version)](fg:foreground bg:box)[](fg:box)'
+symbol = ' ' #    |
+detect_extensions = ['c', 'h']
+#commands = [['cc', '--version'], ['gcc', '--version'], ['clang', '--version']] # 获取编译器版本(名字)的命令和查找顺序
+version_format = '${major}.${minor}' # raw:完整版本号(1.2.3); major:主版本号(1); minor:次版本号(2); patch:补丁版本号(3)
+disabled = false
+
+[bun]
+# 'via [$symbol($version )]($style)'
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[( $version)](fg:foreground bg:box)[](fg:box)'
+symbol = '🥟 Bun'
+detect_files = ['bun.lockb', 'bunfig.toml']
+version_format = '${major}.${minor}' # raw:完整版本号(1.2.3); major:主版本号(1); minor:次版本号(2); patch:补丁版本号(3)
+disabled = true
+# 您可以在配置中覆盖nodejs 模块的detect_files属性，以便仅显示bun运行时:
+# [nodejs]
+# detect_files = ['package.json', '.node-version', '!bunfig.toml', '!bun.lockb']
+
+[dotnet]
+# 'via [$symbol($version )(🎯 $tfm )]($style)'
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[( $version)( $tfm)](fg:foreground bg:box)[](fg:box)'
+symbol = ' .NET'
+detect_extensions = ['csproj', 'fsproj', 'xproj']
+detect_files = ['global.json', 'project.json', 'Directory.Build.props', 'Directory.Build.targets', 'Packages.props']
+version_format = '${major}.${minor}' # raw:完整版本号(1.2.3); major:主版本号(1); minor:次版本号(2); patch:补丁版本号(3)
+disabled = true
+
+[deno]
+# 'via [$symbol($version )]($style)'
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[( $version)](fg:foreground bg:box)[](fg:box)'
+symbol = '🦕 Deno'
+detect_files = ['deno.json', 'deno.jsonc', 'deno.lock', 'mod.ts', 'mod.js', 'deps.ts', 'deps.js']
+version_format = '${major}.${minor}' # raw:完整版本号(1.2.3); major:主版本号(1); minor:次版本号(2); patch:补丁版本号(3)
+disabled = true
+
+[aws]
+# 'on [$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
+format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:light_primary bg:purple)[](fg:purple bg:box)[ $profile](fg:foreground bg:box)[](fg:box)'
+symbol = '☁️'
+disabled = true
+
+[sudo]
+format = """
+[─](fg:current_line)[](fg:peach)\
+[$symbol](fg:light_primary bg:peach)\
+[](fg:peach)\
+"""
+symbol = 'sudo'
+allow_windows = false #由于 Windows 没有默认的 sudo,因此默认被禁用
+disabled = false
+
+[time]
+#  🕙 |
+format = """
+[─](fg:current_line)[](fg:other_orange)\
+[🕓 ](bold fg:light_primary bg:other_orange)\
+[ $time](fg:foreground bg:box)[](fg:box)\
+"""
+time_format = '%H:%M'
+use_12hr = false #12小时制
+disabled = false
+
+[shell] # [ ](fg:primary bg:blue)
+format = """
+[─](fg:current_line)[](fg:light_purple)\
+[ ](bold fg:light_primary bg:light_purple)\
+[ $indicator](fg:foreground bg:box)[](fg:box)\
+"""
+#format = """
+#[─](fg:current_line)[](fg:light_purple)\
+#[$indicator](bold fg:light_primary bg:light_purple)\
+#[](fg:light_purple)\
+#"""
+unknown_indicator = 'shell'
+powershell_indicator = 'powershell'
+fish_indicator = 'fish'
+bash_indicator = 'bash'
+zsh_indicator = 'zsh'
+disabled = false
+
+[username]
+#[⎪](fg:light_orange bg:box)\
+#         |
+format = """
+[─](fg:current_line)[](fg:light_orange)\
+[ ](bold fg:light_primary bg:light_orange)\
+[ $user]($style)\
+"""
+style_user = 'fg:foreground bg:box'
+style_root = 'bold fg:red bg:box'
+show_always = true
+
+[hostname]
+ssh_only = true #仅在连接到 SSH 会话时显示主机名
+ssh_symbol = '🌐 '
+format = '[([ ](bold fg:other_pink bg:box)$hostname)](fg:foreground bg:box)' # '[$ssh_symbol](bold blue) on [$hostname](bold red) '
+trim_at = '' #第一个匹配之后主机名被截断的字符串; '.'将在第一个点后停止; ''将禁用任何截断
+aliases = { "loganmac.local" = "mac" } #将主机名替换为昵称
+# detect_env_vars = ['!TMUX', 'SSH_CONNECTION'] #隐藏远程 tmux 会话中的主机名
+disabled = false
+
+[character]
+format = """
+[│](fg:current_line)
+[╰─$symbol](fg:current_line) """
+
+#success_symbol = '[](fg:bold light_green)'
+#success_symbol = '[☍](fg:bold light_green)'
+#success_symbol = '[☡](fg:bold light_green)'
+success_symbol = '[✎](bold light_green)'
+error_symbol = '[✘](bold red)'
+vimcmd_symbol = '[V](bold green)'

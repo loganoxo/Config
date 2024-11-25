@@ -1,0 +1,199 @@
+# 工作区（Working Directory）：
+#   工作区是你当前正在工作的项目文件夹，包含了实际的文件和目录。
+#   在工作区中，你可以对文件进行修改、创建和删除等操作。
+# 暂存区（Staging Area）：
+#   暂存区是一个介于工作区和版本库之间的中间区域。
+#   当你对工作区中的文件进行修改后，你可以使用 `git add` 命令将修改的文件添加到暂存区。
+#   在暂存区中，你可以预览和准备要提交到版本库的更改。
+# 版本库（Repository）：
+#   版本库是 Git 最终保存文件历史记录和版本信息的地方。
+#   当你使用 `git commit` 命令提交暂存区中的更改时，Git 将会把这些更改永久地保存到版本库中。
+#   版本库包含了完整的文件历史记录，可以回溯到任意提交的状态。
+
+# HEAD 是一个特殊的引用，它指向当前检出（checked out）的提交。这可以是分支的最新提交，也可以是某个特定的提交（在分离 HEAD 状态下）。
+# HEAD 的主要作用是记录你当前所在的位置，以便你可以知道当前检出的是哪个提交，以及哪个分支是活跃的
+#   1、当你检出一个分支时，HEAD 会指向该分支的最新提交
+#   2、如果你直接检出一个特定的提交，而不是一个分支，Git 就会进入分离 HEAD 状态。在这种状态下，HEAD 不再指向任何分支的引用，而是直接指向你检出的那个提交。
+#     这意味着你可以在这个状态下进行提交，但这些提交不会与任何分支相关联。一旦你切换回一个分支，或者创建一个新的分支来保存这些提交，分离 HEAD 状态就会结束。
+#     你可以使用 git status 命令来查看当前仓库的状态，包括是否处于分离 HEAD 状态。此外，你还可以使用 git rev-parse HEAD 命令来查看 HEAD 当前指向的提交的哈希值。
+#     在 Git 仓库的 .git 目录中，HEAD 是一个文件，它通常包含一个指向其他引用的引用。如果 HEAD 指向一个分支，那么这个文件会包含类似 ref: refs/heads/master 的内容。如果 HEAD 处于分离状态，那么它会直接包含提交的哈希值
+
+% my, git
+$ file: find . -maxdepth 1 -type f ! -name ".DS_Store" -print0 | xargs -0 -I {} echo "\"{}\""
+$ branch_name: git branch | awk '{print $NF}'
+
+# (常用_1) 要忽略已经被添加到 Git 中的文件或文件夹，需要先将它们从暂存区移除，然后再更新 .gitignore 文件
+git rm --cached <file>
+
+# (初始化_1) 设置作者名字
+git config --global user.name "logan"
+# (初始化_2) 设置邮箱
+git config --global user.email "logan@xx.com"
+# (初始化_3) 让Git在终端中显示彩色输出
+git config --global color.ui true
+# (初始化_4) 设置别名,显示最后一次提交信息
+git config --global alias.last 'log -1'
+# (初始化_5) 设置别名,让git的提交日志的输出更美观
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all"
+# 测试与github的连接-1
+ssh -T git@github.com
+# 测试与github的连接-2
+ssh -T -p 443 git@ssh.github.com
+
+# (基本操作_1) 进入本地仓库目录
+cd git_test
+# (基本操作_2) 把这个目录变成Git可以管理的仓库(这个目录变成了工作区（Working Directory）)
+git init
+# (基本操作_3) 把文件添加到git仓库管理(暂存区（Staging Area))
+git add readme.txt
+# (基本操作_4) 真正的把文件提交到本地仓库(版本库（Repository）)
+git commit -m "<message>"
+# (基本操作_5) 修改工作区文件
+vim readme.txt
+# (基本操作_6) 用于显示当前工作目录的状态。它会告诉你有关工作目录中文件的哪些部分被修改，哪些文件被暂存（即在暂存区），以及哪些文件还没有被跟踪
+git status
+# (基本操作_7) 提交修改前，需要先把'一个文件的修改'add加入暂存才能commit;但是也可以直接commit -a，直接提交所有改动的文件
+git commit -a -m "<message>"
+# (基本操作_8) 比较工作区和暂存区之间的文件差异,显示了哪些行被添加、删除或修改了;<file>为空时，显示所有修改的文件差异，但不会显示新增的还没add到暂存区的文件;可以加--stat美化
+git diff <file>
+# (基本操作_9) 比较暂存区中的文件和最新提交（HEAD）之间的差异;可以加--stat美化
+git diff --cached
+# (基本操作_10) 比较最新提交（HEAD）和其上一次提交之间的差异;可以加--stat美化
+git diff HEAD~1 HEAD
+# (基本操作_11) 查看工作区和最新提交的差异;不会显示新增的还没add到暂存区的文件;可以加--stat美化
+git diff HEAD <file>
+# (基本操作_12) 丢弃暂存区中的所有更改,但工作区中的文件保持不变;后面可以跟文件名，针对某个文件操作
+git reset HEAD
+# (基本操作_13) 查看commit记录; 我定义了alias，git lg更美观
+git log
+# (基本操作_14) 查看所有的提交历史，包括已经移动的分支和 HEAD 的操作记录。这对于撤销错误的操作、找回删除的分支或提交等情况非常有用
+git reflog
+# (基本操作_15) 把文件在工作区的修改全部撤销,让这个文件回到最近一次git commit或git add时的状态(已确认)
+git checkout -- <file>
+# (基本操作_16) 从 Git 仓库中移除文件:从当前分支的暂存区和工作目录中移除指定的文件，并将该移除操作记录到暂存区中,需要进行一次提交来保存这个移除操作;-f 确保即使文件处于被修改状态也能被删除
+git rm <file> && git commit -m "remove"
+
+# reset是重置当前 HEAD 到指定状态的命令。它不仅可以影响 HEAD 的指向，还可以影响索引（index，也称为暂存区）和工作目录中的文件
+# (reset操作_1) --soft,会移动 HEAD 到指定的提交，但会保留索引和工作目录中的所有更改。这意味着所有之前暂存的更改（即添加到索引中的更改）仍然保持暂存状态，并且工作目录中的文件也不会受到任何影响。这通常用于撤销之前的提交，但保留所做的更改以便稍后再次提交,<commit> 的位置，你可以指定一个提交的哈希值、分支名或任何可以解析为提交的引用
+git reset --soft <commit>
+# (reset操作_2) --mixed,这是 git reset 的默认行为（即不带任何选项时）。使用混合重置时，HEAD 会移动到指定的提交，索引会被更新以匹配该提交的内容，但工作目录中的文件保持不变。这意味着所有之前暂存的更改都会被取消暂存，但文件本身不会受到影响,<commit> 的位置，你可以指定一个提交的哈希值、分支名或任何可以解析为提交的引用
+git reset <commit>
+# (reset操作_3) --hard,会移动 HEAD 到指定的提交，并且会更新索引和工作目录以匹配该提交的内容。这意味着所有之前的更改（包括暂存的更改和未暂存的更改）都会被丢弃，工作目录中的文件会被重置为和指定提交完全一致的状态。这是一个非常危险的操作，因为它会丢失工作目录中的更改，所以在使用之前应该非常小心。<commit> 的位置，你可以指定一个提交的哈希值、分支名或任何可以解析为提交的引用
+git reset --hard <commit>
+# (reset操作_4) 回到上一个版本,工作区和暂存区的修改都被丢弃
+git reset --hard HEAD^
+# (reset操作_5) 回到上2个版本,工作区和暂存区的修改都被丢弃
+git reset --hard HEAD^^
+# (reset操作_6) 回到上5个版本,工作区和暂存区的修改都被丢弃
+git reset --hard HEAD~5
+
+
+# (远程操作_1) 查看某个远程仓库的详细信息
+git remote show origin
+# (远程操作_2) 显示远程有而本地没有的commit信息
+git log master..origin/master
+# (远程操作_3) 克隆仓库
+git clone <url>
+# (远程操作_4) 显示当前远程库; -v显示更详细
+git remote
+# (远程操作_5) 创建并检出一个新的分支
+git checkout -b <remote_branch_name> origin/<remote_branch_name>
+# (远程操作_6) 将本地的更改推送到新的远程仓库,-u 或 --set-upstream 选项会设置上游分支，这样以后你就可以直接使用 git push 和 git pull 命令，而不必每次都指定远程仓库和分支
+git push -u origin <branch_name>
+# (远程操作_7) 拉取=fetch+merge，如果你已经设置了默认的远程跟踪分支，你可以简单地运行 git pull
+git pull origin <branch_name>
+# (远程操作_8) 设置默认远程跟踪分支,将当前分支与远程分支关联起来;以后就可以在当前分支直接git pull和git push了,不用写明远程仓库和分支了
+git branch --set-upstream-to=origin/<remote_branch_name>
+# (远程操作_9) 从远程仓库中拉取最新的提交和文件，并将它们存储到本地仓库中的远程跟踪分支中，而不会合并到当前分支
+git fetch origin <branch_name>
+# (远程操作_10) 合并远程分支
+git merge origin/<branch_name>
+# (远程操作_11) 删除远程分支
+git push origin -d <branch_name>
+# (远程操作_12) 比较两个远程分支的差别
+git diff --stat --color remotes/origin/gg..origin/main
+# (远程操作_13) 显示远程有而本地(master是已进入版本库的分支中的文件)没有的commit信息；
+git log master..origin/master
+# (远程操作_14) 统计本地(master是已进入版本库的分支中的文件)文件和远程之间的区别
+git diff --stat master origin/master
+# (其他远程操作) 从远程仓库 origin 上的 <remote_branch_name> 分支拉取最新的更改，但是在本地并不会自动创建一个新的分支，而是将远程分支的内容保存在一个名为 origin/<remote_branch_name> 的本地分支上。这个命令适合于你只是想要查看远程分支的内容，但并不打算在本地创建一个新的分支来跟踪它
+git fetch origin <remote_branch_name>
+# (其他远程操作) 将远程仓库 origin 上的 <remote_branch_name> 分支的内容直接检出到你的工作目录中，但是不会创建一个新的分支。这个命令适合于你只是想要在本地查看远程分支的内容，但不打算在本地创建一个新的分支。你只能查看远程分支的内容，不能进行修改和提交
+git checkout origin/<remote_branch_name>
+
+
+# (本地分支操作) 切换到其他已存在的分支
+git switch <branch_name>
+# (本地分支操作) 创建并切换到新分支
+git switch -c <branch_new>
+# (本地分支操作) 删除一个已经存在的分支
+git branch -d <branch_name>
+# (本地分支操作) 列出当前仓库中所有的分支，并标记出当前所在的分支
+git branch
+# (本地分支操作) 创建一个新的分支
+git branch <branch_new>
+# (本地分支操作) 同时查看所有本地分支和远程分支
+git branch -a
+# (本地分支操作) 重命名分支
+git branch -m <branch_name> <branch_new_name>
+# (本地分支操作) 显示每个分支的最后一次提交信息
+git branch -v
+# (本地分支操作) 查看所有远程分支
+git branch -r
+# (本地分支操作) 列出已经合并到当前分支的分支
+git branch --merged
+# (本地分支操作) 只想查看当前所在的分支的名称而不显示其他分支
+git branch --show-current
+
+
+# (切换remote_1)查看当前远程仓库信息
+git remote -v
+# (切换remote_2)删除旧的远程仓库,解除了本地和远程的绑定关系，并不是物理上删除了本地库和远程库
+git remote rm origin
+# (切换remote_3)添加新的远程仓库,remote_url是新的远程仓库地址
+git remote add origin <remote_url>
+# (切换remote_4)再次查看远程仓库信息,确认远程仓库信息是否已更新
+git remote -v
+# (切换remote_5)将本地的更改推送到新的远程仓库,-u 或 --set-upstream 选项会设置上游分支，这样以后你就可以直接使用 git push 和 git pull 命令，而不必每次都指定远程仓库和分支
+git push -u origin <branch_name>
+
+# 当你fork别人的原始项目后，在你自己的仓库中进行修改并push后，你的仓库就会与原始项目分离。但是，如果原始项目有了更新，你可能希望将这些更新合并到你自己的仓库中
+# (fork_1) 将原始项目添加为远程仓库,别名为upstream
+git remote add upstream <original_project_url>
+# (fork_2) 拉取原始项目的更新
+git fetch upstream
+# (fork_3) 将原始项目的更新合并到你的本地分支中
+git merge upstream/master
+# (fork_4) 最后，将这些更新推送到你的GitHub仓库,origin为我自己的远程仓库别名
+git push origin master
+
+# Git 子模块是一种用于将一个 Git 仓库嵌套到另一个仓库中的机制。它允许你在一个主项目中引用另一个项目，而不是将其内容直接复制到主项目中。这使得你可以在多个项目之间共享代码，并保持这些项目的独立性。
+# (子模块1) 给当前git仓库添加子模块仓库,dir必须在原仓库内部
+git submodule add <submodule_url> <dir>
+# (子模块2) 普通的克隆主项目时，Git 只会下载主项目的文件和子模块的元数据信息，但不会自动克隆子模块的内容；为了获取子模块的内容，你需要显式地初始化子模块;--recursive 选项会递归地初始化所有子模块中的子模块，以确保所有的子模块都被正确地初始化
+git submodule update --init --recursive
+# (子模块3) 将所有的子模块更新到它们所在仓库的最新版本;默认情况下，git submodule update 命令会将子模块更新到主项目记录的特定版本（通常是一个特定的提交）。如果你希望更新到子模块的最新版本，可以使用 --remote 选项
+git submodule update --remote
+# (子模块4) 克隆主项目并且同时拉取子模块的内容,main_url主项目的url
+git clone --recurse-submodules <main_url>
+# (子模块5) 查看子模块状态
+git submodule status
+# (删除子模块1) 取消初始化子模块并移除其记录。这将会从主项目的.git/config和.gitmodules中移除子模块的记录
+git submodule deinit -f <子模块路径>
+# (删除子模块2) 从主项目中移除子模块的目录
+git rm -f <子模块路径>
+# (删除子模块3) 从主项目中.git/modules/移除子模块的目录
+rm -rf .git/modules/<子模块路径>
+# (删除子模块4) 观察 .git/config和.gitmodules和.git/modules/ 中是否还有子模块的记录; 提交上述更改到主项目的仓库中
+git commit -m "移除子模块"
+
+#  push 主项目时，Git 只会推送主项目的更改到远程仓库，并不会自动推送子模块的更改。子模块是独立的 Git 仓库，需要单独推送;然后再push主项目
+
+# (代理_1) 获取当前所有代理
+getproxy
+# (代理_2) 设置某代理
+setproxy <scope>
+# (代理_3) 取消当前某代理
+unproxy <scope>
+$ scope: echo "git term all" | tr ' ' '\n'
+

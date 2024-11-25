@@ -1,0 +1,155 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    // https://github.com/fastfetch-cli/fastfetch/wiki/Support+Status
+    "logo": {
+        "padding": {
+            // logo 的位置
+            "top": 4
+        }
+    },
+    "modules": [
+        // "title", // username@hostname
+        // 分隔符
+        "separator",
+        // 系统版本
+        "os",
+        // 设备名
+        "host",
+        // "bios",
+        // "bootmgr",
+        // "board",
+        // "chassis", // 机器类型（台式机、笔记本电脑、虚拟机等）
+        // 内核
+        "kernel",
+        // "initsystem", // 显示系统的初始化系统类型，例如 macOS 上通常为 launchd，在 Linux 系统中可能是 systemd、SysVinit 或 OpenRC 等。
+        // 平均负载;通常表示过去 1 分钟、5 分钟和 15 分钟的平均负载;值较高通常表示系统资源（如 CPU）处于较高的负荷状态
+        "loadavg",
+        // 显示系统中当前运行的进程数量。它通常包括所有正在运行和等待的进程
+        "processes",
+        // 显示系统的包管理器已安装包数量;对于 macOS，显示由 Homebrew 安装的包的数量;基于 Linux 的系统中，可能是由 apt、yum 或 pacman 等包管理工具提供的
+        "packages",
+        // 显示当前使用的 shell 名称和版本
+        "shell",
+        // Print information of the default editor ($VISUAL or $EDITOR)
+        "editor",
+        // 显示屏分辨率等
+        "display",
+        // "brightness", // 显示当前显示器的亮度级别
+        // "monitor", // 显示连接到系统的显示器数量，;对于多显示器系统，Monitor 可能还会提供一些有关显示器物理硬件的详细信息
+        // "lm", // 显示登录管理器（Login Manager），也叫 桌面管理器 的信息( 主要在 linux )
+        // "de", //显示图形用户界面（GUI）的 名称和版本;GNOME等;mac中为Aqua(macOS 的默认桌面环境)
+        // "wm", // 窗口管理器信息
+        // "wmtheme", // 窗口管理器主题
+        // "theme", // 桌面环境主题;在 GNOME 桌面环境中，主题可能是 Adwaita 或 Arc
+        // "icons", // 显示当前系统使用的图标样式名称;在 GNOME 桌面环境中，常见的图标样式可能是 Adwaita 或 Papirus
+        // "font", // 显示系统正在使用的字体名称
+        // "cursor", // 显示当前系统使用的 光标样式
+        // "wallpaper", // 显示当前壁纸的图片文件路径
+        // 显示正在运行的终端应用程序的名称和版本;iTerm 3.5.10
+        "terminal",
+        // 显示正在使用的终端应用程序的字体名称和大小
+        "terminalfont",
+        // 显示正在使用的终端应用程序的窗口大小
+        "terminalsize",
+        // "terminaltheme", // 显示正在使用的终端应用程序的主题的前景色和背景色
+        {
+            // 显示 CPU 信息
+            "type": "cpu",
+            // 检测并显示不同核心类型（例如 Pcore 和 Ecore）的 CPU 数量
+            "showPeCoreCount": true,
+            // 显示 CPU 的温度;前提是系统支持
+            "temp": true
+        },
+        // "cpucache", // 显示 cpu 缓存大小
+        // 显示当前 CPU 的使用率;采集数据会稍微消耗一些时间
+        "cpuusage",
+        {
+            // 显示 GPU 信息
+            "type": "gpu",
+            // 使用驱动程序特定的方法来检测更详细的 GPU 信息（内存使用情况、核心数量等）
+            "driverSpecific": true,
+            // 显示 CPU 的温度;前提是系统支持
+            "temp": true
+        },
+        // 系统内存使用情况
+        "memory",
+        // "physicalmemory", // 显示系统中物理内存设备的物理信息
+        // "swap",// 显示系统的交换空间（Swap 或 Paging File）的使用情况; mac中默认是关闭的;macOS 不设置固定大小的交换分区，而是根据需要自动调整
+        // 显示系统的磁盘信息，包括分区、空间使用情况、文件系统类型等
+        "disk",
+        // "btrfs", // 用于显示系统中使用 Btrfs（B-Tree 文件系统）管理的卷和相关信息;用于 Linux 系统
+        // "zpool", // 显示系统中使用 ZFS（Zettabyte File System）管理的存储池（storage pools，简称 zpool）的信息
+        {
+            // 显示电池信息(是否充电,电量百分比)
+            "type": "battery",
+            // 是否显示温度;前提是系统支持
+            "temp": true
+        },
+        // 显示当前电源适配器的名称及其充电功率
+        "poweradapter",
+        // 显示扬声器信息,音量等
+        "sound",
+        // "player", // 显示音乐播放器的名字
+        // 显示正在播放的音乐名
+        "media",
+        {
+            // 显示公网ip;开启代理的时候可能不显示
+            "type": "publicip",
+            // 超时时间;毫秒
+            "timeout": 500
+        },
+        {
+            // 显示局域网ip
+            "type": "localip",
+            // "showIpv6": true,
+            // "showMac": true,
+            // 显示网络接口的传输速度
+            "showSpeed": true,
+            // "showMtu": true, // 显示网络接口的最大传输单元 (MTU)
+            // "showLoop": true, // 显示是否为回环接口 (loopback) (127.0.0.1)
+            // "showFlags": true, // 显示网络接口的标志位。这些标志位指示接口的当前状态，如是否开启、是否运行等
+            // 显示绑定到同一接口的所有 IP。默认情况下仅显示第一个 IP
+            "showAllIps": true
+        },
+        // 显示系统中配置的 DNS 服务器信息;开启圈x可能显示198.19.0.3
+        "dns",
+        // 显示当前连接的 Wi-Fi 网络的信息，包括 SSID（网络名称）、连接状态以及使用的安全协议
+        "wifi",
+        // "locale", // 显示系统的区域设置（Locale）信息
+        // "vulkan", // 显示当前 GPU（图形处理器）支持的最高 Vulkan 版本。Vulkan 是一种高性能、跨平台的图形和计算 API，主要用于 3D 图形和游戏开发
+        // "opengl", // 显示opengl版本
+        // "opencl", // 显示opencl版本
+        // "users", // 显示当前登录的用户
+        // "bluetooth", // 显示当前连接的蓝牙设备，显示设备名称
+        // "bluetoothradio", // 显示系统的蓝牙模块（蓝牙收发器）的相关信息
+
+        // "camera", // 显示可用的摄像头信息
+        // "gamepad", // 显示当前连接的游戏手柄信息，包括设备名称、型号和连接方式（有线或无线）
+        // 显示当前日期和时间
+        "datetime",
+        // 显示系统的运行时间，即从上次启动以来系统已经运行了多长时间
+        "uptime",
+        {
+            // 显示天气信息
+            "type": "weather",
+            // 超时时间;毫秒
+            "timeout": 1000
+        },
+        // "netio", // 显示网络接口的实时输入/输出（I/O）吞吐量,通常以传输速率（如 KB/s 或 MB/s）表示
+        // "diskio", // 显示物理磁盘的实时 I/O 吞吐量,通常以传输速率（如 KB/s 或 MB/s）表示
+        //  {
+        //      // 显示物理磁盘的详细物理信息
+        //      "type": "physicaldisk",
+        //      // 是否显示温度;前提是系统支持
+        //      "temp": true
+        //  },
+        // "tpm", // 显示可信平台模块（TPM）的信息。这是一个安全硬件组件，用于增强系统的硬件安全性，支持功能如加密密钥存储、安全启动等
+        // "version", // 显示fastfetch的版本
+        // 打印空行
+        "break",
+        // 打印一些颜色块
+        "colors"
+    ],
+    "general": {},
+    "display": {}
+}

@@ -1,0 +1,6 @@
+[submodule "vim/vim-cheatsheet"]
+	path = vim/vim-cheatsheet
+	url = https://github.com/loganoxo/vim-cheatsheet.git
+[submodule "vim/input-source-vim"]
+	path = vim/input-source-vim
+	url = https://github.com/loganoxo/input-source-vim.git

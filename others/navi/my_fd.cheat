@@ -1,0 +1,63 @@
+# 界面提示在括号内输入变量名（例如 <branch> ）
+# 如果有一个以 $ 开头的对应行，则会显示建议。否则，用户将能够为它键入任何值。
+
+% my, fd
+$ pattern: printf "%s\n" "\".\"" "\"str\""  "\"^foo\""
+# (查找文件)在当前目录下查找，pattern可以是字符串和正则表达式，为字符串时表示文件名或目录名要包含"$pattern"的完整内容
+fd <pattern>
+# (查找文件)在当前目录下查找所有文件
+fd .
+# (查找文件) 在某个目录内查找;
+fd <pattern> <dir>
+# (查找文件) 在某个目录内查找所有文件;
+fd . <dir>
+# (查找文件) -H:搜索结果会包含隐藏目录或隐藏文件; --hidden
+fd -H <pattern>
+# (查找文件) -I,常和-H同时用:搜索结果会包含.(git|fd)ignore 文件中定义的排除规则，如不加-I，会遵循.gitignore文件中的规则; --no-ignore
+fd -I <pattern>
+# (查找文件) -i,pattern大小写不敏感，即fd -i "a" 会搜索出包含"a|A"的内容; --ignore-case
+fd -i <pattern>
+# (查找文件) -s,pattern大小写敏感; --case-sensitive
+fd -s <pattern>
+# (查找文件) -a,打印出的内容会变成绝对路径，默认为相对于当前目录的相对路径; --absolute-path
+fd -a <pattern>
+# (查找文件) -p,查找当前目录下的所有内容的完整的绝对路径,这个完整的路径是否包含<dir_pattern>,常和-a一起使用; --full-path
+fd -ap <dir_pattern>
+# (查找文件) -l,打印出的内容的格式会变成类似ll命令的样式，会更详细; --list-details
+fd -l <pattern>
+# (查找文件) -L,当有软链接的目录时，-L会让fd查找软链接目录，并显示，如./link_dir/pattern;  --follow
+fd -L <pattern>
+# (查找文件) -d,递归查找的最大层级; --max-depth <depth>
+fd -d <depth> <pattern> <dir>
+# (查找文件) -g,通配符"*str*"模式搜索，而不是默认的正则;如果pattern中没有*，则是精确匹配 --glob
+fd -g <pattern>
+# (查找文件) -apg,和-ap共用,匹配完整的绝对路径，**表示多层目录;某个Temp目录的根目录下包含'o'的目录的根目录下的以txt结尾的文件
+fd -apg "**/Temp/*o*/*.txt"
+# (查找文件) --regex,通过正则表达式搜索(默认)
+fd --regex <regex>
+# (查找文件) -F,通过字符串搜索哪些内容包含了<str>，但是不能用正则表达式模式匹配，也不能用通配符 --fixed-strings
+fd -F <str>
+# (查找文件) -0,用'\0'（而不是换行符）分隔搜索结果。用于将结果输送到xargs。xargs -0 表示也用'\0'分割  ;--print0
+fd -0 | xargs -0 <some_command>
+# (查找文件) -E,排除某个目录或文件，<exclude>用通配符模式匹配; --exclude
+fd -E <exclude> <pattern>
+# (查找文件) -t,按文件类型搜索,file (f), directory (d), symlink (l), executable(x), empty (e):空文件或空文件夹, socket (s), pipe (p), char-device (c), block-device(b); --type
+fd -t <filetype> <pattern>
+$ filetype: printf "%s\n" "\"f\"" "\"d\""  "\"l\"" "\"x\"" "\"e\"" "\"s\"" "\"p\"" "\"c\"" "\"b\""
+# (查找文件) -e,按文件后缀名搜索; --extension <ext>
+fd -e <ext> <pattern> <dir>
+$ ext: printf "%s\n" "\"txt\"" "\"json\""  "\"js\"" "\"sh\"" "\"zsh\"" "\"bash\"" "\"md\"" "\"mp3\"" "\"mp4\""
+# (查找文件) -x,对于每个搜索结果,并行执行<command>命令 ;--exec command
+fd -e <ext> -x <command>
+# (查找文件) -x,如果没有{},默认命令结尾会拼接一个隐藏的{};{}相对路径;{/}basename;{//}父目录;{.}没有文件后缀名的路径;{/.}没有后缀名的basename;
+fd -e txt -x echo {}
+# (查找文件) 常用:在某个目录内查找<pattern>,排除<exclude>，包含隐藏内容,打印详细内容,忽略大小写,忽略.(git|fd)ignore的规则;
+fd -HIli -E <exclude> <pattern> <dir>
+# (查找文件) 常用,-l和-a冲突,-l和-x冲突
+fd -HIai -E <exclude> <pattern> <dir>
+# (查找文件) 常用,查看软链接
+fd -HIli -t l -E Library -E lsp_servers -E Technology
+# (查找文件) 常用,查找所有可执行文件
+fd -HIli -t x
+# (查找文件) 常用,查找所有.DS_Store,并删除
+fd -HI  ".DS_Store" -E "*Library*" --exec \rm -rf

@@ -1,0 +1,23 @@
+[user]
+	name = loganoxo@163.com
+	email = loganoxo@163.com
+[core]
+	excludesfile = /Users/logan/.gitignore_global
+	autocrlf = input
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/logan/.stCommitMsg
+[color]
+	ui = true
+[init]
+	defaultBranch = master
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	last = log -1
+[safe]
+	bareRepository = explicit

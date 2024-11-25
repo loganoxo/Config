@@ -29,9 +29,6 @@ ln -sf "${__PATH_MY_CNF}/others/fastfetch" "$HOME/.config/fastfetch"
 ln -sf "${__PATH_MY_CNF}/bash/bash_profile" "$HOME/.bash_profile"
 ln -sf "${__PATH_MY_CNF}/bash/bashrc" "$HOME/.bashrc"
 
-# JetBrains(idea、webstorm.....)
-ln -sf "${__PATH_MY_CNF}/JetBrains" "${__PATH_MY_SOFT}/JetBrains"
-
 # git
 ln -sf "${__PATH_MY_CNF}/git/gitconfig" "$HOME/.gitconfig"
 ln -sf "${__PATH_MY_CNF}/git/gitignore_global" "$HOME/.gitignore_global"
@@ -54,7 +51,6 @@ echo -n 0 >"$HOME/.input-source-vim/data"
 
 # others
 ln -sf "${__PATH_MY_CNF}/others/tmux/tmux.conf" "$HOME/.tmux.conf"
-ln -sf "${__PATH_MY_CNF}/others/nvim" "$HOME/.config/nvim"
 # ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"
 ln -sf "${__PATH_MY_CNF}/others/aria2/aria2.conf" "$HOME/.aria2/aria2.conf"
 ln -sf "${__PATH_MY_CNF}/others/docker/config.json" "$HOME/.docker/config.json"
@@ -68,7 +64,3 @@ for file in "${__PATH_MY_CNF}"/others/navi/*.cheat; do
         ln -sf "$file" "$HOME/.config/navi/$name"
     fi
 done
-
-# terminal-theme
-ln -sf "${__PATH_MY_CNF}/others/dracula-theme/Dracula.terminal" "$HOME/Data/Software/terminal/Dracula.terminal"
-ln -sf "${__PATH_MY_CNF}/others/dracula-theme/Basic.terminal" "$HOME/Data/Software/terminal/Basic.terminal"

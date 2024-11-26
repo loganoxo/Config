@@ -87,6 +87,10 @@ if command -v brew >/dev/null 2>&1; then
     export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
 fi
 
+# go安装的包的路径
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
+
 # java
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/17.0.8-oracle
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-8-arm/Contents/Home

@@ -56,6 +56,21 @@ export BAT_THEME="Dracula" # bat主题
 # 定义在命令行中，哪些字符被视为“单词的一部分”,用在单词删除(ctrl+w),和单词跳转(option+left/right)时; 写在omz之下
 # WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 
+# HomeBrew
+# 放在开头,后面的命令才能找到,不能放在zshenv中
+# export PATH=/usr/local/sbin:$PATH  intel的homebrew
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+# 禁止自动更新软件包
+export HOMEBREW_NO_AUTO_UPDATE=1
+# brew 清华镜像源
+# export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+# export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+# export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+# 中科大brew镜像
+# export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
+# export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
+# export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
+
 # maven
 os_type=$(uname -s) #获取操作系统类型
 if [ "$os_type" = "Darwin" ]; then
@@ -66,6 +81,7 @@ fi
 # ruby
 if command -v brew >/dev/null 2>&1; then
     export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+    export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"
     export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
     export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
     export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
@@ -88,22 +104,6 @@ fi
 # python3
 #export PYTHON3DIR=/usr/local/Cellar/python@3.11/3.11.4_1
 #export PATH=$PYTHON3DIR/bin:$PATH
-
-# HomeBrew
-# 放在开头,后面的命令才能找到,不能放在zshenv中
-# export PATH=/usr/local/sbin:$PATH  intel的homebrew
-[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# 禁止自动更新软件包
-export HOMEBREW_NO_AUTO_UPDATE=1
-# brew 清华镜像源
-# export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
-# export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-# export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
-# 中科大brew镜像
-# export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
-# export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
-# export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
 
 ########################### 加载自定义函数 ###########################
 source "${__PATH_MY_CNF}/my-functions/getproxy.sh"

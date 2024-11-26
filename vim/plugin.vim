@@ -4,6 +4,17 @@
 " :PlugClean 删除未列出的插件(在下面配置文件中删除插件,然后执行这个命令);
 " :PlugUpgrade 升级vim-plug的版本; :PlugStatus 检查插件的状态;
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" If installed using Homebrew
+set rtp+=/usr/local/opt/fzf
+
+" If installed using Homebrew on Apple Silicon
+set rtp+=/opt/homebrew/opt/fzf
+
+" debian
+set rtp+=/usr/bin/fzf
+
+" If you have cloned fzf on ~/.fzf directory
+" set rtp+=~/.fzf
 
 call plug#begin('~/.vim/plugged')
 "----------------------- 插件列表 {{{ -----------------------
@@ -62,7 +73,7 @@ endif
 Plug 'jiangmiao/auto-pairs'
 """""""""""""""""""""""""""" 其他功能
 " fzf
-Plug '/opt/homebrew/opt/fzf'
+"Plug '/opt/homebrew/opt/fzf'
 Plug 'junegunn/fzf.vim'
 " 自动切换输入法
 " Plug 'ybian/smartim'

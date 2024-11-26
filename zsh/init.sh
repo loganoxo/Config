@@ -47,7 +47,7 @@ fi
 
 # touch "$HOME/.hushlogin" # 默认每次打开终端(zsh/bash)都会在第一行提示上次登陆信息,创建这个空文件后,就不显示了;
 
-export LANG=zh_CN.UTF-8 # 控制界面语言的展示或输出等 en_US.UTF-8
+# export LANG=zh_CN.UTF-8 # 控制界面语言的展示或输出等 en_US.UTF-8; 注释掉,使用系统默认的,不然会对debian环境有影响
 
 export TERM=xterm-256color
 

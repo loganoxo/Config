@@ -25,8 +25,7 @@ function logan_fzf_preview() {
         *.pdf) echo "pdf文件" ;;
         *.md)
             if command -v glow >/dev/null 2>&1; then
-                echo "aaa"
-                glow -s dark "$1"
+                glow "$1"
             elif command -v bat >/dev/null 2>&1; then
                 bat --style=numbers --color=always --line-range :600 "$1" 2>/dev/null
             else

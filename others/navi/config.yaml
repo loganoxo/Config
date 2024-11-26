@@ -2,32 +2,32 @@
 # the config file schema may change at any time
 
 style:
-  tag:
-    color: cyan # text color. possible values: https://bit.ly/3gloNNI
-    width_percentage: 10 # column width relative to the terminal window
-    min_width: 20 # minimum column width as number of characters
-  comment:
-    color: green
-    width_percentage: 50
-    min_width: 55
-  snippet:
-    color: blue
-    width_percentage: 40
-    min_width: 50
+    tag:
+        color: cyan # text color. possible values: https://bit.ly/3gloNNI
+        width_percentage: 10 # column width relative to the terminal window
+        min_width: 20 # minimum column width as number of characters
+    comment:
+        color: green
+        width_percentage: 50
+        min_width: 55
+    snippet:
+        color: blue
+        width_percentage: 40
+        min_width: 50
 
 
 finder:
-  command: fzf # equivalent to the --finder option
-  # overrides: --tac # equivalent to the --fzf-overrides option
-  # fzf整体占终端高度的90%，预览窗口在上方，占5行，能换行 ;navi命令显示的窗口
-  overrides: --height 95%  --preview-window=up,5,wrap
-  # overrides_var: --tac # equivalent to the --fzf-overrides-var option; navi中选择命令后显示的参数窗口
-  overrides_var: --height 80%  --preview-window=up,50%,wrap
+    command: fzf # equivalent to the --finder option
+    # overrides: --tac # equivalent to the --fzf-overrides option
+    # fzf整体占终端高度的90%，预览窗口在上方，占5行，能换行 ;navi命令显示的窗口
+    overrides: --height 95%  --preview-window=up,5,wrap
+    # overrides_var: --tac # equivalent to the --fzf-overrides-var option; navi中选择命令后显示的参数窗口
+    overrides_var: --height 80%  --preview-window=up,50%,wrap
 
 cheats:
-  paths:
-    - /Users/logan/.config/navi # on unix-like os
-    - /Users/logan/Library/Application Support/navi/cheats
+    paths:
+        - ~/.config/navi # on unix-like os
+        - ~/Library/Application Support/navi/cheats
 #     - F:\\path\\to\\dir # on Windows
 # path: /path/to/some/dir # (DEPRECATED) equivalent to the --path option
 # ( view path command: navi info cheats-path
@@ -38,9 +38,9 @@ cheats:
 # tags: logan,!ln，等同于navi --tag-rules='logan,!ln' 显示logan备忘录中没有ln子标题的存在
 
 shell:
-  # Shell used for shell out. Possible values: bash, zsh, dash, ...
-  # For Windows, use `cmd.exe` instead.
-  command: zsh
+    # Shell used for shell out. Possible values: bash, zsh, dash, ...
+    # For Windows, use `cmd.exe` instead.
+    command: zsh
 
-  # finder_command: bash # similar, but for fzf's internals
+    # finder_command: bash # similar, but for fzf's internals
 

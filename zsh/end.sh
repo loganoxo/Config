@@ -106,7 +106,7 @@ if [ "$os_type" = "Darwin" ]; then
 elif [ "$os_type" = "Linux" ]; then
     # linux
     if ! ssh-add -l >/dev/null 2>&1; then
-        eval "$(ssh-agent -s)"
+        eval "$(ssh-agent -s >/dev/null)"
     fi
     #ssh-add ~/.ssh/id_rsa
 else

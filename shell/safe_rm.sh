@@ -65,8 +65,8 @@ function _safe_delete_validate() {
         if [ -d "$absolute_item" ]; then
             # 如果是目录
             parent_path="$(dirname -- "$absolute_item")"
-            if [ "$parent_path" = "$HOME" ] || [ "$parent_path" = "/" ]; then
-                # home和/目录下的文件夹不能删除
+            if [ "$parent_path" = "/" ]; then
+                # /目录下的文件夹不能删除
                 echo "!!!error: not trash, The folders in ' $parent_path ' cannot be trash ."
                 return 1
             fi
@@ -101,8 +101,8 @@ function _validate_illegal_character() {
     # 定义非法字符集合
     for ((i = 0; i < ${#str}; i++)); do
         char="${str:$i:1}"
-        # 检查字符是否在非法字符集合中  \[\]|:;@\'。
-        if [[ "$char" =~ [\\~～\!\`\"\',?$%^\&*()+={}|:\;@\ ] || "$char" == "]" || "$char" == "[" ]]; then
+        # 检查字符是否在非法字符集合中
+        if [[ "$char" =~ [\\*{}\!\`\"\'|:] || "$char" == "]" || "$char" == "[" ]]; then
             echo "!!!error: not trash, Illegal character '$char' found in '$item'."
             return 1 # 执行失败，返回非零值
         fi

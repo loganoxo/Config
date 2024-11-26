@@ -119,7 +119,7 @@ function _validate_illegal_character() {
     for ((i = 0; i < ${#str}; i++)); do
         char="${str:$i:1}"
         # 检查字符是否在非法字符集合中  \[\]|:;@\'。
-        if [[ "$char" =~ [\\~～\!\`\"\',?$%^\&*()+={}|:\;@\ ] || "$char" == "]" || "$char" == "[" ]]; then
+        if [[ "$char" =~ [\\~～\!\`\"\',?$%^\&*()+={}|:\;@] || "$char" == "]" || "$char" == "[" ]]; then
             echo "!!!error: not trash, Illegal character '$char' found in '$item'."
             return 1 # 执行失败，返回非零值
         fi

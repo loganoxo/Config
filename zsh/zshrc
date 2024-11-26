@@ -16,7 +16,7 @@ alias rr="echo 'reloading...'&&source ~/.zshrc"
 
 # navi
 # export NAVI_CONFIG="${__PATH_HOME_CONFIG}/navi/config.yaml" #不配置,则默认在~/.config/navi/config.yaml
-if command -v navi &>/dev/null; then
+if command -v navi >/dev/null 2>&1; then
     eval "$(navi widget zsh)"
     source "${__PATH_MY_CNF}/others/navi/navi.sh" #加载navi配置,覆盖 eval "$(navi widget zsh)"
 fi
@@ -24,7 +24,7 @@ fi
 # zoxide
 export _ZO_DATA_DIR=${__PATH_MY_SOFT}/zoxide
 export _ZO_EXCLUDE_DIRS="/:$HOME:$HOME/private/*:/Users/logan/Temp" #排除某些目录
-if command -v zoxide &>/dev/null; then
+if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init --no-cmd zsh)"
 fi
 alias z="__zoxide_z"   # z <path> 直接跳转到最佳匹配的目录

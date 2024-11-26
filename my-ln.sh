@@ -23,7 +23,7 @@ ln -sf "${__PATH_MY_CNF}/zsh/themes/mydracula.zsh-theme" "$HOME/.oh-my-zsh/custo
 
 # ssh
 ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
-os_type=$(uname) #获取操作系统类型
+os_type=$(uname -s) #获取操作系统类型
 if [ "$os_type" = "Darwin" ]; then
     # mac
     ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_mac" "$HOME/.ssh/config"

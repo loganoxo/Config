@@ -57,13 +57,19 @@ export BAT_THEME="Dracula" # bat主题
 # WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 
 # maven
-export MAVEN_HOME=~/Data/Software/apache-maven
-export PATH=$MAVEN_HOME/bin:$PATH
+os_type=$(uname -s) #获取操作系统类型
+if [ "$os_type" = "Darwin" ]; then
+    export MAVEN_HOME=~/Data/Software/apache-maven
+    export PATH=$MAVEN_HOME/bin:$PATH
+fi
 
 # ruby
-export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+if command -v brew >/dev/null 2>&1; then
+    export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+    export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+    export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+    export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+fi
 
 # java
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/17.0.8-oracle
@@ -123,7 +129,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 # fnm(node版本管理工具)
-if command -v fnm &>/dev/null; then
+if command -v fnm >/dev/null 2>&1; then
     if [ -n "$BASH_VERSION" ]; then
         # 当前是 Bash
         eval "$(fnm env --use-on-cd --shell bash)"

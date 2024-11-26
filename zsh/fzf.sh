@@ -26,7 +26,7 @@ FZF_HEADER_OPTS=" --color header:italic --header '<Tab>:multi;Ctrl-y:copy;Ctrl-g
 # 其他配置: 1、fzf 行号/搜索项数/全部数
 FZF_INFO_OPTS="--info-command='echo -e \"\x1b[33;1m\$FZF_POS\x1b[m/\$FZF_INFO 💛\"'"
 
-os_type=$(uname) #获取操作系统类型
+os_type=$(uname -s) #获取操作系统类型
 if [ "$os_type" = "Darwin" ]; then
     : # 什么都不做的占位符
 elif [ "$os_type" = "Linux" ]; then

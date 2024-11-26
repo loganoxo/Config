@@ -4,11 +4,11 @@ set -e
 
 # 预先判断
 function verify() {
-  if ! declare -p file_list &>/dev/null; then
+  if ! declare -p file_list >/dev/null 2>&1; then
     echo "!!!error: custom_rename.sh,file_list is not declared."
     exit 1
   fi
-  if ! declare -p custom_list &>/dev/null; then
+  if ! declare -p custom_list >/dev/null 2>&1; then
     echo "!!!error: custom_rename.sh,custom_list is not declared."
     exit 1
   fi

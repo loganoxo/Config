@@ -36,7 +36,7 @@ function _theme_judge_load() {
 }
 
 function _starship_load_pre() {
-    if command -v starship &>/dev/null; then
+    if command -v starship >/dev/null 2>&1; then
         # 默认没有值的情况下,在 ~/.config/starship.toml
         if [[ -z "${starship_theme}" ]]; then
             starship_theme="starship"

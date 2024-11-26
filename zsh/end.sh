@@ -2,7 +2,7 @@
 # homebrew 命令自动补全
 if [ -n "$BASH_VERSION" ]; then
     # 当前是 Bash
-    if type brew &>/dev/null; then
+    if command -v brew >/dev/null 2>&1; then
         HOMEBREW_PREFIX="$(brew --prefix)"
         if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
             source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
@@ -14,7 +14,7 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 elif [ -n "$ZSH_VERSION" ]; then
     #  Zsh中 在 init.sh 中 eval "$(/opt/homebrew/bin/brew shellenv)" 包含了自动补全; 是通过 FPATH 做的
-    # if type brew &>/dev/null; then
+    # if command -v brew >/dev/null 2>&1; then
     #     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
     # fi
     : # 什么都不做的占位符
@@ -27,9 +27,9 @@ alias trash='echo "Do not use this command! Please use xxm! "; false '
 #alias trash='trash -F'
 
 _my_alias_init_ls() {
-    if command ls --color=auto ~ &>/dev/null; then
+    if command ls --color=auto ~ >/dev/null 2>&1; then
         command ls --color=auto "$@"
-    elif command ls -G ~ &>/dev/null; then
+    elif command ls -G ~ >/dev/null 2>&1; then
         command ls -G "$@"
     fi
 }
@@ -73,7 +73,7 @@ source "${__PATH_MY_CNF}/zsh/history.sh"
 fastfetch_if_run=0 # 1为执行
 fastfetch_config_path="$HOME/.config/fastfetch/config.jsonc"
 if [ -f "$fastfetch_config_path" ]; then
-    if command -v fastfetch &>/dev/null; then
+    if command -v fastfetch >/dev/null 2>&1; then
         if [ $fastfetch_if_run -eq "1" ]; then
             supported_terms=("iTerm.app" "Apple_Terminal" "WezTerm" "Tabby")
             for term in "${supported_terms[@]}"; do
@@ -99,7 +99,7 @@ function test_success() {
 }
 
 # ssh-agent 判断当前用户是否存在ssh-agent进程
-os_type=$(uname) #获取操作系统类型
+os_type=$(uname -s) #获取操作系统类型
 if [ "$os_type" = "Darwin" ]; then
     # mac
     : # 什么都不做的占位符

@@ -13,7 +13,7 @@ case $- in
 esac
 
 # 指定 bash-it 的安装路径。
-export BASH_IT="/Users/logan/.bash_it"
+export BASH_IT="$HOME/.bash_it"
 
 # 加载和使用自定义主题文件.
 # 留空表示禁用主题.

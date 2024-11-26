@@ -5,10 +5,12 @@ export FZF_DEFAULT_COMMAND="fd -HI $FZF_FD_EXCLUDE_OPTS "
 FZF_FACE_OPTS=" --height=90% --layout=reverse --border -m " #m为多选
 
 # 预览窗口在右方
-FZF_PREVIEW_RIGHT_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window right,50,border,wrap "
+FZF_PREVIEW_RIGHT_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window right,45%,border,wrap "
 
 # 预览窗口在上方
 FZF_PREVIEW_UP_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window up,5,border,wrap "
+
+FZF_PREVIEW_OPTS="$FZF_PREVIEW_RIGHT_OPTS"
 
 # <C-j> 或 <C-k> 或箭头键在结果列表中导航; <Tab>键可以进行多选;
 # ctrl-y 复制选项的内容到剪贴板,不通用, ctrl-r中可以正常使用;
@@ -22,13 +24,13 @@ FZF_BIND_OPTS2=" --bind 'ctrl-y:execute-silent(echo -n {} | pbcopy)' "
 FZF_HEADER_OPTS=" --color header:italic --header '<Tab>:multi;Ctrl-y:copy;Ctrl-g:top;Ctrl-d:pagedown;Ctrl-u:pageup;Ctrl-l:preview' "
 
 # 其他配置: 1、fzf 行号/搜索项数/全部数
-FZF_OTHER_OPTS="--info-command='echo -e \"\x1b[33;1m\$FZF_POS\x1b[m/\$FZF_INFO 💛\"'"
+FZF_INFO_OPTS="--info-command='echo -e \"\x1b[33;1m\$FZF_POS\x1b[m/\$FZF_INFO 💛\"'"
 
 os_type=$(uname) #获取操作系统类型
 if [ "$os_type" = "Darwin" ]; then
     : # 什么都不做的占位符
 elif [ "$os_type" = "Linux" ]; then
-    FZF_OTHER_OPTS=""
+    FZF_INFO_OPTS=""
     # 进一步判断是否为 Debian
 #    if [ -f /etc/debian_version ]; then
 #        echo "当前系统是 Debian"
@@ -39,7 +41,7 @@ else
     echo "fzf.zsh中 未知的操作系统: $os_type"
 fi
 
-FZF_DEFAULT_OPTS="$FZF_FACE_OPTS $FZF_PREVIEW_UP_OPTS $FZF_BIND_OPTS $FZF_BIND_OPTS2 $FZF_HEADER_OPTS $FZF_OTHER_OPTS"
+FZF_DEFAULT_OPTS="$FZF_FACE_OPTS $FZF_PREVIEW_OPTS $FZF_BIND_OPTS $FZF_BIND_OPTS2 $FZF_HEADER_OPTS $FZF_INFO_OPTS"
 
 export FZF_DEFAULT_OPTS
 export FZF_COMPLETION_TRIGGER="\\" # 默认为 **
@@ -59,7 +61,7 @@ export FZF_COMPLETION_TRIGGER="\\" # 默认为 **
 FZF_BIND_OPTS3=" --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)' "
 export FZF_CTRL_R_OPTS=" $FZF_FACE_OPTS
   --preview 'echo {}' --preview-window up,3,border,wrap,hidden
-  $FZF_BIND_OPTS $FZF_BIND_OPTS3 $FZF_HEADER_OPTS $FZF_OTHER_OPTS "
+  $FZF_BIND_OPTS $FZF_BIND_OPTS3 $FZF_HEADER_OPTS $FZF_INFO_OPTS "
 
 # 禁用ALT-C
 export FZF_ALT_C_COMMAND=""

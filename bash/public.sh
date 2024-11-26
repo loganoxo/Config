@@ -36,3 +36,6 @@ source "${__PATH_MY_CNF}/zsh/common_alias.sh"
 
 # 加载 fzf配置
 source "${__PATH_MY_CNF}/zsh/fzf.sh"
+
+# 加载 rust
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"

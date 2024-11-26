@@ -9,6 +9,9 @@ export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
 export PATH=$PATH:/usr/sbin/                                # 针对linux系统的默认PATH没有sbin的问题
 export PATH=$PATH:$HOME/.local/bin                          # 针对linux系统
 
+# 加载 rust
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
 # idea
 
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"

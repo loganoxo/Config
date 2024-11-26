@@ -1,0 +1,10 @@
+# For connections with the target hostname specified as github.com in the ssh command
+Host github.com
+    # Intercept connections to github.com and map github.com to the actual target host ssh.github.com
+    HostName ssh.github.com
+    Port 443
+    User git
+    # Save the private key’s passphrase in the session memory to avoid repeated passphrase entry during the current session
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/loganoxo-GitHub
+    #ProxyCommand nc -v -x 127.0.0.1:25307 %h %p

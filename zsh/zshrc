@@ -23,7 +23,7 @@ fi
 
 # zoxide
 export _ZO_DATA_DIR=${__PATH_MY_SOFT}/zoxide
-export _ZO_EXCLUDE_DIRS="/:$HOME:$HOME/private/*:/Users/logan/Temp" #排除某些目录
+export _ZO_EXCLUDE_DIRS="/:$HOME:$HOME/private/*:$HOME/Temp" #排除某些目录
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init --no-cmd zsh)"
 fi

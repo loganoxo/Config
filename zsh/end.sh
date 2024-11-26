@@ -106,7 +106,7 @@ if [ "$os_type" = "Darwin" ]; then
 elif [ "$os_type" = "Linux" ]; then
     # linux
     if ! pgrep -u "$USER" ssh-agent >/dev/null && [ -z "$SSH_AUTH_SOCK" ]; then
-        eval "$(ssh-agent -s)"
+        eval "$(ssh-agent -s > /dev/null)"
     fi
     #ssh-add ~/.ssh/id_rsa
 else

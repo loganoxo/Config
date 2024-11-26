@@ -11,7 +11,7 @@ set rtp+=/usr/local/opt/fzf
 set rtp+=/opt/homebrew/opt/fzf
 
 " debian
-set rtp+=/usr/bin/fzf
+set rtp+=/usr/share/doc/fzf/examples
 
 " If you have cloned fzf on ~/.fzf directory
 " set rtp+=~/.fzf

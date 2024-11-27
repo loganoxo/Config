@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 function print_head_line() {
   # 使用 tput 设置文本颜色为红色
   red_text=$(tput setaf 1)

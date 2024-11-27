@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #/usr/libexec/PlistBuddy -c "print" ~/Library/Preferences/com.navicat.NavicatPremium.plist
 #/usr/libexec/PlistBuddy -c "Delete :B150F41ABDCF9BC7F3B1148FF6936E69" "$navicat_plist"
 #(/usr/libexec/PlistBuddy -c "Delete :B150F41ABDCF9BC7F3B1148FF6936E69" "$navicat_plist" 2>&1) | while IFS= read -r line; do echo "$(date "+%Y-%m-%d %H:%M:%S") $line"; done

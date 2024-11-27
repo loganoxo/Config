@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 bcompare_registry="$HOME/Library/Application Support/Beyond Compare 5/registry.dat"
 echo "$(date "+%Y-%m-%d %H:%M:%S")   crack bcompare runs"

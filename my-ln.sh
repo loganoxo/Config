@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ln -sf source_dir link_name  ---创建一个名为 link_name 的符号链接，指向 source_dir
 # -s: 表示创建符号链接（软链接）。软链接是一个指向另一个文件或目录的引用
 # 软链接特点：可以跨越不同的文件系统。可以链接目录。删除软链接不会影响原始文件或目录。

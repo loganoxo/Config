@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 typora_dir="$HOME/Library/Application Support/abnerworks.Typora"
 

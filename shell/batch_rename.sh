@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # 脚本名称: batch_rename.sh
 # 作者: HeQin

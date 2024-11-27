@@ -13,8 +13,12 @@ fi
 
 ############################### 防止被覆盖的 alias 配置 ###################################
 alias rm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_rm.sh '
-alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash.sh '
-alias trash='echo "Do not use this command! Please use xxm! "; false '
+if _logan_if_mac; then
+    alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash_mac.sh '
+    alias trash='echo "Do not use this command! Please use xxm! "; false '
+elif _logan_if_linux; then
+    alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash_linux.sh '
+fi
 #alias trash='trash -F'
 
 _my_alias_init_ls() {

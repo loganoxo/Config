@@ -6,6 +6,15 @@
 #
 # 描述: 安全删除文件或文件夹到废纸篓;针对于linux系统
 
+#   trash-cli https://github.com/andreafrancia/trash-cli
+#   trash-put   <file/directory>                # trash files and directories.
+#   trash-empty                                 # 从垃圾箱中删除所有文件
+#   trash-empty <days>                          # 仅删除已删除时间超过 <days> 的文件
+#   trash-list | grep <path>                    # list trashed files.
+#   trash-restore                               # 选择文件进行恢复, 若要覆盖同名文件则 加 --overwrite
+#   trash-rm \*.o                               # 从垃圾箱中删除与模式匹配的文件
+#   从 home 分区回收的文件将被移动到此处 ~/.local/share/Trash/
+
 set -eu #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 
 CURRENT_DIR="$(pwd)" # 执行命令的当前目录;用source命令加载函数时也可以使用"$(cd "$(dirname "$0")";pwd)"
@@ -24,7 +33,7 @@ function _safe_trash_function() {
         read -r -n 1 choice # -n 1 等待一个字符输入，不需要回车
         case "$choice" in
         y | Y)
-            /opt/homebrew/bin/trash -F "$item"
+            trash-put "$item"
             echo "   ✅ success"
             ;;
         *) echo "   ❌ cancel" ;;

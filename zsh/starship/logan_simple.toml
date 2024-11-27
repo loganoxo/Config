@@ -147,8 +147,8 @@ disabled = false
 format = '[ ](bold green)[$symbol\($environment\)]($style) '
 symbol = 'Conda' # 󰌠  🐍 👾  |
 style = 'bright-purple'
-truncation_length = 1 #默认为1;如果环境是通过conda create -p [path]创建的，则环境路径应截断为的目录数。 0表示不截断
-ignore_base = true #默认为true; 激活时忽略base环境
+truncation_length = 2 #默认为1;如果环境是通过conda create -p [path]创建的，则环境路径应截断为的目录数。 0表示不截断
+ignore_base = false #默认为true; 激活时忽略base环境
 disabled = false
 
 [nodejs]

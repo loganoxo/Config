@@ -24,9 +24,9 @@ function logan_fzf_preview() {
         case "$1" in
         *.pdf) echo "pdf文件" ;;
         *.md)
-            if command -v glow >/dev/null 2>&1; then
+            if _logan_if_command_exist "glow"; then
                 glow "$1"
-            elif command -v bat >/dev/null 2>&1; then
+            elif _logan_if_command_exist "bat"; then
                 bat --style=numbers --color=always --line-range :600 "$1" 2>/dev/null
             else
                 cat "$1"
@@ -94,7 +94,7 @@ function logan_fzf_preview() {
                 fi
             done
 
-            if command -v bat >/dev/null 2>&1; then
+            if _logan_if_command_exist "bat"; then
                 bat --color=always --line-range :600 "$1" 2>/dev/null # 加--style=numbers会导致没有header,二进制文件的预览出错
                 # bat --style=numbers --color=always --line-range :600 "$1" 2>/dev/null
             else

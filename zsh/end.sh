@@ -1,23 +1,14 @@
 # 最后加载的脚本
 # homebrew 命令自动补全
-if [ -n "$BASH_VERSION" ]; then
-    # 当前是 Bash
-    if command -v brew >/dev/null 2>&1; then
-        HOMEBREW_PREFIX="$(brew --prefix)"
-        if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-            source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-        else
-            for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-                [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
-            done
-        fi
+if _logan_if_bash && _logan_if_command_exist "brew"; then
+    HOMEBREW_PREFIX="$(brew --prefix)"
+    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+        source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    else
+        for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+            [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+        done
     fi
-elif [ -n "$ZSH_VERSION" ]; then
-    #  Zsh中 在 init.sh 中 eval "$(/opt/homebrew/bin/brew shellenv)" 包含了自动补全; 是通过 FPATH 做的
-    # if command -v brew >/dev/null 2>&1; then
-    #     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-    # fi
-    : # 什么都不做的占位符
 fi
 
 ############################### 防止被覆盖的 alias 配置 ###################################
@@ -72,19 +63,17 @@ source "${__PATH_MY_CNF}/zsh/history.sh"
 # 执行fastfetch
 fastfetch_if_run=0 # 1为执行
 fastfetch_config_path="$HOME/.config/fastfetch/config.jsonc"
-if [ -f "$fastfetch_config_path" ]; then
-    if command -v fastfetch >/dev/null 2>&1; then
-        if [ $fastfetch_if_run -eq "1" ]; then
-            supported_terms=("iTerm.app" "Apple_Terminal" "WezTerm" "Tabby")
-            for term in "${supported_terms[@]}"; do
-                if [ "$TERM_PROGRAM" = "$term" ]; then
-                    command fastfetch -c "$fastfetch_config_path"
-                    break
-                fi
-            done
-        fi
-        alias fastfetch='command fastfetch -c "$fastfetch_config_path"'
+if [ -f "$fastfetch_config_path" ] && _logan_if_command_exist "fastfetch"; then
+    if [ $fastfetch_if_run -eq "1" ]; then
+        supported_terms=("iTerm.app" "Apple_Terminal" "WezTerm" "Tabby")
+        for term in "${supported_terms[@]}"; do
+            if [ "$TERM_PROGRAM" = "$term" ]; then
+                command fastfetch -c "$fastfetch_config_path"
+                break
+            fi
+        done
     fi
+    alias fastfetch='command fastfetch -c "$fastfetch_config_path"'
 fi
 
 # 用于测试的函数

@@ -133,18 +133,11 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # Added by OrbStack: command-line tools and integration
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
 
 # fnm(node版本管理工具)
-if command -v fnm >/dev/null 2>&1; then
-    if [ -n "$BASH_VERSION" ]; then
-        # 当前是 Bash
-        eval "$(fnm env --use-on-cd --shell bash)"
-    elif [ -n "$ZSH_VERSION" ]; then
-        # 当前是 Zsh
-        eval "$(fnm env --use-on-cd --shell zsh)"
-    fi
-fi
+_logan_if_command_exist "fnm" && _logan_if_zsh && eval "$(fnm env --use-on-cd --shell zsh)"
+_logan_if_command_exist "fnm" && _logan_if_bash && eval "$(fnm env --use-on-cd --shell bash)"
 
 # nvm 弃用,太慢了
 #export NVM_DIR="$HOME/.nvm"

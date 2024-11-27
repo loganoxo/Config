@@ -1,6 +1,6 @@
 # shellcheck disable=SC2034
-theme_if_simple="true" #是否使用简单主题,注释打开会强制使用;true:使用简单主题; false:使用多符号主题
-theme_prefer="starship"  #默认使用 starship 还是 om: ohmyzsh 或 ohmybash
+theme_if_simple="true"  #是否使用简单主题,注释打开会强制使用;true:使用简单主题; false:使用多符号主题
+theme_prefer="starship" #默认使用 starship 还是 om: ohmyzsh 或 ohmybash
 
 # starship
 export starship_theme="logan"                 # 主题名; 设为空字符串则为默认: starship.toml
@@ -36,7 +36,7 @@ function _theme_judge_load() {
 }
 
 function _starship_load_pre() {
-    if command -v starship >/dev/null 2>&1; then
+    if _logan_if_command_exist "starship"; then
         # 默认没有值的情况下,在 ~/.config/starship.toml
         if [[ -z "${starship_theme}" ]]; then
             starship_theme="starship"

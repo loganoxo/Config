@@ -10,24 +10,18 @@ alias rr="echo 'reloading...'&&source ~/.bashrc"
 
 # navi
 # export NAVI_CONFIG="${__PATH_HOME_CONFIG}/navi/config.yaml" #不配置,则默认在~/.config/navi/config.yaml
-if command -v navi >/dev/null 2>&1; then
-    eval "$(navi widget bash)"
-fi
+_logan_if_command_exist "navi" && eval "$(navi widget bash)"
 
 # zoxide
 export _ZO_DATA_DIR="$HOME/.zoxide"                          #zz命令数据存放的目录
 export _ZO_EXCLUDE_DIRS="/:$HOME:$HOME/private/*:$HOME/Temp" #排除某些目录
-if command -v zoxide >/dev/null 2>&1; then
-    eval "$(zoxide init --no-cmd bash)"
-fi
+_logan_if_command_exist "zoxide" && eval "$(zoxide init --no-cmd bash)"
 alias z="__zoxide_z"   # z <path> 直接跳转到最佳匹配的目录
 alias zz="__zoxide_zi" # zz <path> 通过fzf
 
 # fzf, zsh中因为有开启omz的fzf插件,所以不需要自己加这个集成语句
 # Set up fzf key bindings and fuzzy completion
-if command -v fzf >/dev/null 2>&1; then
-    eval "$(fzf --bash)"
-fi
+_logan_if_command_exist "fzf" && eval "$(fzf --bash)"
 
 ########################### 加载其他 ###########################
 

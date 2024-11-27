@@ -36,6 +36,10 @@
 # e.    /etc/zlogout  和  ~/.zlogout：  在 login Shell 退出时运行。
 
 ##############################################################################################################################
+
+# 加载通用函数
+[ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ] && source "${__PATH_MY_CNF}/zsh/logan_function.sh"
+
 if [ -z "${_INIT_ZSH_INIT_LOADED}" ]; then
     _INIT_ZSH_INIT_LOADED=1
 else

@@ -76,14 +76,13 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
 
 # maven
-os_type=$(uname -s) #获取操作系统类型
-if [ "$os_type" = "Darwin" ]; then
+if _logan_if_mac; then
     export MAVEN_HOME=~/Data/Software/apache-maven
     export PATH=$MAVEN_HOME/bin:$PATH
 fi
 
 # ruby
-if command -v brew >/dev/null 2>&1; then
+if _logan_if_command_exist "brew"; then
     export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
     export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"
     export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"

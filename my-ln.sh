@@ -11,6 +11,8 @@ export __PATH_MY_CNF="$HOME/Data/Config"                    # 我自己的配置
 export __PATH_MY_SOFT="$HOME/Data/Software"                 # 我自己的软件目录
 export __PATH_MY_CNF_SENSITIVE="$HOME/Data/ConfigSensitive" # 本地敏感数据目录
 export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
+# 加载通用函数
+[ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ] && source "${__PATH_MY_CNF}/zsh/logan_function.sh"
 
 mkdir -p "$HOME/.aria2" "$HOME/.docker" "$HOME/.config" "$HOME/.ssh"
 
@@ -22,23 +24,8 @@ ln -sf "${__PATH_MY_CNF}/zsh/themes/lib" "$HOME/.oh-my-zsh/custom/themes/lib"
 ln -sf "${__PATH_MY_CNF}/zsh/themes/mydracula.zsh-theme" "$HOME/.oh-my-zsh/custom/themes/mydracula.zsh-theme"
 
 # ssh
-ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
-os_type=$(uname -s) #获取操作系统类型
-if [ "$os_type" = "Darwin" ]; then
-    # mac
-    ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_mac" "$HOME/.ssh/config"
-elif [ "$os_type" = "Linux" ]; then
-    # linux
-    ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
-    # 进一步判断是否为 Debian
-#    if [ -f /etc/debian_version ]; then
-#        echo "当前系统是 Debian"
-#    else
-#        echo "当前系统是 Linux, 但不是 Debian"
-#    fi
-else
-    echo "创建 ssh/config 软链接时, 未知的操作系统: $os_type"
-fi
+_logan_if_mac && ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_mac" "$HOME/.ssh/config"
+_logan_if_linux && ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
 
 # starship
 ln -sf "${__PATH_MY_CNF}/zsh/starship" "$HOME/.config/starship"

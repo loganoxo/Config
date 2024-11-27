@@ -99,16 +99,8 @@ function test_success() {
 }
 
 # ssh-agent 判断当前用户是否存在ssh-agent进程
-os_type=$(uname -s) #获取操作系统类型
-if [ "$os_type" = "Darwin" ]; then
-    # mac
-    : # 什么都不做的占位符
-elif [ "$os_type" = "Linux" ]; then
-    # linux
+if _logan_if_linux; then
     if ! ssh-add -l >/dev/null 2>&1; then
         eval "$(ssh-agent -s)" >/dev/null
     fi
-    #ssh-add ~/.ssh/id_rsa
-else
-    echo "自启动 ssh-agent 时, 未知的操作系统: $os_type"
 fi

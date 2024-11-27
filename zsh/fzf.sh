@@ -26,20 +26,7 @@ FZF_HEADER_OPTS=" --color header:italic --header '<Tab>:multi;Ctrl-y:copy;Ctrl-g
 # 其他配置: 1、fzf 行号/搜索项数/全部数
 FZF_INFO_OPTS="--info-command='echo -e \"\x1b[33;1m\$FZF_POS\x1b[m/\$FZF_INFO 💛\"'"
 
-os_type=$(uname -s) #获取操作系统类型
-if [ "$os_type" = "Darwin" ]; then
-    : # 什么都不做的占位符
-elif [ "$os_type" = "Linux" ]; then
-    FZF_INFO_OPTS=""
-    # 进一步判断是否为 Debian
-#    if [ -f /etc/debian_version ]; then
-#        echo "当前系统是 Debian"
-#    else
-#        echo "当前系统是 Linux, 但不是 Debian"
-#    fi
-else
-    echo "fzf.zsh中 未知的操作系统: $os_type"
-fi
+_logan_if_linux && FZF_INFO_OPTS=""
 
 FZF_DEFAULT_OPTS="$FZF_FACE_OPTS $FZF_PREVIEW_OPTS $FZF_BIND_OPTS $FZF_BIND_OPTS2 $FZF_HEADER_OPTS $FZF_INFO_OPTS"
 

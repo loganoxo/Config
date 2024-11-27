@@ -40,3 +40,19 @@ function _logan_if_windows() {
 function _logan_if_command_exist() {
     command -v "$1" >/dev/null 2>&1
 }
+
+function _logan_if_bash() {
+    if [ -n "$BASH_VERSION" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+function _logan_if_zsh() {
+    if [ -n "$ZSH_VERSION" ]; then
+        return 0
+    else
+        return 1
+    fi
+}

@@ -34,6 +34,9 @@ alias ll='ls -lAFh'
 alias la='ls -lhA'
 alias lsa='ls -lha'
 alias tt='cd ~/Temp && pwd && ls -A'
+alias th='cd ~ && pwd && ls -A'
+alias td='cd ~/Data && pwd && ls -A'
+alias tc='cd ~/Data/Config && pwd && ls -A'
 alias less='less -FSRXc'
 
 # 为 zsh和bash 自定义历史命令配置

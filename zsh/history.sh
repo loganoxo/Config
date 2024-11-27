@@ -64,7 +64,13 @@ function _my_history_for_bash() {
     # 'history -a' 将新命令追加到历史文件
     # 'history -c' 清除当前会话的历史记录（防止重复加载）
     # 'history -r' 重新从历史文件读取历史记录,确保同步
-    _omb_util_add_prompt_command 'history -a; history -c; history -r' #自动在每次命令后保存历史记录到文件,且可在会话中同步
+    if [ -n "$OSH" ]; then
+        # 如果有 omb
+        _omb_util_add_prompt_command 'history -a; history -c; history -r' #自动在每次命令后保存历史记录到文件,且可在会话中同步
+    else
+        # 若不使用omb,则可用下面的方式来做:
+        export PROMPT_COMMAND="history -a; history -c; history -r"
+    fi
 
     # 用上下箭头就可以根据已经输入的内容来查找匹配的历史命令
     bind '"\e[A": history-search-backward'
@@ -89,9 +95,7 @@ function _my_history_for_bash() {
     #       export HISTFILESIZE=$((0x7FFF7FFF))
     # 2、omb原本_omb_util_add_prompt_command只添加了history -a; 不能同步,故在上面重复配置; history -a 可以重复执行
     #       _omb_util_add_prompt_command 'history -a'
-    # 3、若不使用omb,则可用下面的方式来做:
-    #       export PROMPT_COMMAND="history -a; history -c; history -r"
-    # 4、erasedups:从历史记录中删除所有已存在的重复命令;只保留最新的; ignoredups:忽略与上一条命令重复的命令;
+    # 3、erasedups:从历史记录中删除所有已存在的重复命令;只保留最新的; ignoredups:忽略与上一条命令重复的命令;
     #    ignorespace:忽略以空格开头的命令; ignoreboth:相当于同时设置 ignoredups 和 ignorespace;
     #    HISTCONTROL="erasedups:ignoreboth" 去掉erasedups
 

@@ -1,22 +1,4 @@
 #用bash登陆时加载
-export __PATH_MY_CNF="$HOME/Data/Config"                    # 我自己的配置文件目录
-export __PATH_MY_SOFT="$HOME/Data/Software"                 # 我自己的软件目录
-export __PATH_MY_CNF_SENSITIVE="$HOME/Data/ConfigSensitive" # 本地敏感数据目录
-export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
-export PATH=$PATH:/usr/sbin/                                # 针对linux系统的默认PATH没有sbin的问题
-export PATH=$PATH:$HOME/.local/bin                          # 针对linux系统
-
-# 加载初始化配置
-source "${__PATH_MY_CNF}/zsh/init.sh"
-
-# 加载 bash-it
-# source "${__PATH_MY_CNF}/bash/bash_it.sh"
-
-# 加载 主题和插件 配置 ( starship omz omb )
-source "${__PATH_MY_CNF}/zsh/framework.sh"
-
-# 加载 bashrc 和 bash_profile 公用的配置
-source "${__PATH_MY_CNF}/bash/public.sh"
-
-# 最后加载的脚本
-source "${__PATH_MY_CNF}/zsh/end.sh"
+if [ -f "$HOME/.bashrc" ]; then
+    source "$HOME/.bashrc"
+fi

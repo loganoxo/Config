@@ -19,7 +19,7 @@ alias rr="echo 'reloading...'&&source ~/.zshrc"
 if _logan_if_command_exist "navi"; then
     eval "$(navi widget zsh)"
     #加载navi配置,覆盖 eval "$(navi widget zsh)"
-    [-f "${__PATH_MY_CNF}/others/navi/navi.sh" ] && source "${__PATH_MY_CNF}/others/navi/navi.sh"
+    [ -f "${__PATH_MY_CNF}/others/navi/navi.sh" ] && source "${__PATH_MY_CNF}/others/navi/navi.sh"
 fi
 
 # zoxide

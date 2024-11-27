@@ -24,7 +24,7 @@ HIST_STAMPS="yyyy-mm-dd" # 在history.sh 中有重新配置
 plugins=(
     git
     colored-man-pages
-    fzf
+    # fzf 自己执行
     docker
     docker-compose
     # kubectl

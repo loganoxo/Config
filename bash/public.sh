@@ -19,10 +19,6 @@ _logan_if_command_exist "zoxide" && eval "$(zoxide init --no-cmd bash)"
 alias z="__zoxide_z"   # z <path> 直接跳转到最佳匹配的目录
 alias zz="__zoxide_zi" # zz <path> 通过fzf
 
-# fzf, zsh中因为有开启omz的fzf插件,所以不需要自己加这个集成语句
-# Set up fzf key bindings and fuzzy completion
-_logan_if_command_exist "fzf" && eval "$(fzf --bash)"
-
 ########################### 加载其他 ###########################
 
 # 加载 通用alias

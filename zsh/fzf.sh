@@ -1,3 +1,12 @@
+# 加载
+if _logan_if_command_exist "fzf"; then
+    if _logan_if_zsh; then
+        eval "$(fzf --zsh)"
+    elif _logan_if_bash; then
+        eval "$(fzf --bash)"
+    fi
+fi
+
 # fzf配置
 FZF_FD_EXCLUDE_OPTS=" --exclude={.git,.mvn,.idea,.vscode,.sass-cache,node_modules,.DS_Store} "
 export FZF_DEFAULT_COMMAND="fd -HI $FZF_FD_EXCLUDE_OPTS "

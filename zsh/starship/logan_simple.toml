@@ -241,7 +241,8 @@ style_root = 'bold red'
 show_always = true
 
 [hostname]
-format = '[([ ](bold green)$hostname)]($style)' # '[$ssh_symbol](bold blue) on [$hostname](bold red) '
+#   |
+format = '[([@](bold green)$hostname)]($style)' # '[$ssh_symbol](bold blue) on [$hostname](bold red) '
 ssh_symbol = '🌐 ' #   |
 style = 'bold yellow'
 ssh_only = true #仅在连接到 SSH 会话时显示主机名

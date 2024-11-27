@@ -55,7 +55,7 @@ files=(".bashrc" ".bash_profile" ".zshrc" ".zprofile")
 
 # 备份
 timestamp=$(date +%Y%m%d%H%M%S)
-backup_dir="$target_dir/.shell_bak_$timestamp/"
+backup_dir="$target_dir/.shell_bak/$timestamp/"
 mkdir "$backup_dir"
 for file in "${files[@]}"; do
     original_file="$target_dir/$file"

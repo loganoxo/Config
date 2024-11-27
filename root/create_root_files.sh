@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 创建root用户的环境配置文件,使用方式:
-# bash ./create_root_files.sh "/home/helq"
+# sudo bash ./create_root_files.sh "/home/helq"
 set -eu
 
 common_home="$1"

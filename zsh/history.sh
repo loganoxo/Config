@@ -99,12 +99,8 @@ function _my_history_for_bash() {
 }
 
 # 判断是 bash 还是 zsh
-if [ -n "$BASH_VERSION" ]; then
-    # 当前是 Bash
-    # echo "bash"
+if _logan_if_bash; then
     _my_history_for_bash
-elif [ -n "$ZSH_VERSION" ]; then
-    # 当前是 Zsh
-    # echo "zsh"
+elif _logan_if_zsh; then
     _my_history_for_zsh
 fi

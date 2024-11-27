@@ -56,7 +56,7 @@ function starship_change_theme_in_order() {
     fi
 
     # zsh数组索引是从1开始,bash是从0开始
-    if [ -n "$ZSH_VERSION" ]; then
+    if _logan_if_zsh; then
         # zsh
         if [ $order_index -eq 0 ]; then
             order_index=1
@@ -103,10 +103,7 @@ function starship_change_theme_select() {
         return 0
     fi
 
-    if [ -n "$ZSH_VERSION" ]; then
-        # zsh
-        ((choice++))
-    fi
+    _logan_if_zsh && ((choice++))
 
     starship_change_theme "$choice"
 

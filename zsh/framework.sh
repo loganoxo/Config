@@ -61,19 +61,16 @@ function _starship_load_pre() {
 # 加载starship
 function _starship_load() {
     # 加载
-    if [ -n "$BASH_VERSION" ]; then
-        eval "$(starship init bash)"
-    elif [ -n "$ZSH_VERSION" ]; then
-        eval "$(starship init zsh)"
-    fi
+    _logan_if_bash && eval "$(starship init bash)"
+    _logan_if_zsh && eval "$(starship init zsh)"
     logan_starship_load=1
 }
 
 function _om_load() {
     # 加载
-    if [ -n "$BASH_VERSION" ]; then
+    if _logan_if_bash; then
         [[ -s "${__PATH_MY_CNF}/bash/omb.sh" ]] && source "${__PATH_MY_CNF}/bash/omb.sh"
-    elif [ -n "$ZSH_VERSION" ]; then
+    elif _logan_if_zsh; then
         [[ -s "${__PATH_MY_CNF}/zsh/omz.sh" ]] && source "${__PATH_MY_CNF}/zsh/omz.sh"
     fi
 }

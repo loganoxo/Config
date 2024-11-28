@@ -56,3 +56,19 @@ function _logan_if_zsh() {
         return 1
     fi
 }
+
+function _logan_term_type() {
+    if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" ]]; then
+        # 通过远程连接操作(SSH)
+        echo "ssh"
+    elif [[ -n "$DISPLAY" ]]; then
+        # 图形化界面中的终端(GUI)
+        echo "gui"
+    elif [[ "$(tty)" == /dev/tty* ]]; then
+        # 本地登录的黑屏终端(虚拟控制台)
+        echo "system_console"
+    else
+        # 无法确定操作方式
+        echo "unknown"
+    fi
+}

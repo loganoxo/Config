@@ -1,13 +1,15 @@
 # shellcheck disable=SC2034
-theme_if_simple="true"  #是否使用简单主题,注释打开会强制使用;true:使用简单主题; false:使用多符号主题
-theme_prefer="starship" #默认使用 starship 还是 om: ohmyzsh 或 ohmybash
+theme_if_simple="true"       #是否使用简单主题,注释打开会强制使用;true:使用简单主题; false:使用多符号主题
+theme_simple_no_nerd="false" #是否使用没有nerd的简单主题,linux本地终端(虚拟控制台)使用
+theme_prefer="starship"      #默认使用 starship 还是 om: ohmyzsh 或 ohmybash
 
 # starship
-export starship_theme="logan"                 # 主题名; 设为空字符串则为默认: starship.toml
-export starship_simple_theme="logan_simple"   # 简单主题名; 设为空字符串则为默认: starship.toml
-export starship_path="$HOME/.config/starship" # 路径; 设为空字符串则为默认: ~/.config/
-alias logan_star="run_starship_handle"        # starship 主题 的一些 功能函数
-logan_starship_load=0                         # starship是否加载过
+export starship_theme="logan"                        # 主题名; 设为空字符串则为默认: starship.toml
+export starship_simple_theme="logan_simple"          # 简单主题名; 设为空字符串则为默认: starship.toml
+export starship_simple_no_nerd_theme="logan_no_nerd" # 简单主题名; 设为空字符串则为默认: starship.toml
+export starship_path="$HOME/.config/starship"        # 路径; 设为空字符串则为默认: ~/.config/
+alias logan_star="run_starship_handle"               # starship 主题 的一些 功能函数
+logan_starship_load=0                                # starship是否加载过
 
 function _theme_judge_load() {
     # theme_if_simple为空时需要代码判断;mac内置终端和jetbrains的终端 不太能支持各种表情和符号 所以需要简单的主题
@@ -19,7 +21,19 @@ function _theme_judge_load() {
         *) theme_if_simple="true" ;;
         esac
     fi
+    if _logan_if_linux; then
+        case $(_logan_term_type) in
+        ssh | gui)
+            theme_simple_no_nerd="false"
+            ;;
+        system_console | unknown)
+            theme_simple_no_nerd="true"
+            ;;
+        *) ;;
+        esac
+    fi
 
+    # 判断使用 omz/omb 还是 starship
     if [ "$theme_prefer" = "starship" ]; then
         # starship
         OSH_THEME=""
@@ -48,13 +62,17 @@ function _starship_load_pre() {
             starship_path="$HOME/.config"
         fi
 
-        if [ "$theme_if_simple" = "true" ]; then
+        if [ "$theme_simple_no_nerd" = "true" ]; then
+            # 没有nerd的简单主题
+            export STARSHIP_CONFIG="${starship_path}/${starship_simple_no_nerd_theme}.toml"
+        elif [ "$theme_if_simple" = "true" ]; then
             # 使用简单主题
             export STARSHIP_CONFIG="${starship_path}/${starship_simple_theme}.toml" # 设置主题文件路径
         elif [ "$theme_if_simple" = "false" ]; then
             # 使用多符号主题
             export STARSHIP_CONFIG="${starship_path}/${starship_theme}.toml" # 设置主题文件路径
         fi
+
     fi
 }
 

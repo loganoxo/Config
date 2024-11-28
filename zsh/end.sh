@@ -104,6 +104,6 @@ function _report_current_dir_for_tabby() {
 
 # 用tabby进行ssh连接时,给tabby报告当前文件夹的目录,以便于使用传输文件功能(SFTP)时,不用自己找文件目录
 if [ "$(_logan_term_type)" = "ssh" ]; then
-    _logan_if_bash && export PS1="$PS1\[\e]1337;CurrentDir="'$(pwd)\a\]'
+    #    _logan_if_bash && export PS1="$PS1\[\e]1337;CurrentDir="'$(pwd)\a\]' # 与starship 不兼容
     _logan_if_zsh && add-zsh-hook precmd _report_current_dir_for_tabby
 fi

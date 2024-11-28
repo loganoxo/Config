@@ -1,0 +1,13 @@
+{
+  "log-opts" : {
+    "max-size" : "10m",
+    "max-file" : "3"
+  },
+  "live-restore" : false,
+  "log-driver" : "json-file",
+  "registry-mirrors" : [
+
+  ],
+  "log-level" : "info",
+  "debug" : false
+}

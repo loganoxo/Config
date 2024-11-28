@@ -97,3 +97,13 @@ if _logan_if_linux; then
         eval "$(ssh-agent -s)" >/dev/null
     fi
 fi
+
+function _report_current_dir_for_tabby() {
+    echo -n "\x1b]1337;CurrentDir=$(pwd)\x07"
+}
+
+# 用tabby进行ssh连接时,给tabby报告当前文件夹的目录,以便于使用传输文件功能(SFTP)时,不用自己找文件目录
+if [ "$(_logan_term_type)" = "ssh" ]; then
+    _logan_if_bash && export PS1="$PS1\[\e]1337;CurrentDir="'$(pwd)\a\]'
+    _logan_if_zsh && add-zsh-hook precmd _report_current_dir_for_tabby
+fi

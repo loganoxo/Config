@@ -5,18 +5,18 @@ set -e
 # https://dlcdn.apache.org/zookeeper/zookeeper-3.8.4/apache-zookeeper-3.8.4-bin.tar.gz
 ################### local ######################
 local_zk_home='/Users/logan/Data/Software/zookeeper'
-#localDirArray=()
-localDirArray=(
-    "cluster/zookeeper1"
-    "cluster/zookeeper2"
-    "cluster/zookeeper3"
-)
+localDirArray=()
+#localDirArray=(
+#    "cluster/zookeeper1"
+#    "cluster/zookeeper2"
+#    "cluster/zookeeper3"
+#)
 
 ################# remote ######################
 # remote ip
-remoteHosts=("1,1,1,1")
+remoteHosts=("172.16.106.12")
 # remote dir
-remoteDir="/usr/local/software/zookeeper"
+remoteDir="/home/helq/software/zookeeper"
 
 ################## function ###################
 startRemote() {
@@ -26,7 +26,8 @@ startRemote() {
         echo -e "\033[31m Zookeeper$index start on $host... \033[0m"
         # 不用管, $remoteDir 就是要在客户端解析
         # shellcheck disable=SC2029
-        ssh "root@$host" "source /etc/profile; $remoteDir/bin/zkServer.sh start"
+        # source 是为了让远程主机能从PATH中找到java
+        ssh "helq@$host" "source ~/.zshrc; $remoteDir/bin/zkServer.sh start"
         echo -e "\n"
         index=$((index + 1))
         sleep 1
@@ -52,7 +53,7 @@ stopRemote() {
         echo -e "\033[31m Zookeeper$index stop on $host... \033[0m"
         # 不用管, $remoteDir 就是要在客户端解析
         # shellcheck disable=SC2029
-        ssh "root@$host" "source /etc/profile; $remoteDir/bin/zkServer.sh stop"
+        ssh "helq@$host" "source ~/.zshrc; $remoteDir/bin/zkServer.sh stop"
         echo -e "\n"
         index=$((index + 1))
         sleep 1
@@ -78,7 +79,7 @@ checkRemote() {
         echo -e "\033[31m Zookeeper$index check on $host... \033[0m"
         # 不用管, $remoteDir 就是要在客户端解析
         # shellcheck disable=SC2029
-        ssh "root@$host" "source /etc/profile; $remoteDir/bin/zkServer.sh status"
+        ssh "helq@$host" "source ~/.zshrc; $remoteDir/bin/zkServer.sh status"
         echo -e "\n"
         index=$((index + 1))
         sleep 1

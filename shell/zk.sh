@@ -3,6 +3,7 @@
 set -e
 
 ################### local ######################
+local_zk_home='/Users/logan/Data/Software/zookeeper3.8.0'
 localDirArray=(
     "cluster/zookeeper1"
     "cluster/zookeeper2"
@@ -29,8 +30,9 @@ startRemote() {
 startLocal() {
     index=1
     for dir in "${localDirArray[@]}"; do
-        echo -e "\033[31m Zookeeper$index start on $dir... \033[0m"
-        "$dir/bin/zkServer.sh" start
+        absolute_dir="$local_zk_home/$dir"
+        echo -e "\033[31m Zookeeper$index start on $absolute_dir... \033[0m"
+        "$absolute_dir/bin/zkServer.sh" start
         echo -e "\n"
         index=$((index + 1))
         sleep 1s
@@ -50,8 +52,9 @@ stopRemote() {
 stopLocal() {
     index=1
     for dir in "${localDirArray[@]}"; do
-        echo -e "\033[31m Zookeeper$index stop on $dir... \033[0m"
-        "$dir/bin/zkServer.sh" stop
+        absolute_dir="$local_zk_home/$dir"
+        echo -e "\033[31m Zookeeper$index stop on $absolute_dir... \033[0m"
+        "$absolute_dir/bin/zkServer.sh" stop
         echo -e "\n"
         index=$((index + 1))
         sleep 1s
@@ -71,8 +74,9 @@ checkRemote() {
 checkLocal() {
     index=1
     for dir in "${localDirArray[@]}"; do
-        echo -e "\033[31m Zookeeper$index check on $dir... \033[0m"
-        "$dir/bin/zkServer.sh" status
+        absolute_dir="$local_zk_home/$dir"
+        echo -e "\033[31m Zookeeper$index check on $absolute_dir... \033[0m"
+        "$absolute_dir/bin/zkServer.sh" status
         echo -e "\n"
         index=$((index + 1))
         sleep 1s

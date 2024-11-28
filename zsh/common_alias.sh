@@ -65,6 +65,9 @@ alias nav='navi --print'
 # 批量重命名脚本
 alias batch_rename='/bin/bash ${__PATH_MY_CNF}/shell/batch_rename.sh'
 
+# zk
+alias zk_handle='/bin/bash ${__PATH_MY_CNF}/shell/zk.sh'
+
 # z.lua
 #alias zz="z -I"
 #alias zb="z -b"

@@ -14,7 +14,7 @@ export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
 # 加载通用函数
 [ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ] && source "${__PATH_MY_CNF}/zsh/logan_function.sh"
 
-mkdir -p "$HOME/.aria2" "$HOME/.docker" "$HOME/.config" "$HOME/.ssh"
+mkdir -p "$HOME/.aria2" "$HOME/.config" "$HOME/.ssh"
 
 # zsh
 ln -sf "${__PATH_MY_CNF}/zsh/zshrc" "$HOME/.zshrc"
@@ -43,9 +43,6 @@ ln -sf "${__PATH_MY_CNF}/git/gitignore_global" "$HOME/.gitignore_global"
 ln -sf "${__PATH_MY_CNF}/git/hgignore_global" "$HOME/.hgignore_global"
 ln -sf "${__PATH_MY_CNF}/git/stCommitMsg" "$HOME/.stCommitMsg"
 
-# shell
-ln -sf "${__PATH_MY_CNF}/shell/zk.sh" "${__PATH_MY_SOFT}/zookeeper3.8.0/zk.sh"
-
 # ohmyzsh->z.lua
 # ln -sf  "/Users/logan/Data/Software/z.lua"  "/Users/logan/.oh-my-zsh/custom/plugins/z.lua"
 
@@ -61,8 +58,7 @@ echo -n 0 >"$HOME/.input-source-vim/data"
 ln -sf "${__PATH_MY_CNF}/others/tmux/tmux.conf" "$HOME/.tmux.conf"
 # ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"
 ln -sf "${__PATH_MY_CNF}/others/aria2/aria2.conf" "$HOME/.aria2/aria2.conf"
-ln -sf "${__PATH_MY_CNF}/others/docker/config.json" "$HOME/.docker/config.json"
-ln -sf "${__PATH_MY_CNF}/others/docker/daemon.json" "$HOME/.docker/daemon.json"
+
 # navi
 mkdir -p "$HOME/.config/navi" && ln -sf "${__PATH_MY_CNF}/others/navi/config.yaml" "$HOME/.config/navi/config.yaml"
 for file in "${__PATH_MY_CNF}"/others/navi/*.cheat; do

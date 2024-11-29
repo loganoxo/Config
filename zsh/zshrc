@@ -42,7 +42,7 @@ source "${__PATH_MY_CNF}/zsh/fzf.sh"
 # source ${__PATH_MY_CNF}/zsh/ranger.sh #加载ranger配置
 
 # 加载 conda配置
-source "${__PATH_MY_CNF}/zsh/conda.sh"
+source "${__PATH_MY_CNF}/zsh/conda/conda.sh"
 
 # 最后加载的脚本
 source "${__PATH_MY_CNF}/zsh/end.sh"

@@ -41,7 +41,7 @@ source "${__PATH_MY_CNF}/zsh/common_alias.sh"
 source "${__PATH_MY_CNF}/zsh/fzf.sh"
 
 # 加载 conda配置
-source "${__PATH_MY_CNF}/zsh/conda.sh"
+source "${__PATH_MY_CNF}/zsh/conda/conda.sh"
 
 # 最后加载的脚本
 source "${__PATH_MY_CNF}/zsh/end.sh"

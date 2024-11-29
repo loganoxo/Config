@@ -27,6 +27,9 @@ ln -sf "${__PATH_MY_CNF}/zsh/themes/mydracula.zsh-theme" "$HOME/.oh-my-zsh/custo
 _logan_if_mac && ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_mac" "$HOME/.ssh/config"
 _logan_if_linux && ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
 
+# conda
+ln -sf "${__PATH_MY_CNF}/zsh/conda/condarc" "$HOME/.condarc"
+
 # starship
 ln -sf "${__PATH_MY_CNF}/zsh/starship" "$HOME/.config/starship"
 

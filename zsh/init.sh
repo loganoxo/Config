@@ -135,6 +135,17 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # Added by OrbStack: command-line tools and integration
 source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
 
+# uv python管理工具
+export UV_PYTHON_PREFERENCE="only-managed"
+# uv 命令补全
+if _logan_if_zsh; then
+    eval "$(uv generate-shell-completion zsh)"
+    eval "$(uvx --generate-shell-completion zsh)"
+elif _logan_if_bash; then
+    eval "$(uv generate-shell-completion bash)"
+    eval "$(uvx --generate-shell-completion bash)"
+fi
+
 # fnm(node版本管理工具)
 _logan_if_command_exist "fnm" && _logan_if_zsh && eval "$(fnm env --use-on-cd --shell zsh)"
 _logan_if_command_exist "fnm" && _logan_if_bash && eval "$(fnm env --use-on-cd --shell bash)"

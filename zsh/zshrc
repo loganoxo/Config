@@ -2,11 +2,8 @@
 
 # zmodload zsh/zprof # 记录每次启动交互式shell时,记录各种函数执行时间到内存,在当前shell中执行zprof显示;
 
-# 加载环境变量,在zshenv中配置了,会自动加载,这里重复配置保险一点
-export __PATH_MY_CNF="$HOME/Data/Config"                    # 我自己的配置文件目录
-export __PATH_MY_SOFT="$HOME/Data/Software"                 # 我自己的软件目录
-export __PATH_MY_CNF_SENSITIVE="$HOME/Data/ConfigSensitive" # 本地敏感数据目录
-export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
+# 加载必备环境变量; 在zshenv中配置了,会自动加载,这里重复配置保险一点
+source "$HOME/.zshenv"
 
 # 加载初始化配置
 source "${__PATH_MY_CNF}/zsh/init.sh"

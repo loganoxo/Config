@@ -1,10 +1,6 @@
 #只有在其他终端输入bash命令，进入bash交互式窗口才会加载；如果 bash a.sh 运行一个脚本并不会加载
-export __PATH_MY_CNF="$HOME/Data/Config"                    # 我自己的配置文件目录
-export __PATH_MY_SOFT="$HOME/Data/Software"                 # 我自己的软件目录
-export __PATH_MY_CNF_SENSITIVE="$HOME/Data/ConfigSensitive" # 本地敏感数据目录
-export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
-export PATH=$PATH:/usr/sbin/                                # 针对linux系统的默认PATH没有sbin的问题
-export PATH=$PATH:$HOME/.local/bin                          # 针对linux系统
+# 加载必备环境变量
+source "$HOME/.zshenv"
 
 # 加载 rust
 [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"

@@ -11,6 +11,17 @@ if _logan_if_bash && _logan_if_command_exist "brew"; then
     fi
 fi
 
+# uv python管理工具
+export UV_PYTHON_PREFERENCE="only-managed"
+# uv 命令补全
+if _logan_if_zsh; then
+    eval "$(uv generate-shell-completion zsh)"
+    eval "$(uvx --generate-shell-completion zsh)"
+elif _logan_if_bash; then
+    eval "$(uv generate-shell-completion bash)"
+    eval "$(uvx --generate-shell-completion bash)"
+fi
+
 ############################### 防止被覆盖的 alias 配置 ###################################
 alias rm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_rm.sh '
 if _logan_if_mac; then

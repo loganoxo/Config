@@ -1,10 +1,46 @@
-#!/usr/bin/awk -f
+#!/bin/bash
+
+
+
+# 检查是否提供文件名
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
+
+input_file="$1"
+
+# 检查文件是否存在
+if [ ! -f "$input_file" ]; then
+    echo "Error: File not found!"
+    exit 1
+fi
+
+# 获取文件后缀名
+extension="${input_file##*.}"
+
+# 定义输出文件名
+output_file="out.$extension"
+
+# 调整缩进: 将 {} 之间的内容每层缩进 4 个空格
+awk '
 {
-    gsub(/^[ \t]+/, ""); # 删除行首的空白字符
-    indentation = ""; # 初始化缩进字符串
-    if (/^\}/) context_depth--; # 如果是右括号，减少缩进层级
-    for (i = 0; i < context_depth; i++) indentation = indentation "    "; # 按层级添加缩进
-    print indentation $0; # 输出缩进后的行
-    if (/\{$/) context_depth++; # 如果是左括号，增加缩进层级
+    for (i = 1; i <= NF; i++) {
+        if ($i == "{") {
+            indent_level++
+        }
+        if ($i == "}") {
+            indent_level--
+        }
+    }
+
+    # 输出缩进后的内容
+    if (indent_level > 0) {
+        printf "%s\n", gensub(/^/, sprintf("%*s", indent_level * 4, ""), 1)
+    } else {
+        print
+    }
 }
-BEGIN { context_depth = 0 } # 初始化层级计数器
+' "$input_file" >"$output_file"
+
+echo "Output written to $output_file"

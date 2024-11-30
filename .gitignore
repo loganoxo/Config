@@ -4,3 +4,5 @@
 test
 __pycache__
 *.iml
+nginx/www/files/*
+!nginx/www/files/.autoindex.html

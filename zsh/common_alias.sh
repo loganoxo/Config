@@ -68,6 +68,9 @@ alias batch_rename='/bin/bash ${__PATH_MY_CNF}/shell/batch_rename.sh'
 # zk
 alias zk_handle='/bin/bash ${__PATH_MY_CNF}/shell/zk.sh'
 
+# 代码缩进格式化脚本
+alias logan_format='/bin/bash ${__PATH_MY_CNF}/shell/format.sh'
+
 # z.lua
 #alias zz="z -I"
 #alias zb="z -b"

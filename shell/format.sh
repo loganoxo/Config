@@ -27,26 +27,25 @@ BEGIN { indent_level = 0 }
     # 去掉行首多余空白
     sub(/^[[:space:]]+/, "")
 
-    # 处理当前行中的所有字符
     while (match($0, /[{]|[}]/)) {
         match_index = RSTART
         match_char = substr($0, match_index, RLENGTH)
 
         if (match_char == "{") {
-            # 输出匹配字符前的内容
-            printf "%*s%s{\n", indent_level * 4, "", substr($0, 1, match_index)
+            # 输出匹配字符前的内容并保留 { 在当前行
+            printf "%*s%s {\n", indent_level * 4, "", substr($0, 1, match_index - 1)
             indent_level++
         } else if (match_char == "}") {
             indent_level--
-            # 输出匹配字符前的内容，并将 } 保留在当前行
-            printf "%*s%s\n", indent_level * 4, "", substr($0, 1, match_index)
+            # 输出匹配字符前的内容并保留 } 在当前行
+            printf "%*s%s\n", indent_level * 4, "", substr($0, 1, match_index - 1) "}"
         }
 
-        # 剩余内容继续处理
+        # 更新剩余内容
         $0 = substr($0, match_index + RLENGTH)
     }
 
-    # 输出剩余行内容
+    # 如果行中还有剩余内容，按当前缩进输出
     if ($0 != "") {
         printf "%*s%s\n", indent_level * 4, "", $0
     }

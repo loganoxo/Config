@@ -20,23 +20,29 @@ extension="${input_file##*.}"
 # 定义输出文件名
 output_file="out.$extension"
 
-# 调整缩进
+# 去掉所有原有缩进并重新格式化
 awk '
 BEGIN { indent_level = 0 }
 {
-    # 删除行首的空白
-    sub(/^[[:space:]]*/, "")
+    # 去掉所有行首的空白
+    sub(/^[[:space:]]+/, "")
 
-    # 如果是 "}" 行，先减缩进
-    if ($0 ~ /^}/) {
+    # 如果包含 "}"，先减缩进
+    while ($0 ~ /}/) {
+        sub(/}/, "")  # 去掉第一个 "}"
         indent_level--
+        printf "%*s}\n", indent_level * 4, ""
     }
 
-    # 打印当前行，添加缩进
-    printf "%*s%s\n", indent_level * 4, "", $0
+    # 打印行内容
+    if ($0 != "") {
+        printf "%*s%s\n", indent_level * 4, "", $0
+    }
 
-    # 如果是 "{" 行，增加缩进
-    if ($0 ~ /{$/) {
+    # 如果包含 "{"，增加缩进
+    while ($0 ~ /{/) {
+        sub(/{/, "")  # 去掉第一个 "{"
+        printf "%*s{\n", indent_level * 4, ""
         indent_level++
     }
 }

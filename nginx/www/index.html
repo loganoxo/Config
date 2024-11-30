@@ -1,23 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5, user-scalable=yes"
+    />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>分享文本</title>
+    <style>
+      html {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="margin-left: 2em; font-size: 1.5em">
+      分享 文件 share.txt 中的文本
+    </h1>
+    <hr />
+    <br />
+    <pre style="font-size: 1.5em; text-align: center" id="content"></pre>
 
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
+    <script>
+      // 创建 XMLHttpRequest 对象
+      var xhttp = new XMLHttpRequest();
 
-<p><em>Thank you for using nginx.</em></p>
-</body>
+      // 设置请求方式和文件路径
+      xhttp.open("GET", "share.txt?t=" + new Date().getTime(), true);
+
+      // 定义请求完成时的回调函数
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          // 将读取的文本内容存储到变量中
+          var text = this.responseText;
+
+          // 将文本内容插入到 HTML 页面中
+          document.getElementById("content").innerHTML = text;
+        }
+      };
+
+      // 发送请求
+      xhttp.send();
+    </script>
+  </body>
 </html>

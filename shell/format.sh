@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 # 检查是否提供文件名
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <filename>"
@@ -22,23 +20,24 @@ extension="${input_file##*.}"
 # 定义输出文件名
 output_file="out.$extension"
 
-# 调整缩进: 将 {} 之间的内容每层缩进 4 个空格
+# 调整缩进
 awk '
+BEGIN { indent_level = 0 }
 {
-    for (i = 1; i <= NF; i++) {
-        if ($i == "{") {
-            indent_level++
-        }
-        if ($i == "}") {
-            indent_level--
-        }
+    # 删除行首的空白
+    sub(/^[[:space:]]*/, "")
+
+    # 如果是 "}" 行，先减缩进
+    if ($0 ~ /^}/) {
+        indent_level--
     }
 
-    # 输出缩进后的内容
-    if (indent_level > 0) {
-        printf "%s\n", gensub(/^/, sprintf("%*s", indent_level * 4, ""), 1)
-    } else {
-        print
+    # 打印当前行，添加缩进
+    printf "%*s%s\n", indent_level * 4, "", $0
+
+    # 如果是 "{" 行，增加缩进
+    if ($0 ~ /{$/) {
+        indent_level++
     }
 }
 ' "$input_file" >"$output_file"

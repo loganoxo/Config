@@ -20,13 +20,20 @@ extension="${input_file##*.}"
 # 定义输出文件名
 output_file="out.$extension"
 
-# 去掉所有原有缩进并重新格式化
+# 去掉所有原有缩进并重新格式化，同时保留空行
 awk '
 BEGIN { indent_level = 0 }
 {
+    # 如果是空行，直接输出
+    if ($0 == "") {
+        print ""
+        next
+    }
+
     # 去掉行首多余空白
     sub(/^[[:space:]]+/, "")
 
+    # 处理当前行中的所有字符
     while (match($0, /[{]|[}]/)) {
         match_index = RSTART
         match_char = substr($0, match_index, RLENGTH)

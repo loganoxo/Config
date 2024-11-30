@@ -27,23 +27,32 @@ BEGIN { indent_level = 0 }
     # 去掉所有行首的空白
     sub(/^[[:space:]]+/, "")
 
-    # 如果包含 "}"，先减缩进
-    while ($0 ~ /}/) {
-        sub(/}/, "")  # 去掉第一个 "}"
-        indent_level--
-        printf "%*s}\n", indent_level * 4, ""
+    # 遍历当前行的每个字符，逐一处理 { 和 }
+    for (i = 1; i <= length($0); i++) {
+        char = substr($0, i, 1)
+
+        if (char == "{") {
+            # 输出当前行之前的内容
+            if (i > 1) {
+                printf "%*s%s\n", indent_level * 4, "", substr($0, 1, i - 1)
+            }
+            # 输出 { 并增加缩进
+            printf "%*s{\n", indent_level * 4, ""
+            indent_level++
+            $0 = substr($0, i + 1)
+            i = 0
+        } else if (char == "}") {
+            # 减少缩进并输出 }
+            indent_level--
+            printf "%*s}\n", indent_level * 4, ""
+            $0 = substr($0, i + 1)
+            i = 0
+        }
     }
 
-    # 打印行内容
+    # 如果剩余行内容不是空，则按照当前缩进输出
     if ($0 != "") {
         printf "%*s%s\n", indent_level * 4, "", $0
-    }
-
-    # 如果包含 "{"，增加缩进
-    while ($0 ~ /{/) {
-        sub(/{/, "")  # 去掉第一个 "{"
-        printf "%*s{\n", indent_level * 4, ""
-        indent_level++
     }
 }
 ' "$input_file" >"$output_file"

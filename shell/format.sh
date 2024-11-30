@@ -24,33 +24,29 @@ output_file="out.$extension"
 awk '
 BEGIN { indent_level = 0 }
 {
-    # 去掉所有行首的空白
+    # 去掉行首多余空白
     sub(/^[[:space:]]+/, "")
 
-    # 遍历当前行的每个字符，逐一处理 { 和 }
-    for (i = 1; i <= length($0); i++) {
-        char = substr($0, i, 1)
+    # 处理当前行中的所有字符
+    while (match($0, /[{]|[}]/)) {
+        match_index = RSTART
+        match_char = substr($0, match_index, RLENGTH)
 
-        if (char == "{") {
-            # 输出当前行之前的内容
-            if (i > 1) {
-                printf "%*s%s\n", indent_level * 4, "", substr($0, 1, i - 1)
-            }
-            # 输出 { 并增加缩进
-            printf "%*s{\n", indent_level * 4, ""
+        if (match_char == "{") {
+            # 输出匹配字符前的内容
+            printf "%*s%s{\n", indent_level * 4, "", substr($0, 1, match_index)
             indent_level++
-            $0 = substr($0, i + 1)
-            i = 0
-        } else if (char == "}") {
-            # 减少缩进并输出 }
+        } else if (match_char == "}") {
             indent_level--
-            printf "%*s}\n", indent_level * 4, ""
-            $0 = substr($0, i + 1)
-            i = 0
+            # 输出匹配字符前的内容，并将 } 保留在当前行
+            printf "%*s%s\n", indent_level * 4, "", substr($0, 1, match_index)
         }
+
+        # 剩余内容继续处理
+        $0 = substr($0, match_index + RLENGTH)
     }
 
-    # 如果剩余行内容不是空，则按照当前缩进输出
+    # 输出剩余行内容
     if ($0 != "") {
         printf "%*s%s\n", indent_level * 4, "", $0
     }

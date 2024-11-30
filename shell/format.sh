@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+# 脚本名称: format.sh
+# 作者: HeQin
+# 最后修改时间: 2024-04-08
+# 描述: 文件缩进格式化(nginx)
+
+set -eu #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 
 # 检查是否提供文件名
 if [ $# -ne 1 ]; then
@@ -37,17 +44,13 @@ BEGIN { indent_level = 0 }
     while (match($0, /[{]|[}]/)) {
         match_index = RSTART
         match_char = substr($0, match_index, RLENGTH)
-
         if (match_char == "{") {
-            # 输出匹配字符前的内容并保留 { 在当前行
-            printf "%*s%s {\n", indent_level * 4, "", substr($0, 1, match_index - 1)
+            printf "%*s%s{\n", indent_level * 4, "", substr($0, 1, match_index - 1)
             indent_level++
         } else if (match_char == "}") {
             indent_level--
-            # 输出匹配字符前的内容并保留 } 在当前行
-            printf "%*s%s\n", indent_level * 4, "", substr($0, 1, match_index - 1) "}"
+            printf "%*s%s}\n", indent_level * 4, "", substr($0, 1, match_index - 1)
         }
-
         # 更新剩余内容
         $0 = substr($0, match_index + RLENGTH)
     }

@@ -92,7 +92,7 @@ disabled = false
 
 [directory]
 #   📂      |
-format = '[ ](bold green)[$path]($style)[$read_only]($read_only_style) '
+format = '[ ](bold blue)[$path]($style)[$read_only]($read_only_style) '
 style = 'bold bright-cyan'
 read_only_style = 'red'
 home_symbol = "~"

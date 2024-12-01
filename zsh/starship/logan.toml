@@ -3,6 +3,9 @@
 format = """
 [╭](fg:current_line)\
 $os\
+$username\
+$hostname\
+[](fg:box)\
 $directory\
 $git_branch\
 $git_status\
@@ -20,9 +23,6 @@ $deno\
 $sudo\
 $time\
 $shell\
-$username\
-$hostname\
-[](fg:box)\
 $line_break\
 $character\
 """
@@ -66,8 +66,6 @@ peach = '#FFB1B1'
 dark = '#31304D'
 gray = '#B7B7B7'
 
-
-
 [os]
 format = '[─](fg:current_line)[](fg:light_pink)[$symbol ](fg:light_primary bg:light_pink)[](fg:light_pink)'
 disabled = true
@@ -105,6 +103,27 @@ SUSE = ''
 Ubuntu = ''
 Unknown = ''
 Windows = ''
+
+[username]
+#[⎪](fg:light_orange bg:box)\
+#         |
+format = """
+[─](fg:current_line)[](fg:light_orange)\
+[ ](bold fg:light_primary bg:light_orange)\
+[ $user]($style)\
+"""
+style_user = 'fg:foreground bg:box'
+style_root = 'bold fg:red bg:box'
+show_always = true
+
+[hostname]
+ssh_only = true #仅在连接到 SSH 会话时显示主机名
+ssh_symbol = '🌐 '
+format = '[([ ](bold fg:other_pink bg:box)$hostname)](fg:foreground bg:box)' # '[$ssh_symbol](bold blue) on [$hostname](bold red) '
+trim_at = '' #第一个匹配之后主机名被截断的字符串; '.'将在第一个点后停止; ''将禁用任何截断
+aliases = { "loganmac.local" = "mac" } #将主机名替换为昵称
+# detect_env_vars = ['!TMUX', 'SSH_CONNECTION'] #隐藏远程 tmux 会话中的主机名
+disabled = false
 
 [directory]
 #   📂 |
@@ -286,27 +305,6 @@ powershell_indicator = 'powershell'
 fish_indicator = 'fish'
 bash_indicator = 'bash'
 zsh_indicator = 'zsh'
-disabled = false
-
-[username]
-#[⎪](fg:light_orange bg:box)\
-#         |
-format = """
-[─](fg:current_line)[](fg:light_orange)\
-[ ](bold fg:light_primary bg:light_orange)\
-[ $user]($style)\
-"""
-style_user = 'fg:foreground bg:box'
-style_root = 'bold fg:red bg:box'
-show_always = true
-
-[hostname]
-ssh_only = true #仅在连接到 SSH 会话时显示主机名
-ssh_symbol = '🌐 '
-format = '[([ ](bold fg:other_pink bg:box)$hostname)](fg:foreground bg:box)' # '[$ssh_symbol](bold blue) on [$hostname](bold red) '
-trim_at = '' #第一个匹配之后主机名被截断的字符串; '.'将在第一个点后停止; ''将禁用任何截断
-aliases = { "loganmac.local" = "mac" } #将主机名替换为昵称
-# detect_env_vars = ['!TMUX', 'SSH_CONNECTION'] #隐藏远程 tmux 会话中的主机名
 disabled = false
 
 [character]

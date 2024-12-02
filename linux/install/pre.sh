@@ -131,11 +131,13 @@ EOF
 }
 software_config
 for_sure "Is That Right ? (y/n):"
-apt update && apt upgrade
+apt update -y
+notice "update success!\n"
+apt upgrade -y
 notice "upgrade success!\n"
-apt autoremove
+apt autoremove -y
 notice "autoremove success!\n"
-apt autoclean
+apt autoclean -y
 notice "autoclean success!\n"
 
 # 网络配置
@@ -233,7 +235,7 @@ for_sure "Is That Right ? (y/n):"
 systemctl restart networking.service
 ip addr
 for_sure "Is That Right ? (y/n):"
-apt install resolvconf
+apt install -y resolvconf
 systemctl restart networking.service
 systemctl restart resolvconf.service
 resolvconf -u
@@ -254,7 +256,7 @@ locale
 locale -a
 
 for_sure "Next Step : Install sudo  ? (y/n):"
-apt update && apt-get update && apt install sudo
+apt update -y && apt install -y sudo
 user_name=""
 notice "Make 'helq' support sudo ?" " (y/n):"
 read -r choice </dev/tty

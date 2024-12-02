@@ -118,35 +118,6 @@ sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
 source "$HOME/.zshrc" || true
 _log_end
 
-# git 私钥
-_log_start "git private key"
-github_key_url=""
-notice "Need To Download Github Private Key ?" " (y/n):"
-read -r choice1 </dev/tty
-if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
-    notice "Use 'http://192.168.0.101:18080/loganoxo-GitHub' ? " " (y/n):"
-    read -r choice2 </dev/tty
-    if [ "$choice2" = "y" ] || [ "$choice2" = "Y" ]; then
-        github_key_url="http://192.168.0.101:18080/loganoxo-GitHub"
-    else
-        notice "Please Input The github_key_url .\n"
-        echo -n "Input github_key_url:"
-        read -r github_key_url </dev/tty
-        if [ -z "$github_key_url" ]; then
-            echo "Operation cancelled. Script stopped."
-            exit 1 #脚本停止
-        fi
-        for_sure "Use '$github_key_url' ?" " (y/n):"
-    fi
-    wget -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
-    # 权限太宽泛会有问题
-    chmod 600 "$HOME/.ssh/loganoxo-GitHub"
-    set +e
-    ssh -T git@github.com || true
-    set -e
-fi
-_log_end
-
 # 安装必备工具
 function _install_system_tools() {
     _log_start "_install_system_tools"
@@ -686,6 +657,35 @@ EOF
     _log_end
 }
 
+function _git_private() {
+    # git 私钥
+    _log_start "git private key"
+    github_key_url=""
+    notice "Need To Download Github Private Key ?" " (y/n):"
+    read -r choice1 </dev/tty
+    if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
+        notice "Use 'http://192.168.0.101:18080/loganoxo-GitHub' ? " " (y/n):"
+        read -r choice2 </dev/tty
+        if [ "$choice2" = "y" ] || [ "$choice2" = "Y" ]; then
+            github_key_url="http://192.168.0.101:18080/loganoxo-GitHub"
+        else
+            notice "Please Input The github_key_url .\n"
+            echo -n "Input github_key_url:"
+            read -r github_key_url </dev/tty
+            if [ -z "$github_key_url" ]; then
+                echo "Operation cancelled. Script stopped."
+                exit 1 #脚本停止
+            fi
+            for_sure "Use '$github_key_url' ?" " (y/n):"
+        fi
+        wget -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
+        # 权限太宽泛会有问题
+        chmod 600 "$HOME/.ssh/loganoxo-GitHub"
+        ssh -T git@github.com || true
+    fi
+    _log_end
+}
+
 function _install_end() {
     _log_start "_install_end"
     rm -rf ~/Data/Config
@@ -699,4 +699,5 @@ _install_file_server  # 安装 文件上传下载服务-dufs-filebrowser
 _enable_sftp          # 开启 SFTP 服务
 _enable_FTP           # 安装 FTP 服务
 _install_end          # 重新下载 Config
+_git_private          # git 私钥
 notice "All Done....... \n"

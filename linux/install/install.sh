@@ -168,7 +168,11 @@ function _install_CLI_tools() {
     # sudo apt install -y fzf #版本太低了
     mkdir -p ~/software
     git clone https://github.com/junegunn/fzf.git ~/software/fzf
-    wget --tries=10 --waitretry=10 -P "$HOME/software/fzf/" https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
+    # wget --tries=10 --waitretry=10 -P "$HOME/software/fzf/" https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
+    curl --retry 10 --retry-all-errors --retry-delay 10 \
+        -fSLo "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz" \
+        https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
+
     tar -xzf ~/software/fzf/fzf-0.56.3-linux_arm64.tar.gz -C ~/software/fzf
     ln -sf ~/software/fzf/fzf ~/.local/bin/fzf
 
@@ -272,7 +276,10 @@ function _install_CLI_tools() {
 
     # glow
     mkdir -p ~/software
-    wget --tries=10 --waitretry=10 -P "$HOME/software" https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
+    #    wget --tries=10 --waitretry=10 -P "$HOME/software" https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
+    curl --retry 10 --retry-all-errors --retry-delay 10 \
+        -fSLo "$HOME/software/glow_2.0.0_Linux_arm64.tar.gz" \
+        https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
     tar xvzf ~/software/glow_2.0.0_Linux_arm64.tar.gz -C "$HOME/software/"
     mv ~/software/glow_2.0.0_Linux_arm64 ~/software/glow
     ln -s ~/software/glow/glow ~/.local/bin/glow
@@ -307,7 +314,10 @@ function _install_CLI_tools() {
 
     # 安装miniconda  linux 静默安装
     mkdir -p ~/Temp
-    wget --tries=10 --waitretry=10 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -O ~/Temp/miniconda.sh
+    #    wget --tries=10 --waitretry=10 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -O ~/Temp/miniconda.sh
+    curl --retry 10 --retry-all-errors --retry-delay 10 \
+        -fSLo "$HOME/Temp/miniconda.sh" \
+        https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
     bash ~/Temp/miniconda.sh -b -u -p ~/.miniconda3 # -b:不对 shell 脚本进行 PATH 修改,以非交互模式（静默模式）运行安装; -u:如果指定的安装路径（通过 -p）已有 Miniconda 安装，它会更新而不是报错或覆盖安装; -p: 指定安装路径
     rm ~/Temp/miniconda.sh
     source "$HOME/.bashrc" || true
@@ -673,6 +683,11 @@ EOF
     sleep 1
 }
 
+# url中提取文件名
+function _extract_filename() {
+    echo "$1" | sed -E 's|^.+//.+/([^/?#]+)(\?.*)?(#.*)?$|\1|; t; s|.*||'
+}
+
 function _git_private() {
     # git 私钥
     _log_start "git private key"
@@ -694,9 +709,14 @@ function _git_private() {
             fi
             for_sure "Use '$github_key_url' ?" " (y/n):"
         fi
-        wget --tries=10 --waitretry=10 -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
+        filename=$(_extract_filename "$github_key_url")
+        #        wget --tries=10 --waitretry=10 -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
+
+        curl --retry 10 --retry-all-errors --retry-delay 10 \
+            -fSLo "$HOME/.ssh/$filename" "$github_key_url"
+
         # 权限太宽泛会有问题
-        chmod 600 "$HOME/.ssh/loganoxo-GitHub"
+        chmod 600 "$HOME/.ssh/$filename"
         # ssh -T git@github.com || true
     fi
     _log_end

@@ -51,6 +51,9 @@ function judge() {
     fi
 }
 
+# 预先判断
+judge
+
 function for_sure() {
     local choice
     echo -n "$1"
@@ -64,12 +67,13 @@ function for_sure() {
     esac
 }
 
-# 预先判断
-judge
+function notice() {
+    echo -en "\033[31m $1. \033[0m $2"
+}
 
 # 软件源配置
 function show_software_config() {
-    echo -e "\033[31m current sources :  \033[0m \n"
+    notice "current sources: \n"
     cat /etc/apt/sources.list
 }
 function software_config() {
@@ -118,7 +122,7 @@ deb-src http://deb.debian.org/debian $version-updates main contrib non-free$dyna
 # deb http://deb.debian.org/debian $version-backports main contrib non-free$dynamic
 # deb-src http://deb.debian.org/debian $version-backports main contrib non-free$dynamic
 EOF
-    echo -e "\033[31m reconfigure success !  \033[0m \n"
+    notice " reconfigure success! \n"
     show_software_config
 }
 software_config
@@ -126,9 +130,9 @@ apt update && apt-get update && apt upgrade && apt autoremove && apt autoclean
 
 # 网络配置
 function show_network_config() {
-    echo -e "\033[31m current interfaces :  \033[0m \n"
+    notice " current interfaces: \n"
     cat /etc/network/interfaces
-    echo -e "\033[31m current resolv.conf :  \033[0m \n"
+    notice " current resolv.conf: \n"
     cat /etc/resolv.conf
 }
 
@@ -148,7 +152,7 @@ function network_config() {
     local static_ip=""
     local gateway_ip=""
     local interface=""
-    echo -e "\033[31m Please Input The Static Ip.  \033[0m \n"
+    notice " Please Input The Static Ip. \n"
     echo -n "Input Static Ip:"
     read -r static_ip </dev/tty
     if [ -z "$static_ip" ]; then
@@ -158,12 +162,12 @@ function network_config() {
     ip_correct "$static_ip"
     for_sure "Are you sure you want to reconfigure address to '$static_ip' ? (y/n):"
 
-    echo -en "\033[31m Use '172.16.106.2' For Gateway Ip ?  \033[0m (y/n): "
+    notice "Use '172.16.106.2' For Gateway Ip ?" " (y/n):"
     read -r choice1 </dev/tty
     if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
         gateway_ip="172.16.106.2"
     else
-        echo -e "\033[31m Please Input The Gateway Ip.  \033[0m \n"
+        notice "Please Input The Gateway Ip.\n"
         echo -n "Input Gateway Ip:"
         read -r gateway_ip </dev/tty
         if [ -z "$gateway_ip" ]; then
@@ -174,12 +178,12 @@ function network_config() {
     ip_correct "$gateway_ip"
     for_sure "Are you sure you want to reconfigure gateway to '$gateway_ip' ? (y/n):"
 
-    echo -en "\033[31m Use 'ens160' For Interface ?  \033[0m (y/n): "
+    notice "Use 'ens160' For Interface ?" " (y/n):"
     read -r choice2 </dev/tty
     if [ "$choice2" = "y" ] || [ "$choice2" = "Y" ]; then
         interface="ens160"
     else
-        echo -e "\033[31m Please Input The Interface.  \033[0m \n"
+        notice "Please Input The Interface."
         echo -n "Input Interface:"
         read -r interface </dev/tty
         if [ -z "$interface" ]; then
@@ -211,7 +215,7 @@ iface $interface inet static
     gateway $gateway_ip
     dns-nameservers 223.5.5.5 119.29.29.29 8.8.8.8
 EOF
-    echo -e "\033[31m reconfigure success !  \033[0m \n"
+    notice "reconfigure success! \n"
     show_network_config
 }
 network_config
@@ -223,7 +227,7 @@ systemctl restart networking.service
 systemctl restart resolvconf.service
 resolvconf -u
 systemctl status resolvconf.service
-echo -e "\033[31m current resolv.conf :  \033[0m \n"
+notice "current resolv.conf:\n"
 cat /etc/resolv.conf
 for_sure "Is That Right ? (y/n):"
 ping -c 5 www.baidu.com
@@ -232,4 +236,29 @@ dig www.baidu.com
 for_sure "Is That Right ? (y/n):"
 nslookup -debug www.baidu.com
 for_sure "Is That Right ? (y/n):"
-echo -e "\033[31m May be need reboot. \033[0m \n"
+
+for_sure "Next Step : Language Config  ? (y/n):"
+dpkg-reconfigure locales
+locale
+locale -a
+
+for_sure "Next Step : Install sudo  ? (y/n):"
+apt update && apt-get update && apt install sudo
+user_name=""
+notice "Make 'helq' support sudo ?" " (y/n):"
+read -r choice </dev/tty
+if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
+    user_name="helq"
+else
+    notice "Please Input The UserName.\n"
+    echo -n "Input UserName:"
+    read -r user_name </dev/tty
+    if [ -z "$user_name" ]; then
+        echo "Operation cancelled. Script stopped."
+        exit 1 #脚本停止
+    fi
+fi
+
+/usr/sbin/usermod -aG sudo "$user_name"
+groups "$user_name"
+notice "May be need reboot.\n"

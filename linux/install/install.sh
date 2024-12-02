@@ -97,14 +97,14 @@ git --version
 
 # 安装shell插件
 _log_start "Install shel plugin"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL --retry 10 --retry-all-errors --retry-delay 10 https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 rm -f ~/.zshrc.pre-oh-my-zsh
 # 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended
+bash -c "$(curl -fsSL --retry 10 --retry-all-errors --retry-delay 10 https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended
 rm -f ~/.bashrc.omb-backup-*
-curl -sS https://starship.rs/install.sh | sh -s -- -y
+curl -sS --retry 10 --retry-all-errors --retry-delay 10 https://starship.rs/install.sh | sh -s -- -y
 _log_end
 
 # 环境搭建
@@ -152,7 +152,7 @@ function _install_system_tools() {
     sudo apt install -y golang-go
     go version
     _log_end
-    sleep 1
+    sleep 3
 }
 
 # 安装 命令行工具
@@ -168,7 +168,7 @@ function _install_CLI_tools() {
     # sudo apt install -y fzf #版本太低了
     mkdir -p ~/software
     git clone https://github.com/junegunn/fzf.git ~/software/fzf
-    wget -P "$HOME/software/fzf/" https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
+    wget --tries=10 --waitretry=10 -P "$HOME/software/fzf/" https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
     tar -xzf ~/software/fzf/fzf-0.56.3-linux_arm64.tar.gz -C ~/software/fzf
     ln -sf ~/software/fzf/fzf ~/.local/bin/fzf
 
@@ -178,12 +178,12 @@ function _install_CLI_tools() {
 
     # 安装zoxide
     mkdir -p ~/.zoxide
-    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+    curl -sSfL --retry 10 --retry-all-errors --retry-delay 10 https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
     # 安装vim
     mkdir -p ~/.undodir ~/.vim
     sudo apt install -y vim
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    curl -fSLo --retry 10 --retry-all-errors --retry-delay 10 ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # 测试 :PlugStatus :PlugInstall  :PlugClean
     vim -c ':PlugInstall' -c ':qa!'
@@ -196,7 +196,7 @@ function _install_CLI_tools() {
     sleep 0.5
 
     # 安装sdkman
-    curl -s "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
+    curl -sSfL --retry 10 --retry-all-errors --retry-delay 10 "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
     source "$HOME/.bashrc" || true
     sdk version
     sdk install java 8.0.432.fx-zulu
@@ -216,7 +216,7 @@ function _install_CLI_tools() {
     # java -XshowSettings:properties -version #查看安装的jdk详细版本信息
 
     # 安装fnm
-    curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
+    curl -sSfL --retry 10 --retry-all-errors --retry-delay 10 https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
     ln -s ~/.local/share/fnm/fnm ~/.local/bin/fnm
     source "$HOME/.bashrc" || true
     fnm -V               #查看fnm的版本
@@ -250,7 +250,7 @@ function _install_CLI_tools() {
     # fnm unalias lts
 
     # 安装rust
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 -sSf --retry 10 --retry-all-errors --retry-delay 10 https://sh.rustup.rs | sh
     source "$HOME/.bashrc" || true
     rustc --version
 
@@ -271,7 +271,7 @@ function _install_CLI_tools() {
 
     # glow
     mkdir -p ~/software
-    wget -P "$HOME/software" https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
+    wget --tries=10 --waitretry=10 -P "$HOME/software" https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
     tar xvzf ~/software/glow_2.0.0_Linux_arm64.tar.gz -C "$HOME/software/"
     mv ~/software/glow_2.0.0_Linux_arm64 ~/software/glow
     ln -s ~/software/glow/glow ~/.local/bin/glow
@@ -289,7 +289,7 @@ function _install_CLI_tools() {
     # uv 包含了 pipx 的功能  https://docs.astral.sh/uv/
     # 默认是managed: 最先找uv管理的python,其次找系统python(若此时在conda的某个环境中,conda该环境的python也会被找到),最后才下载;only-managed:只找uv管理的python,没有则下载;
     # # 安装选项:https://docs.astral.sh/uv/configuration/installer/#disabling-shell-modifications
-    curl -LsSf https://astral.sh/uv/install.sh | sh # 默认在 ~/.local/share/uv/
+    curl -LsSf --retry 10 --retry-all-errors --retry-delay 10 https://astral.sh/uv/install.sh | sh # 默认在 ~/.local/share/uv/
     source "$HOME/.bashrc" || true
     export UV_PYTHON_PREFERENCE="only-managed"
     # uv python list
@@ -306,7 +306,7 @@ function _install_CLI_tools() {
 
     # 安装miniconda  linux 静默安装
     mkdir -p ~/Temp
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -O ~/Temp/miniconda.sh
+    wget --tries=10 --waitretry=10 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -O ~/Temp/miniconda.sh
     bash ~/Temp/miniconda.sh -b -u -p ~/.miniconda3 # -b:不对 shell 脚本进行 PATH 修改,以非交互模式（静默模式）运行安装; -u:如果指定的安装路径（通过 -p）已有 Miniconda 安装，它会更新而不是报错或覆盖安装; -p: 指定安装路径
     rm ~/Temp/miniconda.sh
     source "$HOME/.bashrc" || true
@@ -360,7 +360,7 @@ function _install_CLI_tools() {
     # Add Docker's official GPG key:
     sudo apt-get update -y && sudo apt-get install -y ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    sudo curl -fsSL --retry 10 --retry-all-errors --retry-delay 10 https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
 
     # Add the repository to Apt sources:
@@ -693,7 +693,7 @@ function _git_private() {
             fi
             for_sure "Use '$github_key_url' ?" " (y/n):"
         fi
-        wget -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
+        wget --tries=10 --waitretry=10 -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
         # 权限太宽泛会有问题
         chmod 600 "$HOME/.ssh/loganoxo-GitHub"
         # ssh -T git@github.com || true

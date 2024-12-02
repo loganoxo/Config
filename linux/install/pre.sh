@@ -158,12 +158,11 @@ function ip_correct() {
         exit 1
     fi
 }
-
+static_ip=""
 function network_config() {
     show_network_config
     for_sure "Are you sure you want to reconfigure ? (y/n):"
 
-    local static_ip=""
     local gateway_ip=""
     local interface=""
     notice "Please Input The Static Ip. \n"
@@ -245,17 +244,15 @@ resolvconf -u
 systemctl status resolvconf.service
 notice "current resolv.conf:\n"
 cat /etc/resolv.conf
-for_sure "Is That Right ? (y/n):"
 ping -c 5 www.baidu.com
-for_sure "Is That Right ? (y/n):"
 dig www.baidu.com
-for_sure "Is That Right ? (y/n):"
 nslookup -debug www.baidu.com
-for_sure "Is That Right ? (y/n):"
 
 for_sure "Next Step : Language Config  ? (y/n):"
 dpkg-reconfigure locales
+notice "locale : \n"
 locale
+notice "locale -a : \n"
 locale -a
 
 for_sure "Next Step : Install sudo  ? (y/n):"
@@ -278,4 +275,19 @@ fi
 
 /usr/sbin/usermod -aG sudo "$user_name"
 groups "$user_name"
+echo "######################################################"
+notice "new static ip is: \n"
+notice "ssh $user_name@$static_ip\n"
+echo "######################################################"
 notice "May be need reboot.\n"
+notice "May be need test after reboot.\n"
+echo "######################################################"
+notice "cat /etc/network/interfaces\n"
+notice "cat /etc/resolv.conf\n"
+notice "systemctl status resolvconf.service\n"
+notice "ping -c 5 www.baidu.com\n"
+notice "dig www.baidu.com\n"
+notice "nslookup -debug www.baidu.com\n"
+notice "locale\n"
+notice "locale -a\n"
+notice "sudo echo 'aaa'\n"

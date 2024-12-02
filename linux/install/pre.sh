@@ -4,7 +4,7 @@
 # 作者: HeQin
 # 最后修改时间: 2024-04-08
 # 描述: linux装机前置脚本; 包括软件源的配置、网络静态IP和DNS等
-# 使用: 1.用wget(debian默认安装)        su -c 'wget -O- https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh | bash'
+# 使用: 1.用wget(debian默认安装)        su -c 'wget -q -O- https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh | bash -s -- run'
 # 2.用curl(debian等linux可能没有预装)   su -c 'curl -fsSL https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh | bash'
 # 也可以放在nginx中
 
@@ -56,7 +56,8 @@ judge
 function software_config() {
     echo -e "\033[31m 当前软件源配置为:  \033[0m \n"
     cat /etc/apt/sources.list
-    read -rp "确定要重新配置吗? (y/n): " choice1
+    echo -n "确定要重新配置吗? (y/n): "
+    read -r choice1 < /dev/tty
     case "$choice1" in
     y | Y) ;;
     *)
@@ -72,7 +73,7 @@ function software_config() {
     str3="\033[31m[ 3 ] Exit. \033[0m \n"
     echo -e "$str0$str1$str2$str3"
     echo -n "Input your choice :"
-    read -r choice2
+    read -r choice2 < /dev/tty
     case "$choice2" in
     1) version="bullseye" ;;
     2) version="bookworm" ;;

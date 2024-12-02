@@ -100,9 +100,9 @@ _log_start "Install shel plugin"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-rm ~/.zshrc.pre-oh-my-zsh
+rm -f ~/.zshrc.pre-oh-my-zsh
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
-rm ~/.bashrc.omb-backup-*
+rm -f ~/.bashrc.omb-backup-*
 curl -sS https://starship.rs/install.sh | sh
 _log_end
 
@@ -394,8 +394,8 @@ function _install_CLI_tools() {
     # 创建一个名为`docker`的 Unix 组并向其中添加用户。当 Docker 守护进程启动时，它会创建一个可供`docker`组成员访问的 Unix 套接字
     sudo groupadd docker || true  # 创建`docker`组
     sudo usermod -aG docker $USER # 将您的用户添加到`docker`组
-    # sudo reboot                   # 注销并重新登录，以便重新评估您的组成员身份
-    newgrp docker                   # 或者执行这条命令也可以立即切换到新组
+    newgrp docker                 # 执行这条命令也可以立即切换到新组
+    # sudo reboot                   # 或者注销并重新登录，以便重新评估您的组成员身份
     # docker run hello-world        # 验证您是否可以在没有`sudo`情况下运行`docker`命令
     # 如果在分配用户组之前 用sudo权限 执行过 docker CLI 中的如 docker login 这类命令, 会创建 ~/.docker 目录;
     # 在上述的情况下, 分配用户组后, 用普通用户直接执行 docker 命令, 有可能会报错, 因为 ~/.docker 的权限是 root 用户的; 报错信息可能为:
@@ -681,9 +681,17 @@ EOF
     _log_end
 }
 
+function _install_end() {
+    _log_start "_install_end"
+    rm -rf ~/Data/Config
+    git clone https://github.com/loganoxo/Config.git ~/Data/Config
+    _log_end
+}
+
 _install_system_tools # 安装必备工具
 _install_CLI_tools    # 安装 命令行工具
 _install_file_server  # 安装 文件上传下载服务-dufs-filebrowser
 _enable_sftp          # 开启 SFTP 服务
 _enable_FTP           # 安装 FTP 服务
+_install_end          # 重新下载 Config
 notice "All Done....... \n"

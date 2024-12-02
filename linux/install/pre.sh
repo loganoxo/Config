@@ -313,7 +313,7 @@ notice "install zsh success\n"
 _log_end
 
 # 安装一些必备软件
-apt install -y net-tools build-essential openssh-server curl unzip zip tree
+apt install -y net-tools build-essential openssh-server curl unzip zip tree cmake
 
 # 允许root直接登录
 echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config >/dev/null

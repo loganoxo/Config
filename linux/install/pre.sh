@@ -3,7 +3,7 @@
 # 脚本名称: batch_rename.sh
 # 作者: HeQin
 # 最后修改时间: 2024-04-08
-# 描述: linux装机前置脚本; 包括软件源的配置、网络静态IP和DNS等
+# 描述: linux装机前置脚本; 包括软件源的配置、网络静态IP、DNS、sudo等
 # 使用: 1.用wget(debian默认安装)
 # su -c 'wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
 # 2.用curl(debian等linux可能没有预装)

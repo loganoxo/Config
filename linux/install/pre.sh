@@ -80,6 +80,7 @@ function show_software_config() {
     notice "current sources: \n"
     cat /etc/apt/sources.list
 }
+
 function software_config() {
     show_software_config
     for_sure "Are you sure you want to reconfigure ? (y/n):"
@@ -129,6 +130,7 @@ EOF
     notice "reconfigure success! \n"
     show_software_config
 }
+
 software_config
 for_sure "Is That Right ? (y/n):"
 apt update -y
@@ -142,9 +144,9 @@ notice "autoclean success!\n"
 
 # 网络配置
 function show_network_config() {
-    notice " current interfaces: \n"
+    notice "current interfaces: \n"
     cat /etc/network/interfaces
-    notice " current resolv.conf: \n"
+    notice "current resolv.conf: \n"
     cat /etc/resolv.conf
 }
 
@@ -164,7 +166,7 @@ function network_config() {
     local static_ip=""
     local gateway_ip=""
     local interface=""
-    notice " Please Input The Static Ip. \n"
+    notice "Please Input The Static Ip. \n"
     echo -n "Input Static Ip:"
     read -r static_ip </dev/tty
     if [ -z "$static_ip" ]; then
@@ -186,9 +188,9 @@ function network_config() {
             echo "Operation cancelled. Script stopped."
             exit 1 #脚本停止
         fi
+        for_sure "Are you sure you want to reconfigure gateway to '$gateway_ip' ? (y/n):"
     fi
     ip_correct "$gateway_ip"
-    for_sure "Are you sure you want to reconfigure gateway to '$gateway_ip' ? (y/n):"
 
     notice "Use 'ens160' For Interface ?" " (y/n):"
     read -r choice2 </dev/tty
@@ -202,9 +204,8 @@ function network_config() {
             echo "Operation cancelled. Script stopped."
             exit 1 #脚本停止
         fi
+        for_sure "Are you sure you want to reconfigure interface to '$interface' ? (y/n):"
     fi
-
-    for_sure "Are you sure you want to reconfigure interface to '$interface' ? (y/n):"
 
     cp /etc/network/interfaces "/etc/network/interfaces-$(date +%s).bak"
     cat >/etc/network/interfaces <<EOF
@@ -230,13 +231,15 @@ EOF
     notice "reconfigure success! \n"
     show_network_config
 }
+
 network_config
 for_sure "Is That Right ? (y/n):"
-systemctl restart networking.service
-ip addr
-for_sure "Is That Right ? (y/n):"
+# systemctl restart networking.service
+# ip addr
+# for_sure "Is That Right ? (y/n):"
 apt install -y resolvconf
-systemctl restart networking.service
+notice "install resolvconf success\n"
+# systemctl restart networking.service
 systemctl restart resolvconf.service
 resolvconf -u
 systemctl status resolvconf.service
@@ -270,6 +273,7 @@ else
         echo "Operation cancelled. Script stopped."
         exit 1 #脚本停止
     fi
+    for_sure "Make '$user_name' support sudo ?" " (y/n):"
 fi
 
 /usr/sbin/usermod -aG sudo "$user_name"

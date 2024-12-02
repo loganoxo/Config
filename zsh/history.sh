@@ -73,10 +73,12 @@ function _my_history_for_bash() {
     fi
 
     # 用上下箭头就可以根据已经输入的内容来查找匹配的历史命令
-    bind '"\e[A": history-search-backward'
-    bind '"\e[B": history-search-forward'
-    bind '"\e[C": forward-char'
-    bind '"\e[D": backward-char'
+    if [[ $- == *i* ]]; then
+        bind '"\e[A": history-search-backward'
+        bind '"\e[B": history-search-forward'
+        bind '"\e[C": forward-char'
+        bind '"\e[D": backward-char'
+    fi
 
     # 日期格式,重复配置
     case $HIST_STAMPS in

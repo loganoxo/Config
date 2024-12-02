@@ -14,12 +14,19 @@ fi
 # uv python管理工具
 export UV_PYTHON_PREFERENCE="only-managed"
 # uv 命令补全
-if _logan_if_zsh; then
-    eval "$(uv generate-shell-completion zsh)"
-    eval "$(uvx --generate-shell-completion zsh)"
-elif _logan_if_bash; then
-    eval "$(uv generate-shell-completion bash)"
-    eval "$(uvx --generate-shell-completion bash)"
+if _logan_if_command_exist "uv"; then
+    if _logan_if_zsh; then
+        eval "$(uv generate-shell-completion zsh)"
+    elif _logan_if_bash; then
+        eval "$(uv generate-shell-completion bash)"
+    fi
+fi
+if _logan_if_command_exist "uvx"; then
+    if _logan_if_zsh; then
+        eval "$(uvx --generate-shell-completion zsh)"
+    elif _logan_if_bash; then
+        eval "$(uvx --generate-shell-completion bash)"
+    fi
 fi
 
 ############################### 防止被覆盖的 alias 配置 ###################################

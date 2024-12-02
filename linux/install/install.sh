@@ -141,7 +141,9 @@ if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
     wget -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
     # 权限太宽泛会有问题
     chmod 600 "$HOME/.ssh/loganoxo-GitHub"
+    set +e
     ssh -T git@github.com || true
+    set -e
 fi
 _log_end
 

@@ -88,20 +88,21 @@ function software_config() {
     local version=""
     local dynamic=""
     str0="\033[31m Configure official software sources: Choose the Debian version  \033[0m \n"
-    str1="\033[31m[ 1 ] debian11 (bullseye) \033[0m \n"
-    str2="\033[31m[ 2 ] debian12 (bookworm) \033[0m \n"
+    str1="\033[31m[ 1 ] debian12 (bookworm) \033[0m \n"
+    str2="\033[31m[ 2 ] debian11 (bullseye) \033[0m \n"
     str3="\033[31m[ 3 ] Exit. \033[0m \n"
     echo -e "$str0$str1$str2$str3"
     echo -n "Input your choice :"
     read -r choice </dev/tty
     case "$choice" in
     1)
-        version="bullseye"
-        dynamic=""
-        ;;
-    2)
         version="bookworm"
         dynamic=" non-free-firmware"
+
+        ;;
+    2)
+        version="bullseye"
+        dynamic=""
         ;;
     *)
         echo "Operation cancelled. Script stopped."

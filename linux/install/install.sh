@@ -111,7 +111,9 @@ _log_end
 _log_start "Environment construction"
 mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~/.config/navi ~/.zoxide ~/.undodir ~/.vim ~/Temp ~/share
 git clone https://github.com/loganoxo/Config.git ~/Data/Config
-mv ~/.bashrc ~/.shell_bak/ && mv ~/.profile ~/.shell_bak/ && mv ~/.zshrc ~/.shell_bak/
+mv ~/.bashrc ~/.shell_bak/ || true
+mv ~/.profile ~/.shell_bak/ || true
+mv ~/.zshrc ~/.shell_bak/ || true
 bash ~/Data/Config/my-ln.sh
 sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
 sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc

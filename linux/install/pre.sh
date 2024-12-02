@@ -222,7 +222,7 @@ EOF
 judge
 software_config
 for_sure "Is That Right ? (y/n):"
-apt update -y
+apt update -y && apt-get update -y
 notice "update success!\n"
 apt upgrade -y
 notice "upgrade success!\n"
@@ -278,7 +278,9 @@ notice "install sudo success\n"
 
 apt install -y zsh
 zsh --version
-sudo chsh -s "$(which zsh)"
+chsh -s "$(which zsh)"
+notice "change zsh for common user\n"
+su - "$user_name" -c 'chsh -s "$(which zsh)"'
 notice "install zsh success\n"
 
 # 安装一些必备软件

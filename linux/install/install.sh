@@ -97,14 +97,14 @@ git --version
 
 # 安装shell插件
 _log_start "Install shel plugin"
-sh -c "$(curl -fsSL --retry 10 --retry-all-errors --retry-delay 10 https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 rm -f ~/.zshrc.pre-oh-my-zsh
 # 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
-bash -c "$(curl -fsSL --retry 10 --retry-all-errors --retry-delay 10 https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended
+bash -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended
 rm -f ~/.bashrc.omb-backup-*
-curl -sS --retry 10 --retry-all-errors --retry-delay 10 https://starship.rs/install.sh | sh -s -- -y
+curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
 _log_end
 
 # 环境搭建
@@ -178,12 +178,13 @@ function _install_CLI_tools() {
 
     # 安装zoxide
     mkdir -p ~/.zoxide
-    curl -sSfL --retry 10 --retry-all-errors --retry-delay 10 https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
     # 安装vim
     mkdir -p ~/.undodir ~/.vim
     sudo apt install -y vim
-    curl -fSLo --retry 10 --retry-all-errors --retry-delay 10 ~/.vim/autoload/plug.vim --create-dirs \
+    curl --retry 10 --retry-all-errors --retry-delay 10 --create-dirs \
+        -fSLo ~/.vim/autoload/plug.vim \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # 测试 :PlugStatus :PlugInstall  :PlugClean
     vim -c ':PlugInstall' -c ':qa!'
@@ -196,7 +197,7 @@ function _install_CLI_tools() {
     sleep 0.5
 
     # 安装sdkman
-    curl -sSfL --retry 10 --retry-all-errors --retry-delay 10 "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
+    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
     source "$HOME/.bashrc" || true
     sdk version
     sdk install java 8.0.432.fx-zulu
@@ -216,7 +217,7 @@ function _install_CLI_tools() {
     # java -XshowSettings:properties -version #查看安装的jdk详细版本信息
 
     # 安装fnm
-    curl -sSfL --retry 10 --retry-all-errors --retry-delay 10 https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
+    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
     ln -s ~/.local/share/fnm/fnm ~/.local/bin/fnm
     source "$HOME/.bashrc" || true
     fnm -V               #查看fnm的版本
@@ -250,7 +251,7 @@ function _install_CLI_tools() {
     # fnm unalias lts
 
     # 安装rust
-    curl --proto '=https' --tlsv1.2 -sSf --retry 10 --retry-all-errors --retry-delay 10 https://sh.rustup.rs | sh
+    curl --retry 10 --retry-all-errors --retry-delay 10 --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     source "$HOME/.bashrc" || true
     rustc --version
 
@@ -289,7 +290,7 @@ function _install_CLI_tools() {
     # uv 包含了 pipx 的功能  https://docs.astral.sh/uv/
     # 默认是managed: 最先找uv管理的python,其次找系统python(若此时在conda的某个环境中,conda该环境的python也会被找到),最后才下载;only-managed:只找uv管理的python,没有则下载;
     # # 安装选项:https://docs.astral.sh/uv/configuration/installer/#disabling-shell-modifications
-    curl -LsSf --retry 10 --retry-all-errors --retry-delay 10 https://astral.sh/uv/install.sh | sh # 默认在 ~/.local/share/uv/
+    curl --retry 10 --retry-all-errors --retry-delay 10 -LsSf https://astral.sh/uv/install.sh | sh # 默认在 ~/.local/share/uv/
     source "$HOME/.bashrc" || true
     export UV_PYTHON_PREFERENCE="only-managed"
     # uv python list
@@ -360,7 +361,7 @@ function _install_CLI_tools() {
     # Add Docker's official GPG key:
     sudo apt-get update -y && sudo apt-get install -y ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL --retry 10 --retry-all-errors --retry-delay 10 https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    sudo curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
 
     # Add the repository to Apt sources:

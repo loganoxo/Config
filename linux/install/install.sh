@@ -700,6 +700,6 @@ _install_CLI_tools    # 安装 命令行工具
 _install_file_server  # 安装 文件上传下载服务-dufs-filebrowser
 _enable_sftp          # 开启 SFTP 服务
 _enable_FTP           # 安装 FTP 服务
-_install_end          # 重新下载 Config
 _git_private          # git 私钥
+_install_end          # 重新下载 Config
 notice "All Done....... \n"

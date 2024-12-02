@@ -38,6 +38,7 @@ function _logan_if_linux() {
 }
 
 function judge() {
+    _log_start "judge"
     if [ -z "$flag" ]; then
         echo "only run in zsh"
         exit 1
@@ -52,6 +53,7 @@ function judge() {
         echo "only support linux"
         exit 1
     fi
+    _log_end
 }
 
 function for_sure() {
@@ -71,6 +73,18 @@ function notice() {
     echo -en "\033[31m$1\033[0m$2"
 }
 
+function _log_start() {
+    title=""
+    if [ -n "$1" ]; then
+        title="     $1     "
+    fi
+    echo -en "\033[31m###################$title#####################################################################3\033[0m\n"
+}
+
+function _log_end() {
+    echo -en "\033[31m#############################################################################################\033[0m\n\n"
+}
+
 # 预先判断
 judge
 sudo apt update -y
@@ -83,6 +97,7 @@ sudo apt install -y git
 git --version
 
 # 安装shell插件
+_log_start "Install shel plugin"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -90,9 +105,10 @@ rm ~/.zshrc.pre-oh-my-zsh
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
 rm ~/.bashrc.omb-backup-*
 curl -sS https://starship.rs/install.sh | sh
+_log_end
 
 # 环境搭建
-cd ~
+_log_start "Environment construction"
 mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~/.config/navi ~/.zoxide ~/.undodir ~/.vim ~/Temp ~/share
 git clone https://github.com/loganoxo/Config.git ~/Data/Config
 mv ~/.bashrc ~/.shell_bak/ && mv ~/.profile ~/.shell_bak/ && mv ~/.zshrc ~/.shell_bak/
@@ -100,8 +116,10 @@ bash ~/Data/Config/my-ln.sh
 sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME"
 sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
 source "$HOME/.zshrc"
+_log_end
 
 # git 私钥
+_log_start "git private key"
 github_key_url=""
 notice "Need To Download Github Private Key ?" " (y/n):"
 read -r choice1 </dev/tty
@@ -123,9 +141,11 @@ if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
     wget -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
     ssh -T git@github.com || true
 fi
+_log_end
 
 # 安装必备工具
 function _install_system_tools() {
+    _log_start "_install_system_tools"
     # 安装防火墙
     sudo apt install -y ufw
     sudo ufw status #inactive，说明 UFW 未启用
@@ -153,10 +173,12 @@ function _install_system_tools() {
     # 安装 go
     sudo apt install -y golang-go
     go version
+    _log_end
 }
 
 # 安装 命令行工具
 function _install_CLI_tools() {
+    _log_start "_install_CLI_tools"
     # 安装 bat
     sudo apt install -y bat #这样安装的bat会因为避免名字冲突而让他的命令变为 batcat, 所以需要符号链接
     # 切换到普通用户执行:
@@ -395,10 +417,12 @@ function _install_CLI_tools() {
 
     # 其他安装
     sudo apt install -y shellcheck shfmt tmux universal-ctags
+    _log_end
 }
 
 # 安装 文件上传下载服务-dufs-filebrowser
 function _install_file_server() {
+    _log_start "_install_file_server"
     source "$HOME/.zshrc"
     mkdir -p ~/share
 
@@ -449,11 +473,12 @@ EOF
         -u $(id -u):$(id -g) \
         -p 12786:80 \
         filebrowser/filebrowser
-
+    _log_end
 }
 
 # 开启 SFTP 服务
 function _enable_sftp() {
+    _log_start "_enable_sftp"
     # 确保系统已安装 OpenSSH 服务器 默认应该都存在并启动了sftp服务的
     sudo apt update -y
     sudo apt install -y openssh-server
@@ -518,11 +543,12 @@ EOF
     # AllowTcpForwarding             禁止 TCP 转发功能,防止用户通过 SSH 隧道代理访问内部网络或外部服务器
     # X11Forwarding                  禁止 X11 图形界面转发,减少不必要的功能支持，提高安全性
     # 这组命令从Match User开始，也可以为不同的用户复制和重复。确保相应地修改Match User行中的用户名
-
+    _log_end
 }
 
 # 安装 FTP 服务
 function _enable_FTP() {
+    _log_start "_enable_FTP"
     sudo apt update -y && sudo apt install -y vsftpd # 默认应该都是没有安装的
     # 开放端口;为 FTP 打开端口`20`和`21`;在启用 TLS 时打开端口`990`; pasv_max_port pasv_min_port 限制可用于被动 FTP 的端口范围40000到50000
     sudo ufw status
@@ -652,6 +678,7 @@ EOF
     #####################################################################
 
     sudo systemctl restart vsftpd
+    _log_end
 }
 
 _install_system_tools # 安装必备工具

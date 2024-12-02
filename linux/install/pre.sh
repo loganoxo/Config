@@ -38,6 +38,7 @@ function _logan_if_linux() {
 }
 
 function judge() {
+    _log_start "judge"
     if [ -z "$flag" ]; then
         echo "need arg"
         exit 1
@@ -57,6 +58,7 @@ function judge() {
         echo "only support linux"
         exit 1
     fi
+    _log_end
 }
 
 function for_sure() {
@@ -74,6 +76,18 @@ function for_sure() {
 
 function notice() {
     echo -en "\033[31m$1\033[0m$2"
+}
+
+function _log_start() {
+    title=""
+    if [ -n "$1" ]; then
+        title="     $1     "
+    fi
+    echo -en "\033[31m###################$title#####################################################################3\033[0m\n"
+}
+
+function _log_end() {
+    echo -en "\033[31m#############################################################################################\033[0m\n\n"
 }
 
 # 软件源配置
@@ -224,6 +238,8 @@ EOF
 
 # 预先判断
 judge
+
+_log_start "software_config"
 software_config
 for_sure "Is That Right ? (y/n):"
 apt update -y && apt-get update -y
@@ -234,7 +250,9 @@ apt autoremove -y
 notice "autoremove success!\n"
 apt autoclean -y
 notice "autoclean success!\n"
+_log_end
 
+_log_start "network_config"
 network_config
 for_sure "Is That Right ? (y/n):"
 # systemctl restart networking.service
@@ -251,14 +269,18 @@ cat /etc/resolv.conf
 ping -c 5 www.baidu.com
 dig www.baidu.com
 nslookup -debug www.baidu.com
+_log_end
 
+_log_start "Language Config"
 for_sure "Next Step : Language Config  ? (y/n):"
 dpkg-reconfigure locales
 notice "locale : \n"
 locale
 notice "locale -a : \n"
 locale -a
+_log_end
 
+_log_start "Install sudo"
 for_sure "Next Step : Install sudo  ? (y/n):"
 apt update -y && apt install -y sudo
 user_name=""
@@ -279,13 +301,16 @@ fi
 /usr/sbin/usermod -aG sudo "$user_name"
 groups "$user_name"
 notice "install sudo success\n"
+_log_end
 
+_log_start "Install zsh"
 apt install -y zsh
 zsh --version
 chsh -s "$(which zsh)"
 notice "change zsh for common user\n"
 su - "$user_name" -c 'chsh -s "$(which zsh)"'
 notice "install zsh success\n"
+_log_end
 
 # 安装一些必备软件
 apt install -y net-tools build-essential openssh-server curl unzip zip tree

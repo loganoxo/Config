@@ -5,9 +5,9 @@
 # 最后修改时间: 2024-04-08
 # 描述: linux装机前置脚本; 包括软件源的配置、网络静态IP和DNS等
 # 使用: 1.用wget(debian默认安装)
-# su -c 'wget -q -O- "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
+# su -c 'wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
 # 2.用curl(debian等linux可能没有预装)
-# su -c 'curl -fsSL "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
+# su -c 'curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
 # 也可以放在nginx中
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# 脚本名称: batch_rename.sh
+# 脚本名称: pre.sh
 # 作者: HeQin
 # 最后修改时间: 2024-04-08
 # 描述: linux装机前置脚本; 包括软件源的配置、网络静态IP、DNS、sudo等

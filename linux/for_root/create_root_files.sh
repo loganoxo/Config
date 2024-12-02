@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # 创建root用户的环境配置文件,使用方式:
-# sudo bash ./create_root_files.sh "/home/helq"
+# sudo bash ./create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
 set -eu
 
 common_home="$1"
 # 定义模板路径和目标目录
 template_file="template.sh"
+if [ -n "$2" ]; then
+    template_file="$2"
+fi
+
 target_dir="/root"
 header_line="_common_home_for_root=\"$common_home\""
 

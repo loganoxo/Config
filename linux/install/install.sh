@@ -113,7 +113,7 @@ mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~
 git clone https://github.com/loganoxo/Config.git ~/Data/Config
 mv ~/.bashrc ~/.shell_bak/ && mv ~/.profile ~/.shell_bak/ && mv ~/.zshrc ~/.shell_bak/
 bash ~/Data/Config/my-ln.sh
-sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME"
+sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
 sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
 source "$HOME/.zshrc"
 _log_end

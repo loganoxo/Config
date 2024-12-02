@@ -272,9 +272,21 @@ else
     fi
     for_sure "Make '$user_name' support sudo ?" " (y/n):"
 fi
-
 /usr/sbin/usermod -aG sudo "$user_name"
 groups "$user_name"
+notice "install sudo success\n"
+
+apt install -y zsh
+zsh --version
+sudo chsh -s "$(which zsh)"
+notice "install zsh success\n"
+
+# 安装一些必备软件
+apt install -y net-tools build-essential openssh-server curl unzip zip tree
+
+# 允许root直接登录
+echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config >/dev/null
+
 echo "######################################################"
 notice "new static ip is: \n"
 notice "ssh $user_name@$static_ip\n"

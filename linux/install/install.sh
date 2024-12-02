@@ -117,8 +117,9 @@ mv ~/.zshrc ~/.shell_bak/ || true
 bash ~/Data/Config/my-ln.sh
 sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
 sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
-source "$HOME/.zshrc" || true
+source "$HOME/.bashrc" || true
 _log_end
+sleep 1
 
 # 安装必备工具
 function _install_system_tools() {
@@ -151,6 +152,7 @@ function _install_system_tools() {
     sudo apt install -y golang-go
     go version
     _log_end
+    sleep 1
 }
 
 # 安装 命令行工具
@@ -184,11 +186,18 @@ function _install_CLI_tools() {
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # 测试 :PlugStatus :PlugInstall  :PlugClean
-    vim -c ':PlugStatus' -c ':PlugInstall' -c ':PlugClean' -c ':qa!'
+    vim -c ':PlugInstall' -c ':qa!'
+    sleep 0.5
+    vim -c ':PlugInstall' -c ':qa!'
+    sleep 0.5
+    vim -c ':PlugInstall' -c ':qa!'
+    sleep 0.5
+    vim -c ':PlugStatus' -c ':PlugClean' -c ':qa!'
+    sleep 0.5
 
     # 安装sdkman
     curl -s "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
-    source "$HOME/.zshrc" || true
+    source "$HOME/.bashrc" || true
     sdk version
     sdk install java 8.0.432.fx-zulu
     sdk install java 11.0.25.fx-zulu
@@ -209,7 +218,7 @@ function _install_CLI_tools() {
     # 安装fnm
     curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
     ln -s ~/.local/share/fnm/fnm ~/.local/bin/fnm
-    source "$HOME/.zshrc" || true
+    source "$HOME/.bashrc" || true
     fnm -V               #查看fnm的版本
     fnm ls               #查看本地已安装的nodejs的版本
     fnm current          #打印当前使用的node版本
@@ -242,7 +251,7 @@ function _install_CLI_tools() {
 
     # 安装rust
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    source "$HOME/.zshrc" || true
+    source "$HOME/.bashrc" || true
     rustc --version
 
     # 安装navi
@@ -281,7 +290,7 @@ function _install_CLI_tools() {
     # 默认是managed: 最先找uv管理的python,其次找系统python(若此时在conda的某个环境中,conda该环境的python也会被找到),最后才下载;only-managed:只找uv管理的python,没有则下载;
     # # 安装选项:https://docs.astral.sh/uv/configuration/installer/#disabling-shell-modifications
     curl -LsSf https://astral.sh/uv/install.sh | sh # 默认在 ~/.local/share/uv/
-    source "$HOME/.zshrc" || true
+    source "$HOME/.bashrc" || true
     export UV_PYTHON_PREFERENCE="only-managed"
     # uv python list
     uv python install # 默认在 ~/.local/share/uv/python/
@@ -300,7 +309,7 @@ function _install_CLI_tools() {
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -O ~/Temp/miniconda.sh
     bash ~/Temp/miniconda.sh -b -u -p ~/.miniconda3 # -b:不对 shell 脚本进行 PATH 修改,以非交互模式（静默模式）运行安装; -u:如果指定的安装路径（通过 -p）已有 Miniconda 安装，它会更新而不是报错或覆盖安装; -p: 指定安装路径
     rm ~/Temp/miniconda.sh
-    source "$HOME/.zshrc" || true
+    source "$HOME/.bashrc" || true
     conda --version
     conda create -n env_test python=3.9 # -n 是创建的环境的名字
     conda activate env_test
@@ -396,12 +405,13 @@ function _install_CLI_tools() {
     # 其他安装
     sudo apt install -y shellcheck shfmt tmux universal-ctags
     _log_end
+    sleep 1
 }
 
 # 安装 文件上传下载服务-dufs-filebrowser
 function _install_file_server() {
     _log_start "_install_file_server"
-    source "$HOME/.zshrc" || true
+    source "$HOME/.bashrc" || true
     mkdir -p ~/share
 
     # 安装 dufs
@@ -452,6 +462,7 @@ EOF
         -p 12786:80 \
         filebrowser/filebrowser
     _log_end
+    sleep 1
 }
 
 # 开启 SFTP 服务
@@ -522,6 +533,7 @@ EOF
     # X11Forwarding                  禁止 X11 图形界面转发,减少不必要的功能支持，提高安全性
     # 这组命令从Match User开始，也可以为不同的用户复制和重复。确保相应地修改Match User行中的用户名
     _log_end
+    sleep 1
 }
 
 # 安装 FTP 服务
@@ -657,6 +669,7 @@ EOF
 
     sudo systemctl restart vsftpd
     _log_end
+    sleep 1
 }
 
 function _git_private() {
@@ -686,6 +699,7 @@ function _git_private() {
         # ssh -T git@github.com || true
     fi
     _log_end
+    sleep 1
 }
 
 function _install_end() {
@@ -693,6 +707,7 @@ function _install_end() {
     rm -rf ~/Data/Config
     git clone https://github.com/loganoxo/Config.git ~/Data/Config
     _log_end
+    sleep 1
 }
 
 _install_system_tools # 安装必备工具

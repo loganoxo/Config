@@ -37,19 +37,19 @@
 
 ##############################################################################################################################
 
-# 加载通用函数
-[ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ] && source "${__PATH_MY_CNF}/zsh/logan_function.sh"
-
-if [ -z "${_INIT_ZSH_INIT_LOADED}" ]; then
-    _INIT_ZSH_INIT_LOADED=1
-else
-    return
-fi
+#if [ -z "${_INIT_ZSH_INIT_LOADED}" ]; then
+#    _INIT_ZSH_INIT_LOADED=1
+#else
+#    return
+#fi
 # 此脚本被我在bash的配置文件也引入了,也会被bash加载
 # 让 init.sh 只会被加载一次;注意 _INIT_ZSH_INIT_LOADED 为局部变量,子shell不会继承该变量
 # 所以只要不是同一个shell,包括新建的子shell, init.sh 都会重新被 zprofile 或 zshrc 加载
 
 # touch "$HOME/.hushlogin" # 默认每次打开终端(zsh/bash)都会在第一行提示上次登陆信息,创建这个空文件后,就不显示了;
+
+# 加载通用函数
+[ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ] && source "${__PATH_MY_CNF}/zsh/logan_function.sh"
 
 # export LANG=zh_CN.UTF-8 # 控制界面语言的展示或输出等 en_US.UTF-8; 注释掉,使用系统默认的,不然会对debian环境有影响
 
@@ -133,7 +133,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # Added by OrbStack: command-line tools and integration
-source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
+[[ -f "$HOME/.orbstack/shell/init.zsh" ]] && source "$HOME/.orbstack/shell/init.zsh"
 
 # fnm(node版本管理工具)
 _logan_if_command_exist "fnm" && _logan_if_zsh && eval "$(fnm env --use-on-cd --shell zsh)"

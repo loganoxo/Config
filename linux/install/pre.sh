@@ -9,6 +9,8 @@
 # 2.用curl(debian等linux可能没有预装)
 # su -c 'curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
 # 也可以放在nginx中
+# su -c 'wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/pre.sh?$(date +%s)" | bash -s -- run'
+# su -c 'curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/pre.sh?$(date +%s)" | bash -s -- run'
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 
 set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行

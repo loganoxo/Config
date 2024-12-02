@@ -11,6 +11,7 @@
 
 set -eu #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 flag="$1"
+export PATH=$PATH:/usr/sbin
 
 function _logan_if_mac() {
     if [[ "$(uname -s)" == Darwin* ]]; then
@@ -50,23 +51,30 @@ function judge() {
     fi
 }
 
-# 预先判断
-judge
-
-# 软件源配置
-function software_config() {
-    echo -e "\033[31m current sources :  \033[0m \n"
-    cat /etc/apt/sources.list
-    echo -n "Are you sure you want to reconfigure? (y/n): "
-    read -r choice1 </dev/tty
-    case "$choice1" in
+function for_sure() {
+    local choice
+    echo -n "$1"
+    read -r choice </dev/tty
+    case "$choice" in
     y | Y) ;;
     *)
         echo "Operation cancelled. Script stopped."
         exit 1 #脚本停止
         ;;
     esac
+}
 
+# 预先判断
+judge
+
+# 软件源配置
+function show_software_config() {
+    echo -e "\033[31m current sources :  \033[0m \n"
+    cat /etc/apt/sources.list
+}
+function software_config() {
+    show_software_config
+    for_sure "Are you sure you want to reconfigure ? (y/n):"
     local version=""
     local dynamic=""
     str0="\033[31m Configure official software sources: Choose the Debian version  \033[0m \n"
@@ -75,8 +83,8 @@ function software_config() {
     str3="\033[31m[ 3 ] Exit. \033[0m \n"
     echo -e "$str0$str1$str2$str3"
     echo -n "Input your choice :"
-    read -r choice2 </dev/tty
-    case "$choice2" in
+    read -r choice </dev/tty
+    case "$choice" in
     1)
         version="bullseye"
         dynamic=""
@@ -90,16 +98,9 @@ function software_config() {
         exit 1 #脚本停止
         ;;
     esac
+    for_sure "Are you sure you want to reconfigure to '$version' ? (y/n):"
 
-    echo -n "Are you sure you want to reconfigure to '$version' ? (y/n): "
-    read -r choice3 </dev/tty
-    case "$choice3" in
-    y | Y) ;;
-    *)
-        echo "Operation cancelled. Script stopped."
-        exit 1 #脚本停止
-        ;;
-    esac
+    cp /etc/apt/sources.list "/etc/apt/sources.list-$(date +%s).bak"
     cat >/etc/apt/sources.list <<EOF
 # 提供主要的软件包库,是系统大部分软件的来源,包括基础的操作系统组件和应用程序包,用于升级系统和安装软件
 deb http://deb.debian.org/debian $version main contrib non-free$dynamic
@@ -117,9 +118,118 @@ deb-src http://deb.debian.org/debian $version-updates main contrib non-free$dyna
 # deb http://deb.debian.org/debian $version-backports main contrib non-free$dynamic
 # deb-src http://deb.debian.org/debian $version-backports main contrib non-free$dynamic
 EOF
-    echo -e "\033[31m reconfigure success  \033[0m \n"
-    echo -e "\033[31m current sources :  \033[0m \n"
-    cat /etc/apt/sources.list
+    echo -e "\033[31m reconfigure success !  \033[0m \n"
+    show_software_config
 }
 software_config
+apt update && apt-get update && apt upgrade && apt autoremove && apt autoclean
+
 # 网络配置
+function show_network_config() {
+    echo -e "\033[31m current interfaces :  \033[0m \n"
+    cat /etc/network/interfaces
+    echo -e "\033[31m current resolv.conf :  \033[0m \n"
+    cat /etc/resolv.conf
+}
+
+function ip_correct() {
+    if [[ "$1" =~ ^([0-9]+\.){3}[0-9]+$ ]]; then
+        return 0
+    else
+        echo "Ip format not correct !"
+        exit 1
+    fi
+}
+
+function network_config() {
+    show_network_config
+    for_sure "Are you sure you want to reconfigure ? (y/n):"
+
+    local static_ip=""
+    local gateway_ip=""
+    local interface=""
+    echo -e "\033[31m Please Input The Static Ip.  \033[0m \n"
+    echo -n "Input Static Ip:"
+    read -r static_ip </dev/tty
+    if [ -z "$static_ip" ]; then
+        echo "Operation cancelled. Script stopped."
+        exit 1 #脚本停止
+    fi
+    ip_correct "$static_ip"
+    for_sure "Are you sure you want to reconfigure address to '$static_ip' ? (y/n):"
+
+    echo -en "\033[31m Use '172.16.106.2' For Gateway Ip ?  \033[0m (y/n): "
+    read -r choice1 </dev/tty
+    if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
+        gateway_ip="172.16.106.2"
+    else
+        echo -e "\033[31m Please Input The Gateway Ip.  \033[0m \n"
+        echo -n "Input Gateway Ip:"
+        read -r gateway_ip </dev/tty
+        if [ -z "$gateway_ip" ]; then
+            echo "Operation cancelled. Script stopped."
+            exit 1 #脚本停止
+        fi
+    fi
+    ip_correct "$gateway_ip"
+    for_sure "Are you sure you want to reconfigure gateway to '$gateway_ip' ? (y/n):"
+
+    echo -en "\033[31m Use 'ens160' For Interface ?  \033[0m (y/n): "
+    read -r choice2 </dev/tty
+    if [ "$choice2" = "y" ] || [ "$choice2" = "Y" ]; then
+        interface="ens160"
+    else
+        echo -e "\033[31m Please Input The Interface.  \033[0m \n"
+        echo -n "Input Interface:"
+        read -r interface </dev/tty
+        if [ -z "$interface" ]; then
+            echo "Operation cancelled. Script stopped."
+            exit 1 #脚本停止
+        fi
+    fi
+
+    for_sure "Are you sure you want to reconfigure interface to '$interface' ? (y/n):"
+
+    cp /etc/network/interfaces "/etc/network/interfaces-$(date +%s).bak"
+    cat >/etc/network/interfaces <<EOF
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+# allow-hotplug $interface
+# iface $interface inet dhcp
+auto $interface
+iface $interface inet static
+    address $static_ip
+    netmask 255.255.255.0
+    gateway $gateway_ip
+    dns-nameservers 223.5.5.5 119.29.29.29 8.8.8.8
+EOF
+    echo -e "\033[31m reconfigure success !  \033[0m \n"
+    show_network_config
+}
+network_config
+systemctl restart networking.service
+ip addr
+for_sure "Is That Right ? (y/n):"
+apt install resolvconf
+systemctl restart networking.service
+systemctl restart resolvconf.service
+resolvconf -u
+systemctl status resolvconf.service
+echo -e "\033[31m current resolv.conf :  \033[0m \n"
+cat /etc/resolv.conf
+for_sure "Is That Right ? (y/n):"
+ping -c 5 www.baidu.com
+for_sure "Is That Right ? (y/n):"
+dig www.baidu.com
+for_sure "Is That Right ? (y/n):"
+nslookup -debug www.baidu.com
+for_sure "Is That Right ? (y/n):"
+echo -e "\033[31m May be need reboot. \033[0m \n"

@@ -70,7 +70,7 @@ function for_sure() {
 }
 
 function notice() {
-    echo -en "\033[31m $1. \033[0m $2"
+    echo -en "\033[31m$1\033[0m$2"
 }
 
 # 软件源配置
@@ -124,10 +124,11 @@ deb-src http://deb.debian.org/debian $version-updates main contrib non-free$dyna
 # deb http://deb.debian.org/debian $version-backports main contrib non-free$dynamic
 # deb-src http://deb.debian.org/debian $version-backports main contrib non-free$dynamic
 EOF
-    notice " reconfigure success! \n"
+    notice "reconfigure success! \n"
     show_software_config
 }
 software_config
+for_sure "Is That Right ? (y/n):"
 apt update && apt-get update && apt upgrade && apt autoremove && apt autoclean
 
 # 网络配置
@@ -221,6 +222,7 @@ EOF
     show_network_config
 }
 network_config
+for_sure "Is That Right ? (y/n):"
 systemctl restart networking.service
 ip addr
 for_sure "Is That Right ? (y/n):"

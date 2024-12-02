@@ -11,7 +11,7 @@
 # 也可以放在nginx中
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 
-set -eu #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
+set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 flag="$1"
 export PATH=$PATH:/usr/sbin
 

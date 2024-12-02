@@ -129,7 +129,12 @@ EOF
 }
 software_config
 for_sure "Is That Right ? (y/n):"
-apt update && apt-get update && apt upgrade && apt autoremove && apt autoclean
+apt update && apt upgrade
+notice "upgrade success!\n"
+apt autoremove
+notice "autoremove success!\n"
+apt autoclean
+notice "autoclean success!\n"
 
 # 网络配置
 function show_network_config() {

@@ -683,7 +683,7 @@ function _git_private() {
         wget -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
         # 权限太宽泛会有问题
         chmod 600 "$HOME/.ssh/loganoxo-GitHub"
-        ssh -T git@github.com || true
+        # ssh -T git@github.com || true
     fi
     _log_end
 }
@@ -703,3 +703,6 @@ _enable_FTP           # 安装 FTP 服务
 _git_private          # git 私钥
 _install_end          # 重新下载 Config
 notice "All Done....... \n"
+echo "######################################################"
+notice "May be need the following command test after install.\n"
+notice "ssh -T git@github.com\n"

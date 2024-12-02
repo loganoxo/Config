@@ -4,8 +4,8 @@
 # 作者: HeQin
 # 最后修改时间: 2024-04-08
 # 描述: linux装机前置脚本; 包括软件源的配置、网络静态IP和DNS等
-# 使用: 1.用wget(debian默认安装)        su -c 'wget -q -O- https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh | bash -s -- run'
-# 2.用curl(debian等linux可能没有预装)   su -c 'curl -fsSL https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh | bash -s -- run'
+# 使用: 1.用wget(debian默认安装)        su -c 'wget -q -O- "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
+# 2.用curl(debian等linux可能没有预装)   su -c 'curl -fsSL "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
 # 也可以放在nginx中
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 
@@ -68,6 +68,7 @@ function software_config() {
     esac
 
     local version=""
+    local dynamic=""
     str0="\033[31m Configure official software sources: Choose the Debian version  \033[0m \n"
     str1="\033[31m[ 1 ] debian11 (bullseye) \033[0m \n"
     str2="\033[31m[ 2 ] debian12 (bookworm) \033[0m \n"
@@ -76,8 +77,14 @@ function software_config() {
     echo -n "Input your choice :"
     read -r choice2 </dev/tty
     case "$choice2" in
-    1) version="bullseye" ;;
-    2) version="bookworm" ;;
+    1)
+        version="bullseye"
+        dynamic=""
+        ;;
+    2)
+        version="bookworm"
+        dynamic=" non-free-firmware"
+        ;;
     *)
         echo "Operation cancelled. Script stopped."
         exit 1 #脚本停止
@@ -94,21 +101,21 @@ function software_config() {
         ;;
     esac
     cat >/etc/apt/sources.list <<EOF
-    # 提供主要的软件包库,是系统大部分软件的来源,包括基础的操作系统组件和应用程序包,用于升级系统和安装软件
-    deb http://deb.debian.org/debian $version main contrib non-free non-free-firmware
-    deb-src http://deb.debian.org/debian $version main contrib non-free non-free-firmware
+# 提供主要的软件包库,是系统大部分软件的来源,包括基础的操作系统组件和应用程序包,用于升级系统和安装软件
+deb http://deb.debian.org/debian $version main contrib non-free$dynamic
+deb-src http://deb.debian.org/debian $version main contrib non-free$dynamic
 
-    # 提供安全性修复的更新,包含及时修复的安全漏洞补丁,用于修复系统或软件中的已知漏洞
-    deb http://security.debian.org/debian-security $version-security main contrib non-free non-free-firmware
-    deb-src http://security.debian.org/debian-security $version-security main contrib non-free non-free-firmware
+# 提供安全性修复的更新,包含及时修复的安全漏洞补丁,用于修复系统或软件中的已知漏洞
+deb http://security.debian.org/debian-security $version-security main contrib non-free$dynamic
+deb-src http://security.debian.org/debian-security $version-security main contrib non-free$dynamic
 
-    # 快速修复一些关键问题,目的是解决一些无法等到下一个点版本(例如从 12.1 到 12.2)发布才能修复的问题
-    deb http://deb.debian.org/debian $version-updates main contrib non-free non-free-firmware
-    deb-src http://deb.debian.org/debian $version-updates main contrib non-free non-free-firmware
+# 快速修复一些关键问题,目的是解决一些无法等到下一个点版本(例如从 12.1 到 12.2)发布才能修复的问题
+deb http://deb.debian.org/debian $version-updates main contrib non-free$dynamic
+deb-src http://deb.debian.org/debian $version-updates main contrib non-free$dynamic
 
-    # 反向移植,指从 Debian 的较高版本中(例如 $version)选取特定的软件包,并在当前稳定版本(例如 bullseye)上进行重新编译和打包;用户可以在稳定版系统中使用更高版本的应用程序或工具,而无需升级整个系统到测试版或不稳定版
-    # deb http://deb.debian.org/debian $version-backports main contrib non-free non-free-firmware
-    # deb-src http://deb.debian.org/debian $version-backports main contrib non-free non-free-firmware
+# 反向移植,指从 Debian 的较高版本中(例如 $version)选取特定的软件包,并在当前稳定版本(例如 bullseye)上进行重新编译和打包;用户可以在稳定版系统中使用更高版本的应用程序或工具,而无需升级整个系统到测试版或不稳定版
+# deb http://deb.debian.org/debian $version-backports main contrib non-free$dynamic
+# deb-src http://deb.debian.org/debian $version-backports main contrib non-free$dynamic
 EOF
     echo -e "\033[31m reconfigure success  \033[0m \n"
     echo -e "\033[31m current sources :  \033[0m \n"

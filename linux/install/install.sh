@@ -5,11 +5,14 @@
 # 最后修改时间: 2024-04-08
 # 描述: linux装机脚本; 包括命令行工具等
 # 前提: pre.sh; 要安装 sudo
-# 使用: 1.用wget(debian默认安装)
+# 使用:
+# 一、使用 github
+# 1.用wget(debian默认安装)
 # wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
 # 2.用curl(debian等linux可能没有预装)
 # curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
-# 也可以放在nginx中
+
+# 二、也可以放在nginx中
 # wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
 # curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文

@@ -396,6 +396,7 @@ function _install_CLI_tools() {
     sudo groupadd docker || true  # 创建`docker`组
     sudo usermod -aG docker $USER # 将您的用户添加到`docker`组
     # sudo reboot                   # 注销并重新登录，以便重新评估您的组成员身份
+    newgrp docker                   # 或者执行这条命令也可以立即切换到新组
     # docker run hello-world        # 验证您是否可以在没有`sudo`情况下运行`docker`命令
     # 如果在分配用户组之前 用sudo权限 执行过 docker CLI 中的如 docker login 这类命令, 会创建 ~/.docker 目录;
     # 在上述的情况下, 分配用户组后, 用普通用户直接执行 docker 命令, 有可能会报错, 因为 ~/.docker 的权限是 root 用户的; 报错信息可能为:

@@ -308,7 +308,7 @@ apt install -y zsh
 zsh --version
 chsh -s "$(which zsh)"
 notice "change zsh for common user\n"
-su - "$user_name" -c 'chsh -s "$(which zsh)"'
+usermod -s "$(which zsh)" "$user_name"
 notice "install zsh success\n"
 _log_end
 

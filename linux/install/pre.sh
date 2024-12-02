@@ -70,10 +70,8 @@ function for_sure() {
 }
 
 function notice() {
-    echo -en "\033[31m $1. \033[0m"
+    echo -en "\033[31m $1. \033[0m $2"
 }
-notice "aaaa"
-return 0
 
 # 软件源配置
 function show_software_config() {

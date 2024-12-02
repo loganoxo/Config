@@ -15,6 +15,7 @@
 
 set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 flag="$1"
+static_ip=""
 export PATH=$PATH:/usr/sbin
 
 function _logan_if_mac() {
@@ -54,9 +55,6 @@ function judge() {
         exit 1
     fi
 }
-
-# 预先判断
-judge
 
 function for_sure() {
     local choice
@@ -131,17 +129,6 @@ EOF
     show_software_config
 }
 
-software_config
-for_sure "Is That Right ? (y/n):"
-apt update -y
-notice "update success!\n"
-apt upgrade -y
-notice "upgrade success!\n"
-apt autoremove -y
-notice "autoremove success!\n"
-apt autoclean -y
-notice "autoclean success!\n"
-
 # 网络配置
 function show_network_config() {
     notice "current interfaces: \n"
@@ -158,7 +145,7 @@ function ip_correct() {
         exit 1
     fi
 }
-static_ip=""
+
 function network_config() {
     show_network_config
     for_sure "Are you sure you want to reconfigure ? (y/n):"
@@ -230,6 +217,19 @@ EOF
     notice "reconfigure success! \n"
     show_network_config
 }
+
+# 预先判断
+judge
+software_config
+for_sure "Is That Right ? (y/n):"
+apt update -y
+notice "update success!\n"
+apt upgrade -y
+notice "upgrade success!\n"
+apt autoremove -y
+notice "autoremove success!\n"
+apt autoclean -y
+notice "autoclean success!\n"
 
 network_config
 for_sure "Is That Right ? (y/n):"

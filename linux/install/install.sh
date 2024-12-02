@@ -91,7 +91,6 @@ sudo apt update -y
 
 # 为当前用户启用zsh环境
 cd ~
-chsh -s "$(which zsh)"
 # 安装 git
 sudo apt install -y git
 git --version

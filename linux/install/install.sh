@@ -135,7 +135,7 @@ function _install_system_tools() {
     sudo ufw allow ssh && sudo ufw allow http && sudo ufw allow https && sudo ufw allow 80
     sudo ufw allow 6000:6007/tcp && sudo ufw allow 6000:6007/udp #允许使用端口 6000-6007 的 连接
     sudo ufw limit ssh                                           # 限制ssh登录尝试的连接次数,防止暴力破解密码;每个ip每30秒最多尝试6次
-    sudo ufw enable                                              #启用
+    yes y | sudo ufw enable                                      #启用
     sudo ufw status verbose                                      #查看所有端口开放情况
 
     # 安装 nginx

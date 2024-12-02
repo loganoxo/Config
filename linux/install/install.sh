@@ -139,6 +139,8 @@ if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
         for_sure "Use '$github_key_url' ?" " (y/n):"
     fi
     wget -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
+    # 权限太宽泛会有问题
+    chmod 600 "$HOME/.ssh/loganoxo-GitHub"
     ssh -T git@github.com || true
 fi
 _log_end
@@ -168,7 +170,7 @@ function _install_system_tools() {
     sudo systemctl start nginx
     curl http://127.0.0.1:80 #测试
     sudo systemctl stop nginx
-    sudo systemctl status nginx
+    sudo systemctl status nginx || true
 
     # 安装 go
     sudo apt install -y golang-go
@@ -406,8 +408,8 @@ function _install_CLI_tools() {
     # sudo chown "$USER":"$USER" /home/"$USER"/.docker -R # 将这个文件夹的 拥有者 和 所属组 设为当前用户;-R：递归修改，即包括子目录和文件
     # sudo chmod g+rwx "$HOME/.docker" -R                 # 为 .docker 目录及其内容增加组权限，使所属组的成员可以读取（read）、写入（write）、执行（execute）文件。
     # 在 Debian 和 Ubuntu 上，Docker 服务(守护进程)(不是指的容器) 默认在启动时启动
-    sudo systemctl status docker.service     # 这是 Docker 的主服务，负责管理 Docker 守护进程（dockerd），提供核心功能，包括容器管理、镜像拉取和存储等
-    sudo systemctl status containerd.service # 这是 containerd 容器运行时服务，是一个独立的守护进程，用于管理容器的生命周期
+    sudo systemctl status docker.service || true     # 这是 Docker 的主服务，负责管理 Docker 守护进程（dockerd），提供核心功能，包括容器管理、镜像拉取和存储等
+    sudo systemctl status containerd.service || true # 这是 containerd 容器运行时服务，是一个独立的守护进程，用于管理容器的生命周期
 
     # sudo systemctl enable docker.service
     # sudo systemctl enable containerd.service
@@ -484,7 +486,7 @@ function _enable_sftp() {
     sudo apt update -y
     sudo apt install -y openssh-server
     # 检查 SSH 服务状态
-    sudo systemctl status ssh
+    sudo systemctl status ssh || true
 
     # 查看 /etc/ssh/sshd_config 这个文件内是否存在:
     # override default of no subsystems

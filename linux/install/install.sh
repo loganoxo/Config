@@ -780,7 +780,7 @@ function _enable_sftp() {
     sudo useradd -s /sbin/nologin sftpuser # 创建一个新用户，该用户仅被授予对服务器的文件传输访问权限; 不能登录shell,没有home目录
     # -m 会创建home目录; -d <path> 自定义home目录
     notice "set sftpuser password. \n"
-    sudo passwd sftpuser # 添加密码    123456
+    sudo passwd sftpuser </dev/tty # 添加密码    123456
     sudo mkdir -p /var/sftp/sftpuser
     sudo chown root:root /var/sftp
     sudo chmod 755 /var/sftp                        # root用户为7所有权限; 同组用户和不同组的用户为5只允许读和执行; 4:读 2:写 1:执行
@@ -848,7 +848,7 @@ function _enable_FTP() {
     sudo chmod 555 /var/ftp            # 让home目录不可写; 4:读 2:写 1:执行
     sudo chown nobody:nogroup /var/ftp # 限制权限，确保进程或服务无法访问不必要的系统资源
     notice "set ftpuser password. \n"
-    sudo passwd ftpuser                           # 添加密码    123456
+    sudo passwd ftpuser </dev/tty                 # 添加密码    123456
     sudo chown ftpuser:ftpuser /var/ftp/ftpuser   # 将目录的所有权更改为您刚刚创建的用户
     sudo chmod 775 /var/ftp/ftpuser               # 同组用户可以读和写(目录必须有执行权限才能cd进入);其他用户只读
     sudo usermod -aG ftpuser "$user_name"         # 把当前用户加入 ftpuser 用户组,让当前用户可以操作`分享目录`,就让当前用户可以将自己的文件复制到这个`分享目录中`了

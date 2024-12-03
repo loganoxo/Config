@@ -752,8 +752,8 @@ EOF
         -v "$HOME/share/filebrowser/filebrowser.db":/database/filebrowser.db \
         -v "$HOME/share/filebrowser/filebrowser.json":/.filebrowser.json \
         -u $(id -u):$(id -g) \
-        -p 12786:80 \
-        filebrowser/filebrowser
+        -p 12786:80 --name=filebrowser filebrowser/filebrowser
+
     sleep 5
     docker container stop filebrowser
     _log_end

@@ -265,40 +265,31 @@ function _install_CLI_tools() {
         "liuchengxu/vim-which-key" "mbbill/undotree" "tpope/vim-repeat"
         "ryanoasis/vim-devicons"
     )
-    if [ -n "$github_key_url" ] || [ -n "$GITHUB_TOKEN" ]; then
-        plugin_dir="$HOME/.vim/plugged"
-        mkdir -p "$plugin_dir"
-        local url=""
-        # 循环克隆插件
-        for item in "${plugins[@]}"; do
-            local branch_or_tag=""
-            IFS=":" read -r repo branch_or_tag <<<"$item"
-            if [ -n "$github_key_url" ]; then
-                url="git@github.com:${repo}.git"
-            elif [ -n "$GITHUB_TOKEN" ]; then
-                url="https://${GITHUB_TOKEN}github.com/${repo}.git"
-            fi
-            echo "Cloning $repo ..."
-            git clone "$url" "$plugin_dir/${repo}"
-            if [ -n "$branch_or_tag" ]; then
-                cd "$plugin_dir/${repo}"
-                git checkout "$branch_or_tag"
-            fi
-            sleep 5
-        done
-        echo "All plugins manual cloned!"
-    fi
+    plugin_dir="$HOME/.vim/plugged"
+    mkdir -p "$plugin_dir"
+    local url=""
+    # 循环克隆插件
+    for item in "${plugins[@]}"; do
+        local branch_or_tag=""
+        IFS=":" read -r repo branch_or_tag <<<"$item"
+        if [ -n "$github_key_url" ]; then
+            url="git@github.com:${repo}.git"
+        else
+            url="https://${GITHUB_TOKEN}github.com/${repo}.git"
+        fi
+        echo "Cloning $repo ..."
+        git clone "$url" "$plugin_dir/${repo}"
+        if [ -n "$branch_or_tag" ]; then
+            cd "$plugin_dir/${repo}"
+            git checkout "$branch_or_tag"
+        fi
+        sleep 5
+    done
+    echo "All vim plugins manual cloned!"
     cd ~
-    # 测试 :PlugStatus :PlugInstall  :PlugClean
-    echo ""
-    vim -e -c ':PlugInstall' -c ':qa!'
-    sleep 10
-    vim -e -c ':PlugInstall' -c ':qa!'
-    sleep 2
-    vim -e -c ':PlugStatus' -c ':PlugClean' -c ':qa!'
-    sleep 5
+    source "$HOME/.bashrc" || true
     echo "############ vim done #####################"
-    echo ""
+    sleep 10
 
     # 安装sdkman
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc

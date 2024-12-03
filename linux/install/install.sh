@@ -104,7 +104,7 @@ if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
         echo "Operation cancelled. Script stopped."
         exit 1 #脚本停止
     fi
-    notice "Use GITHUB_TOKEN : $GITHUB_TOKEN"
+    notice "Use GITHUB_TOKEN : $GITHUB_TOKEN\n"
     GITHUB_TOKEN="${GITHUB_TOKEN}@"
 fi
 

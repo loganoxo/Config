@@ -98,10 +98,10 @@ git --version
 # 安装shell插件
 _log_start "Install shel plugin"
 sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-sleep 3
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-sleep 3
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+sleep 10
+git clone git@github.com:zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+sleep 10
+git clone git@github.com:zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 rm -f ~/.zshrc.pre-oh-my-zsh
 sleep 5
 
@@ -115,7 +115,7 @@ sleep 5
 # 环境搭建
 _log_start "Environment construction"
 mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~/.config/navi ~/.zoxide ~/.undodir ~/.vim ~/Temp ~/share
-git clone https://github.com/loganoxo/Config.git ~/Data/Config
+git clone git@github.com:loganoxo/Config.git ~/Data/Config
 mv ~/.bashrc ~/.shell_bak/ || true
 mv ~/.profile ~/.shell_bak/ || true
 mv ~/.zshrc ~/.shell_bak/ || true
@@ -124,7 +124,43 @@ sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/
 sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
 source "$HOME/.bashrc" || true
 _log_end
-sleep 5
+sleep 10
+
+function _git_private() {
+    # git 私钥
+    _log_start "git private key"
+    github_key_url=""
+    notice "Need To Download Github Private Key ?" " (y/n):"
+    read -r choice1 </dev/tty
+    if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
+        notice "Use 'http://192.168.0.101:18080/loganoxo-GitHub' ? " " (y/n):"
+        read -r choice2 </dev/tty
+        if [ "$choice2" = "y" ] || [ "$choice2" = "Y" ]; then
+            github_key_url="http://192.168.0.101:18080/loganoxo-GitHub"
+        else
+            notice "Please Input The github_key_url .\n"
+            echo -n "Input github_key_url:"
+            read -r github_key_url </dev/tty
+            if [ -z "$github_key_url" ]; then
+                echo "Operation cancelled. Script stopped."
+                exit 1 #脚本停止
+            fi
+            for_sure "Use '$github_key_url' ?" " (y/n):"
+        fi
+        filename=$(_extract_filename "$github_key_url")
+        #        wget --tries=10 --waitretry=10 -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
+
+        curl --retry 10 --retry-all-errors --retry-delay 10 \
+            -fSLo "$HOME/.ssh/$filename" "$github_key_url"
+
+        # 权限太宽泛会有问题
+        chmod 600 "$HOME/.ssh/$filename"
+        ssh -T git@github.com || true
+    fi
+    _log_end
+    sleep 10
+}
+_git_private
 
 # 安装必备工具
 function _install_system_tools() {
@@ -172,7 +208,7 @@ function _install_CLI_tools() {
     # 安装fzf
     # sudo apt install -y fzf #版本太低了
     mkdir -p ~/software
-    git clone https://github.com/junegunn/fzf.git ~/software/fzf
+    git clone git@github.com:junegunn/fzf.git ~/software/fzf
     # wget --tries=10 --waitretry=10 -P "$HOME/software/fzf/" https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
     curl --retry 10 --retry-all-errors --retry-delay 10 \
         -fSLo "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz" \
@@ -716,46 +752,11 @@ function _extract_filename() {
     echo "$1" | sed -E 's|^.+//.+/([^/?#]+)(\?.*)?(#.*)?$|\1|; t; s|.*||'
 }
 
-function _git_private() {
-    # git 私钥
-    _log_start "git private key"
-    github_key_url=""
-    notice "Need To Download Github Private Key ?" " (y/n):"
-    read -r choice1 </dev/tty
-    if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
-        notice "Use 'http://192.168.0.101:18080/loganoxo-GitHub' ? " " (y/n):"
-        read -r choice2 </dev/tty
-        if [ "$choice2" = "y" ] || [ "$choice2" = "Y" ]; then
-            github_key_url="http://192.168.0.101:18080/loganoxo-GitHub"
-        else
-            notice "Please Input The github_key_url .\n"
-            echo -n "Input github_key_url:"
-            read -r github_key_url </dev/tty
-            if [ -z "$github_key_url" ]; then
-                echo "Operation cancelled. Script stopped."
-                exit 1 #脚本停止
-            fi
-            for_sure "Use '$github_key_url' ?" " (y/n):"
-        fi
-        filename=$(_extract_filename "$github_key_url")
-        #        wget --tries=10 --waitretry=10 -P "$HOME/.ssh/" --header="Cache-Control: no-cache" "$github_key_url"
-
-        curl --retry 10 --retry-all-errors --retry-delay 10 \
-            -fSLo "$HOME/.ssh/$filename" "$github_key_url"
-
-        # 权限太宽泛会有问题
-        chmod 600 "$HOME/.ssh/$filename"
-        # ssh -T git@github.com || true
-    fi
-    _log_end
-    sleep 1
-}
-
 function _install_end() {
     sleep 10
     _log_start "_install_end"
     rm -rf ~/Data/Config
-    git clone https://github.com/loganoxo/Config.git ~/Data/Config
+    git clone git@github.com:loganoxo/Config.git ~/Data/Config
     _log_end
     sleep 2
 }

@@ -88,6 +88,10 @@ function _log_end() {
 # 预先判断
 judge
 sudo apt update -y
+cd ~
+# 安装 git
+sudo apt install -y git
+git --version
 
 # github token
 GITHUB_TOKEN=""
@@ -104,43 +108,10 @@ if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
     GITHUB_TOKEN="${GITHUB_TOKEN}@"
 fi
 
-# 为当前用户启用zsh环境
-cd ~
-# 安装 git
-sudo apt install -y git
-git --version
-
-# 安装shell插件
-_log_start "Install shel plugin"
-sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
-sleep 10
-git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-sleep 10
-git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
-rm -f ~/.zshrc.pre-oh-my-zsh
-sleep 5
-
-# 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
-bash -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh")" --unattended
-rm -f ~/.bashrc.omb-backup-*
-curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
-_log_end
-sleep 5
-
-# 环境搭建
-_log_start "Environment construction"
-mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~/.config/navi ~/.zoxide ~/.undodir ~/.vim ~/Temp ~/share
-git clone git@github.com:loganoxo/Config.git ~/Data/Config
-mv ~/.bashrc ~/.shell_bak/ || true
-mv ~/.profile ~/.shell_bak/ || true
-mv ~/.zshrc ~/.shell_bak/ || true
-bash ~/Data/Config/my-ln.sh
-sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
-sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
-source "$HOME/.bashrc" || true
-_log_end
-sleep 10
-
+# 私钥
+mkdir -p "$HOME/Data"
+git clone "https://${GITHUB_TOKEN}github.com/loganoxo/Config.git" ~/Data/Config
+_logan_if_linux && ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
 github_key_url=""
 function _git_private() {
     # git 私钥
@@ -176,6 +147,36 @@ function _git_private() {
     sleep 10
 }
 _git_private
+
+# 安装shell插件
+_log_start "Install shel plugin"
+sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
+sleep 10
+git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+sleep 10
+git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+rm -f ~/.zshrc.pre-oh-my-zsh
+sleep 5
+
+# 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
+bash -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh")" --unattended
+rm -f ~/.bashrc.omb-backup-*
+curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
+_log_end
+sleep 5
+
+# 环境搭建
+_log_start "Environment construction"
+mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~/.config/navi ~/.zoxide ~/.undodir ~/.vim ~/Temp ~/share
+mv ~/.bashrc ~/.shell_bak/ || true
+mv ~/.profile ~/.shell_bak/ || true
+mv ~/.zshrc ~/.shell_bak/ || true
+bash ~/Data/Config/my-ln.sh
+sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
+sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
+source "$HOME/.bashrc" || true
+_log_end
+sleep 10
 
 # 安装必备工具
 function _install_system_tools() {

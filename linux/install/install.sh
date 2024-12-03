@@ -199,7 +199,7 @@ function _install_CLI_tools() {
     sleep 0.5
     vim -c ':PlugStatus' -c ':PlugClean' -c ':qa!'
     sleep 0.5
-
+    echo "############ vim done #####################"
     # 安装sdkman
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
     source "$HOME/.bashrc" || true

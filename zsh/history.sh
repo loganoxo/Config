@@ -73,7 +73,7 @@ function _my_history_for_bash() {
     fi
 
     # 用上下箭头就可以根据已经输入的内容来查找匹配的历史命令
-    if [[ $- == *i* ]]; then
+    if _logan_if_interactive; then
         bind '"\e[A": history-search-backward'
         bind '"\e[B": history-search-forward'
         bind '"\e[C": forward-char'

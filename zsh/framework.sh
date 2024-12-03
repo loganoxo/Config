@@ -89,10 +89,10 @@ function _starship_load() {
 
 function _om_load() {
     # 加载
-    if _logan_if_bash; then
-        [[ -s "${__PATH_MY_CNF}/bash/omb.sh" ]] && source "${__PATH_MY_CNF}/bash/omb.sh"
-    elif _logan_if_zsh; then
-        [[ -s "${__PATH_MY_CNF}/zsh/omz.sh" ]] && source "${__PATH_MY_CNF}/zsh/omz.sh"
+    if _logan_if_bash && [[ -s "${__PATH_MY_CNF}/bash/omb.sh" ]]; then
+        source "${__PATH_MY_CNF}/bash/omb.sh"
+    elif _logan_if_zsh && [[ -s "${__PATH_MY_CNF}/zsh/omz.sh" ]]; then
+        source "${__PATH_MY_CNF}/zsh/omz.sh"
     fi
 }
 

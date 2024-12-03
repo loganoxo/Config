@@ -41,7 +41,9 @@ plugins=(
 )
 
 # 加载ohmyzsh
-[[ -s "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
+if [[ -s "$ZSH/oh-my-zsh.sh" ]]; then
+    source "$ZSH/oh-my-zsh.sh"
+fi
 
 #################################### ohmyzsh 加载后的配置 ###############################
 

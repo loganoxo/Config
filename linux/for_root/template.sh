@@ -11,7 +11,9 @@ export PATH=$PATH:$HOME/.local/bin # 针对linux系统
 
 export TERM=xterm-256color
 # 加载通用函数
-[ -f "${__PATH_MY_CNF_FOR_ROOT}/zsh/logan_function.sh" ] && source "${__PATH_MY_CNF_FOR_ROOT}/zsh/logan_function.sh"
+if [ -f "${__PATH_MY_CNF_FOR_ROOT}/zsh/logan_function.sh" ]; then
+    source "${__PATH_MY_CNF_FOR_ROOT}/zsh/logan_function.sh"
+fi
 # 加载自定义函数
 source "${__PATH_MY_CNF_FOR_ROOT}/my-functions/show_path.sh"
 source "${__PATH_MY_CNF_FOR_ROOT}/my-functions/show_fpath.sh"

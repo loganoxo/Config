@@ -49,7 +49,9 @@
 # touch "$HOME/.hushlogin" # 默认每次打开终端(zsh/bash)都会在第一行提示上次登陆信息,创建这个空文件后,就不显示了;
 
 # 加载通用函数
-[ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ] && source "${__PATH_MY_CNF}/zsh/logan_function.sh"
+if [ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
+    source "${__PATH_MY_CNF}/zsh/logan_function.sh"
+fi
 
 # export LANG=zh_CN.UTF-8 # 控制界面语言的展示或输出等 en_US.UTF-8; 注释掉,使用系统默认的,不然会对debian环境有影响
 
@@ -63,7 +65,9 @@ export BAT_THEME="Dracula" # bat主题
 # HomeBrew
 # 放在开头,后面的命令才能找到,不能放在zshenv中
 # export PATH=/usr/local/sbin:$PATH  intel的homebrew
-[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 # 禁止自动更新软件包
 export HOMEBREW_NO_AUTO_UPDATE=1
 # brew 清华镜像源
@@ -130,10 +134,14 @@ source "${__PATH_MY_CNF}/my-functions/show_fpath.sh"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
+fi
 
 # Added by OrbStack: command-line tools and integration
-[[ -f "$HOME/.orbstack/shell/init.zsh" ]] && source "$HOME/.orbstack/shell/init.zsh"
+if [[ -f "$HOME/.orbstack/shell/init.zsh" ]]; then
+    source "$HOME/.orbstack/shell/init.zsh"
+fi
 
 # fnm(node版本管理工具)
 if _logan_if_command_exist "fnm"; then

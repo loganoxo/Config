@@ -42,7 +42,7 @@ function _logan_if_linux() {
 
 function _logan_source() {
     set +e
-    source "$HOME/.bashrc" || truw
+    source "$HOME/.bashrc" || true
     set -e
 }
 

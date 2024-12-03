@@ -12,7 +12,9 @@ export __PATH_MY_SOFT="$HOME/Data/Software"                 # 我自己的软件
 export __PATH_MY_CNF_SENSITIVE="$HOME/Data/ConfigSensitive" # 本地敏感数据目录
 export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
 # 加载通用函数
-[ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ] && source "${__PATH_MY_CNF}/zsh/logan_function.sh"
+if [ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
+    source "${__PATH_MY_CNF}/zsh/logan_function.sh"
+fi
 
 mkdir -p "$HOME/.aria2" "$HOME/.config" "$HOME/.ssh"
 

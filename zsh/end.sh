@@ -6,7 +6,9 @@ if _logan_if_bash && _logan_if_command_exist "brew"; then
         source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
     else
         for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-            [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+            if [[ -r "${COMPLETION}" ]]; then
+                source "${COMPLETION}"
+            fi
         done
     fi
 fi

@@ -134,7 +134,9 @@ plugins=(
 #      plugins+=(tmux-autoattach)
 #  fi
 
-[[ -s "$OSH/oh-my-bash.sh" ]] && source "$OSH/oh-my-bash.sh"
+if [[ -s "$OSH/oh-my-bash.sh" ]]; then
+    source "$OSH/oh-my-bash.sh"
+fi
 
 # User configuration; MANPATH 是用来指定 man 命令搜索手册页的路径
 # export MANPATH="/usr/local/man:$MANPATH"

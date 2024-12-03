@@ -112,6 +112,10 @@ fi
 mkdir -p "$HOME/Data" "$HOME/.ssh"
 git clone "https://${GITHUB_TOKEN}github.com/loganoxo/Config.git" ~/Data/Config
 _logan_if_linux && ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
+# url中提取文件名
+function _extract_filename() {
+    echo "$1" | sed -E 's|^.+//.+/([^/?#]+)(\?.*)?(#.*)?$|\1|; t; s|.*||'
+}
 github_key_url=""
 function _git_private() {
     # git 私钥
@@ -795,11 +799,6 @@ EOF
     sudo systemctl restart vsftpd
     _log_end
     sleep 10
-}
-
-# url中提取文件名
-function _extract_filename() {
-    echo "$1" | sed -E 's|^.+//.+/([^/?#]+)(\?.*)?(#.*)?$|\1|; t; s|.*||'
 }
 
 function _install_end() {

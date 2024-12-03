@@ -16,11 +16,12 @@
 # wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
 # curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
-
-set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
+# e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
+set -e
 flag="$1"
 export PATH=$PATH:/usr/sbin
 GITHUB_TOKEN=""
+github_key_url=""
 
 function _logan_if_mac() {
     if [[ "$(uname -s)" == Darwin* ]]; then
@@ -176,37 +177,39 @@ function _get_content_from_github() {
     fi
 }
 
-# 预先判断
-judge
-sudo apt update -y
-cd ~
-# 安装 git
-sudo apt install -y git
-git --version
-sudo apt install -y jq
+# 准备git
+function _git_pre() {
+    sudo apt update -y
+    cd ~
+    # 安装 git
+    sudo apt install -y git
+    git --version
+    sudo apt install -y jq
 
-# github token
-notice "Use GITHUB_TOKEN ?" " (y/n):"
-read -r cho </dev/tty
-if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
-    echo -n "Please Input The GITHUB_TOKEN:"
-    read -r GITHUB_TOKEN </dev/tty
-    if [ -z "$GITHUB_TOKEN" ]; then
-        echo "Operation cancelled. Script stopped."
-        exit 1 #脚本停止
+    # github token
+    notice "Use GITHUB_TOKEN ?" " (y/n):"
+    read -r cho </dev/tty
+    if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
+        echo -n "Please Input The GITHUB_TOKEN:"
+        read -r GITHUB_TOKEN </dev/tty
+        if [ -z "$GITHUB_TOKEN" ]; then
+            echo "Operation cancelled. Script stopped."
+            exit 1 #脚本停止
+        fi
+        notice "Use GITHUB_TOKEN : $GITHUB_TOKEN\n"
     fi
-    notice "Use GITHUB_TOKEN : $GITHUB_TOKEN\n"
-fi
 
-# 私钥
-mkdir -p "$HOME/Data" "$HOME/.ssh"
-git clone "https://${GITHUB_TOKEN}@github.com/loganoxo/Config.git" ~/Data/Config
-_logan_if_linux && ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
+    # 私钥
+    mkdir -p "$HOME/Data" "$HOME/.ssh"
+    git clone "https://${GITHUB_TOKEN}@github.com/loganoxo/Config.git" ~/Data/Config
+    _logan_if_linux && ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
+}
+
 # url中提取文件名
 function _extract_filename() {
     echo "$1" | sed -E 's|^.+//.+/([^/?#]+)(\?.*)?(#.*)?$|\1|; t; s|.*||'
 }
-github_key_url=""
+
 function _git_private() {
     # git 私钥
     _log_start "git private key"
@@ -244,39 +247,42 @@ function _git_private() {
     _log_end
     sleep 10
 }
-_git_private
 
 # 安装shell插件
-_log_start "Install shel plugin"
-sh -c "$(_get_content_from_github "https://api.github.com/repos/ohmyzsh/ohmyzsh/contents/tools/install.sh" \
-    "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
-sleep 10
-git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-sleep 10
-git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
-rm -f ~/.zshrc.pre-oh-my-zsh
-sleep 5
+function _install_shell_plugin() {
+    _log_start "Install shel plugin"
+    sh -c "$(_get_content_from_github "https://api.github.com/repos/ohmyzsh/ohmyzsh/contents/tools/install.sh" \
+        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
+    sleep 10
+    git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+    sleep 10
+    git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+    rm -f ~/.zshrc.pre-oh-my-zsh
+    sleep 5
 
-# 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
-bash -c "$(_get_content_from_github "https://api.github.com/repos/ohmybash/oh-my-bash/contents/tools/install.sh" \
-    "https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh")" --unattended
-rm -f ~/.bashrc.omb-backup-*
-curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
-_log_end
-sleep 5
+    # 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
+    bash -c "$(_get_content_from_github "https://api.github.com/repos/ohmybash/oh-my-bash/contents/tools/install.sh" \
+        "https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh")" --unattended
+    rm -f ~/.bashrc.omb-backup-*
+    curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
+    _log_end
+    sleep 5
+}
 
 # 环境搭建
-_log_start "Environment construction"
-mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~/.config/navi ~/.zoxide ~/.undodir ~/.vim ~/Temp ~/share
-mv ~/.bashrc ~/.shell_bak/ || true
-mv ~/.profile ~/.shell_bak/ || true
-mv ~/.zshrc ~/.shell_bak/ || true
-bash ~/Data/Config/my-ln.sh
-sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
-sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
-source "$HOME/.bashrc" || true
-_log_end
-sleep 10
+function _environment_construction() {
+    _log_start "Environment construction"
+    mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~/.config/navi ~/.zoxide ~/.undodir ~/.vim ~/Temp ~/share
+    mv ~/.bashrc ~/.shell_bak/ || true
+    mv ~/.profile ~/.shell_bak/ || true
+    mv ~/.zshrc ~/.shell_bak/ || true
+    bash ~/Data/Config/my-ln.sh
+    sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
+    sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
+    source "$HOME/.bashrc" || true
+    _log_end
+    sleep 10
+}
 
 # 安装必备工具
 function _install_system_tools() {
@@ -303,7 +309,7 @@ function _install_system_tools() {
     sudo systemctl start nginx
     curl http://127.0.0.1:80 #测试
     sudo systemctl stop nginx
-    sudo systemctl status nginx || true
+    sudo systemctl status nginx --no-pager || true
 
     # 安装 go
     sudo apt install -y golang-go
@@ -460,7 +466,7 @@ function _install_CLI_tools() {
     # fnm unalias lts
 
     # 安装rust
-    curl --retry 10 --retry-all-errors --retry-delay 10 --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --retry 10 --retry-all-errors --retry-delay 10 --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source "$HOME/.bashrc" || true
     rustc --version
     sleep 10
@@ -623,8 +629,8 @@ function _install_CLI_tools() {
     # sudo chown "$USER":"$USER" /home/"$USER"/.docker -R # 将这个文件夹的 拥有者 和 所属组 设为当前用户;-R：递归修改，即包括子目录和文件
     # sudo chmod g+rwx "$HOME/.docker" -R                 # 为 .docker 目录及其内容增加组权限，使所属组的成员可以读取（read）、写入（write）、执行（execute）文件。
     # 在 Debian 和 Ubuntu 上，Docker 服务(守护进程)(不是指的容器) 默认在启动时启动
-    sudo systemctl status docker.service || true     # 这是 Docker 的主服务，负责管理 Docker 守护进程（dockerd），提供核心功能，包括容器管理、镜像拉取和存储等
-    sudo systemctl status containerd.service || true # 这是 containerd 容器运行时服务，是一个独立的守护进程，用于管理容器的生命周期
+    sudo systemctl status docker.service --no-pager || true     # 这是 Docker 的主服务，负责管理 Docker 守护进程（dockerd），提供核心功能，包括容器管理、镜像拉取和存储等
+    sudo systemctl status containerd.service --no-pager || true # 这是 containerd 容器运行时服务，是一个独立的守护进程，用于管理容器的生命周期
 
     # sudo systemctl enable docker.service
     # sudo systemctl enable containerd.service
@@ -705,7 +711,7 @@ function _enable_sftp() {
     sudo apt update -y
     sudo apt install -y openssh-server
     # 检查 SSH 服务状态
-    sudo systemctl status ssh || true
+    sudo systemctl status ssh --no-pager || true
 
     # 查看 /etc/ssh/sshd_config 这个文件内是否存在:
     # override default of no subsystems
@@ -796,7 +802,6 @@ function _enable_FTP() {
 
     sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.bak # 备份原始文件
     # su
-    ####################################################################
     sudo tee /etc/vsftpd.conf >/dev/null <<EOF
 # NO: 表示 vsftpd 不会以独立的守护进程方式运行;用于资源受限的系统; 因为 inetd 或 xinetd 在没有连接时不会启动 FTP 服务,从而减少资源占用
 # 当 listen=YES 时,vsftpd 只会在 IPv4 地址 上启动并监听 FTP 连接, listen_ipv6就必须为 NO
@@ -898,8 +903,6 @@ utf8_filesystem=YES
 # ls_recurse_enable=YES
 EOF
 
-    #####################################################################
-
     sudo systemctl restart vsftpd
     _log_end
     sleep 10
@@ -914,14 +917,33 @@ function _install_end() {
     sleep 2
 }
 
-_install_system_tools # 安装必备工具
-_install_CLI_tools    # 安装 命令行工具
-_install_file_server  # 安装 文件上传下载服务-dufs-filebrowser
-_enable_sftp          # 开启 SFTP 服务
-_enable_FTP           # 安装 FTP 服务
-_git_private          # git 私钥
-_install_end          # 重新下载 Config
-notice "All Done....... \n"
-echo "######################################################"
-notice "May be need the following command test after install.\n"
-notice "ssh -T git@github.com\n"
+function run() {
+    # 预先判断
+    judge
+    # 准备git
+    _git_pre
+    # git 私钥
+    _git_private
+    # 安装shell插件
+    _install_shell_plugin
+    # 环境搭建
+    _environment_construction
+    # 安装必备工具
+    _install_system_tools
+    # 安装 命令行工具
+    _install_CLI_tools
+    # 安装 文件上传下载服务-dufs-filebrowser
+    _install_file_server
+    # 开启 SFTP 服务
+    _enable_sftp
+    # 安装 FTP 服务
+    _enable_FTP
+    # 重新下载 Config
+    _install_end
+    notice "All Done....... \n"
+    echo "######################################################"
+    notice "May be need the following command test after install.\n"
+    notice "ssh -T git@github.com\n"
+}
+
+run

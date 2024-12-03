@@ -20,6 +20,7 @@
 set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 flag="$1"
 export PATH=$PATH:/usr/sbin
+GITHUB_TOKEN=""
 
 function _logan_if_mac() {
     if [[ "$(uname -s)" == Darwin* ]]; then
@@ -85,6 +86,96 @@ function _log_end() {
     echo -en "\033[31m#############################################################________#############################################################\033[0m\n\n"
 }
 
+function _get_asset_id() {
+    OWNER="$1"
+    REPO="$2"
+    TAG="$3"
+    FILE_NAME="$4"
+    URL="https://api.github.com/repos/${OWNER}/${REPO}/releases/tags/${TAG}"
+    ASSET_ID=$(
+        curl --retry 10 --retry-all-errors --retry-delay 10 \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -fsSL "${URL}" |
+            jq -r ".assets | .[] | select(.name == \"$FILE_NAME\") | .id"
+    )
+    if [ -z "$ASSET_ID" ] || [ "$ASSET_ID" = "null" ]; then
+        echo "Error: Could not find ASSET_ID for file '${FILE_NAME}' in release '${TAG}'."
+    fi
+    echo "$ASSET_ID"
+}
+
+# 用 github api 下载文件
+function _download_release_from_github() {
+    local url="$1"
+    local alternate_url="$2"
+    local file="$3"
+    if [ -n "$GITHUB_TOKEN" ]; then
+        if [ -n "$file" ]; then
+            curl --retry 10 --retry-all-errors --retry-delay 10 \
+                -H "Accept: application/octet-stream" \
+                -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                -fSLo "$file" "$url"
+        else
+            curl --retry 10 --retry-all-errors --retry-delay 10 \
+                -H "Accept: application/octet-stream" \
+                -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                -fSLO "$url"
+        fi
+    else
+        if [ -n "$file" ]; then
+            curl --retry 10 --retry-all-errors --retry-delay 10 \
+                -fSLo "$file" "$alternate_url"
+        else
+            curl --retry 10 --retry-all-errors --retry-delay 10 \
+                -fSLO "$alternate_url"
+        fi
+    fi
+}
+
+# 下载某个文件
+function _download_single_file_from_github() {
+    local url="$1" # https://api.github.com/repos/OWNER/REPO/contents/PATH ; api 的 url 后面 加 ?ref=develop 可以指定分支
+    local alternate_url="$2"
+    local file="$3"
+    if [ -n "$GITHUB_TOKEN" ]; then
+        if [ -n "$file" ]; then
+            curl --retry 10 --retry-all-errors --retry-delay 10 \
+                -H "Accept: application/vnd.github.raw" \
+                -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                -fSLo "$file" "$url"
+        else
+            curl --retry 10 --retry-all-errors --retry-delay 10 \
+                -H "Accept: application/vnd.github.raw" \
+                -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                -fSLO "$url"
+        fi
+    else
+        if [ -n "$file" ]; then
+            curl --retry 10 --retry-all-errors --retry-delay 10 \
+                -fSLo "$file" "$alternate_url"
+        else
+            curl --retry 10 --retry-all-errors --retry-delay 10 \
+                -fSLO "$alternate_url"
+        fi
+    fi
+}
+
+# 用 github api 获取文件内容
+function _get_content_from_github() {
+    local url="$1" # https://api.github.com/repos/OWNER/REPO/contents/PATH ; api 的 url 后面 加 ?ref=develop 可以指定分支
+    local alternate_url="$2"
+    if [ -n "$GITHUB_TOKEN" ]; then
+        curl --retry 10 --retry-all-errors --retry-delay 10 \
+            -H "Accept: application/vnd.github.raw" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -fsSL "$url"
+    else
+        curl --retry 10 --retry-all-errors --retry-delay 10 \
+            -fsSL "$alternate_url"
+    fi
+}
+
 # 预先判断
 judge
 sudo apt update -y
@@ -94,7 +185,6 @@ sudo apt install -y git
 git --version
 
 # github token
-GITHUB_TOKEN=""
 notice "Use GITHUB_TOKEN ?" " (y/n):"
 read -r cho </dev/tty
 if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
@@ -105,12 +195,11 @@ if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
         exit 1 #脚本停止
     fi
     notice "Use GITHUB_TOKEN : $GITHUB_TOKEN\n"
-    GITHUB_TOKEN="${GITHUB_TOKEN}@"
 fi
 
 # 私钥
 mkdir -p "$HOME/Data" "$HOME/.ssh"
-git clone "https://${GITHUB_TOKEN}github.com/loganoxo/Config.git" ~/Data/Config
+git clone "https://${GITHUB_TOKEN}@github.com/loganoxo/Config.git" ~/Data/Config
 _logan_if_linux && ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
 # url中提取文件名
 function _extract_filename() {
@@ -155,7 +244,8 @@ _git_private
 
 # 安装shell插件
 _log_start "Install shel plugin"
-sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
+sh -c "$(_get_content_from_github "https://api.github.com/repos/ohmyzsh/ohmyzsh/contents/tools/install.sh" \
+    "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
 sleep 10
 git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 sleep 10
@@ -164,7 +254,8 @@ rm -f ~/.zshrc.pre-oh-my-zsh
 sleep 5
 
 # 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
-bash -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh")" --unattended
+bash -c "$(_get_content_from_github "https://api.github.com/repos/ohmybash/oh-my-bash/contents/tools/install.sh" \
+    "https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh")" --unattended
 rm -f ~/.bashrc.omb-backup-*
 curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
 _log_end
@@ -231,9 +322,15 @@ function _install_CLI_tools() {
     mkdir -p ~/software
     git clone git@github.com:junegunn/fzf.git ~/software/fzf
     # wget --tries=10 --waitretry=10 -P "$HOME/software/fzf/" https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
-    curl --retry 10 --retry-all-errors --retry-delay 10 \
-        -fSLo "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz" \
-        "https://${GITHUB_TOKEN}github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz"
+    fzf_id=""
+    if [ -n "$GITHUB_TOKEN" ]; then
+        fzf_id=$(_get_asset_id "junegunn" "fzf" "v0.56.3" "fzf-0.56.3-linux_arm64.tar.gz")
+    fi
+    _download_release_from_github \
+        "https://api.github.com/repos/junegunn/fzf/releases/assets/$fzf_id" \
+        "https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz" \
+        "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz"
+
     tar -xzf ~/software/fzf/fzf-0.56.3-linux_arm64.tar.gz -C ~/software/fzf
     ln -sf ~/software/fzf/fzf ~/.local/bin/fzf
     sleep 5
@@ -244,15 +341,19 @@ function _install_CLI_tools() {
 
     # 安装zoxide
     mkdir -p ~/.zoxide
-    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh" | sh
+
+    _get_content_from_github "https://api.github.com/repos/ajeetdsouza/zoxide/contents/install.sh" \
+        "https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh" | sh
     sleep 5
 
     # 安装vim
-    mkdir -p ~/.undodir ~/.vim
+    mkdir -p ~/.undodir ~/.vim/autoload
     sudo apt install -y vim
-    curl --retry 10 --retry-all-errors --retry-delay 10 --create-dirs \
-        -fSLo ~/.vim/autoload/plug.vim \
-        "https://${GITHUB_TOKEN}raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    _download_single_file_from_github \
+        "https://api.github.com/repos/junegunn/vim-plug/contents/plug.vim" \
+        "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
+        "$HOME/.vim/autoload/plug.vim"
+
     # 定义插件的仓库列表,手动用ssh安装,避免github限制
     plugins=(
         "dracula/vim" "catppuccin/vim" "mhinz/vim-startify" "machakann/vim-highlightedyank"
@@ -275,7 +376,7 @@ function _install_CLI_tools() {
         if [ -n "$github_key_url" ]; then
             url="git@github.com:${repo}.git"
         else
-            url="https://${GITHUB_TOKEN}github.com/${repo}.git"
+            url="https://github.com/${repo}.git"
         fi
         echo "Cloning $repo ..."
         git clone "$url" "$plugin_dir/${repo}"
@@ -380,9 +481,16 @@ function _install_CLI_tools() {
     # glow
     mkdir -p ~/software
     #    wget --tries=10 --waitretry=10 -P "$HOME/software" https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
-    curl --retry 10 --retry-all-errors --retry-delay 10 \
-        -fSLo "$HOME/software/glow_2.0.0_Linux_arm64.tar.gz" \
-        "https://${GITHUB_TOKEN}github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz"
+    # "https://api.github.com/repos/charmbracelet/glow/releases/tags/v2.0.0"
+    glow_id=""
+    if [ -n "$GITHUB_TOKEN" ]; then
+        glow_id=$(_get_asset_id "charmbracelet" "glow" "v2.0.0" "glow_2.0.0_Linux_arm64.tar.gz")
+    fi
+    _download_release_from_github \
+        "https://api.github.com/repos/charmbracelet/glow/releases/assets/$glow_id" \
+        "https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz" \
+        "$HOME/software/glow_2.0.0_Linux_arm64.tar.gz"
+
     tar xvzf ~/software/glow_2.0.0_Linux_arm64.tar.gz -C "$HOME/software/"
     mv ~/software/glow_2.0.0_Linux_arm64 ~/software/glow
     ln -s ~/software/glow/glow ~/.local/bin/glow

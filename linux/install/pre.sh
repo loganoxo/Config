@@ -455,7 +455,7 @@ function _clone() {
     fi
 
     echo "######################################################"
-    notice "new static ip is: \n"
+    notice "new static ip is: $static_ip\n"
     notice "ssh $user_name@$static_ip\n"
     echo "######################################################"
     notice "May be need to Check MAC address .\n"

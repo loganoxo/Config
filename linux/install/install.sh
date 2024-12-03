@@ -109,7 +109,7 @@ if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
 fi
 
 # 私钥
-mkdir -p "$HOME/Data"
+mkdir -p "$HOME/Data" "$HOME/.ssh"
 git clone "https://${GITHUB_TOKEN}github.com/loganoxo/Config.git" ~/Data/Config
 _logan_if_linux && ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
 github_key_url=""

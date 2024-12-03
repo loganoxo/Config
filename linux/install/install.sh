@@ -967,8 +967,11 @@ EOF
 function _install_end() {
     sleep 10
     _log_start "_install_end"
+    # 删除之前先clone,不然直接删 ssh/config也没了,因为做了软链接
+    git clone git@github.com:loganoxo/Config.git "$HOME/Temp/Config"
     rm -rf "$HOME/Data/Config"
-    git clone git@github.com:loganoxo/Config.git "$HOME/Data/Config"
+    mv "$HOME/Temp/Config" "$HOME/Data/Config"
+    cd "$HOME/Data/Config" && git pull
     _log_end
     sleep 2
 }

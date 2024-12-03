@@ -390,12 +390,17 @@ function _clone() {
 
     # 语言设置
     _log_start "Language Config"
-    for_sure "Next Step : Language Config  ? (y/n):"
-    dpkg-reconfigure locales
-    notice "locale : \n"
-    locale
-    notice "locale -a : \n"
-    locale -a
+    notice "Reconfigure Language ?" " (y/n):"
+    read -r cho </dev/tty
+    if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
+        dpkg-reconfigure locales
+        notice "locale : \n"
+        locale
+        notice "locale -a : \n"
+        locale -a
+    else
+        echo "skip"
+    fi
     _log_end
 
     # 安装一些必备软件
@@ -433,6 +438,8 @@ function _clone() {
         else
             echo "new_hostname is blank; skip"
         fi
+    else
+        echo "skip."
     fi
 
     echo "######################################################"

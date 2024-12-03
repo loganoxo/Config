@@ -141,10 +141,10 @@ source "$HOME/.bashrc" || true
 _log_end
 sleep 10
 
+github_key_url=""
 function _git_private() {
     # git 私钥
     _log_start "git private key"
-    github_key_url=""
     notice "Need To Download Github Private Key ?" " (y/n):"
     read -r choice1 </dev/tty
     if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
@@ -247,12 +247,46 @@ function _install_CLI_tools() {
     curl --retry 10 --retry-all-errors --retry-delay 10 --create-dirs \
         -fSLo ~/.vim/autoload/plug.vim \
         "https://${GITHUB_TOKEN}raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    # 定义插件的仓库列表,手动用ssh安装,避免github限制
+    plugins=(
+        "dracula/vim" "catppuccin/vim" "mhinz/vim-startify" "machakann/vim-highlightedyank"
+        "itchyny/lightline.vim" "mg979/vim-xtabline" "preservim/vim-indent-guides"
+        "matze/vim-move" "tpope/vim-surround" "wellle/targets.vim" "preservim/tagbar"
+        "justinmk/vim-sneak" "easymotion/vim-easymotion" "tpope/vim-fugitive"
+        "tpope/vim-commentary" "mg979/vim-visual-multi" "preservim/nerdtree"
+        "ctrlpvim/ctrlp.vim" "luochen1990/rainbow" "mhinz/vim-signify:legacy"
+        "jiangmiao/auto-pairs" "junegunn/fzf.vim" "voldikss/vim-floaterm"
+        "liuchengxu/vim-which-key" "mbbill/undotree" "tpope/vim-repeat"
+        "ryanoasis/vim-devicons"
+    )
+    if [ -n "$github_key_url" ] || [ -n "$GITHUB_TOKEN" ]; then
+        plugin_dir="$HOME/.vim/plugged"
+        mkdir -p "$plugin_dir"
+        local url=""
+        # 循环克隆插件
+        for item in "${plugins[@]}"; do
+            local branch_or_tag=""
+            IFS=":" read -r repo branch_or_tag <<<"$item"
+            if [ -n "$github_key_url" ]; then
+                url="git@github.com:${repo}.git"
+            elif [ -n "$GITHUB_TOKEN" ]; then
+                url="https://${GITHUB_TOKEN}github.com/${repo}.git"
+            fi
+            echo "Cloning $repo ..."
+            git clone "$url" "$plugin_dir/${repo}"
+            if [ -n "$branch_or_tag" ]; then
+                cd "$plugin_dir/${repo}"
+                git checkout "$branch_or_tag"
+            fi
+            sleep 5
+        done
+        echo "All plugins manual cloned!"
+    fi
+    cd ~
     # 测试 :PlugStatus :PlugInstall  :PlugClean
     echo ""
     vim -e -c ':PlugInstall' -c ':qa!'
     sleep 10
-    vim -e -c ':PlugInstall' -c ':qa!'
-    sleep 2
     vim -e -c ':PlugInstall' -c ':qa!'
     sleep 2
     vim -e -c ':PlugStatus' -c ':PlugClean' -c ':qa!'

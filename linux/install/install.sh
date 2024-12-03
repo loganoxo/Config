@@ -69,6 +69,11 @@ function judge() {
         exit 1
     fi
 
+    if [[ ! "$step" =~ ^[0-9]+$ ]]; then
+        echo "Step must be number."
+        exit 1
+    fi
+
     if _logan_if_mac; then
         echo "can't run on macos"
         exit 1

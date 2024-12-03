@@ -197,44 +197,39 @@ function _install_CLI_tools() {
         -fSLo ~/.vim/autoload/plug.vim \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # 测试 :PlugStatus :PlugInstall  :PlugClean
-    echo -e "\r"
     echo ""
-    vim -c ':PlugInstall' -c ':qa!'
-    echo -e "\r"
+    vim -e -c ':PlugInstall' -c ':qa!'
     sleep 10
-    vim -c ':PlugInstall' -c ':qa!'
-    echo -e "\r"
+    vim -e -c ':PlugInstall' -c ':qa!'
     sleep 2
-    vim -c ':PlugInstall' -c ':qa!'
-    echo -e "\r"
+    vim -e -c ':PlugInstall' -c ':qa!'
     sleep 2
-    vim -c ':PlugStatus' -c ':PlugClean' -c ':qa!'
-    echo -e "\r"
+    vim -e -c ':PlugStatus' -c ':PlugClean' -c ':qa!'
     sleep 5
     echo "############ vim done #####################"
-    echo -e "\r"
     echo ""
 
     # 安装sdkman
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
     source "$HOME/.bashrc" || true
     sdk version
-    sdk install java 8.0.432.fx-zulu
+    yes n | sdk install java 8.0.432.fx-zulu
     sleep 10
-    sdk install java 11.0.25.fx-zulu
+    yes n | sdk install java 11.0.25.fx-zulu
     sleep 10
-    sdk install java 17.0.13.fx-zulu
+    yes n | sdk install java 17.0.13.fx-zulu
     sleep 10
-    sdk install java 17.0.13-zulu
+    yes n | sdk install java 17.0.13-zulu
     sleep 10
-    sdk install java 17.0.12-oracle #设为默认
+    yes n | sdk install java 17.0.12-oracle #设为默认
     sleep 10
-    sdk install java 17.0.13-tem
+    yes n | sdk install java 17.0.13-tem
     sleep 10
+    yes n | sdk default java 17.0.12-oracle
+    yes n | sdk install maven 3.9.9
+    sleep 10
+    sdk default maven 3.9.9
     sdk default java 17.0.12-oracle
-    sdk install maven 3.9.9
-    sleep 10
-    yes y | sdk default maven 3.9.9
     # 重启虚拟机
     # sdk list java
     # java -version

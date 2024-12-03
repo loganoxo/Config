@@ -101,11 +101,14 @@ sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://raw.g
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 rm -f ~/.zshrc.pre-oh-my-zsh
+sleep 5
+
 # 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
 bash -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended
 rm -f ~/.bashrc.omb-backup-*
 curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
 _log_end
+sleep 5
 
 # 环境搭建
 _log_start "Environment construction"
@@ -119,7 +122,7 @@ sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/
 sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
 source "$HOME/.bashrc" || true
 _log_end
-sleep 1
+sleep 5
 
 # 安装必备工具
 function _install_system_tools() {
@@ -152,7 +155,7 @@ function _install_system_tools() {
     sudo apt install -y golang-go
     go version
     _log_end
-    sleep 3
+    sleep 5
 }
 
 # 安装 命令行工具
@@ -172,9 +175,9 @@ function _install_CLI_tools() {
     curl --retry 10 --retry-all-errors --retry-delay 10 \
         -fSLo "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz" \
         https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
-
     tar -xzf ~/software/fzf/fzf-0.56.3-linux_arm64.tar.gz -C ~/software/fzf
     ln -sf ~/software/fzf/fzf ~/.local/bin/fzf
+    sleep 5
 
     # 安装fd
     sudo apt install -y fd-find
@@ -183,6 +186,7 @@ function _install_CLI_tools() {
     # 安装zoxide
     mkdir -p ~/.zoxide
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+    sleep 5
 
     # 安装vim
     mkdir -p ~/.undodir ~/.vim
@@ -192,26 +196,35 @@ function _install_CLI_tools() {
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # 测试 :PlugStatus :PlugInstall  :PlugClean
     vim -c ':PlugInstall' -c ':qa!'
-    sleep 0.5
+    sleep 10
     vim -c ':PlugInstall' -c ':qa!'
-    sleep 0.5
+    sleep 2
     vim -c ':PlugInstall' -c ':qa!'
-    sleep 0.5
+    sleep 2
     vim -c ':PlugStatus' -c ':PlugClean' -c ':qa!'
-    sleep 0.5
+    sleep 5
     echo "############ vim done #####################"
+    echo ""
+
     # 安装sdkman
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
     source "$HOME/.bashrc" || true
     sdk version
     sdk install java 8.0.432.fx-zulu
+    sleep 10
     sdk install java 11.0.25.fx-zulu
+    sleep 10
     sdk install java 17.0.13.fx-zulu
+    sleep 10
     sdk install java 17.0.13-zulu
+    sleep 10
     sdk install java 17.0.12-oracle #设为默认
+    sleep 10
     sdk install java 17.0.13-tem
+    sleep 10
     sdk default java 17.0.12-oracle
     sdk install maven 3.9.9
+    sleep 10
     sdk default maven 3.9.9
     # 重启虚拟机
     # sdk list java
@@ -231,6 +244,7 @@ function _install_CLI_tools() {
     fnm install --latest #安装最新的版本,会自动加别名 latest
     fnm default lts-latest
     fnm alias lts-latest lts
+    sleep 10
     which -a npm
     npm -g install nrm pm2 prettier yarn yrm
     npm list -g
@@ -258,10 +272,12 @@ function _install_CLI_tools() {
     curl --retry 10 --retry-all-errors --retry-delay 10 --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     source "$HOME/.bashrc" || true
     rustc --version
+    sleep 10
 
     # 安装navi
     # 方法一,用cargo
     cargo install --locked navi
+    sleep 10
     # 方法二,自己编译,有问题
     # git clone https://github.com/denisidoro/navi && cd navi
     # make BIN_DIR=/home/helq/.local/bin install
@@ -273,6 +289,7 @@ function _install_CLI_tools() {
     tldr --update
     tldr bat
     tldr -L zh tree
+    sleep 10
 
     # glow
     mkdir -p ~/software
@@ -283,6 +300,7 @@ function _install_CLI_tools() {
     tar xvzf ~/software/glow_2.0.0_Linux_arm64.tar.gz -C "$HOME/software/"
     mv ~/software/glow_2.0.0_Linux_arm64 ~/software/glow
     ln -s ~/software/glow/glow ~/.local/bin/glow
+    sleep 10
 
     # the_silver_searcher
     sudo apt install -y silversearcher-ag
@@ -293,6 +311,7 @@ function _install_CLI_tools() {
     sudo mkdir --parent /.Trash
     sudo chmod a+rw /.Trash
     sudo chmod +t /.Trash
+    sleep 10
 
     # uv 包含了 pipx 的功能  https://docs.astral.sh/uv/
     # 默认是managed: 最先找uv管理的python,其次找系统python(若此时在conda的某个环境中,conda该环境的python也会被找到),最后才下载;only-managed:只找uv管理的python,没有则下载;
@@ -311,6 +330,7 @@ function _install_CLI_tools() {
     # ruff check a.py # 这个命令的功能: 检查python代码是否有问题
     # uv tool uninstall ruff
     # 命令补全: https://docs.astral.sh/uv/getting-started/installation/#upgrading-uv
+    sleep 20
 
     # 安装miniconda  linux 静默安装
     mkdir -p ~/Temp
@@ -330,6 +350,7 @@ function _install_CLI_tools() {
     conda deactivate || true
     conda deactivate || true
     conda deactivate || true
+    sleep 15
     # 静默安装后,可选择shell环境,会修改 .zshrc .bashrc
     # conda init zsh
     # conda init bash
@@ -372,6 +393,7 @@ function _install_CLI_tools() {
     sudo apt-get update -y && sudo apt-get install -y ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
     sudo curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    sleep 10
     sudo chmod a+r /etc/apt/keyrings/docker.asc
 
     # Add the repository to Apt sources:
@@ -412,11 +434,12 @@ function _install_CLI_tools() {
     # 禁止开机启动;但是当使用docker命令时,这两个服务会自动启动
     sudo systemctl disable docker.service
     sudo systemctl disable containerd.service
+    sleep 10
 
     # 其他安装
     sudo apt install -y shellcheck shfmt tmux universal-ctags
     _log_end
-    sleep 1
+    sleep 10
 }
 
 # 安装 文件上传下载服务-dufs-filebrowser
@@ -429,6 +452,7 @@ function _install_file_server() {
     cargo install dufs
     mkdir -p ~/share/dufs
     sudo ufw allow 5000
+    sleep 10
     # dufs                          # 以只读模式提供当前目录,只允许查看和下载;默认在前台执行
     # nohup dufs >output.log 2>&1 & # 后台启动
     # jobs -l                       # 查看后台启动程序; kill PID
@@ -473,7 +497,7 @@ EOF
         -p 12786:80 \
         filebrowser/filebrowser
     _log_end
-    sleep 1
+    sleep 10
 }
 
 # 开启 SFTP 服务
@@ -544,7 +568,7 @@ EOF
     # X11Forwarding                  禁止 X11 图形界面转发,减少不必要的功能支持，提高安全性
     # 这组命令从Match User开始，也可以为不同的用户复制和重复。确保相应地修改Match User行中的用户名
     _log_end
-    sleep 1
+    sleep 10
 }
 
 # 安装 FTP 服务
@@ -680,7 +704,7 @@ EOF
 
     sudo systemctl restart vsftpd
     _log_end
-    sleep 1
+    sleep 10
 }
 
 # url中提取文件名
@@ -724,11 +748,12 @@ function _git_private() {
 }
 
 function _install_end() {
+    sleep 10
     _log_start "_install_end"
     rm -rf ~/Data/Config
     git clone https://github.com/loganoxo/Config.git ~/Data/Config
     _log_end
-    sleep 1
+    sleep 2
 }
 
 _install_system_tools # 安装必备工具

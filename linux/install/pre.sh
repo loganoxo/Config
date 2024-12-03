@@ -395,11 +395,12 @@ function _clone() {
     fi
     _log_end
 
-    # 语言设置
+    # 语言设置 鼠标滚轮可以快速滚动
     _log_start "Language Config"
     notice "Reconfigure Language ?" " (y/n):"
     read -r cho </dev/tty
     if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
+        # 鼠标滚轮可以快速滚动
         dpkg-reconfigure locales
         notice "locale : \n"
         locale

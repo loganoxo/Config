@@ -461,6 +461,34 @@ function _clone() {
     notice "May be need to Check MAC address .\n"
     notice "May be need reboot.\n"
     echo "######################################################"
+
+    # 因为 A、B 和 C 虚拟机的 SSH 主机密钥是克隆时复制过来的，三台虚拟机的密钥相同，所以 SSH 客户端会认为它们是同一台主机。
+    # ssh连接这三台机器时,本地~/.ssh/known_hosts 文件中这三台机器的指纹完全相同;
+    # 当你尝试通过 SSH 连接到主机时，SSH 客户端会检查该主机的指纹是否与之前记录的匹配。如果三台虚拟机的指纹相同，当你切换连接到另一个虚拟机时，SSH 客户端会认为主机身份可能被篡改，提示警告
+    # 主机指纹的目的是确保客户端连接到正确的服务器。如果三台虚拟机的指纹相同，客户端无法区分它们。这可能会带来以下问题：
+    #	•	中间人攻击更容易成功，因为客户端无法验证主机的唯一性。
+    #	•	如果某台虚拟机被攻破，攻击者可能利用相同的指纹冒充其他虚拟机
+    # 管理混乱: 在使用工具（如 Ansible、SSH 配置文件）管理多台主机时，相同的指纹可能导致配置错误或意外连接到错误的主机
+    # 尽量为每台虚拟机生成唯一的 SSH 主机密钥，确保指纹唯一性，以避免潜在问题并提高系统安全性。
+
+    notice "After reboot; You Need To regenerate SSH Host Key In Linux Visual Machine. \n"
+    notice "sudo rm -f /etc/ssh/ssh_host_* \n"
+    notice 'sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N "" \n'
+    notice 'sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N "" \n'
+    notice 'sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N "" \n'
+    notice "sudo systemctl restart ssh \n"
+    # ssh-keygen: 用于生成 SSH 密钥的工具; -t rsa: 指定生成密钥的类型为 RSA。RSA 是一种常用的公钥算法
+    # -f /etc/ssh/ssh_host_rsa_key : 指定生成的密钥文件的路径和文件名; 公钥会自动生成在相同路径，文件名为 /etc/ssh/ssh_host_rsa_key.pub ; 私钥存储在同目录 /etc/ssh/ssh_host_rsa_key
+    # -N ""   : 双引号不能去掉; 设置密钥的密码为空;空密码适用于 SSH 主机密钥，因为它们需要在没有人工干预的情况下由 SSH 服务自动使用
+    echo "######################################################"
+    notice "Next Step in Client Machine: \n"
+    notice "ssh-keygen -R <VM Ip> \n"
+    notice 'ssh-keygen -R "172.16.106.110" \n'
+    notice 'ssh-keygen -R "172.16.106.120" \n'
+    notice 'ssh-keygen -R "172.16.106.130" \n'
+    notice "These Command above will delete <IP+Fingerprint> in ~/.ssh/known_hosts \n"
+    notice "Now run SSH agin to regenerate Fingerprint in ~/.ssh/known_hosts \n"
+    echo "######################################################"
 }
 
 if [ -z "$after_clone" ] || [ "$after_clone" != "clone" ]; then

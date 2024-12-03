@@ -98,7 +98,9 @@ git --version
 # 安装shell插件
 _log_start "Install shel plugin"
 sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sleep 3
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+sleep 3
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 rm -f ~/.zshrc.pre-oh-my-zsh
 sleep 5

@@ -195,15 +195,22 @@ function _install_CLI_tools() {
         -fSLo ~/.vim/autoload/plug.vim \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # 测试 :PlugStatus :PlugInstall  :PlugClean
+    echo -e "\r"
+    echo ""
     vim -c ':PlugInstall' -c ':qa!'
+    echo -e "\r"
     sleep 10
     vim -c ':PlugInstall' -c ':qa!'
+    echo -e "\r"
     sleep 2
     vim -c ':PlugInstall' -c ':qa!'
+    echo -e "\r"
     sleep 2
     vim -c ':PlugStatus' -c ':PlugClean' -c ':qa!'
+    echo -e "\r"
     sleep 5
     echo "############ vim done #####################"
+    echo -e "\r"
     echo ""
 
     # 安装sdkman
@@ -225,7 +232,7 @@ function _install_CLI_tools() {
     sdk default java 17.0.12-oracle
     sdk install maven 3.9.9
     sleep 10
-    sdk default maven 3.9.9
+    yes y | sdk default maven 3.9.9
     # 重启虚拟机
     # sdk list java
     # java -version

@@ -24,8 +24,12 @@ ln -sf "${__PATH_MY_CNF}/zsh/themes/lib" "$HOME/.oh-my-zsh/custom/themes/lib"
 ln -sf "${__PATH_MY_CNF}/zsh/themes/mydracula.zsh-theme" "$HOME/.oh-my-zsh/custom/themes/mydracula.zsh-theme"
 
 # ssh
-_logan_if_mac && ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_mac" "$HOME/.ssh/config"
-_logan_if_linux && ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
+if _logan_if_mac; then
+    ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_mac" "$HOME/.ssh/config"
+fi
+if _logan_if_linux; then
+    ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
+fi
 
 # conda
 ln -sf "${__PATH_MY_CNF}/zsh/conda/condarc" "$HOME/.condarc"

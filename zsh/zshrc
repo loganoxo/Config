@@ -22,7 +22,9 @@ fi
 # zoxide
 export _ZO_DATA_DIR="$HOME/.zoxide"                          #zz命令数据存放的目录
 export _ZO_EXCLUDE_DIRS="/:$HOME:$HOME/private/*:$HOME/Temp" #排除某些目录
-_logan_if_command_exist "zoxide" && eval "$(zoxide init --no-cmd zsh)"
+if _logan_if_command_exist "zoxide"; then
+    eval "$(zoxide init --no-cmd zsh)"
+fi
 alias z="__zoxide_z"   # z <path> 直接跳转到最佳匹配的目录
 alias zz="__zoxide_zi" # zz <path> 通过fzf
 

@@ -136,8 +136,13 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -f "$HOME/.orbstack/shell/init.zsh" ]] && source "$HOME/.orbstack/shell/init.zsh"
 
 # fnm(node版本管理工具)
-_logan_if_command_exist "fnm" && _logan_if_zsh && eval "$(fnm env --use-on-cd --shell zsh)"
-_logan_if_command_exist "fnm" && _logan_if_bash && eval "$(fnm env --use-on-cd --shell bash)"
+if _logan_if_command_exist "fnm"; then
+    if _logan_if_zsh; then
+        eval "$(fnm env --use-on-cd --shell zsh)"
+    elif _logan_if_bash; then
+        eval "$(fnm env --use-on-cd --shell bash)"
+    fi
+fi
 
 # nvm 弃用,太慢了
 #export NVM_DIR="$HOME/.nvm"

@@ -102,9 +102,9 @@ function starship_change_theme_select() {
         echo -e "\033[31m exit.....\033[0m"
         return 0
     fi
-
-    _logan_if_zsh && ((choice++))
-
+    if _logan_if_zsh; then
+        ((choice++))
+    fi
     starship_change_theme "$choice"
 
 }

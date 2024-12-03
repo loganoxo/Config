@@ -40,6 +40,12 @@ function _logan_if_linux() {
     fi
 }
 
+function _logan_source() {
+    set +e
+    source "$HOME/.bashrc" || truw
+    set -e
+}
+
 function judge() {
     _log_start "judge"
     if [ -z "$flag" ]; then
@@ -213,7 +219,9 @@ function _git_pre() {
     # 私钥
     mkdir -p "$HOME/Data" "$HOME/.ssh"
     git clone "https://${GITHUB_TOKEN}@github.com/loganoxo/Config.git" "$HOME/Data/Config"
-    _logan_if_linux && ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
+    if _logan_if_linux; then
+        ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
+    fi
 }
 
 # url中提取文件名
@@ -291,7 +299,7 @@ function _environment_construction() {
     bash "$HOME/Data/Config/my-ln.sh"
     sudo bash "$HOME/Data/Config/linux/for_root/create_root_files.sh" "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
     sudo ln -sf "$HOME/Data/Config/vim/settings.vim" "/root/.vimrc"
-    source "$HOME/.bashrc" || true
+    _logan_source
     _log_end
     sleep 10
 }
@@ -410,13 +418,13 @@ function _install_CLI_tools() {
     done
     echo "All vim plugins manual cloned!"
     cd "$HOME"
-    source "$HOME/.bashrc" || true
+    _logan_source
     echo "############ vim done #####################"
     sleep 10
 
     # 安装sdkman
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
-    source "$HOME/.bashrc" || true
+    _logan_source
     sdk version
     yes n | sdk install java 8.0.432.fx-zulu
     sleep 10
@@ -445,7 +453,7 @@ function _install_CLI_tools() {
     # 安装fnm
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
     ln -s "$HOME/.local/share/fnm/fnm" "$HOME/.local/bin/fnm"
-    source "$HOME/.bashrc" || true
+    _logan_source
     fnm -V               #查看fnm的版本
     fnm ls               #查看本地已安装的nodejs的版本
     fnm current          #打印当前使用的node版本
@@ -479,7 +487,7 @@ function _install_CLI_tools() {
 
     # 安装rust
     curl --retry 10 --retry-all-errors --retry-delay 10 --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    source "$HOME/.bashrc" || true
+    _logan_source
     rustc --version
     sleep 10
 
@@ -533,7 +541,7 @@ function _install_CLI_tools() {
     # 默认是managed: 最先找uv管理的python,其次找系统python(若此时在conda的某个环境中,conda该环境的python也会被找到),最后才下载;only-managed:只找uv管理的python,没有则下载;
     # # 安装选项:https://docs.astral.sh/uv/configuration/installer/#disabling-shell-modifications
     curl --retry 10 --retry-all-errors --retry-delay 10 -LsSf https://astral.sh/uv/install.sh | sh # 默认在 $HOME/.local/share/uv/
-    source "$HOME/.bashrc" || true
+    _logan_source
     export UV_PYTHON_PREFERENCE="only-managed"
     # uv python list
     uv python install # 默认在 $HOME/.local/share/uv/python/
@@ -556,7 +564,7 @@ function _install_CLI_tools() {
         https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
     bash "$HOME/Temp/miniconda.sh" -b -u -p "$HOME/.miniconda3" # -b:不对 shell 脚本进行 PATH 修改,以非交互模式（静默模式）运行安装; -u:如果指定的安装路径（通过 -p）已有 Miniconda 安装，它会更新而不是报错或覆盖安装; -p: 指定安装路径
     rm "$HOME/Temp/miniconda.sh"
-    source "$HOME/.bashrc" || true
+    _logan_source
     conda --version
     conda create -y -n env_test python=3.9 # -n 是创建的环境的名字
     conda activate env_test
@@ -661,7 +669,7 @@ function _install_CLI_tools() {
 # 安装 文件上传下载服务-dufs-filebrowser
 function _install_file_server() {
     _log_start "_install_file_server"
-    source "$HOME/.bashrc" || true
+    _logan_source
     mkdir -p "$HOME/share"
 
     # 安装 dufs

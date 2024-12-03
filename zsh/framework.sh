@@ -79,8 +79,11 @@ function _starship_load_pre() {
 # 加载starship
 function _starship_load() {
     # 加载
-    _logan_if_bash && eval "$(starship init bash)"
-    _logan_if_zsh && eval "$(starship init zsh)"
+    if _logan_if_zsh; then
+        eval "$(starship init zsh)"
+    elif _logan_if_bash; then
+        eval "$(starship init bash)"
+    fi
     logan_starship_load=1
 }
 

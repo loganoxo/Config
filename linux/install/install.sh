@@ -546,7 +546,7 @@ function _install_CLI_tools() {
     rm ~/Temp/miniconda.sh
     source "$HOME/.bashrc" || true
     conda --version
-    conda create -n env_test python=3.9 # -n 是创建的环境的名字
+    conda create -y -n env_test python=3.9 # -n 是创建的环境的名字
     conda activate env_test
     python3 -V
     conda activate # 默认是base环境

@@ -8,17 +8,18 @@
 # 使用:
 # 一、使用 github
 # 1.用wget(debian默认安装)
-# wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
+# wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami)"
 # 2.用curl(debian等linux可能没有预装)
-# curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
+# curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami)"
 
 # 二、也可以放在nginx中
-# wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
-# curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- $ZSH_VERSION
+# wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami)"
+# curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami)"
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 # e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 set -e
 flag="$1"
+user_name="$2"
 export PATH=$PATH:/usr/sbin
 GITHUB_TOKEN=""
 github_key_url=""
@@ -43,6 +44,16 @@ function judge() {
     _log_start "judge"
     if [ -z "$flag" ]; then
         echo "only run in zsh"
+        exit 1
+    fi
+
+    if [ -z "$user_name" ]; then
+        echo "don't have user_name"
+        exit 1
+    fi
+
+    if [ "$user_name" = "root" ]; then
+        echo "don't use root"
         exit 1
     fi
 
@@ -731,7 +742,7 @@ function _enable_sftp() {
     sudo chmod 755 /var/sftp                        # root用户为7所有权限; 同组用户和不同组的用户为5只允许读和执行; 4:读 2:写 1:执行
     sudo chown sftpuser:sftpuser /var/sftp/sftpuser # 将目录的所有权更改为您刚刚创建的用户
     sudo chmod 775 /var/sftp/sftpuser               # 同组用户可以读和写(目录必须有执行权限才能cd进入);其他用户只读
-    sudo usermod -aG sftpuser $(whoami)             # 把当前用户加入 sftpuser 用户组,让当前用户可以操作`分享目录`,就让当前用户可以将自己的文件复制到这个`分享目录中`了
+    sudo usermod -aG sftpuser "$user_name"          # 把当前用户加入 sftpuser 用户组,让当前用户可以操作`分享目录`,就让当前用户可以将自己的文件复制到这个`分享目录中`了
     getent group sftpuser                           # 查看用户组中有哪些用户
     # 权限组生效要重新登录
 
@@ -796,7 +807,7 @@ function _enable_FTP() {
     sudo passwd ftpuser                           # 添加密码    123456
     sudo chown ftpuser:ftpuser /var/ftp/ftpuser   # 将目录的所有权更改为您刚刚创建的用户
     sudo chmod 775 /var/ftp/ftpuser               # 同组用户可以读和写(目录必须有执行权限才能cd进入);其他用户只读
-    sudo usermod -aG ftpuser $(whoami)            # 把当前用户加入 ftpuser 用户组,让当前用户可以操作`分享目录`,就让当前用户可以将自己的文件复制到这个`分享目录中`了
+    sudo usermod -aG ftpuser "$user_name"         # 把当前用户加入 ftpuser 用户组,让当前用户可以操作`分享目录`,就让当前用户可以将自己的文件复制到这个`分享目录中`了
     getent group ftpuser                          # 查看用户组中有哪些用户
     sudo useradd -r -M -s /sbin/nologin ftpsecure # 创建一个供nopriv_user使用的低权限用户
     # 权限组生效要重新登录

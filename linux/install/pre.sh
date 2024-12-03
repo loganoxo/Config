@@ -7,17 +7,19 @@
 # 使用:
 # 一、使用 github
 # 1.用wget(debian默认安装)
-# su -c 'wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
 # 2.用curl(debian等linux可能没有预装)
-# su -c 'curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)" | bash -s -- run'
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
 
 # 二、也可以放在nginx中
-# su -c 'wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/pre.sh?$(date +%s)" | bash -s -- run'
-# su -c 'curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/pre.sh?$(date +%s)" | bash -s -- run'
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
+su -c "wget -q -O- --header="Cache-Control: no-cache" \"http://192.168.0.101:18080/a.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
 
 set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 flag="$1"
+user_name="$2"
 static_ip=""
 export PATH=$PATH:/usr/sbin
 
@@ -46,6 +48,16 @@ function judge() {
 
     if [ "$flag" != 'run' ]; then
         echo "arg must be 'run' "
+        exit 1
+    fi
+
+    if [ -z "$user_name" ]; then
+        echo "don't have user_name"
+        exit 1
+    fi
+
+    if [ "$user_name" = "root" ]; then
+        echo "need a common user_name arg"
         exit 1
     fi
 
@@ -236,101 +248,105 @@ EOF
     show_network_config
 }
 
-# 预先判断
-judge
+function run() {
+    # 预先判断
+    judge
 
-_log_start "software_config"
-software_config
-for_sure "Is That Right ? (y/n):"
-apt update -y && apt-get update -y
-notice "update success!\n"
-apt upgrade -y
-notice "upgrade success!\n"
-apt autoremove -y
-notice "autoremove success!\n"
-apt autoclean -y
-notice "autoclean success!\n"
-_log_end
+    _log_start "software_config"
+    software_config
+    for_sure "Is That Right ? (y/n):"
+    apt update -y && apt-get update -y
+    notice "update success!\n"
+    apt upgrade -y
+    notice "upgrade success!\n"
+    apt autoremove -y
+    notice "autoremove success!\n"
+    apt autoclean -y
+    notice "autoclean success!\n"
+    _log_end
 
-_log_start "network_config"
-network_config
-for_sure "Is That Right ? (y/n):"
-# systemctl restart networking.service
-# ip addr
-# for_sure "Is That Right ? (y/n):"
-apt install -y resolvconf
-notice "install resolvconf success\n"
-# systemctl restart networking.service
-systemctl restart resolvconf.service
-resolvconf -u
-systemctl status resolvconf.service
-notice "current resolv.conf:\n"
-cat /etc/resolv.conf
-ping -c 5 www.baidu.com
-dig www.baidu.com
-nslookup -debug www.baidu.com
-_log_end
+    _log_start "network_config"
+    network_config
+    for_sure "Is That Right ? (y/n):"
+    # systemctl restart networking.service
+    # ip addr
+    # for_sure "Is That Right ? (y/n):"
+    apt install -y resolvconf
+    notice "install resolvconf success\n"
+    # systemctl restart networking.service
+    systemctl restart resolvconf.service
+    resolvconf -u
+    systemctl status resolvconf.service
+    notice "current resolv.conf:\n"
+    cat /etc/resolv.conf
+    ping -c 5 www.baidu.com
+    dig www.baidu.com
+    nslookup -debug www.baidu.com
+    _log_end
 
-_log_start "Language Config"
-for_sure "Next Step : Language Config  ? (y/n):"
-dpkg-reconfigure locales
-notice "locale : \n"
-locale
-notice "locale -a : \n"
-locale -a
-_log_end
+    _log_start "Language Config"
+    for_sure "Next Step : Language Config  ? (y/n):"
+    dpkg-reconfigure locales
+    notice "locale : \n"
+    locale
+    notice "locale -a : \n"
+    locale -a
+    _log_end
 
-_log_start "Install sudo"
-for_sure "Next Step : Install sudo  ? (y/n):"
-apt update -y && apt install -y sudo
-user_name=""
-notice "Make 'helq' support sudo ?" " (y/n):"
-read -r choice </dev/tty
-if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
-    user_name="helq"
-else
-    notice "Please Input The UserName.\n"
-    echo -n "Input UserName:"
-    read -r user_name </dev/tty
-    if [ -z "$user_name" ]; then
-        echo "Operation cancelled. Script stopped."
-        exit 1 #脚本停止
+    _log_start "Install sudo"
+    for_sure "Next Step : Install sudo  ? (y/n):"
+    apt update -y && apt install -y sudo
+    user_name_tmp=""
+    notice "Make '$user_name' support sudo ?" " (y/n):"
+    read -r choice </dev/tty
+    if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
+        user_name_tmp="$user_name"
+    else
+        notice "Please Input The UserName.\n"
+        echo -n "Input UserName:"
+        read -r user_name_tmp </dev/tty
+        if [ -z "$user_name_tmp" ]; then
+            echo "Operation cancelled. Script stopped."
+            exit 1 #脚本停止
+        fi
+        for_sure "Make '$user_name_tmp' support sudo ?" " (y/n):"
     fi
-    for_sure "Make '$user_name' support sudo ?" " (y/n):"
-fi
-/usr/sbin/usermod -aG sudo "$user_name"
-groups "$user_name"
-notice "install sudo success\n"
-_log_end
+    /usr/sbin/usermod -aG sudo "$user_name_tmp"
+    groups "$user_name_tmp"
+    notice "install sudo success\n"
+    _log_end
 
-_log_start "Install zsh"
-apt install -y zsh
-zsh --version
-chsh -s "$(which zsh)"
-notice "change zsh for common user\n"
-usermod -s "$(which zsh)" "$user_name"
-notice "install zsh success\n"
-_log_end
+    _log_start "Install zsh"
+    apt install -y zsh
+    zsh --version
+    chsh -s "$(which zsh)"
+    notice "change zsh for common user\n"
+    usermod -s "$(which zsh)" "$user_name_tmp"
+    notice "install zsh success\n"
+    _log_end
 
-# 安装一些必备软件
-apt install -y net-tools build-essential openssh-server curl unzip zip tree cmake jq
+    # 安装一些必备软件
+    apt install -y net-tools build-essential openssh-server curl unzip zip tree cmake jq
 
-# 允许root直接登录
-echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config >/dev/null
+    # 允许root直接登录
+    echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config >/dev/null
 
-echo "######################################################"
-notice "new static ip is: \n"
-notice "ssh $user_name@$static_ip\n"
-echo "######################################################"
-notice "May be need reboot.\n"
-notice "May be need test after reboot.\n"
-echo "######################################################"
-notice "cat /etc/network/interfaces\n"
-notice "cat /etc/resolv.conf\n"
-notice "systemctl status resolvconf.service\n"
-notice "ping -c 5 www.baidu.com\n"
-notice "dig www.baidu.com\n"
-notice "nslookup -debug www.baidu.com\n"
-notice "locale\n"
-notice "locale -a\n"
-notice "sudo echo 'aaa'\n"
+    echo "######################################################"
+    notice "new static ip is: \n"
+    notice "ssh $user_name_tmp@$static_ip\n"
+    echo "######################################################"
+    notice "May be need reboot.\n"
+    notice "May be need test after reboot.\n"
+    echo "######################################################"
+    notice "cat /etc/network/interfaces\n"
+    notice "cat /etc/resolv.conf\n"
+    notice "systemctl status resolvconf.service\n"
+    notice "ping -c 5 www.baidu.com\n"
+    notice "dig www.baidu.com\n"
+    notice "nslookup -debug www.baidu.com\n"
+    notice "locale\n"
+    notice "locale -a\n"
+    notice "sudo echo 'aaa'\n"
+}
+
+run

@@ -8,18 +8,19 @@
 # 使用:
 # 一、使用 github
 # 1.用wget(debian默认安装)
-# wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami)"
+# wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami) 0"
 # 2.用curl(debian等linux可能没有预装)
-# curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami)"
+# curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami) 0"
 
 # 二、也可以放在nginx中
-# wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami)"
-# curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami)"
+# wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami) 0"
+# curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "$ZSH_VERSION" "$(whoami) 0"
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 # e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 set -e
 flag="$1"
 user_name="$2"
+step="$3"
 export PATH=$PATH:/usr/sbin
 GITHUB_TOKEN=""
 github_key_url=""
@@ -339,8 +340,8 @@ function _install_system_tools() {
 }
 
 # 安装 命令行工具
-function _install_CLI_tools() {
-    _log_start "_install_CLI_tools"
+function _install_CLI_tools_1() {
+    _log_start "_install_CLI_tools_1"
     # 安装 bat
     sudo apt install -y bat #这样安装的bat会因为避免名字冲突而让他的命令变为 batcat, 所以需要符号链接
     # 切换到普通用户执行:
@@ -426,8 +427,12 @@ function _install_CLI_tools() {
 
     _logan_source
     echo "############ vim done #####################"
+    _log_end
     sleep 10
+}
 
+function _install_CLI_tools_2() {
+    _log_start "_install_CLI_tools_2"
     # 安装sdkman
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
     _logan_source
@@ -490,7 +495,12 @@ function _install_CLI_tools() {
     # fnm alias 17 aaa
     # fnm unalias [OPTIONS] <alias_name>  取消别名
     # fnm unalias lts
+    _log_end
+    sleep 10
+}
 
+function _install_CLI_tools_3() {
+    _log_start "_install_CLI_tools_3"
     # 安装rust
     curl --retry 10 --retry-all-errors --retry-delay 10 --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     _logan_source
@@ -560,8 +570,12 @@ function _install_CLI_tools() {
     # ruff check a.py # 这个命令的功能: 检查python代码是否有问题
     # uv tool uninstall ruff
     # 命令补全: https://docs.astral.sh/uv/getting-started/installation/#upgrading-uv
+    _log_end
     sleep 20
+}
 
+function _install_CLI_tools_4() {
+    _log_start "_install_CLI_tools_4"
     # 安装miniconda  linux 静默安装
     mkdir -p "$HOME/Temp"
     #    wget --tries=10 --waitretry=10 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -O $HOME/Temp/miniconda.sh
@@ -580,6 +594,7 @@ function _install_CLI_tools() {
     conda deactivate || true
     conda deactivate || true
     conda deactivate || true
+    _log_end
     sleep 15
     # 静默安装后,可选择shell环境,会修改 .zshrc .bashrc
     # conda init zsh
@@ -612,6 +627,10 @@ function _install_CLI_tools() {
     # 导入
     # conda env create -f env_test.yml
 
+}
+
+function _install_CLI_tools_5() {
+    _log_start "_install_CLI_tools_5"
     # docker
     # https://docs.docker.com/engine/install/debian/#install-using-the-repository
     sudo apt update -y
@@ -629,22 +648,22 @@ function _install_CLI_tools() {
     # Add the repository to Apt sources:
     echo \
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+          $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
         sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
     sudo apt-get update -y
 
     # Install the Docker packages
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     # Verify
-    sudo docker run hello-world
+    # sudo docker run hello-world
     sudo docker images
     sudo docker container ls -a
 
     # 以非 root 用户身份管理 Docker;
     # 创建一个名为`docker`的 Unix 组并向其中添加用户。当 Docker 守护进程启动时，它会创建一个可供`docker`组成员访问的 Unix 套接字
-    sudo groupadd docker || true  # 创建`docker`组
-    sudo usermod -aG docker $USER # 将您的用户添加到`docker`组
-    newgrp docker                 # 执行这条命令也可以立即切换到新组
+    sudo groupadd docker || true         # 创建`docker`组
+    sudo usermod -aG docker "$user_name" # 将您的用户添加到`docker`组
+    newgrp docker                        # 执行这条命令也可以立即切换到新组
     # sudo reboot                   # 或者注销并重新登录，以便重新评估您的组成员身份
     # docker run hello-world        # 验证您是否可以在没有`sudo`情况下运行`docker`命令
     # 如果在分配用户组之前 用sudo权限 执行过 docker CLI 中的如 docker login 这类命令, 会创建 $HOME/.docker 目录;
@@ -665,11 +684,8 @@ function _install_CLI_tools() {
     sudo systemctl disable docker.service
     sudo systemctl disable containerd.service
     sleep 10
-
-    # 其他安装
-    sudo apt install -y shellcheck shfmt tmux universal-ctags
     _log_end
-    sleep 10
+    sleep 20
 }
 
 # 安装 文件上传下载服务-dufs-filebrowser
@@ -946,26 +962,78 @@ function _install_end() {
 function run() {
     # 预先判断
     judge
-    # 准备git
-    _git_pre
-    # git 私钥
-    _git_private
-    # 安装shell插件
-    _install_shell_plugin
-    # 环境搭建
-    _environment_construction
-    # 安装必备工具
-    _install_system_tools
-    # 安装 命令行工具
-    _install_CLI_tools
-    # 安装 文件上传下载服务-dufs-filebrowser
-    _install_file_server
-    # 开启 SFTP 服务
-    _enable_sftp
-    # 安装 FTP 服务
-    _enable_FTP
-    # 重新下载 Config
-    _install_end
+
+    # 想从哪步开始执行,就传参那个编号;如:想从 _git_private 开始执行, step应为 2; 0或1都是从头开始执行
+    if [ "$step" -le 1 ]; then
+        # 准备git
+        _git_pre
+    fi
+
+    if [ "$step" -le 2 ]; then
+        # git 私钥
+        _git_private
+    fi
+
+    if [ "$step" -le 3 ]; then
+        # 安装shell插件
+        _install_shell_plugin
+    fi
+
+    if [ "$step" -le 4 ]; then
+        # 环境搭建
+        _environment_construction
+    fi
+
+    if [ "$step" -le 5 ]; then
+        # 安装必备工具
+        _install_system_tools
+    fi
+
+    if [ "$step" -le 6 ]; then
+        # 安装 命令行工具
+        _install_CLI_tools_1
+    fi
+
+    if [ "$step" -le 7 ]; then
+        # 安装 命令行工具
+        _install_CLI_tools_2
+    fi
+
+    if [ "$step" -le 8 ]; then
+        # 安装 命令行工具
+        _install_CLI_tools_3
+    fi
+
+    if [ "$step" -le 9 ]; then
+        # 安装 命令行工具
+        _install_CLI_tools_4
+    fi
+
+    if [ "$step" -le 10 ]; then
+        # 安装 命令行工具
+        _install_CLI_tools_5
+    fi
+
+    if [ "$step" -le 11 ]; then
+        # 安装 文件上传下载服务-dufs-filebrowser
+        _install_file_server
+    fi
+
+    if [ "$step" -le 12 ]; then
+        # 开启 SFTP 服务
+        _enable_sftp
+    fi
+
+    if [ "$step" -le 13 ]; then
+        # 安装 FTP 服务
+        _enable_FTP
+    fi
+
+    if [ "$step" -le 14 ]; then
+        # 重新下载 Config
+        _install_end
+    fi
+
     notice "All Done....... \n"
     echo "######################################################"
     notice "May be need the following command test after install.\n"

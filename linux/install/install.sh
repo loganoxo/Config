@@ -754,6 +754,8 @@ EOF
         -u $(id -u):$(id -g) \
         -p 12786:80 \
         filebrowser/filebrowser
+    sleep 5
+    docker container stop filebrowser
     _log_end
     sleep 10
 }

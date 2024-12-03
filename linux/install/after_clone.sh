@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 #
-# 脚本名称: pre.sh
+# 脚本名称: after_clone.sh
 # 作者: HeQin
 # 最后修改时间: 2024-04-08
-# 描述: linux装机前置脚本; 包括软件源的配置、网络静态IP、DNS、sudo等
+# 描述: 虚拟机 克隆 之后的处理脚本; 包括网络静态IP、DNS等配置
 # 使用:
 # 一、使用 github
 # 1.用wget(debian默认安装)
-# su -c "wget -q -O- --header='Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/after_clone.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
 # 2.用curl(debian等linux可能没有预装)
-# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/after_clone.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
 
 # 二、也可以放在nginx中
-# su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
-# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/after_clone.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/after_clone.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 
 set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行

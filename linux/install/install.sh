@@ -307,6 +307,7 @@ function _install_system_tools() {
     # 安装 go
     sudo apt install -y golang-go
     go version
+    sudo apt install -y jq
     _log_end
     sleep 5
 }

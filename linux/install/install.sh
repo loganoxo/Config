@@ -89,6 +89,21 @@ function _log_end() {
 judge
 sudo apt update -y
 
+# github token
+GITHUB_TOKEN=""
+notice "Use GITHUB_TOKEN ?" " (y/n):"
+read -r cho </dev/tty
+if [ "$cho" = "y" ] || [ "$cho" = "Y" ]; then
+    echo -n "Please Input The GITHUB_TOKEN:"
+    read -r GITHUB_TOKEN </dev/tty
+    if [ -z "$GITHUB_TOKEN" ]; then
+        echo "Operation cancelled. Script stopped."
+        exit 1 #脚本停止
+    fi
+    notice "Use GITHUB_TOKEN : $GITHUB_TOKEN"
+    GITHUB_TOKEN="${GITHUB_TOKEN}@"
+fi
+
 # 为当前用户启用zsh环境
 cd ~
 # 安装 git
@@ -97,16 +112,16 @@ git --version
 
 # 安装shell插件
 _log_start "Install shel plugin"
-sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
 sleep 10
-git clone git@github.com:zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 sleep 10
-git clone git@github.com:zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
 rm -f ~/.zshrc.pre-oh-my-zsh
 sleep 5
 
 # 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
-bash -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended
+bash -c "$(curl --retry 10 --retry-all-errors --retry-delay 10 -fsSL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh")" --unattended
 rm -f ~/.bashrc.omb-backup-*
 curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
 _log_end
@@ -212,7 +227,7 @@ function _install_CLI_tools() {
     # wget --tries=10 --waitretry=10 -P "$HOME/software/fzf/" https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
     curl --retry 10 --retry-all-errors --retry-delay 10 \
         -fSLo "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz" \
-        https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
+        "https://${GITHUB_TOKEN}github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz"
     tar -xzf ~/software/fzf/fzf-0.56.3-linux_arm64.tar.gz -C ~/software/fzf
     ln -sf ~/software/fzf/fzf ~/.local/bin/fzf
     sleep 5
@@ -223,7 +238,7 @@ function _install_CLI_tools() {
 
     # 安装zoxide
     mkdir -p ~/.zoxide
-    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://${GITHUB_TOKEN}raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh" | sh
     sleep 5
 
     # 安装vim
@@ -231,7 +246,7 @@ function _install_CLI_tools() {
     sudo apt install -y vim
     curl --retry 10 --retry-all-errors --retry-delay 10 --create-dirs \
         -fSLo ~/.vim/autoload/plug.vim \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        "https://${GITHUB_TOKEN}raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     # 测试 :PlugStatus :PlugInstall  :PlugClean
     echo ""
     vim -e -c ':PlugInstall' -c ':qa!'
@@ -336,7 +351,7 @@ function _install_CLI_tools() {
     #    wget --tries=10 --waitretry=10 -P "$HOME/software" https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
     curl --retry 10 --retry-all-errors --retry-delay 10 \
         -fSLo "$HOME/software/glow_2.0.0_Linux_arm64.tar.gz" \
-        https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
+        "https://${GITHUB_TOKEN}github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz"
     tar xvzf ~/software/glow_2.0.0_Linux_arm64.tar.gz -C "$HOME/software/"
     mv ~/software/glow_2.0.0_Linux_arm64 ~/software/glow
     ln -s ~/software/glow/glow ~/.local/bin/glow

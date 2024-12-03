@@ -407,6 +407,8 @@ function _clone() {
     notice "Reconfigure hostname ?" " (y/n):"
     read -r choice1 </dev/tty
     if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
+        # 获取当前主机名
+        CURRENT_HOSTNAME=$(hostname)
         notice "Please Input The New HostName:"
         read -r new_hostname </dev/tty
         if [ -n "$new_hostname" ]; then
@@ -416,7 +418,13 @@ function _clone() {
                 # 设置主机名
                 hostnamectl set-hostname "$new_hostname"
                 # 修改 /etc/hosts 中的主机名
-                sed -i "s/$(hostname)/$new_hostname/g" /etc/hosts
+                if grep -q "$CURRENT_HOSTNAME" /etc/hosts; then
+                    # 替换现有主机名
+                    sudo sed -i "s/$CURRENT_HOSTNAME/$new_hostname/g" /etc/hosts
+                else
+                    # 如果未找到当前主机名，追加新主机名
+                    echo "127.0.1.1 $new_hostname" | tee -a /etc/hosts
+                fi
                 notice "/etc/hosts has been edited \n"
                 show_hostname
             else

@@ -236,6 +236,9 @@ function _git_private() {
         chmod 600 "$HOME/.ssh/$filename"
         eval "$(ssh-agent -s)" >/dev/null
         # ssh -T git@github.com || true
+        mkdir -p ~/Temp
+        # 测试
+        git clone git@github.com:loganoxo/git_test.git ~/Temp/git_test
     fi
     _log_end
     sleep 10

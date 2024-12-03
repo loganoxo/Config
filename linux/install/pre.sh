@@ -374,18 +374,25 @@ function _clone() {
     _log_start "network_config"
 
     # 静态ip和dns配置
-    network_config
-    for_sure "Is That Right ? (y/n):"
-    apt install -y resolvconf
-    notice "install resolvconf success\n"
-    systemctl restart resolvconf.service
-    resolvconf -u
-    systemctl status resolvconf.service
-    notice "current resolv.conf:\n"
-    cat /etc/resolv.conf
-    ping -c 5 www.baidu.com
-    dig www.baidu.com
-    nslookup -debug www.baidu.com
+    notice "Reconfigure  Network ?" " (y/n):"
+    read -r ch </dev/tty
+    if [ "$ch" = "y" ] || [ "$ch" = "Y" ]; then
+        network_config
+        for_sure "Is That Right ? (y/n):"
+        apt install -y resolvconf
+        notice "install resolvconf success\n"
+        systemctl restart resolvconf.service
+        resolvconf -u
+        systemctl status resolvconf.service
+        notice "current resolv.conf:\n"
+        cat /etc/resolv.conf
+        ping -c 5 www.baidu.com
+        dig www.baidu.com
+        nslookup -debug www.baidu.com
+    else
+        echo "skip"
+        sleep 2
+    fi
     _log_end
 
     # 语言设置
@@ -400,6 +407,7 @@ function _clone() {
         locale -a
     else
         echo "skip"
+        sleep 2
     fi
     _log_end
 
@@ -434,12 +442,15 @@ function _clone() {
                 show_hostname
             else
                 echo "skip"
+                sleep 2
             fi
         else
             echo "new_hostname is blank; skip"
+            sleep 2
         fi
     else
         echo "skip."
+        sleep 2
     fi
 
     echo "######################################################"

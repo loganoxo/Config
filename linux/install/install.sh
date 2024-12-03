@@ -183,6 +183,7 @@ cd ~
 # 安装 git
 sudo apt install -y git
 git --version
+sudo apt install -y jq
 
 # github token
 notice "Use GITHUB_TOKEN ?" " (y/n):"
@@ -307,7 +308,6 @@ function _install_system_tools() {
     # 安装 go
     sudo apt install -y golang-go
     go version
-    sudo apt install -y jq
     _log_end
     sleep 5
 }

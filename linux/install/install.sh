@@ -197,6 +197,7 @@ function _get_content_from_github() {
 
 # 准备git
 function _git_pre() {
+    _log_start "_git_pre"
     sudo apt update -y
     cd "$HOME"
     # 安装 git
@@ -216,13 +217,8 @@ function _git_pre() {
         fi
         notice "Use GITHUB_TOKEN : $GITHUB_TOKEN\n"
     fi
-
-    # 私钥
-    mkdir -p "$HOME/Data" "$HOME/.ssh"
-    git clone "https://${GITHUB_TOKEN}@github.com/loganoxo/Config.git" "$HOME/Data/Config"
-    if _logan_if_linux; then
-        ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
-    fi
+    _log_end
+    sleep 5
 }
 
 # url中提取文件名
@@ -231,8 +227,14 @@ function _extract_filename() {
 }
 
 function _git_private() {
+    _log_start "_git_private"
     # git 私钥
-    _log_start "git private key"
+    mkdir -p "$HOME/Data" "$HOME/.ssh"
+    git clone "https://${GITHUB_TOKEN}@github.com/loganoxo/Config.git" "$HOME/Data/Config"
+    if _logan_if_linux; then
+        ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
+    fi
+
     notice "Need To Download Github Private Key ?" " (y/n):"
     read -r choice1 </dev/tty
     if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
@@ -962,74 +964,71 @@ function _install_end() {
 function run() {
     # 预先判断
     judge
+    # 准备git
+    _git_pre
 
-    # 想从哪步开始执行,就传参那个编号;如:想从 _git_private 开始执行, step应为 2; 0或1都是从头开始执行
+    # 想从哪步开始执行,就传参那个编号;如:想从 _install_shell_plugin 开始执行, step应为 2; 0或1都是从头开始执行
     if [ "$step" -le 1 ]; then
-        # 准备git
-        _git_pre
-    fi
-
-    if [ "$step" -le 2 ]; then
         # git 私钥
         _git_private
     fi
 
-    if [ "$step" -le 3 ]; then
+    if [ "$step" -le 2 ]; then
         # 安装shell插件
         _install_shell_plugin
     fi
 
-    if [ "$step" -le 4 ]; then
+    if [ "$step" -le 3 ]; then
         # 环境搭建
         _environment_construction
     fi
 
-    if [ "$step" -le 5 ]; then
+    if [ "$step" -le 4 ]; then
         # 安装必备工具
         _install_system_tools
     fi
 
-    if [ "$step" -le 6 ]; then
+    if [ "$step" -le 5 ]; then
         # 安装 命令行工具
         _install_CLI_tools_1
     fi
 
-    if [ "$step" -le 7 ]; then
+    if [ "$step" -le 6 ]; then
         # 安装 命令行工具
         _install_CLI_tools_2
     fi
 
-    if [ "$step" -le 8 ]; then
+    if [ "$step" -le 7 ]; then
         # 安装 命令行工具
         _install_CLI_tools_3
     fi
 
-    if [ "$step" -le 9 ]; then
+    if [ "$step" -le 8 ]; then
         # 安装 命令行工具
         _install_CLI_tools_4
     fi
 
-    if [ "$step" -le 10 ]; then
+    if [ "$step" -le 9 ]; then
         # 安装 命令行工具
         _install_CLI_tools_5
     fi
 
-    if [ "$step" -le 11 ]; then
+    if [ "$step" -le 10 ]; then
         # 安装 文件上传下载服务-dufs-filebrowser
         _install_file_server
     fi
 
-    if [ "$step" -le 12 ]; then
+    if [ "$step" -le 11 ]; then
         # 开启 SFTP 服务
         _enable_sftp
     fi
 
-    if [ "$step" -le 13 ]; then
+    if [ "$step" -le 12 ]; then
         # 安装 FTP 服务
         _enable_FTP
     fi
 
-    if [ "$step" -le 14 ]; then
+    if [ "$step" -le 13 ]; then
         # 重新下载 Config
         _install_end
     fi

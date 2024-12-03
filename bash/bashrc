@@ -34,7 +34,9 @@ source "${__PATH_MY_CNF}/zsh/framework.sh"
 source "${__PATH_MY_CNF}/zsh/common_alias.sh"
 
 # 加载 fzf配置
-source "${__PATH_MY_CNF}/zsh/fzf.sh"
+if _logan_if_interactive; then
+    source "${__PATH_MY_CNF}/zsh/fzf.sh"
+fi
 
 # 加载 conda配置
 source "${__PATH_MY_CNF}/zsh/conda/conda.sh"

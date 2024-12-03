@@ -72,3 +72,10 @@ function _logan_term_type() {
         echo "unknown"
     fi
 }
+
+function _logan_if_interactive() {
+    if [[ $- == *i* ]]; then
+        return 0
+    fi
+    return 1
+}

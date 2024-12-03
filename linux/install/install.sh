@@ -180,7 +180,7 @@ function _get_content_from_github() {
 # 准备git
 function _git_pre() {
     sudo apt update -y
-    cd ~
+    cd "$HOME"
     # 安装 git
     sudo apt install -y git
     git --version
@@ -201,7 +201,7 @@ function _git_pre() {
 
     # 私钥
     mkdir -p "$HOME/Data" "$HOME/.ssh"
-    git clone "https://${GITHUB_TOKEN}@github.com/loganoxo/Config.git" ~/Data/Config
+    git clone "https://${GITHUB_TOKEN}@github.com/loganoxo/Config.git" "$HOME/Data/Config"
     _logan_if_linux && ln -sf "$HOME/Data/Config/zsh/ssh/config_linux" "$HOME/.ssh/config"
 }
 
@@ -240,9 +240,9 @@ function _git_private() {
         chmod 600 "$HOME/.ssh/$filename"
         eval "$(ssh-agent -s)" >/dev/null
         # ssh -T git@github.com || true
-        mkdir -p ~/Temp
+        mkdir -p "$HOME/Temp"
         # 测试
-        git clone git@github.com:loganoxo/git_test.git ~/Temp/git_test
+        git clone git@github.com:loganoxo/git_test.git "$HOME/Temp/git_test"
     fi
     _log_end
     sleep 10
@@ -254,16 +254,16 @@ function _install_shell_plugin() {
     sh -c "$(_get_content_from_github "https://api.github.com/repos/ohmyzsh/ohmyzsh/contents/tools/install.sh" \
         "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
     sleep 10
-    git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+    git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
     sleep 10
-    git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
-    rm -f ~/.zshrc.pre-oh-my-zsh
+    git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+    rm -f "$HOME/.zshrc.pre-oh-my-zsh"
     sleep 5
 
     # 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
     bash -c "$(_get_content_from_github "https://api.github.com/repos/ohmybash/oh-my-bash/contents/tools/install.sh" \
         "https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh")" --unattended
-    rm -f ~/.bashrc.omb-backup-*
+    rm -f "$HOME/.bashrc.omb-backup-*"
     curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
     _log_end
     sleep 5
@@ -272,13 +272,14 @@ function _install_shell_plugin() {
 # 环境搭建
 function _environment_construction() {
     _log_start "Environment construction"
-    mkdir -p ~/.aria2 ~/.config ~/.ssh ~/.shell_bak ~/software ~/Data ~/.local/bin ~/.config/navi ~/.zoxide ~/.undodir ~/.vim ~/Temp ~/share
-    mv ~/.bashrc ~/.shell_bak/ || true
-    mv ~/.profile ~/.shell_bak/ || true
-    mv ~/.zshrc ~/.shell_bak/ || true
-    bash ~/Data/Config/my-ln.sh
-    sudo bash ~/Data/Config/linux/for_root/create_root_files.sh "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
-    sudo ln -sf ~/Data/Config/vim/settings.vim /root/.vimrc
+    mkdir -p "$HOME/.aria2" "$HOME/.config" "$HOME/.ssh" "$HOME/.shell_bak" "$HOME/software" "$HOME/Data" "$HOME/share"
+    mkdir -p "$HOME/.local/bin" "$HOME/.config/navi" "$HOME/.zoxide" "$HOME/.undodir" "$HOME/.vim" "$HOME/Temp"
+    mv "$HOME/.bashrc" "$HOME/.shell_bak/" || true
+    mv "$HOME/.profile" "$HOME/.shell_bak/" || true
+    mv "$HOME/.zshrc" "$HOME/.shell_bak/" || true
+    bash "$HOME/Data/Config/my-ln.sh"
+    sudo bash "$HOME/Data/Config/linux/for_root/create_root_files.sh" "$HOME" "$HOME/Data/Config/linux/for_root/template.sh"
+    sudo ln -sf "$HOME/Data/Config/vim/settings.vim" "/root/.vimrc"
     source "$HOME/.bashrc" || true
     _log_end
     sleep 10
@@ -324,13 +325,13 @@ function _install_CLI_tools() {
     # 安装 bat
     sudo apt install -y bat #这样安装的bat会因为避免名字冲突而让他的命令变为 batcat, 所以需要符号链接
     # 切换到普通用户执行:
-    mkdir -p ~/.local/bin
-    ln -s /usr/bin/batcat ~/.local/bin/bat
+    mkdir -p "$HOME/.local/bin"
+    ln -s /usr/bin/batcat "$HOME/.local/bin/bat"
 
     # 安装fzf
     # sudo apt install -y fzf #版本太低了
-    mkdir -p ~/software
-    git clone git@github.com:junegunn/fzf.git ~/software/fzf
+    mkdir -p "$HOME/software"
+    git clone git@github.com:junegunn/fzf.git "$HOME/software/fzf"
     # wget --tries=10 --waitretry=10 -P "$HOME/software/fzf/" https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz
     fzf_id=""
     if [ -n "$GITHUB_TOKEN" ]; then
@@ -341,23 +342,23 @@ function _install_CLI_tools() {
         "https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_arm64.tar.gz" \
         "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz"
 
-    tar -xzf ~/software/fzf/fzf-0.56.3-linux_arm64.tar.gz -C ~/software/fzf
-    ln -sf ~/software/fzf/fzf ~/.local/bin/fzf
+    tar -xzf "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz" -C "$HOME/software/fzf"
+    ln -sf "$HOME/software/fzf/fzf" "$HOME/.local/bin/fzf"
     sleep 5
 
     # 安装fd
     sudo apt install -y fd-find
-    ln -s "$(which fdfind)" ~/.local/bin/fd
+    ln -s "$(which fdfind)" "$HOME/.local/bin/fd"
 
     # 安装zoxide
-    mkdir -p ~/.zoxide
+    mkdir -p "$HOME/.zoxide"
 
     _get_content_from_github "https://api.github.com/repos/ajeetdsouza/zoxide/contents/install.sh" \
         "https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh" | sh
     sleep 5
 
     # 安装vim
-    mkdir -p ~/.undodir ~/.vim/autoload
+    mkdir -p "$HOME/.undodir" "$HOME/.vim/autoload"
     sudo apt install -y vim
     _download_single_file_from_github \
         "https://api.github.com/repos/junegunn/vim-plug/contents/plug.vim" \
@@ -397,7 +398,7 @@ function _install_CLI_tools() {
         sleep 5
     done
     echo "All vim plugins manual cloned!"
-    cd ~
+    cd "$HOME"
     source "$HOME/.bashrc" || true
     echo "############ vim done #####################"
     sleep 10
@@ -432,7 +433,7 @@ function _install_CLI_tools() {
 
     # 安装fnm
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
-    ln -s ~/.local/share/fnm/fnm ~/.local/bin/fnm
+    ln -s "$HOME/.local/share/fnm/fnm" "$HOME/.local/bin/fnm"
     source "$HOME/.bashrc" || true
     fnm -V               #查看fnm的版本
     fnm ls               #查看本地已安装的nodejs的版本
@@ -489,7 +490,7 @@ function _install_CLI_tools() {
     sleep 10
 
     # glow
-    mkdir -p ~/software
+    mkdir -p "$HOME/software"
     #    wget --tries=10 --waitretry=10 -P "$HOME/software" https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz
     # "https://api.github.com/repos/charmbracelet/glow/releases/tags/v2.0.0"
     glow_id=""
@@ -501,9 +502,9 @@ function _install_CLI_tools() {
         "https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_arm64.tar.gz" \
         "$HOME/software/glow_2.0.0_Linux_arm64.tar.gz"
 
-    tar xvzf ~/software/glow_2.0.0_Linux_arm64.tar.gz -C "$HOME/software/"
-    mv ~/software/glow_2.0.0_Linux_arm64 ~/software/glow
-    ln -s ~/software/glow/glow ~/.local/bin/glow
+    tar xvzf "$HOME/software/glow_2.0.0_Linux_arm64.tar.gz" -C "$HOME/software/"
+    mv "$HOME/software/glow_2.0.0_Linux_arm64" "$HOME/software/glow"
+    ln -s "$HOME/software/glow/glow" "$HOME/.local/bin/glow"
     sleep 10
 
     # the_silver_searcher
@@ -520,15 +521,15 @@ function _install_CLI_tools() {
     # uv 包含了 pipx 的功能  https://docs.astral.sh/uv/
     # 默认是managed: 最先找uv管理的python,其次找系统python(若此时在conda的某个环境中,conda该环境的python也会被找到),最后才下载;only-managed:只找uv管理的python,没有则下载;
     # # 安装选项:https://docs.astral.sh/uv/configuration/installer/#disabling-shell-modifications
-    curl --retry 10 --retry-all-errors --retry-delay 10 -LsSf https://astral.sh/uv/install.sh | sh # 默认在 ~/.local/share/uv/
+    curl --retry 10 --retry-all-errors --retry-delay 10 -LsSf https://astral.sh/uv/install.sh | sh # 默认在 $HOME/.local/share/uv/
     source "$HOME/.bashrc" || true
     export UV_PYTHON_PREFERENCE="only-managed"
     # uv python list
-    uv python install # 默认在 ~/.local/share/uv/python/
+    uv python install # 默认在 $HOME/.local/share/uv/python/
     uv python install 3.12
     # uv python uninstall 3.12
     # uv tool list
-    uv tool install ruff # 安装命令行工具,默认在 ~/.local/bin/  ~/.local/share/uv/tools/
+    uv tool install ruff # 安装命令行工具,默认在 $HOME/.local/bin/  $HOME/.local/share/uv/tools/
     # uv tool install ruff -p 3.12 # 指定安装的命令行工具的虚拟环境中的python版本
     ruff --version
     # ruff check a.py # 这个命令的功能: 检查python代码是否有问题
@@ -537,13 +538,13 @@ function _install_CLI_tools() {
     sleep 20
 
     # 安装miniconda  linux 静默安装
-    mkdir -p ~/Temp
-    #    wget --tries=10 --waitretry=10 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -O ~/Temp/miniconda.sh
+    mkdir -p "$HOME/Temp"
+    #    wget --tries=10 --waitretry=10 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh -O $HOME/Temp/miniconda.sh
     curl --retry 10 --retry-all-errors --retry-delay 10 \
         -fSLo "$HOME/Temp/miniconda.sh" \
         https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
-    bash ~/Temp/miniconda.sh -b -u -p ~/.miniconda3 # -b:不对 shell 脚本进行 PATH 修改,以非交互模式（静默模式）运行安装; -u:如果指定的安装路径（通过 -p）已有 Miniconda 安装，它会更新而不是报错或覆盖安装; -p: 指定安装路径
-    rm ~/Temp/miniconda.sh
+    bash "$HOME/Temp/miniconda.sh" -b -u -p "$HOME/.miniconda3" # -b:不对 shell 脚本进行 PATH 修改,以非交互模式（静默模式）运行安装; -u:如果指定的安装路径（通过 -p）已有 Miniconda 安装，它会更新而不是报错或覆盖安装; -p: 指定安装路径
+    rm "$HOME/Temp/miniconda.sh"
     source "$HOME/.bashrc" || true
     conda --version
     conda create -y -n env_test python=3.9 # -n 是创建的环境的名字
@@ -562,7 +563,7 @@ function _install_CLI_tools() {
     # conda list
     # conda info
     # base环境 推荐 只能用于安装 anaconda、conda 和 conda 相关的软件包，例如`anaconda-client`或`conda-build`
-    # 配置文件 : ~/.condarc
+    # 配置文件 : $HOME/.condarc
     # conda config --set auto_activate_base false # 设置开启新shell的时候不自动进入conda的base环境
     # conda config --set changeps1 False          # 抑制 conda 自己的提示修饰符
     # conda config --add channels conda-forge 会加在第一个
@@ -576,8 +577,8 @@ function _install_CLI_tools() {
     # install的命令行工具的执行文件放在当前环境的bin目录下,如 /home/helq/miniconda3/envs/env_test/bin/trash-put; 同时也会被pip管理
     # install 也可以安装python库文件,可以在 Python 脚本或交互式环境中直接导入并使用 import numpy as np
     # 卸载conda
-    # rm -rf ~/conda
-    # rm -rf ~/.condarc ~/.conda ~/.continuum
+    # rm -rf $HOME/conda
+    # rm -rf $HOME/.condarc $HOME/.conda $HOME/.continuum
     # 导出某个非base环境到yaml文件; 仅将 Anaconda 或 Miniconda 文件复制到新目录或另一台计算机不会重新创建环境。您必须将环境作为一个整体导出
     # conda activate env_test
     # conda export -f env_test.yml --no-builds 或者 conda env export -f env_test.yml --no-builds
@@ -621,10 +622,10 @@ function _install_CLI_tools() {
     newgrp docker                 # 执行这条命令也可以立即切换到新组
     # sudo reboot                   # 或者注销并重新登录，以便重新评估您的组成员身份
     # docker run hello-world        # 验证您是否可以在没有`sudo`情况下运行`docker`命令
-    # 如果在分配用户组之前 用sudo权限 执行过 docker CLI 中的如 docker login 这类命令, 会创建 ~/.docker 目录;
-    # 在上述的情况下, 分配用户组后, 用普通用户直接执行 docker 命令, 有可能会报错, 因为 ~/.docker 的权限是 root 用户的; 报错信息可能为:
+    # 如果在分配用户组之前 用sudo权限 执行过 docker CLI 中的如 docker login 这类命令, 会创建 $HOME/.docker 目录;
+    # 在上述的情况下, 分配用户组后, 用普通用户直接执行 docker 命令, 有可能会报错, 因为 $HOME/.docker 的权限是 root 用户的; 报错信息可能为:
     # WARNING: Error loading config file: /home/user/.docker/config.json -stat /home/user/.docker/config.json: permission denied
-    # 解决方式一: 删除`~/.docker/`目录（它会自动重新创建，但所有自定义设置都会丢失）
+    # 解决方式一: 删除`$HOME/.docker/`目录（它会自动重新创建，但所有自定义设置都会丢失）
     # 方式二:
     # sudo chown "$USER":"$USER" /home/"$USER"/.docker -R # 将这个文件夹的 拥有者 和 所属组 设为当前用户;-R：递归修改，即包括子目录和文件
     # sudo chmod g+rwx "$HOME/.docker" -R                 # 为 .docker 目录及其内容增加组权限，使所属组的成员可以读取（read）、写入（write）、执行（execute）文件。
@@ -650,11 +651,11 @@ function _install_CLI_tools() {
 function _install_file_server() {
     _log_start "_install_file_server"
     source "$HOME/.bashrc" || true
-    mkdir -p ~/share
+    mkdir -p "$HOME/share"
 
     # 安装 dufs
     cargo install dufs
-    mkdir -p ~/share/dufs
+    mkdir -p "$HOME/share/dufs"
     sudo ufw allow 5000
     sleep 10
     # dufs                          # 以只读模式提供当前目录,只允许查看和下载;默认在前台执行
@@ -663,7 +664,7 @@ function _install_file_server() {
     # dufs -A                       # 允许所有操作，如上传/删除/搜索/创建/编辑
     # dufs --allow-upload           # 只允许查看和下载和上传操作
     # --allow-archive 允许文件夹打包下载; --allow-search 允许搜索
-    # dufs ~/share/dufs                # 指定某个目录
+    # dufs $HOME/share/dufs                # 指定某个目录
     # dufs linux-distro.iso            # 指定单个文件
     # dufs -a admin:123@/:rw           # 指定用户名admin/密码123
     # dufs -b 127.0.0.1 -p 80          # 监听特定ip和端口
@@ -677,12 +678,12 @@ function _install_file_server() {
 
     ############################
     # 安装 filebrowser docker模式
-    mkdir -p ~/share/filebrowser
-    mkdir -p ~/share/filebrowser/files
-    touch ~/share/filebrowser/filebrowser.db
-    touch ~/share/filebrowser/filebrowser.json
+    mkdir -p "$HOME/share/filebrowser"
+    mkdir -p "$HOME/share/filebrowser/files"
+    touch "$HOME/share/filebrowser/filebrowser.db"
+    touch "$HOME/share/filebrowser/filebrowser.json"
 
-    cat >~/share/filebrowser/filebrowser.json <<EOF
+    cat >"$HOME/share/filebrowser/filebrowser.json" <<EOF
 {
   "port": 80,
   "baseURL": "",
@@ -694,9 +695,9 @@ function _install_file_server() {
 EOF
     sudo ufw allow 12786
     docker run -d \
-        -v ~/share/filebrowser/files:/srv \
-        -v ~/share/filebrowser/filebrowser.db:/database/filebrowser.db \
-        -v ~/share/filebrowser/filebrowser.json:/.filebrowser.json \
+        -v "$HOME/share/filebrowser/files":/srv \
+        -v "$HOME/share/filebrowser/filebrowser.db":/database/filebrowser.db \
+        -v "$HOME/share/filebrowser/filebrowser.json":/.filebrowser.json \
         -u $(id -u):$(id -g) \
         -p 12786:80 \
         filebrowser/filebrowser
@@ -911,8 +912,8 @@ EOF
 function _install_end() {
     sleep 10
     _log_start "_install_end"
-    rm -rf ~/Data/Config
-    git clone git@github.com:loganoxo/Config.git ~/Data/Config
+    rm -rf "$HOME/Data/Config"
+    git clone git@github.com:loganoxo/Config.git "$HOME/Data/Config"
     _log_end
     sleep 2
 }

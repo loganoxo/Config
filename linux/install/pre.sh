@@ -16,9 +16,16 @@
 # su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 
+# 虚拟机克隆之后的处理
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
+
 set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 flag="$1"
 user_name="$2"
+after_clone="$3"
 static_ip=""
 export PATH=$PATH:/usr/sbin
 
@@ -247,6 +254,15 @@ EOF
     show_network_config
 }
 
+function show_hostname() {
+    notice "hostname:\n"
+    hostname
+    notice "hostnamectl:\n"
+    hostnamectl
+    notice "current /etc/hosts:\n"
+    cat /etc/hosts
+}
+
 function run() {
     # 预先判断
     judge
@@ -349,4 +365,81 @@ function run() {
     notice "sudo echo 'aaa'\n"
 }
 
-run
+function _clone() {
+    # 预先判断
+    judge
+    apt update -y && apt-get update -y
+    apt autoremove -y
+    apt autoclean -y
+    _log_start "network_config"
+
+    # 静态ip和dns配置
+    network_config
+    for_sure "Is That Right ? (y/n):"
+    apt install -y resolvconf
+    notice "install resolvconf success\n"
+    systemctl restart resolvconf.service
+    resolvconf -u
+    systemctl status resolvconf.service
+    notice "current resolv.conf:\n"
+    cat /etc/resolv.conf
+    ping -c 5 www.baidu.com
+    dig www.baidu.com
+    nslookup -debug www.baidu.com
+    _log_end
+
+    # 语言设置
+    _log_start "Language Config"
+    for_sure "Next Step : Language Config  ? (y/n):"
+    dpkg-reconfigure locales
+    notice "locale : \n"
+    locale
+    notice "locale -a : \n"
+    locale -a
+    _log_end
+
+    # 安装一些必备软件
+    apt install -y net-tools build-essential openssh-server curl unzip zip tree cmake jq
+    apt install -y shellcheck shfmt tmux universal-ctags
+
+    # 修改 hostname
+    show_hostname
+    notice "Reconfigure hostname ?" " (y/n):"
+    read -r choice1 </dev/tty
+    if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
+        notice "Please Input The New HostName:"
+        read -r new_hostname </dev/tty
+        if [ -n "$new_hostname" ]; then
+            notice "Are you sure you want to reconfigure hostname to '$new_hostname' ? (y/n):"
+            read -r choice2 </dev/tty
+            if [ "$choice2" = "y" ] || [ "$choice2" = "Y" ]; then
+                # 设置主机名
+                hostnamectl set-hostname "$new_hostname"
+                # 修改 /etc/hosts 中的主机名
+                sed -i "s/$(hostname)/$new_hostname/g" /etc/hosts
+                notice "/etc/hosts has been edited \n"
+                show_hostname
+            else
+                echo "skip"
+            fi
+        else
+            echo "new_hostname is blank; skip"
+        fi
+    fi
+
+    echo "######################################################"
+    notice "new static ip is: \n"
+    notice "ssh $user_name@$static_ip\n"
+    echo "######################################################"
+    notice "May be need to Check MAC address .\n"
+    notice "May be need reboot.\n"
+    echo "######################################################"
+}
+
+if [ -z "$after_clone" ] || [ "$after_clone" != "clone" ]; then
+    # 执行安装
+    run
+else
+    # 执行clone的逻辑处理
+    _clone
+fi

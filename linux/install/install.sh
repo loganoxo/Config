@@ -145,6 +145,7 @@ function _git_private() {
 
         # 权限太宽泛会有问题
         chmod 600 "$HOME/.ssh/$filename"
+        eval "$(ssh-agent -s)" >/dev/null
         # ssh -T git@github.com || true
     fi
     _log_end

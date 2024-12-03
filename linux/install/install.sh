@@ -386,38 +386,44 @@ function _install_CLI_tools() {
 
     # 定义插件的仓库列表,手动用ssh安装,避免github限制
     plugins=(
-        "dracula/vim" "catppuccin/vim" "mhinz/vim-startify" "machakann/vim-highlightedyank"
-        "itchyny/lightline.vim" "mg979/vim-xtabline" "preservim/vim-indent-guides"
-        "matze/vim-move" "tpope/vim-surround" "wellle/targets.vim" "preservim/tagbar"
-        "justinmk/vim-sneak" "easymotion/vim-easymotion" "tpope/vim-fugitive"
-        "tpope/vim-commentary" "mg979/vim-visual-multi" "preservim/nerdtree"
-        "ctrlpvim/ctrlp.vim" "luochen1990/rainbow" "mhinz/vim-signify:legacy"
-        "jiangmiao/auto-pairs" "junegunn/fzf.vim" "voldikss/vim-floaterm"
-        "liuchengxu/vim-which-key" "mbbill/undotree" "tpope/vim-repeat"
-        "ryanoasis/vim-devicons"
+        "mhinz/vim-startify" "machakann/vim-highlightedyank" "itchyny/lightline.vim" "mg979/vim-xtabline"
+        "preservim/vim-indent-guides" "matze/vim-move" "tpope/vim-surround" "wellle/targets.vim" "preservim/tagbar"
+        "justinmk/vim-sneak" "easymotion/vim-easymotion" "tpope/vim-fugitive" "tpope/vim-commentary"
+        "mg979/vim-visual-multi" "preservim/nerdtree" "ctrlpvim/ctrlp.vim" "luochen1990/rainbow"
+        "jiangmiao/auto-pairs" "junegunn/fzf.vim" "voldikss/vim-floaterm" "liuchengxu/vim-which-key"
+        "mbbill/undotree" "tpope/vim-repeat" "ryanoasis/vim-devicons"
     )
     plugin_dir="$HOME/.vim/plugged"
     mkdir -p "$plugin_dir"
     local url=""
     # 循环克隆插件
     for item in "${plugins[@]}"; do
-        local branch_or_tag=""
-        IFS=":" read -r repo branch_or_tag <<<"$item"
+        local dir=""
+        IFS="/" read -r OWNER dir <<<"$item"
         if [ -n "$github_key_url" ]; then
-            url="git@github.com:${repo}.git"
+            url="git@github.com:${item}.git"
         else
-            url="https://github.com/${repo}.git"
+            url="https://github.com/${item}.git"
         fi
-        echo "Cloning $repo ..."
-        git clone "$url" "$plugin_dir/${repo}"
-        if [ -n "$branch_or_tag" ]; then
-            cd "$plugin_dir/${repo}"
-            git checkout "$branch_or_tag"
-        fi
+        echo "Cloning $item ..."
+        git clone "$url" "$plugin_dir/${dir}"
         sleep 5
     done
-    echo "All vim plugins manual cloned!"
+    # 特殊插件处理
+    if [ -n "$github_key_url" ]; then
+        git clone "git@github.com:dracula/vim.git" "$plugin_dir/dracula"
+        git clone "git@github.com:catppuccin/vim.git" "$plugin_dir/catppuccin"
+        git clone "git@github.com:mhinz/vim-signify.git" "$plugin_dir/vim-signify"
+    else
+        git clone "https://github.com/dracula/vim.git" "$plugin_dir/dracula"
+        git clone "https://github.com/catppuccin/vim.git" "$plugin_dir/catppuccin"
+        git clone "https://github.com/mhinz/vim-signify.git" "$plugin_dir/vim-signify"
+    fi
+    cd "$plugin_dir/vim-signify"
+    git checkout "legacy"
     cd "$HOME"
+    echo "All vim plugins manual cloned!"
+
     _logan_source
     echo "############ vim done #####################"
     sleep 10

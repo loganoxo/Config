@@ -486,6 +486,7 @@ function _clone() {
     notice 'ssh-keygen -R "172.16.106.110" \n'
     notice 'ssh-keygen -R "172.16.106.120" \n'
     notice 'ssh-keygen -R "172.16.106.130" \n'
+    notice 'cat ~/.ssh/known_hosts \n'
     notice "These Command above will delete <IP+Fingerprint> in ~/.ssh/known_hosts \n"
     notice "Now run SSH agin to regenerate Fingerprint in ~/.ssh/known_hosts \n"
     echo "######################################################"

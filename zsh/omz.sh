@@ -22,7 +22,7 @@ DISABLE_AUTO_TITLE="true"
 HIST_STAMPS="yyyy-mm-dd" # 在history.sh 中有重新配置
 
 plugins=(
-    git
+    # git
     colored-man-pages
     # fzf 自己执行
     docker
@@ -30,13 +30,13 @@ plugins=(
     # kubectl
     # macos
     # 以下需要自己安装
-    #~/.oh-my-zsh/custom/plugins,
+    # ~/.oh-my-zsh/custom/plugins,
     #https://github.com/zsh-users/zsh-syntax-highlighting
     zsh-syntax-highlighting
-    #~/.oh-my-zsh/custom/plugins,
-    #https://github.com/zsh-users/zsh-autosuggestions
+    # ~/.oh-my-zsh/custom/plugins,
+    # https://github.com/zsh-users/zsh-autosuggestions
     zsh-autosuggestions
-    #brew install autojump
+    # brew install autojump
     # autojump
 )
 

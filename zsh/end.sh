@@ -72,6 +72,9 @@ alias tw='cd ~/Desktop && pwd && ls -A'
 alias td='cd ~/Data && pwd && ls -A'
 # Config
 alias tc='cd ~/Data/Config && pwd && ls -A'
+# pull Config
+alias gpc='git -C "$__PATH_MY_CNF" pull'
+
 ############################################################################
 
 # idea
@@ -86,7 +89,15 @@ source "${__PATH_MY_CNF}/zsh/history.sh"
 
 # 执行fastfetch
 fastfetch_if_run=0 # 1为执行
-fastfetch_config_path="$HOME/.config/fastfetch/config.jsonc"
+fastfetch_config_path=""
+if _logan_if_mac; then
+    fastfetch_if_run=0
+    fastfetch_config_path="$HOME/.config/fastfetch/config_mac.jsonc"
+elif _logan_if_linux; then
+    fastfetch_if_run=1
+    fastfetch_config_path="$HOME/.config/fastfetch/config_linux.jsonc"
+fi
+
 if [ -f "$fastfetch_config_path" ] && _logan_if_command_exist "fastfetch"; then
     if [ $fastfetch_if_run -eq "1" ]; then
         supported_terms=("iTerm.app" "Apple_Terminal" "WezTerm" "Tabby")

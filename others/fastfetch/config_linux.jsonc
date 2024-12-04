@@ -11,8 +11,6 @@
         // "title", // username@hostname
         // 分隔符
         "separator",
-        // 显示当前登录的用户
-        "users",
         // 系统版本
         "os",
         // 设备名
@@ -126,6 +124,8 @@
         // "vulkan", // 显示当前 GPU（图形处理器）支持的最高 Vulkan 版本。Vulkan 是一种高性能、跨平台的图形和计算 API，主要用于 3D 图形和游戏开发
         // "opengl", // 显示opengl版本
         // "opencl", // 显示opencl版本
+        // 显示当前登录的用户
+        "users",
         // "bluetooth", // 显示当前连接的蓝牙设备，显示设备名称
         // "bluetoothradio", // 显示系统的蓝牙模块（蓝牙收发器）的相关信息
 

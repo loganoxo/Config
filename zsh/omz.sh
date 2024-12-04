@@ -25,8 +25,8 @@ plugins=(
     # git
     colored-man-pages
     # fzf 自己执行
-    docker
-    docker-compose
+    # docker
+    # docker-compose 只是一些alias
     # kubectl
     # macos
     # 以下需要自己安装

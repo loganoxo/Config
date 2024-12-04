@@ -18,3 +18,13 @@ sudo dpkg -i "$HOME/software/fastfetch/fastfetch-linux-aarch64.deb"
 fastfetch --version
 which -a fastfetch
 git -C "$HOME/Data/Config" pull
+
+# ssh 连接时,不要打印 系统版本和版权信息
+touch "$HOME/.hushlogin"
+
+# ffmpeg 安装
+sudo apt install ffmpeg
+# 下载 m3u8 视频
+ffmpeg -i "https://aa.ww.bb/mixed.m3u8" -c copy -bsf:a aac_adtstoasc output.mp4
+
+################################################## End At 2024-12-05 ##################################################

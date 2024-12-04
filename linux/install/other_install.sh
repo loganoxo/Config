@@ -11,19 +11,16 @@ exit 0
 return 0
 
 # 安装 fastfetch
-mkdir -p "$HOME/software/fastfetch"
-wget -P "$HOME/software/fastfetch" https://github.com/fastfetch-cli/fastfetch/releases/download/2.31.0/fastfetch-linux-aarch64.deb
-sudo apt update
-sudo dpkg -i "$HOME/software/fastfetch/fastfetch-linux-aarch64.deb"
-fastfetch --version
-which -a fastfetch
+mkdir -p "$HOME/software/fastfetch" && wget -P "$HOME/software/fastfetch" https://github.com/fastfetch-cli/fastfetch/releases/download/2.31.0/fastfetch-linux-aarch64.deb
+sudo apt update && sudo dpkg -i "$HOME/software/fastfetch/fastfetch-linux-aarch64.deb"
+fastfetch --version && which -a fastfetch
 git -C "$HOME/Data/Config" pull
 
 # ssh 连接时,不要打印 系统版本和版权信息
 touch "$HOME/.hushlogin"
 
 # ffmpeg 安装
-sudo apt install ffmpeg
+sudo apt install -y ffmpeg
 # 下载 m3u8 视频
 ffmpeg -i "https://aa.ww.bb/mixed.m3u8" -c copy -bsf:a aac_adtstoasc output.mp4
 

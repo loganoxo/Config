@@ -91,7 +91,7 @@ source "${__PATH_MY_CNF}/zsh/history.sh"
 fastfetch_if_run=0 # 1为执行
 fastfetch_config_path=""
 if _logan_if_mac; then
-    fastfetch_if_run=1
+    fastfetch_if_run=0
     fastfetch_config_path="$HOME/.config/fastfetch/config_mac.jsonc"
 elif _logan_if_linux; then
     fastfetch_if_run=1

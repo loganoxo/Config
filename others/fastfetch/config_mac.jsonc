@@ -4,7 +4,8 @@
     "logo": {
         "padding": {
             // logo 的位置
-            "top": 4
+            "top": 4,
+            "left": 12
         }
     },
     "modules": [

@@ -28,6 +28,7 @@
 # sudo apt install kde-full                 包含 KDE 桌面的所有组件, 很大
 # sudo apt install kde-plasma-desktop       最小化的 KDE 桌面环境，只安装 Plasma 桌面和几个基础组件
 # sudo apt install kubuntu-desktop          类似于 kde-full,很大; 安装完整的 Kubuntu 桌面体验，包括 Kubuntu 特定的定制和默认配置
+# sudo apt update && sudo apt upgrade
 # cat /etc/apt/sources.list.d/ubuntu.sources    注意,arm版本的软件源必须用 ubuntu-ports; 清华 中科大都提供这种arm的镜像源
 ###############################################
 # Types: deb

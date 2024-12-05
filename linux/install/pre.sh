@@ -23,12 +23,12 @@
 # su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
 
 # Ubuntu中 软件源使用默认的; 静态ip安装桌面后再配置
-# sudo apt update && sudo apt full-upgrade
+# sudo apt update && sudo apt full-upgrade && sudo apt autoremove && sudo apt autoclean
 # sudo apt install kde-standard             推荐: 包含 KDE 桌面的基本组件和常用应用程序
 # sudo apt install kde-full                 包含 KDE 桌面的所有组件, 很大
 # sudo apt install kde-plasma-desktop       最小化的 KDE 桌面环境，只安装 Plasma 桌面和几个基础组件
 # sudo apt install kubuntu-desktop          类似于 kde-full,很大; 安装完整的 Kubuntu 桌面体验，包括 Kubuntu 特定的定制和默认配置
-# sudo apt update && sudo apt upgrade
+# sudo apt update && sudo apt upgrade && sudo apt autoclean
 # cat /etc/apt/sources.list.d/ubuntu.sources    注意,arm版本的软件源必须用 ubuntu-ports; 清华 中科大都提供这种arm的镜像源
 ###############################################
 # Types: deb
@@ -300,7 +300,7 @@ function run() {
     for_sure "Is That Right ? (y/n):"
     apt update -y && apt-get update -y
     notice "update success!\n"
-    apt upgrade -y
+    apt full-upgrade -y
     notice "upgrade success!\n"
     apt autoremove -y
     notice "autoremove success!\n"

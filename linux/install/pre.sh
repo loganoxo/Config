@@ -255,12 +255,19 @@ EOF
 }
 
 function show_hostname() {
+
     notice "hostname:\n"
     hostname
     notice "hostnamectl:\n"
     hostnamectl
     notice "current /etc/hosts:\n"
     cat /etc/hosts
+}
+# 安装一些必备软件
+function install_pre_software() {
+    apt install -y net-tools build-essential openssh-server curl unzip zip tree cmake jq
+    apt install -y shellcheck shfmt tmux universal-ctags
+    apt install -y open-vm-tools
 }
 
 function run() {
@@ -341,8 +348,7 @@ function run() {
     _log_end
 
     # 安装一些必备软件
-    apt install -y net-tools build-essential openssh-server curl unzip zip tree cmake jq
-    apt install -y shellcheck shfmt tmux universal-ctags
+    install_pre_software
 
     # 允许root直接登录
     echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config >/dev/null
@@ -413,8 +419,7 @@ function _clone() {
     _log_end
 
     # 安装一些必备软件
-    apt install -y net-tools build-essential openssh-server curl unzip zip tree cmake jq
-    apt install -y shellcheck shfmt tmux universal-ctags
+    install_pre_software
 
     # 修改 hostname
     show_hostname

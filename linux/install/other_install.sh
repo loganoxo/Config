@@ -29,7 +29,7 @@ sudo apt install -y ffmpeg
 sudo apt install -y open-vm-tools
 # 针对于带有桌面的linux(open-vm-tools-desktop中包含了open-vm-tools)
 # KDE桌面环境如果要启用文件拖拽和剪切板公用,必须在登录界面选择 Plasma (X11)
-sudo apt install -y open-vm-tools-desktop open-vm-tools
+sudo apt install -y open-vm-tools-desktop
 
 # 挂载的命令(linux内核版本大于4.0): /usr/bin/vmhgfs-fuse .host:/ /mnt/hgfs -o subtype=vmhgfs-fuse,allow_other
 # 使用systemd 服务; 开机自动挂载

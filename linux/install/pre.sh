@@ -267,7 +267,6 @@ function show_hostname() {
 function install_pre_software() {
     apt install -y net-tools build-essential openssh-server curl unzip zip tree cmake jq
     apt install -y shellcheck shfmt tmux universal-ctags
-    apt install -y open-vm-tools
 }
 
 function run() {

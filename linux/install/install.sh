@@ -973,9 +973,6 @@ function _install_end() {
     mv "$HOME/Temp/Config" "$HOME/Data/Config"
     cd "$HOME/Data/Config" && git pull
 
-    # 安装 open-vm-tools
-    sudo apt install -y open-vm-tools
-
     _log_end
     sleep 2
 }

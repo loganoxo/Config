@@ -23,8 +23,41 @@ touch "$HOME/.hushlogin"
 sudo apt install -y ffmpeg
 # 下载 m3u8 视频
 ffmpeg -i "https://aa.ww.bb/mixed.m3u8" -c copy -bsf:a aac_adtstoasc output.mp4
-################################################## End At 2024-12-05 ##################################################
 
+################################################## End At 2024-12-05 ##################################################
 # 安装 open-vm-tools
 sudo apt install -y open-vm-tools
+# 针对于带有桌面的linux
+sudo apt install -y open-vm-tools-desktop open-vm-tools
+
+# 挂载的命令(linux内核版本大于4.0): /usr/bin/vmhgfs-fuse .host:/ /mnt/hgfs -o subtype=vmhgfs-fuse,allow_other
+# 使用systemd 服务; 开机自动挂载
+sudo mkdir -p /mnt/hgfs
+sudo chmod 755 /mnt/hgfs
+sudo touch /etc/systemd/system/mnt.hgfs.service
+
+sudo tee /etc/systemd/system/mnt.hgfs.service >/dev/null <<EOF
+[Unit]
+Description=Mount VMware Shared Folders
+Requires=open-vm-tools.service
+After=open-vm-tools.service network.target
+ConditionPathExists=.host:/
+ConditionVirtualization=vmware
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/vmhgfs-fuse .host:/ /mnt/hgfs -o subtype=vmhgfs-fuse,allow_other,auto_unmount
+ExecStop=/bin/umount /mnt/hgfs
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable mnt.hgfs.service
+sudo systemctl start mnt.hgfs.service
+sudo systemctl status mnt.hgfs.service
+
 ################################################## End At 2024-12-06 ##################################################

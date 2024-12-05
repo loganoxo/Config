@@ -6,6 +6,7 @@
 # 描述: linux其他工具的安装
 # shellcheck disable=SC2317
 # 防止直接执行
+set -eu
 echo "This script is not meant to be executed directly."
 exit 0
 return 0

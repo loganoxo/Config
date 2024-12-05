@@ -972,6 +972,10 @@ function _install_end() {
     rm -rf "$HOME/Data/Config"
     mv "$HOME/Temp/Config" "$HOME/Data/Config"
     cd "$HOME/Data/Config" && git pull
+
+    # 安装 open-vm-tools
+    sudo apt install -y open-vm-tools
+
     _log_end
     sleep 2
 }
@@ -1044,7 +1048,7 @@ function run() {
     fi
 
     if [ "$step" -le 13 ]; then
-        # 重新下载 Config
+        # 重新下载 Config 和 其他安装
         _install_end
     fi
 

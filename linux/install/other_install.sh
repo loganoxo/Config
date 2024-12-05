@@ -27,7 +27,8 @@ sudo apt install -y ffmpeg
 ################################################## End At 2024-12-05 ##################################################
 # 安装 open-vm-tools
 sudo apt install -y open-vm-tools
-# 针对于带有桌面的linux
+# 针对于带有桌面的linux(open-vm-tools-desktop中包含了open-vm-tools)
+# KDE桌面环境如果要启用文件拖拽和剪切板公用,必须在登录界面选择 Plasma (X11)
 sudo apt install -y open-vm-tools-desktop open-vm-tools
 
 # 挂载的命令(linux内核版本大于4.0): /usr/bin/vmhgfs-fuse .host:/ /mnt/hgfs -o subtype=vmhgfs-fuse,allow_other

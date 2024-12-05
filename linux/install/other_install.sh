@@ -25,7 +25,8 @@ sudo apt install -y ffmpeg
 # ffmpeg -i "https://aa.ww.bb/mixed.m3u8" -c copy -bsf:a aac_adtstoasc output.mp4
 
 ################################################## End At 2024-12-05 ##################################################
-# 安装 open-vm-tools
+
+############################### 安装 open-vm-tools
 sudo apt install -y open-vm-tools
 # 针对于带有桌面的linux(open-vm-tools-desktop中包含了open-vm-tools)
 # KDE桌面环境如果要启用文件拖拽和剪切板公用,必须在登录界面选择 Plasma (X11)
@@ -60,5 +61,11 @@ sudo systemctl daemon-reload
 sudo systemctl enable mnt.hgfs.service
 sudo systemctl start mnt.hgfs.service
 sudo systemctl status mnt.hgfs.service
+
+####################### debian12 + KDE 安装ibus中文输入法
+sudo apt install ibus-libpinyin # or other engine(s) you want
+# logout and re-login
+ibus-setup # add input methods you want
+or add input source in Settings - in GNOME desktop. >Keyboard
 
 ################################################## End At 2024-12-06 ##################################################

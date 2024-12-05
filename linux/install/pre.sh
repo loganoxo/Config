@@ -22,9 +22,9 @@
 # su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
 # su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
 
-# Ubuntu中 软件源使用默认的; 静态ip安装桌面后再配置
+# Ubuntu中 软件源使用默认的; 静态ip安装桌面后再配置(额,都试过了,arm平台支持就是一坨屎,不要搞了)
 # sudo apt update && sudo apt autoremove && sudo apt autoclean && sudo apt full-upgrade && sudo apt autoremove && sudo apt autoclean
-# sudo apt install kubuntu-desktop          类似于 kde-full,很大; 用这个最省心,安装完整的 Kubuntu 桌面体验，包括 Kubuntu 特定的定制和默认配置
+# sudo apt install kubuntu-desktop          类似于 kde-full,很大,安装完整的 Kubuntu 桌面体验，包括 Kubuntu 特定的定制和默认配置
 # sudo apt install kde-standard             包含 KDE 桌面的基本组件和常用应用程序
 # sudo apt install kde-full                 包含 KDE 桌面的所有组件, 很大
 # sudo apt install kde-plasma-desktop       最小化的 KDE 桌面环境，只安装 Plasma 桌面和几个基础组件

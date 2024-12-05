@@ -22,7 +22,7 @@ touch "$HOME/.hushlogin"
 # ffmpeg 安装
 sudo apt install -y ffmpeg
 # 下载 m3u8 视频
-ffmpeg -i "https://aa.ww.bb/mixed.m3u8" -c copy -bsf:a aac_adtstoasc output.mp4
+# ffmpeg -i "https://aa.ww.bb/mixed.m3u8" -c copy -bsf:a aac_adtstoasc output.mp4
 
 ################################################## End At 2024-12-05 ##################################################
 # 安装 open-vm-tools

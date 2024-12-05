@@ -692,9 +692,9 @@ function _install_CLI_tools_5() {
     # sudo systemctl enable docker.service
     # sudo systemctl enable containerd.service
 
-    # 禁止开机启动;但是当使用docker命令时,这两个服务会自动启动
-    sudo systemctl disable docker.service
-    sudo systemctl disable containerd.service
+    # 禁止开机启动;但是当使用docker命令时,这两个服务会自动启动; 为了让后面的filebrowser等容器能正常安装,在最后再disable吧
+    # sudo systemctl disable docker.service
+    # sudo systemctl disable containerd.service
     sleep 10
     _log_end
     sleep 20
@@ -972,6 +972,10 @@ function _install_end() {
     rm -rf "$HOME/Data/Config"
     mv "$HOME/Temp/Config" "$HOME/Data/Config"
     cd "$HOME/Data/Config" && git pull
+
+    # 禁止开机启动;但是当使用docker命令时,这两个服务会自动启动; 为了让后面的filebrowser等容器能正常安装,在最后再disable吧
+    sudo systemctl disable docker.service
+    sudo systemctl disable containerd.service
 
     _log_end
     sleep 2

@@ -23,7 +23,7 @@
 # su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
 
 # Ubuntu中 软件源使用默认的; 静态ip安装桌面后再配置
-# sudo apt update && sudo apt full-update && sudo apt full-upgrade
+# sudo apt update && sudo apt full-upgrade
 # sudo apt install kde-standard             推荐: 包含 KDE 桌面的基本组件和常用应用程序
 # sudo apt install kde-full                 包含 KDE 桌面的所有组件, 很大
 # sudo apt install kde-plasma-desktop       最小化的 KDE 桌面环境，只安装 Plasma 桌面和几个基础组件

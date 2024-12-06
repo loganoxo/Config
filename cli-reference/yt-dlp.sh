@@ -59,8 +59,8 @@ yt-dlp \
 yt-dlp --external-downloader aria2c "https://www.bilibili.com/video/BVxxxxxx"
 # -c: 启用断点续传
 yt-dlp --external-downloader aria2c --external-downloader-args "aria2c:-c" "https://www.bilibili.com/video/BVxxxxxx"
-# -x 16: 指定多线程分段下载,使用 16 个线程; -k 1M: 每个分片大小为 1 MB,可根据需要调整
-yt-dlp --external-downloader aria2c --external-downloader-args "aria2c:-x 16 -k 1M" "https://www.bilibili.com/video/BVxxxxxx"
+# -x 16: 设置每个下载任务与单个服务器建立的最大连接数为16; -k 1M: 每个分片大小为 1 MB; -s 16: 指定分片数量
+yt-dlp --external-downloader aria2c --external-downloader-args "aria2c:-x 16 -k 1M -s 16" "https://www.bilibili.com/video/BVxxxxxx"
 
 ################ 记录下载时间
 # time <command>, 多个命令需要用 ( ) 包裹,最好有空格和括号分开,若没有空格,粘贴到iterm2中时右括号会被转译;但是代码格式化时会删空格,就挺冲突的

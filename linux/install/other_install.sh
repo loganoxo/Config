@@ -70,3 +70,12 @@ ibus-setup # add input methods you want
 or add input source in Settings - in GNOME desktop. >Keyboard
 
 ################################################## End At 2024-12-06 ##################################################
+
+# 安装 aria2
+mkdir -p "$HOME/Logs" "$HOME/Downloads" "$HOME/.aria2"
+if [ ! -f "$HOME/.aria2/aria2.session" ]; then
+    touch "$HOME/.aria2/aria2.session"
+fi
+sudo apt update
+sudo apt install aria2
+aria2c --version

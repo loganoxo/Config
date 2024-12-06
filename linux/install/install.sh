@@ -305,7 +305,7 @@ function _install_shell_plugin() {
 function _environment_construction() {
     _log_start "Environment construction"
     mkdir -p "$HOME/.aria2" "$HOME/.config" "$HOME/.ssh" "$HOME/.shell_bak" "$HOME/software" "$HOME/Data" "$HOME/share"
-    mkdir -p "$HOME/.local/bin" "$HOME/.config/navi" "$HOME/.zoxide" "$HOME/.undodir" "$HOME/.vim" "$HOME/Temp"
+    mkdir -p "$HOME/.local/bin" "$HOME/.config/navi" "$HOME/.zoxide" "$HOME/.undodir" "$HOME/.vim" "$HOME/Temp" "$HOME/Logs" "$HOME/Downloads"
     mv "$HOME/.bashrc" "$HOME/.shell_bak/" || true
     mv "$HOME/.profile" "$HOME/.shell_bak/" || true
     mv "$HOME/.zshrc" "$HOME/.shell_bak/" || true

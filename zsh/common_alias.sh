@@ -71,6 +71,9 @@ alias zk_handle='/bin/bash ${__PATH_MY_CNF}/shell/zk.sh'
 # 代码缩进格式化脚本
 alias logan_format='/bin/bash ${__PATH_MY_CNF}/shell/format.sh'
 
+# ffmpeg
+alias ffmpeg='command ffmpeg -hide_banner'
+
 # z.lua
 #alias zz="z -I"
 #alias zb="z -b"

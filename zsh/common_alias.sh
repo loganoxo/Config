@@ -55,24 +55,27 @@ op() {
 }
 
 # docker
-alias dops1='/opt/homebrew/bin/bash ${__PATH_MY_CNF}/shell/dockerps1.sh'
-alias dops2='/bin/bash ${__PATH_MY_CNF}/shell/dockerps2.sh'
+alias dops1='/usr/bin/env bash ${__PATH_MY_CNF}/shell/dockerps1.sh'
+alias dops2='/usr/bin/env bash ${__PATH_MY_CNF}/shell/dockerps2.sh'
 alias dops='dops1'
 
 # navi不直接执行命令; 经测试,用 navi --print ; 选好命令后回车,会输出命令(不执行)并换行; 只有用ctrl-g快捷键,才能让选好的命令显示在光标后
 alias nav='navi --print'
 
 # 批量重命名脚本
-alias batch_rename='/bin/bash ${__PATH_MY_CNF}/shell/batch_rename.sh'
+alias batch_rename='/usr/bin/env bash ${__PATH_MY_CNF}/shell/batch_rename.sh'
 
 # zk
-alias zk_handle='/bin/bash ${__PATH_MY_CNF}/shell/zk.sh'
+alias zk_handle='/usr/bin/env bash ${__PATH_MY_CNF}/shell/zk.sh'
 
 # 代码缩进格式化脚本
-alias logan_format='/bin/bash ${__PATH_MY_CNF}/shell/format.sh'
+alias logan_format='/usr/bin/env bash ${__PATH_MY_CNF}/shell/format.sh'
 
 # ffmpeg
 alias ffmpeg='command ffmpeg -hide_banner'
+
+# 检查多个git仓库的状态
+alias logan_check='/usr/bin/env bash ${__PATH_MY_CNF}/shell/logan_check.sh'
 
 # z.lua
 #alias zz="z -I"

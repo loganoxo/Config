@@ -304,7 +304,7 @@ function _install_shell_plugin() {
 # 环境搭建
 function _environment_construction() {
     _log_start "Environment construction"
-    mkdir -p "$HOME/.aria2" "$HOME/.config" "$HOME/.ssh" "$HOME/.shell_bak" "$HOME/software" "$HOME/Data" "$HOME/share"
+    mkdir -p "$HOME/.aria2" "$HOME/.config" "$HOME/.ssh" "$HOME/.shell_bak" "$HOME/software" "$HOME/Data" "$HOME/Share"
     mkdir -p "$HOME/.local/bin" "$HOME/.config/navi" "$HOME/.zoxide" "$HOME/.undodir" "$HOME/.vim" "$HOME/Temp" "$HOME/Logs" "$HOME/Downloads"
     mv "$HOME/.bashrc" "$HOME/.shell_bak/" || true
     mv "$HOME/.profile" "$HOME/.shell_bak/" || true
@@ -704,11 +704,11 @@ function _install_CLI_tools_5() {
 function _install_file_server() {
     _log_start "_install_file_server"
     _logan_source
-    mkdir -p "$HOME/share"
+    mkdir -p "$HOME/Share"
 
     # 安装 dufs
     cargo install dufs
-    mkdir -p "$HOME/share/dufs"
+    mkdir -p "$HOME/Share/dufs"
     sudo ufw allow 5000
     sleep 10
     # dufs                          # 以只读模式提供当前目录,只允许查看和下载;默认在前台执行
@@ -717,7 +717,7 @@ function _install_file_server() {
     # dufs -A                       # 允许所有操作，如上传/删除/搜索/创建/编辑
     # dufs --allow-upload           # 只允许查看和下载和上传操作
     # --allow-archive 允许文件夹打包下载; --allow-search 允许搜索
-    # dufs $HOME/share/dufs                # 指定某个目录
+    # dufs $HOME/Share/dufs                # 指定某个目录
     # dufs linux-distro.iso            # 指定单个文件
     # dufs -a admin:123@/:rw           # 指定用户名admin/密码123
     # dufs -b 127.0.0.1 -p 80          # 监听特定ip和端口
@@ -731,12 +731,12 @@ function _install_file_server() {
 
     ############################
     # 安装 filebrowser docker模式
-    mkdir -p "$HOME/share/filebrowser"
-    mkdir -p "$HOME/share/filebrowser/files"
-    touch "$HOME/share/filebrowser/filebrowser.db"
-    touch "$HOME/share/filebrowser/filebrowser.json"
+    mkdir -p "$HOME/Share/filebrowser"
+    mkdir -p "$HOME/Share/filebrowser/files"
+    touch "$HOME/Share/filebrowser/filebrowser.db"
+    touch "$HOME/Share/filebrowser/filebrowser.json"
 
-    cat >"$HOME/share/filebrowser/filebrowser.json" <<EOF
+    cat >"$HOME/Share/filebrowser/filebrowser.json" <<EOF
 {
   "port": 80,
   "baseURL": "",
@@ -748,9 +748,9 @@ function _install_file_server() {
 EOF
     sudo ufw allow 12786
     docker run -d \
-        -v "$HOME/share/filebrowser/files":/srv \
-        -v "$HOME/share/filebrowser/filebrowser.db":/database/filebrowser.db \
-        -v "$HOME/share/filebrowser/filebrowser.json":/.filebrowser.json \
+        -v "$HOME/Share/filebrowser/files":/srv \
+        -v "$HOME/Share/filebrowser/filebrowser.db":/database/filebrowser.db \
+        -v "$HOME/Share/filebrowser/filebrowser.json":/.filebrowser.json \
         -u $(id -u):$(id -g) \
         -p 12786:80 --name=filebrowser filebrowser/filebrowser
 

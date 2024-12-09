@@ -250,9 +250,9 @@ function _git_pre() {
 # 预安装配置
 function ___pre() {
     sudo apt update -y && sudo apt-get update -y
-    apt full-upgrade -y
-    apt autoremove -y
-    apt autoclean -y
+    sudo apt full-upgrade -y
+    sudo apt autoremove -y
+    sudo apt autoclean -y
     sudo apt install -y wget net-tools build-essential curl unzip zip tree cmake jq
     sudo apt install -y shellcheck shfmt tmux universal-ctags
     if for_sure "Next Step : Language Config  ? (y/n):"; then

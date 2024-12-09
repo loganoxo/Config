@@ -284,7 +284,7 @@ function _git_private() {
 function _install_shell_plugin() {
     _log_start "Install shel plugin"
     sh -c "$(_get_content_from_github "https://api.github.com/repos/ohmyzsh/ohmyzsh/contents/tools/install.sh" \
-        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")"
+        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")" "" --unattended
     sleep 10
     git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
     sleep 10

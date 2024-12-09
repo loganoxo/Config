@@ -244,7 +244,7 @@ function _git_pre() {
         notice "Use GITHUB_TOKEN : $GITHUB_TOKEN\n"
     fi
     _log_end
-    sleep 5
+    sleep 1
 }
 
 # 预安装配置
@@ -279,12 +279,12 @@ function step1() {
     _log_start "step1"
     sh -c "$(_get_content_from_github "https://api.github.com/repos/ohmyzsh/ohmyzsh/contents/tools/install.sh" \
         "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh")" "" --unattended
-    sleep 10
+    sleep 2
     git clone git@github.com:zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-    sleep 10
+    sleep 2
     git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
     rm -f "$HOME/.zshrc.pre-oh-my-zsh"
-    sleep 5
+    sleep 2
 
     # 如果您将 Oh My Bash 安装脚本作为自动安装的一部分运行，则可以将--unattended标志传递给install.sh脚本。这将不会尝试更改默认 shell，并且在安装完成后也不会运行bash
     bash -c "$(_get_content_from_github "https://api.github.com/repos/ohmybash/oh-my-bash/contents/tools/install.sh" \
@@ -292,7 +292,7 @@ function step1() {
     rm -f "$HOME/.bashrc.omb-backup-*"
     curl --retry 10 --retry-all-errors --retry-delay 10 -sS https://starship.rs/install.sh | sh -s -- -y
     _log_end
-    sleep 5
+    sleep 2
 }
 
 function step2() {
@@ -324,7 +324,7 @@ function step3() {
     # 安装 go
     sudo apt install -y golang-go
     go version
-    sleep 5
+    sleep 2
 
     # 安装 bat
     sudo apt install -y bat #这样安装的bat会因为避免名字冲突而让他的命令变为 batcat, 所以需要符号链接
@@ -347,7 +347,7 @@ function step3() {
 
     tar -xzf "$HOME/software/fzf/fzf-0.56.3-linux_arm64.tar.gz" -C "$HOME/software/fzf"
     ln -sf "$HOME/software/fzf/fzf" "$HOME/.local/bin/fzf"
-    sleep 5
+    sleep 2
 
     # 安装fd
     sudo apt install -y fd-find
@@ -358,7 +358,7 @@ function step3() {
     _get_content_from_github "https://api.github.com/repos/ajeetdsouza/zoxide/contents/install.sh" \
         "https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh" | sh
     _log_end
-    sleep 5
+    sleep 2
 }
 
 function step4() {
@@ -373,27 +373,27 @@ function step4() {
     mac pull "$MAC_HOME/.vim/plugged" "$HOME/.vim/plugged"
     _logan_source
     echo "############ vim done #####################"
-    sleep 10
+    sleep 2
 
     # 安装sdkman
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
     _logan_source
     sdk version
     yes n | sdk install java 8.0.432.fx-zulu
-    sleep 10
+    sleep 2
     yes n | sdk install java 11.0.25.fx-zulu
-    sleep 10
+    sleep 2
     yes n | sdk install java 17.0.13.fx-zulu
-    sleep 10
+    sleep 2
     yes n | sdk install java 17.0.13-zulu
-    sleep 10
+    sleep 2
     yes n | sdk install java 17.0.12-oracle #设为默认
-    sleep 10
+    sleep 2
     yes n | sdk install java 17.0.13-tem
-    sleep 10
+    sleep 2
     yes n | sdk default java 17.0.12-oracle
     yes n | sdk install maven 3.9.9
-    sleep 10
+    sleep 2
     sdk default maven 3.9.9
     sdk default java 17.0.12-oracle
 
@@ -408,7 +408,7 @@ function step4() {
     fnm install --latest #安装最新的版本,会自动加别名 latest
     fnm default lts-latest
     fnm alias lts-latest lts
-    sleep 10
+    sleep 2
     which -a npm
     npm -g install nrm pm2 prettier yarn yrm
     npm list -g
@@ -423,18 +423,18 @@ function step5() {
     curl --retry 10 --retry-all-errors --retry-delay 10 --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     _logan_source
     rustc --version
-    sleep 10
+    sleep 2
 
     # 安装navi
     cargo install --locked navi
-    sleep 10
+    sleep 2
 
     # tldr
     cargo install tealdeer
     tldr --update
     tldr bat
     tldr -L zh tree
-    sleep 10
+    sleep 2
 
     # glow
     mkdir -p "$HOME/software"
@@ -450,7 +450,7 @@ function step5() {
     tar xvzf "$HOME/software/glow_2.0.0_Linux_arm64.tar.gz" -C "$HOME/software/"
     mv "$HOME/software/glow_2.0.0_Linux_arm64" "$HOME/software/glow"
     ln -s "$HOME/software/glow/glow" "$HOME/.local/bin/glow"
-    sleep 10
+    sleep 2
 
     # the_silver_searcher
     sudo apt install -y silversearcher-ag
@@ -465,7 +465,7 @@ function step6() {
     #    sudo mkdir --parent /.Trash
     #    sudo chmod a+rw /.Trash
     #    sudo chmod +t /.Trash
-    sleep 10
+    sleep 2
 
     # uv
     curl --retry 10 --retry-all-errors --retry-delay 10 -LsSf https://astral.sh/uv/install.sh | sh # 默认在 $HOME/.local/share/uv/
@@ -495,7 +495,7 @@ function step6() {
     conda deactivate || true
     conda deactivate || true
     _log_end
-    sleep 15
+    sleep 2
 }
 
 function step7() {

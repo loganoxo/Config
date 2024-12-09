@@ -33,9 +33,15 @@
 # ssh user@machine@orb
 # 9、使用 orb default 更改默认机器
 
-set -eu
+# 脚本使用:
+# 1、cd ~ ; mac pull /Users/logan/Data/Config/linux/orbstack/linux_machine.sh;
+# 2、bash ./linux_machine.sh "${ZSH_VERSION:-nozsh}" "$USER" 0
+# 3、bash ./linux_machine.sh "${ZSH_VERSION:-nozsh}" "$USER" 1
+
+set -e
 flag="$1"
-step="$2"
+user_name="$2"
+step="$3"
 MAC_HOME="/Users/logan"
 export PATH=$PATH:/usr/sbin
 GITHUB_TOKEN=""

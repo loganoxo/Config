@@ -524,7 +524,7 @@ function step7() {
         touch "$HOME/.aria2/aria2.session"
     fi
     sudo apt update
-    sudo apt install aria2
+    sudo apt install -y aria2
     aria2c --version
 
     _log_end

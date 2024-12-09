@@ -269,6 +269,7 @@ function ___pre() {
     sudo apt install -y zsh
     zsh --version
     chsh -s "$(which zsh)"
+    sudo chsh -s "$(which zsh)"
     notice "install zsh success\n"
     _log_end
 }

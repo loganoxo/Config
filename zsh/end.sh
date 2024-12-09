@@ -97,7 +97,9 @@ elif _logan_if_linux; then
     fastfetch_if_run=1
     fastfetch_config_path="$HOME/.config/fastfetch/config_linux.jsonc"
 fi
-alias fastfetch='command fastfetch -c "$fastfetch_config_path"'
+if _logan_if_command_exist "fastfetch"; then
+    alias fastfetch='command fastfetch -c "$fastfetch_config_path"'
+fi
 # 自动执行
 if [ -f "$fastfetch_config_path" ] && [ $fastfetch_if_run -eq 1 ] && _logan_if_command_exist "fastfetch"; then
     if _logan_if_mac; then

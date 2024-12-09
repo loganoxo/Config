@@ -559,7 +559,7 @@ function ___install() {
         step6
     fi
     if [ "$step" -le 7 ]; then
-        step6
+        step7
     fi
 
 }

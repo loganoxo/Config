@@ -1,5 +1,6 @@
 # conda
-__conda_bin="$HOME/.miniconda3/bin/conda"
+__logan_conda_home="$HOME/.miniconda3"
+__conda_bin="${__logan_conda_home}/bin/conda"
 if [ -x "$__conda_bin" ]; then
     # _logan_if_bash 和 _logan_if_zsh 必须写在if里; 如果用 && 的形式,后面$?的判断可能会有问题
     if _logan_if_bash; then
@@ -21,4 +22,21 @@ else
     fi
 fi
 unset __conda_setup
+
+# 切换conda到默认环境
+LOGAN_DEFAULT_ENV_NAME="env_test"
+#LOGAN_CONDA_ENV_DIR="${__logan_conda_home}/envs"
+
+if _logan_if_command_exist "conda"; then
+    # 检查是否已经在虚拟环境中
+    if [[ -z "$CONDA_DEFAULT_ENV" ]] && [[ -z "$VIRTUAL_ENV" ]]; then
+        # 检查环境是否存在
+        if conda env list | grep -q "^$LOGAN_DEFAULT_ENV_NAME\s"; then
+            conda activate "$LOGAN_DEFAULT_ENV_NAME"
+        else
+            echo "Environment '$LOGAN_DEFAULT_ENV_NAME' does not exist."
+        fi
+    fi
+fi
+
 # <<< conda initialize <<<

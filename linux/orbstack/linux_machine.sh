@@ -36,7 +36,8 @@
 # 脚本使用:
 # 1、cd ~ ; mac pull /Users/logan/Data/Config/linux/orbstack/linux_machine.sh;
 # 2、bash ./linux_machine.sh "${ZSH_VERSION:-nozsh}" "$USER" 0
-# 3、bash ./linux_machine.sh "${ZSH_VERSION:-nozsh}" "$USER" 1
+# 3、重启虚拟机
+# 4、bash ./linux_machine.sh "${ZSH_VERSION:-nozsh}" "$USER" 1
 
 set -e
 flag="$1"

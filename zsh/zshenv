@@ -6,8 +6,23 @@ export __PATH_MY_CNF="$HOME/Data/Config"                    # 我自己的配置
 export __PATH_MY_SOFT="$HOME/Data/Software"                 # 我自己的软件目录
 export __PATH_MY_CNF_SENSITIVE="$HOME/Data/ConfigSensitive" # 本地敏感数据目录
 export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
-export PATH=$PATH:/usr/sbin/                                # 针对linux系统的默认PATH没有sbin的问题
-export PATH=$PATH:$HOME/.local/bin                          # 针对uv等工具
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ]; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
+# 针对uv等工具
+if [ -d "$HOME/.local/bin" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# 针对linux系统的默认PATH没有sbin的问题
+if [ -d "/usr/sbin" ]; then
+    export PATH="$PATH:/usr/sbin"
+fi
+
+##########################################################################################
 
 # 加载 rust
 if [[ -f "$HOME/.cargo/env" ]]; then

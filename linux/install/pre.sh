@@ -7,20 +7,20 @@
 # 使用:
 # 一、使用 github
 # 1.用wget(debian默认安装)
-# su -c "wget -q -O- --header='Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$USER\""
 # 2.用curl(debian等linux可能没有预装)
-# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$USER\""
 
 # 二、也可以放在nginx中
-# su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
-# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\""
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$USER\""
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$USER\""
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 
 # 虚拟机克隆之后的处理
-# su -c "wget -q -O- --header='Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
-# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
-# su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
-# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$(whoami)\" \"clone\" "
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$USER\" \"clone\" "
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$USER\" \"clone\" "
+# su -c "wget -q -O- --header='Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$USER\" \"clone\" "
+# su -c "curl -fsSL -H 'Cache-Control: no-cache' \"http://192.168.0.101:18080/pre.sh?$(date +%s)\" | bash -s -- \"run\" \"$USER\" \"clone\" "
 
 # Ubuntu中 软件源使用默认的; 静态ip安装桌面后再配置(额,都试过了,arm平台支持就是一坨屎,不要搞了)
 # sudo apt update && sudo apt autoremove && sudo apt autoclean && sudo apt full-upgrade && sudo apt autoremove && sudo apt autoclean

@@ -8,13 +8,13 @@
 # 使用:
 # 一、使用 github
 # 1.用wget(debian默认安装)
-# wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "${ZSH_VERSION:-nozsh}" "$(whoami)" 0
+# wget -q -O- --header="Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "${ZSH_VERSION:-nozsh}" "$USER" 0
 # 2.用curl(debian等linux可能没有预装)
-# curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "${ZSH_VERSION:-nozsh}" "$(whoami)" 0
+# curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/loganoxo/Config/master/linux/install/install.sh?$(date +%s)" | bash -s -- "${ZSH_VERSION:-nozsh}" "$USER" 0
 
 # 二、也可以放在nginx中
-# wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "${ZSH_VERSION:-nozsh}" "$(whoami)" 0
-# curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "${ZSH_VERSION:-nozsh}" "$(whoami)" 0
+# wget -q -O- --header="Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "${ZSH_VERSION:-nozsh}" "$USER" 0
+# curl -fsSL -H "Cache-Control: no-cache" "http://192.168.0.101:18080/install.sh?$(date +%s)" | bash -s -- "${ZSH_VERSION:-nozsh}" "$USER" 0
 # 提示信息不能使用中文,因为linux自己的tty终端不支持中文
 # e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 set -e

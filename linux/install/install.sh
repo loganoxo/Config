@@ -600,7 +600,8 @@ function _install_CLI_tools_4() {
     rm "$HOME/Temp/miniconda.sh"
     _logan_source
     conda --version
-    conda create -y -n env_test python=3.9 # -n 是创建的环境的名字
+    conda create -y -n env_test python=3.12 # -n 是创建的环境的名字
+    #删除环境:   conda remove -n env_test --all
     conda activate env_test
     python3 -V
     conda activate # 默认是base环境

@@ -376,6 +376,24 @@ function step4() {
     echo "############ vim done #####################"
     sleep 2
 
+    # 安装fnm
+    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
+    ln -s "$HOME/.local/share/fnm/fnm" "$HOME/.local/bin/fnm"
+    _logan_source
+    fnm -V               #查看fnm的版本
+    fnm ls               #查看本地已安装的nodejs的版本
+    fnm current          #打印当前使用的node版本
+    fnm install --lts    #安装最新的LTS版本,会自动加别名 default, lts-latest
+    fnm install --latest #安装最新的版本,会自动加别名 latest
+    fnm default lts-latest
+    fnm alias lts-latest lts
+    sleep 2
+    which -a npm
+    npm -g install nrm pm2 prettier yarn yrm
+    npm list -g
+    nrm ls
+    nrm use taobao
+
     # 安装sdkman
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
     _logan_source
@@ -397,24 +415,6 @@ function step4() {
     sleep 2
     sdk default maven 3.9.9
     sdk default java 17.0.12-oracle
-
-    # 安装fnm
-    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
-    ln -s "$HOME/.local/share/fnm/fnm" "$HOME/.local/bin/fnm"
-    _logan_source
-    fnm -V               #查看fnm的版本
-    fnm ls               #查看本地已安装的nodejs的版本
-    fnm current          #打印当前使用的node版本
-    fnm install --lts    #安装最新的LTS版本,会自动加别名 default, lts-latest
-    fnm install --latest #安装最新的版本,会自动加别名 latest
-    fnm default lts-latest
-    fnm alias lts-latest lts
-    sleep 2
-    which -a npm
-    npm -g install nrm pm2 prettier yarn yrm
-    npm list -g
-    nrm ls
-    nrm use taobao
     _log_end
 }
 

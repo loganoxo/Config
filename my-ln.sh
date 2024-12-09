@@ -7,10 +7,7 @@
 # 硬链接：1、修改link.txt后，source.txt 同步被修改；2、删除source.txt，link.txt还存在，并且文件内容还在；所以硬链接适合做文件备份
 # -f: 表示强制操作，即如果目标文件已经存在，强制删除它，然后创建新的链接
 
-export __PATH_MY_CNF="$HOME/Data/Config"                    # 我自己的配置文件目录
-export __PATH_MY_SOFT="$HOME/Data/Software"                 # 我自己的软件目录
-export __PATH_MY_CNF_SENSITIVE="$HOME/Data/ConfigSensitive" # 本地敏感数据目录
-export __PATH_HOME_CONFIG="$HOME/.config"                   # 默认配置目录
+export __PATH_MY_CNF="$HOME/Data/Config" # 我自己的配置文件目录
 # 加载通用函数
 if [ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
     source "${__PATH_MY_CNF}/zsh/logan_function.sh"
@@ -30,7 +27,10 @@ if _logan_if_mac; then
     ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_mac" "$HOME/.ssh/config"
 fi
 if _logan_if_linux; then
-    ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
+    # 排除 orbstack 创建的linux虚拟机
+    if ! _logan_if_command_exist "mac"; then
+        ln -sf "${__PATH_MY_CNF}/zsh/ssh/config_linux" "$HOME/.ssh/config"
+    fi
 fi
 
 # conda

@@ -538,7 +538,6 @@ function ___install() {
         echo "only run in zsh"
         exit 1
     fi
-    judge
     _git_pre
     if [ "$step" -le 1 ]; then
         step1

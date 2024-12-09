@@ -142,3 +142,10 @@ if [ "$(_logan_term_type)" = "ssh" ]; then
         add-zsh-hook precmd _report_current_dir_for_tabby
     fi
 fi
+
+# 设置orbstack 的 linux 虚拟机的语言
+if _logan_if_linux; then
+    if _logan_if_command_exist "mac" || [ -f "/opt/orbstack-guest/bin/mac" ]; then
+        export LANG="en_US.UTF-8"
+    fi
+fi

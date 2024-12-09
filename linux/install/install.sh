@@ -445,33 +445,6 @@ function _install_CLI_tools_1() {
 
 function _install_CLI_tools_2() {
     _log_start "_install_CLI_tools_2"
-    # 安装sdkman
-    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
-    _logan_source
-    sdk version
-    yes n | sdk install java 8.0.432.fx-zulu
-    sleep 10
-    yes n | sdk install java 11.0.25.fx-zulu
-    sleep 10
-    yes n | sdk install java 17.0.13.fx-zulu
-    sleep 10
-    yes n | sdk install java 17.0.13-zulu
-    sleep 10
-    yes n | sdk install java 17.0.12-oracle #设为默认
-    sleep 10
-    yes n | sdk install java 17.0.13-tem
-    sleep 10
-    yes n | sdk default java 17.0.12-oracle
-    yes n | sdk install maven 3.9.9
-    sleep 10
-    sdk default maven 3.9.9
-    sdk default java 17.0.12-oracle
-    # 重启虚拟机
-    # sdk list java
-    # java -version
-    # sdk list maven
-    # mvn -version
-    # java -XshowSettings:properties -version #查看安装的jdk详细版本信息
 
     # 安装fnm
     curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL https://fnm.vercel.app/install | bash -s -- --skip-shell #不修改zshrc 和 bashrc
@@ -507,6 +480,35 @@ function _install_CLI_tools_2() {
     # fnm alias 17 aaa
     # fnm unalias [OPTIONS] <alias_name>  取消别名
     # fnm unalias lts
+
+    # 安装sdkman
+    curl --retry 10 --retry-all-errors --retry-delay 10 -sSfL "https://get.sdkman.io?rcupdate=false" | bash #不修改zshrc 和 bashrc
+    _logan_source
+    sdk version
+    yes n | sdk install java 8.0.432.fx-zulu
+    sleep 10
+    yes n | sdk install java 11.0.25.fx-zulu
+    sleep 10
+    yes n | sdk install java 17.0.13.fx-zulu
+    sleep 10
+    yes n | sdk install java 17.0.13-zulu
+    sleep 10
+    yes n | sdk install java 17.0.12-oracle #设为默认
+    sleep 10
+    yes n | sdk install java 17.0.13-tem
+    sleep 10
+    yes n | sdk default java 17.0.12-oracle
+    yes n | sdk install maven 3.9.9
+    sleep 10
+    sdk default maven 3.9.9
+    sdk default java 17.0.12-oracle
+    # 重启虚拟机
+    # sdk list java
+    # java -version
+    # sdk list maven
+    # mvn -version
+    # java -XshowSettings:properties -version #查看安装的jdk详细版本信息
+
     _log_end
     sleep 10
 }

@@ -268,7 +268,7 @@ function ___pre() {
     _log_start "Install zsh"
     sudo apt install -y zsh
     zsh --version
-    sudo chsh -s "$(which zsh)"
+    chsh -s "$(which zsh)"
     notice "install zsh success\n"
     _log_end
 }

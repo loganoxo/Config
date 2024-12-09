@@ -5,7 +5,7 @@ if _logan_if_mac; then
     fastfetch_if_run=0
     fastfetch_config_path="$HOME/.config/fastfetch/config_mac.jsonc"
 elif _logan_if_linux; then
-    fastfetch_if_run=1
+    fastfetch_if_run=0
     fastfetch_config_path="$HOME/.config/fastfetch/config_linux.jsonc"
 fi
 if _logan_if_command_exist "fastfetch"; then

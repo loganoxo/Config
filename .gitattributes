@@ -1,0 +1,6 @@
+# 针对所有文件(*),自动检测是否是文本文件()text=auto);将文本文件的换行符强制转换为 LF(Linux/Unix 的换行符)
+* text=auto eol=lf
+# 针对扩展名为 .cmd 或其大小写变体 的文件;指定这些文件是文本文件(text);换行符强制转换为 CRLF(Windows 的换行符)
+*.{cmd,[cC][mM][dD]} text eol=crlf
+# 针对扩展名为 .bat 或其大小写变体 的文件;指定这些文件是文本文件(text);换行符强制转换为 CRLF(Windows 的换行符)
+*.{bat,[bB][aA][tT]} text eol=crlf

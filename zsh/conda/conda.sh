@@ -33,6 +33,11 @@ if _logan_if_command_exist "conda"; then
         # 检查环境是否存在
         if conda env list | grep -q "^$LOGAN_DEFAULT_ENV_NAME\s"; then
             conda activate "$LOGAN_DEFAULT_ENV_NAME"
+            # 确保 Conda 环境路径优先
+            CONDA_ENV_PATH="$(conda info --base)/envs/$LOGAN_DEFAULT_ENV_NAME/bin"
+            if [[ "$PATH" != "$CONDA_ENV_PATH:"* ]]; then
+                export PATH="$CONDA_ENV_PATH:$PATH"
+            fi
         else
             echo "Environment '$LOGAN_DEFAULT_ENV_NAME' does not exist."
         fi

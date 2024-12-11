@@ -81,9 +81,6 @@ alias gpc='git -C "$__PATH_MY_CNF" pull'
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"
 if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
-# $PATH 路径去重
-source "${__PATH_MY_CNF}/zsh/cleanshrc"
-
 # 为 zsh和bash 自定义历史命令配置
 source "${__PATH_MY_CNF}/zsh/history.sh"
 
@@ -131,3 +128,6 @@ source "${__PATH_MY_CNF}/zsh/conda/conda.sh"
 if [ -f "${__PATH_MY_CNF}/others/fastfetch/fastfetch.sh" ]; then
     source "${__PATH_MY_CNF}/others/fastfetch/fastfetch.sh"
 fi
+
+# $PATH 路径去重
+#source "${__PATH_MY_CNF}/zsh/cleanshrc"

@@ -28,8 +28,8 @@ LOGAN_DEFAULT_ENV_NAME="env_test"
 #LOGAN_CONDA_ENV_DIR="${__logan_conda_home}/envs"
 
 if _logan_if_command_exist "conda"; then
-    # 检查是否已经在虚拟环境中
-    if [[ -z "$CONDA_DEFAULT_ENV" ]] && [[ -z "$VIRTUAL_ENV" ]]; then
+    # 检查是否已经在pyenv虚拟环境中
+    if [[ -z "$VIRTUAL_ENV" ]]; then
         # 检查环境是否存在
         if conda env list | grep -q "^$LOGAN_DEFAULT_ENV_NAME\s"; then
             conda activate "$LOGAN_DEFAULT_ENV_NAME"

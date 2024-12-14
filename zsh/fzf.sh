@@ -11,7 +11,7 @@ fi
 FZF_FD_EXCLUDE_OPTS=" --exclude={.git,.mvn,.idea,.vscode,.sass-cache,node_modules,.DS_Store} "
 export FZF_DEFAULT_COMMAND="fd -HI $FZF_FD_EXCLUDE_OPTS "
 
-FZF_FACE_OPTS=" --height=95% --layout=reverse --border -m " #m为多选
+FZF_FACE_OPTS=" --height=95% --layout=reverse --border -m --tmux 82% " #m为多选
 
 # 预览窗口在右方
 FZF_PREVIEW_RIGHT_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window right,55%,border,nowrap "

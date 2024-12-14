@@ -22,7 +22,7 @@ augroup END
 
 
 " dracula, catppuccin_frappe, catppuccin_latte, catppuccin_macchiato, catppuccin_mocha
-colorscheme catppuccin_frappe
+colorscheme catppuccin_mocha
 
 " dracula主题背景透明
 "let g:dracula_colorterm = 0

@@ -37,7 +37,9 @@ fi
 ########################### 加载其他 ###########################
 
 # 加载 主题和插件 配置 ( starship omz omb )
-source "${__PATH_MY_CNF}/zsh/framework.sh"
+if _logan_if_interactive; then
+    source "${__PATH_MY_CNF}/zsh/framework.sh"
+fi
 
 # 加载 通用alias
 source "${__PATH_MY_CNF}/zsh/common_alias.sh"

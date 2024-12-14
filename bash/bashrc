@@ -47,5 +47,10 @@ if _logan_if_interactive; then
     source "${__PATH_MY_CNF}/zsh/fzf.sh"
 fi
 
+# 加载 bash_completion
+if _logan_if_interactive; then
+    source "${__PATH_MY_CNF}/bash/bash_completion_load.sh"
+fi
+
 # 最后加载的脚本
 source "${__PATH_MY_CNF}/zsh/end.sh"

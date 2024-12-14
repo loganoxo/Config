@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
+    source "${__PATH_MY_CNF}/zsh/logan_function.sh"
+fi
+
 # 定义文件类型的后缀名和对应的描述
 image_ext=("*.jpg" "*.JPG" "*.jpeg" "*.JPEG" "*.png" "*.PNG" "*.gif" "*.GIF" "*.bmp" "*.webp" "*.tiff" "*.svg" "*.raw" "*.ico" "*.heif" "*.heic")
 audio_ext=("*.mp3" "*.wav" "*.flac" "*.aac" "*.ogg" "*.m4a" "*.wma" "*.opus" "*.alac" "*.aiff" "*.ape")
@@ -96,7 +100,6 @@ function logan_fzf_preview() {
 
             if _logan_if_command_exist "bat"; then
                 bat --color=always --line-range :600 "$1" 2>/dev/null # 加--style=numbers会导致没有header,二进制文件的预览出错
-                # bat --style=numbers --color=always --line-range :600 "$1" 2>/dev/null
             else
                 cat "$1"
             fi

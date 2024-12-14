@@ -11,27 +11,31 @@ fi
 FZF_FD_EXCLUDE_OPTS=" --exclude={.git,.mvn,.idea,.vscode,.sass-cache,node_modules,.DS_Store} "
 export FZF_DEFAULT_COMMAND="fd -HI $FZF_FD_EXCLUDE_OPTS "
 
-FZF_FACE_OPTS=" --height=90% --layout=reverse --border -m " #m为多选
+FZF_FACE_OPTS=" --height=95% --layout=reverse --border -m " #m为多选
 
 # 预览窗口在右方
-FZF_PREVIEW_RIGHT_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window right,55%,border,wrap "
+FZF_PREVIEW_RIGHT_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window right,55%,border,nowrap "
 
 # 预览窗口在上方
 FZF_PREVIEW_UP_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window up,5,border,wrap "
 
 FZF_PREVIEW_OPTS="$FZF_PREVIEW_RIGHT_OPTS"
 
-# <C-j> 或 <C-k> 或箭头键在结果列表中导航; <Tab>键可以进行多选;
+# 默认情况下,预览窗口可以通过 shift+上下箭头 来上下移动
 # ctrl-y 复制选项的内容到剪贴板,不通用, ctrl-r中可以正常使用;
-# ctrl-g 移动到第一行;  ctrl-d 向下翻页;  ctrl-u 向上翻页;
+# ctrl-w 预览窗口切换换行
+# ctrl-s 切换预览窗口的位置
 # ctrl-l 触发预览窗口的快捷键,改成ctrl-l,默认为ctrl-/
-FZF_BIND_OPTS=" --bind ctrl-g:top,ctrl-d:page-down,ctrl-u:page-up,ctrl-l:toggle-preview "
+# ctrl-g 移动到第一行;  ctrl-d 向下翻页;  ctrl-u 向上翻页;
+# <C-j> 或 <C-k> 或箭头键在结果列表中导航; <Tab>键可以进行多选;
+
+FZF_BIND_OPTS=" --bind 'ctrl-w:toggle-preview-wrap,ctrl-s:change-preview-window(up,40%|right),ctrl-l:toggle-preview,ctrl-g:top,ctrl-d:page-down,ctrl-u:page-up' "
 FZF_BIND_OPTS2=" --bind 'ctrl-y:execute-silent(echo -n {} | pbcopy)' "
 # --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'  有+号,复制后直接退出
 
-FZF_HEADER="Tab:multi Ctrl-y:copy Ctrl-g:top Ctrl-d:pagedown Ctrl-u:pageup Ctrl-l:preview "
+FZF_HEADER="C-y:copy C-w:wrap C-s:spin C-l:view Tab:mul C-g:top C-d:down C-u:up "
 # 其他配置: fzf 行号/搜索项数/全部数 ; +S 表示排序模式已启用; (0) 表示当前的多选模式中已选择的条目数
-FZF_INFO_OPTS="--info-command='echo -e \"\x1b[35;1m\$FZF_POS/\$FZF_INFO\x1b[m  💛  $FZF_HEADER \"'"
+FZF_INFO_OPTS="--info-command='echo -e \"\$FZF_POS/\$FZF_INFO 💛 $FZF_HEADER \"'"
 if _logan_if_linux; then
     # FZF_INFO_OPTS=""
     :
@@ -41,7 +45,19 @@ fi
 FZF_HEADER_OPTS=" --color header:italic --header ' $FZF_HEADER' "
 FZF_HEADER_OPTS=""
 
-FZF_DEFAULT_OPTS="$FZF_FACE_OPTS $FZF_PREVIEW_OPTS $FZF_BIND_OPTS $FZF_BIND_OPTS2 $FZF_HEADER_OPTS $FZF_INFO_OPTS"
+# catppuccin 的颜色
+# bg+ fg+ 为选中的背景色和前景色
+# marker selected-bg selected-fg 为用tab键多选 前面的竖线和背景色和前景色
+# hl hl+ 为搜索词匹配的颜色
+FZF_CATPPUCCIN_COLORS=" \
+                      --color=bg+:#313244,fg+:yellow,spinner:#f5e0dc \
+                      --color=fg:#cdd6f4,header:#f38ba8,info:magenta,pointer:#f5e0dc \
+                      --color=marker:#EE66A6,selected-bg:#151515,selected-fg:green \
+                      --color=prompt:blue,hl:#f38ba8,hl+:#f38ba8 "
+
+FZF_DEFAULT_OPTS="$FZF_FACE_OPTS $FZF_CATPPUCCIN_COLORS \
+                    $FZF_PREVIEW_OPTS $FZF_BIND_OPTS $FZF_BIND_OPTS2 \
+                    $FZF_HEADER_OPTS $FZF_INFO_OPTS"
 
 export FZF_DEFAULT_OPTS
 export FZF_COMPLETION_TRIGGER="\\" # 默认为 **
@@ -59,7 +75,7 @@ export FZF_COMPLETION_TRIGGER="\\" # 默认为 **
 # zz命令,快速切换目录
 
 FZF_BIND_OPTS3=" --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)' "
-export FZF_CTRL_R_OPTS=" --color=prompt:blue --prompt='commands > ' $FZF_FACE_OPTS \
+export FZF_CTRL_R_OPTS=" --prompt='commands > ' $FZF_FACE_OPTS $FZF_CATPPUCCIN_COLORS \
   --preview 'echo {}' --preview-window up,3,border,wrap,hidden \
   $FZF_BIND_OPTS $FZF_BIND_OPTS3 $FZF_HEADER_OPTS $FZF_INFO_OPTS "
 

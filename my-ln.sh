@@ -63,6 +63,12 @@ cp -r "${__PATH_MY_CNF}/vim/input-source-vim" "$HOME/.input-source-vim"
 touch "$HOME/.input-source-vim/data"
 echo -n 0 >"$HOME/.input-source-vim/data"
 
+# bat
+ln -sf "${__PATH_MY_CNF}/others/bat/themes" "$HOME/.config/bat/themes"
+if ! _logan_if_command_exist "bat"; then
+    bat cache --build
+fi
+
 # others
 ln -sf "${__PATH_MY_CNF}/others/tmux/tmux.conf" "$HOME/.tmux.conf"
 # ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"

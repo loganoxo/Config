@@ -14,7 +14,7 @@ export FZF_DEFAULT_COMMAND="fd -HI $FZF_FD_EXCLUDE_OPTS "
 FZF_FACE_OPTS=" --height=90% --layout=reverse --border -m " #m为多选
 
 # 预览窗口在右方
-FZF_PREVIEW_RIGHT_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window right,45%,border,wrap "
+FZF_PREVIEW_RIGHT_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window right,55%,border,wrap "
 
 # 预览窗口在上方
 FZF_PREVIEW_UP_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window up,5,border,wrap "

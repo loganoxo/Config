@@ -57,7 +57,17 @@ fi
 
 export TERM=xterm-256color
 
-export BAT_THEME="Dracula" # bat主题
+# mkdir -p "$(bat --config-dir)/themes"
+# wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Latte.tmTheme
+# wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Frappe.tmTheme
+# wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme
+# wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
+# bat cache --build #重建缓存,不然用不了新主题
+# bat --list-themes #查看主题列表
+# 与fzf配合,预览主题
+# bat --list-themes | fzf --preview="bat --theme={} --color=always /path/to/file"
+export BAT_THEME="Catppuccin Mocha" # bat主题
+# export BAT_THEME="Dracula" # bat主题
 
 # 定义在命令行中，哪些字符被视为“单词的一部分”,用在单词删除(ctrl+w),和单词跳转(option+left/right)时; 写在omz之下
 # WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'

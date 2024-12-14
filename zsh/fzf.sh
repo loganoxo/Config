@@ -29,16 +29,17 @@ FZF_BIND_OPTS=" --bind ctrl-g:top,ctrl-d:page-down,ctrl-u:page-up,ctrl-l:toggle-
 FZF_BIND_OPTS2=" --bind 'ctrl-y:execute-silent(echo -n {} | pbcopy)' "
 # --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'  有+号,复制后直接退出
 
-# fzf窗口的header提示信息
 FZF_HEADER="Tab:multi Ctrl-y:copy Ctrl-g:top Ctrl-d:pagedown Ctrl-u:pageup Ctrl-l:preview "
+# 其他配置: 1、fzf 行号/搜索项数/全部数
+FZF_INFO_OPTS="--info-command='echo -e \"\x1b[35;1m\$FZF_POS/\$FZF_INFO\x1b[m  💛  $FZF_HEADER \"'"
+if _logan_if_linux; then
+    # FZF_INFO_OPTS=""
+    :
+fi
+
+# fzf窗口的header提示信息,在FZF_INFO_OPTS下一行
 FZF_HEADER_OPTS=" --color header:italic --header ' $FZF_HEADER' "
 FZF_HEADER_OPTS=""
-
-# 其他配置: 1、fzf 行号/搜索项数/全部数
-FZF_INFO_OPTS="--info-command='echo -e \"\x1b[33;1m\$FZF_POS\x1b[m/\$FZF_INFO  💛  $FZF_HEADER \"'"
-if _logan_if_linux; then
-    FZF_INFO_OPTS=""
-fi
 
 FZF_DEFAULT_OPTS="$FZF_FACE_OPTS $FZF_PREVIEW_OPTS $FZF_BIND_OPTS $FZF_BIND_OPTS2 $FZF_HEADER_OPTS $FZF_INFO_OPTS"
 

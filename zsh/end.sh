@@ -41,26 +41,11 @@ elif _logan_if_linux; then
 fi
 #alias trash='trash -F'
 
-_my_alias_init_ls() {
-    if command ls --color=auto ~ >/dev/null 2>&1; then
-        command ls --color=auto "$@"
-    elif command ls -G ~ >/dev/null 2>&1; then
-        command ls -G "$@"
+if _logan_if_interactive; then
+    if [ -f "${__PATH_MY_CNF}/zsh/ls.sh" ]; then
+        source "${__PATH_MY_CNF}/zsh/ls.sh"
     fi
-}
-
-# 	-l: 以长格式显示，提供详细信息，例如权限、所有者、大小、修改日期等。
-# 	-h: 以人类可读的格式显示文件大小，例如使用 KB、MB、GB 等单位，而不是纯字节数。
-# 	-a: 显示所有文件，包括以 . 开头的隐藏文件。
-#   -A: 显示所有文件，包括以 . 开头的隐藏文件; 但不包括 .（当前目录）和 ..（上级目录）
-#   -F: 在每个文件/文件夹名后加上特定的标识符，帮助区分文件/文件夹类型,如文件夹后会加`/`,*：表示可执行文件;@：表示符号链接（symlink）。
-#   --color=auto 在 Linux 系统中用于根据终端是否支持颜色自动决定是否启用颜色输出。它是一个较为广泛的标准选项，在大多数 Linux 发行版中都能正常工作
-#   -G：在 macOS 和某些 Linux 发行版中启用颜色化输出，类似于 ls --color=auto
-alias ls='_my_alias_init_ls'
-alias l='ls -lAFh'
-alias ll='ls -lAFh'
-alias la='ls -lhA'
-alias lsa='ls -lha'
+fi
 
 # Temp
 alias tt='cd ~/Temp && pwd && ls -A'

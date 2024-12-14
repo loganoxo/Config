@@ -69,6 +69,9 @@ if ! _logan_if_command_exist "bat"; then
     bat cache --build
 fi
 
+# lsd
+ln -sf "${__PATH_MY_CNF}/others/lsd" "$HOME/.config/lsd"
+
 # others
 ln -sf "${__PATH_MY_CNF}/others/tmux/tmux.conf" "$HOME/.tmux.conf"
 # ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"

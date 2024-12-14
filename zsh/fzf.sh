@@ -30,7 +30,7 @@ FZF_BIND_OPTS2=" --bind 'ctrl-y:execute-silent(echo -n {} | pbcopy)' "
 # --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'  有+号,复制后直接退出
 
 FZF_HEADER="Tab:multi Ctrl-y:copy Ctrl-g:top Ctrl-d:pagedown Ctrl-u:pageup Ctrl-l:preview "
-# 其他配置: 1、fzf 行号/搜索项数/全部数
+# 其他配置: fzf 行号/搜索项数/全部数 ; +S 表示排序模式已启用; (0) 表示当前的多选模式中已选择的条目数
 FZF_INFO_OPTS="--info-command='echo -e \"\x1b[35;1m\$FZF_POS/\$FZF_INFO\x1b[m  💛  $FZF_HEADER \"'"
 if _logan_if_linux; then
     # FZF_INFO_OPTS=""
@@ -59,8 +59,8 @@ export FZF_COMPLETION_TRIGGER="\\" # 默认为 **
 # zz命令,快速切换目录
 
 FZF_BIND_OPTS3=" --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)' "
-export FZF_CTRL_R_OPTS=" $FZF_FACE_OPTS
-  --preview 'echo {}' --preview-window up,3,border,wrap,hidden
+export FZF_CTRL_R_OPTS=" --color=prompt:blue --prompt='commands > ' $FZF_FACE_OPTS \
+  --preview 'echo {}' --preview-window up,3,border,wrap,hidden \
   $FZF_BIND_OPTS $FZF_BIND_OPTS3 $FZF_HEADER_OPTS $FZF_INFO_OPTS "
 
 # 禁用ALT-C

@@ -11,7 +11,7 @@ fi
 FZF_FD_EXCLUDE_OPTS=" --exclude={.git,.mvn,.idea,.vscode,.sass-cache,node_modules,.DS_Store} "
 export FZF_DEFAULT_COMMAND="fd -HI $FZF_FD_EXCLUDE_OPTS "
 
-FZF_FACE_OPTS=" --height=95% --layout=reverse --border -m --tmux 82% " #m为多选
+FZF_FACE_OPTS=" --height=85% --layout=reverse --border -m --tmux 82% " #m为多选
 
 # 预览窗口在右方
 FZF_PREVIEW_RIGHT_OPTS=" --preview '~/Data/Config/shell/fzf_preview.sh {}' --preview-window right,55%,border,nowrap "
@@ -112,4 +112,52 @@ zf() {
             fzf --height 40% # 用 fzf 选择
     )
     [ -d "$dir" ] && cd "$dir" || return
+}
+
+tmk() {
+    local sessions
+    sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null || true)
+    if [ -z "$sessions" ]; then
+        echo "No sessions found."
+        return
+    fi
+
+    local kill_sessions
+    local session
+
+    kill_sessions=$(echo "$sessions" | fzf --multi)
+
+    if [ -n "$kill_sessions" ]; then
+        while IFS= read -r session; do
+            echo "killing '$session' ..."
+            tmux kill-session -t "$session"
+        done <<<"$kill_sessions"
+    fi
+}
+
+# 没有参数时,会显示当前所有session,选中后会进入
+# 有参数时,若当前server有这个session的name,则直接进入; 若没有则创建后进入
+# 在tmux内部也能使用
+tms() {
+    local change
+    [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+    if [ -n "$1" ]; then
+        tmux "$change" -t "$1" 2>/dev/null || (tmux new-session -d -s "$1" && tmux "$change" -t "$1")
+        return
+    fi
+
+    # 获取 tmux 会话列表
+    local sessions
+    sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null || true)
+    if [ -z "$sessions" ]; then
+        echo "No sessions found."
+        return
+    fi
+
+    # 调用 fzf 选择会话
+    local session
+    session=$(echo "$sessions" | fzf)
+    if [ -n "$session" ]; then
+        tmux "$change" -t "$session"
+    fi
 }

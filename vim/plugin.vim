@@ -53,7 +53,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
 " 快速注释gcc 取消gcgc
 Plug 'tpope/vim-commentary'
-" 多光标模式 c-up c-down c-n
+" 多光标模式
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 " 文件树 <Leader>e f
 "Plug 'preservim/nerdtree',{ 'on':  ['NERDTreeToggle','NERDTreeFind'] }
@@ -85,6 +85,8 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'mbbill/undotree'
 " 解决 Vim 原生命令 . 在自定义映射或插件映射时无法重复的问题,支持surround.vim
 Plug 'tpope/vim-repeat'
+" 让vim和tmux的窗格移动快捷键相配合
+Plug 'christoomey/vim-tmux-navigator'
 " 需要放在所有插件的最后加载;将文件类型字形（图标）添加到各种 vim 插件
 Plug 'ryanoasis/vim-devicons'
 " 函数参数操作,用targets.vim替代
@@ -118,6 +120,15 @@ call plug#end()
 " 7、 可以用 <.> 键重复上一次的操作
 " 将单词用双引号包围的映射
 nmap <Leader>" ysiw"
+"}}}
+
+"----------------------- vim-tmux-navigator 让vim和tmux的窗格移动快捷键相配合 {{{ -----------------------
+" 用<C-\>从vim跳转到tmux窗格或vim分屏时,是否保存当前的更改; 1:写入当前缓冲区,但仅在发生更改时; 2: 写入所有缓冲区
+" let g:tmux_navigator_save_on_switch = 2
+" 默认设置下,如果放大了 tmux 窗格并尝试从 Vim 导航到其他 tmux 窗格,tmux 将取消缩放该窗格;
+" 设置下面这个配置,用于禁用此取消缩放行为,将所有导航保留在 Vim 内,直到 tmux 窗格显式取消缩放
+let g:tmux_navigator_disable_when_zoomed = 1
+
 "}}}
 
 "----------------------- targets.vim {{{ -----------------------
@@ -194,7 +205,7 @@ nnoremap <silent><Leader>gb :Git blame<CR>
 " 怎么启动:
 " 一、normal模式下
 " 1、<C-n> : 在光标下的单词添加光标(可以通过C-n继续往下找相同的单词添加光标),Extend mode
-" 2、<C-Down>/<C-Up> : 开始向下/向上添加光标(相同列)，跳过空行,Cursor mode
+" 2、<C-Down>/<C-Up> : 开始向下/向上添加光标(相同列)，跳过空行,Cursor mode; 我把默认的 C-Down 和 C-Up 键改为 shift,为了和tmux调整窗格大小的快捷键不冲突
 " 3、\A : 反斜杠+大写A : 在光标下的单词添加cursor,并且将文件中所有这个单词都加cursor
 " 4、\/ : 启动multi,并进入regex匹配,Cursor mode
 " 5、\gS : 启动multi,并选中上次的选区
@@ -223,7 +234,7 @@ nnoremap <silent><Leader>gb :Git blame<CR>
 " 2、 \t : 文本交换位置,前提是文本选中的行数要相同
 "           "name": "Charlie",
 "           "name": "Charlie",
-" 在两行name的n处<C-Down>; 在两行Charlie的C处<C-Down>;<C-n>获得两个选区;使用\t后变成:
+" 在两行name的n处<C-Down>(改为了S-Down); 在两行Charlie的C处<C-Down>(改为了S-Down);<C-n>获得两个选区;使用\t后变成:
 "           "Charlie": "name",
 "           "Charlie": "name",
 " 3、<C-S-Left> 和 <C-S-Right> 可以左右移动<C-n>选择的多个选区，移动的是文本整体的位置
@@ -247,6 +258,11 @@ let g:VM_theme            = 'neon'
 let g:VM_leader = {'default': '\', 'visual': '\', 'buffer': '\'}
 " 初始化字典
 let g:VM_maps = {}
+
+" 添加光标,把默认的 C-Down 和 C-Up 键改为 shift,为了和tmux调整窗格大小的快捷键不冲突
+let g:VM_maps["Add Cursor Down"]             = '<S-Down>'
+let g:VM_maps["Add Cursor Up"]               = '<S-Up>'
+
 " 默认情况下，此功能尚未启用：使用它，您可以撤消/重做在 VM 中所做的更改，并且区域也将恢复。您必须映射命令才能使其工作
 let g:VM_maps["Undo"] = 'u'
 let g:VM_maps["Redo"] = '<C-r>'
@@ -467,7 +483,6 @@ let g:fzf_vim.preview_window = ['hidden,up,40%', 'ctrl-l']
 " 切换buffer(<Leader>fb)时,若存在该buffer的窗口则复用
 let g:fzf_vim.buffers_jump = 1
 "}}}
-
 
 "----------------------- 浮动窗口(终端)floaterm {{{ -----------------------
 """""" <C-\><C-n> 切换回normal模式;

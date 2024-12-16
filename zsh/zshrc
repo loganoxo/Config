@@ -8,9 +8,6 @@ source "$HOME/.zshenv"
 # 加载初始化配置
 source "${__PATH_MY_CNF}/zsh/init.sh"
 
-# 重载配置文件
-alias rr="echo 'reloading...'&&source ~/.zshrc"
-
 # navi
 # export NAVI_CONFIG="${__PATH_HOME_CONFIG}/navi/config.yaml" #不配置,则默认在~/.config/navi/config.yaml
 if _logan_if_interactive; then

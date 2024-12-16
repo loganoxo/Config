@@ -114,6 +114,7 @@ zf() {
     [ -d "$dir" ] && cd "$dir" || return
 }
 
+# 显示进程,选择kill
 function fkill() {
   local pid
   if [ "$UID" != "0" ]; then

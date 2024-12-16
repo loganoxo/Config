@@ -57,6 +57,7 @@ function _logan_if_zsh() {
     fi
 }
 
+# 判断终端环境
 function _logan_term_type() {
     if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" ]]; then
         # 通过远程连接操作(SSH)
@@ -73,9 +74,31 @@ function _logan_term_type() {
     fi
 }
 
+# 当前环境是否为交互式终端环境
 function _logan_if_interactive() {
     if [[ $- == *i* ]]; then
         return 0
     fi
     return 1
+}
+
+# 提示输入
+function _logan_for_sure() {
+    if [ -z "$1" ]; then
+        echo "need prompts"
+        return 1
+    fi
+
+    local choice
+    echo -en "   \033[33m$1\033[0m \033[35m(Y|y/n):\033[0m"
+    read -r choice </dev/tty
+    case "$choice" in
+    y | Y)
+        return 0
+        ;;
+    *)
+        echo "Operation cancelled."
+        return 1 #脚本停止
+        ;;
+    esac
 }

@@ -129,20 +129,6 @@ export PATH=$PATH:$GOPATH/bin
 #export PYTHON3DIR=/usr/local/Cellar/python@3.11/3.11.4_1
 #export PATH=$PYTHON3DIR/bin:$PATH
 
-########################### 加载自定义函数 ###########################
-source "${__PATH_MY_CNF}/my-functions/getproxy.sh"
-source "${__PATH_MY_CNF}/my-functions/setproxy.sh"
-source "${__PATH_MY_CNF}/my-functions/unproxy.sh"
-source "${__PATH_MY_CNF}/my-functions/fkill.sh"
-source "${__PATH_MY_CNF}/my-functions/show_path.sh"
-source "${__PATH_MY_CNF}/my-functions/show_fpath.sh"
-
-#fpath+=~/Data/Config/my-functions
-## 代理函数
-#autoload -U setproxy unproxy getproxy
-## fzf杀进程 fzf预览
-#autoload -U fkill preview
-
 ###################################################### 放在末尾 ##################################################################
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!

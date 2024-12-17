@@ -97,6 +97,3 @@ function _om_load() {
 }
 
 _theme_judge_load
-
-# 加载自定义主题功能函数
-source "${__PATH_MY_CNF}/my-functions/theme_handle.sh"

@@ -116,14 +116,50 @@ zf() {
 
 # 显示进程,选择kill
 function fkill() {
-  local pid
-  if [ "$UID" != "0" ]; then
-    pid=$(ps -f -u $UID | sed 1d | (fzf -m --preview='') | awk '{print $2}')
-  else
-    pid=$(ps -ef | sed 1d | (fzf -m --preview='') | awk '{print $2}')
-  fi
+    local pids
+    local pid_array=()
+    local pid
+    # 关键进程白名单（防止误杀）
+    local whitelist="sshd|init|systemd|launchd|kernel_task|WindowServer|hidd|SystemUIServer|configd|blued|coreservicesd|syslogd|mds|mdworker|fseventsd|cloudfamily|airportd|ptsd|diskarbitrationd|powerd|opendirectoryd|securityd"
+    # 根据权限显示进程并通过 fzf 选择
+    if [ "$UID" != "0" ]; then
+        pids=$(ps -f -u $UID | sed 1d | grep -i -v -E "$whitelist" |
+            fzf -m --height=90% --preview='' |
+            awk '{print $2}')
+    else
+        pids=$(ps -ef | sed 1d | grep -i -v -E "$whitelist" |
+            fzf -m --height=90% --preview='' |
+            awk '{print $2}')
+    fi
 
-  if [ "x$pid" != "x" ]; then
-    echo "$pid" | xargs kill -"${1:-9}"
-  fi
+    # 检查是否选择了 PID 并执行 kill
+    if [ "x$pids" != "x" ]; then
+        while IFS= read -r pid; do
+            pid_array+=("$pid")
+        done <<<"$pids"
+
+        local PROCESS_USER
+        local PROCESS_COMMAND
+        for pid in "${pid_array[@]}"; do
+            # 获取所属用户
+            PROCESS_USER="$(ps -p "$pid" -o user= 2>/dev/null)"
+            # 获取完整的命令
+            PROCESS_COMMAND="$(ps -p "$pid" -o args= 2>/dev/null)"
+            # 提示输出
+            echo "PID : $pid"
+            echo "USER: $PROCESS_USER"
+            echo "CMD : $PROCESS_COMMAND"
+
+            if _logan_for_sure "if kill $pid ?"; then
+                if [ "$1" = 9 ]; then
+                    kill -9 "$pid"
+                else
+                    kill "$pid"
+                fi
+                echo -e "   \033[31m $pid killed. \033[0m"
+            fi
+        done
+    else
+        echo "No process selected."
+    fi
 }

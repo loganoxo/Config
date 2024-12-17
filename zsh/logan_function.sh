@@ -85,19 +85,19 @@ function _logan_if_interactive() {
 # 提示输入
 function _logan_for_sure() {
     if [ -z "$1" ]; then
-        echo "need prompts"
+        echo -e "   \033[31m need prompts. \033[0m"
         return 1
     fi
 
     local choice
-    echo -en "   \033[33m$1\033[0m \033[35m(Y|y/n):\033[0m"
+    echo -en "   \033[33m $1\033[0m \033[35m(Y|y/n):\033[0m"
     read -r choice </dev/tty
     case "$choice" in
     y | Y)
         return 0
         ;;
     *)
-        echo "Operation cancelled."
+        echo -e "   \033[31m operation cancelled. \033[0m"
         return 1 #脚本停止
         ;;
     esac

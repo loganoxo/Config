@@ -13,8 +13,6 @@ alias grep='command grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.ide
 alias tree='command tree -C'
 # 在vim中的浮动窗口中,打开文件的命令
 alias fvim='floaterm'
-# 调用tmux脚本
-alias tm='osascript ~/Data/Config/applescripts/tmux.scpt'
 # ranger
 # alias ra='ranger'
 # 加载自定义函数

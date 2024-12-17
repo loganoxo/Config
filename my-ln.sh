@@ -73,7 +73,7 @@ fi
 ln -sf "${__PATH_MY_CNF}/others/lsd" "$HOME/.config/lsd"
 
 # others
-ln -sf "${__PATH_MY_CNF}/others/tmux/tmux.conf" "$HOME/.tmux.conf"
+ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
 # ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"
 ln -sf "${__PATH_MY_CNF}/others/aria2/aria2.conf" "$HOME/.aria2/aria2.conf"
 

@@ -124,6 +124,101 @@ tmp() {
     fi
 }
 
+# 精确判断某个 session name 是否已存在
+# tmux has-session -t "name" 是模糊匹配的
+function tm_has_session_exact() {
+    # -F：固定字符串匹配（不使用正则表达式）。
+    # -x：要求整个行与 参数 完全匹配。
+    # -q：静默模式，只返回状态码，不输出内容。
+    if tmux list-sessions -F '#{session_name}' 2>/dev/null | grep -Fxq "$1"; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# 用tmux同时打开多个ssh连接,并开启同步输入
+function tm_ssh() {
+    local SSH_ARRAY=()
+    local SSH_FILE
+    local SSH_TMUX_SESSION_NAME="multiple-ssh"
+    # 检查参数
+    if [ "$#" -lt 1 ]; then
+        echo "需要 -f '/path/file' "
+        echo "或者直接写参数 user@host1 user@host2 [user@hostN ...]"
+        return 1
+    elif [ "$1" = "-f" ]; then
+        if [ "$#" -eq 2 ]; then
+            SSH_FILE="$2"
+        else
+            echo "需要 -f '/path/file' "
+            return 1
+        fi
+    else
+        for item in "${@}"; do
+            item=$(echo "$item" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            if [ -n "$item" ]; then
+                SSH_ARRAY+=("$item")
+            fi
+        done
+    fi
+
+    if [ "${#SSH_ARRAY[@]}" -lt 1 ] && [ -f "$SSH_FILE" ]; then
+        local line
+        while IFS= read -r line; do
+            line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            if [ -n "$line" ]; then
+                SSH_ARRAY+=("$line")
+            fi
+        done <"$SSH_FILE"
+    fi
+
+    if [ "${#SSH_ARRAY[@]}" -lt 1 ]; then
+        echo "没有可用的ssh连接"
+        return 1
+    fi
+
+    # 循环判断是否已存在同名session,创建新的 tmux 会话
+    local count_session=1
+    while tm_has_session_exact "${SSH_TMUX_SESSION_NAME}-${count_session}" 2>/dev/null; do
+        count_session=$((count_session + 1))
+    done
+    SSH_TMUX_SESSION_NAME="${SSH_TMUX_SESSION_NAME}-${count_session}"
+
+    if ! tm_has_session_exact "$SSH_TMUX_SESSION_NAME" 2>/dev/null; then
+        tmux new-session -d -s "$SSH_TMUX_SESSION_NAME"
+    fi
+
+    if ! tm_has_session_exact "$SSH_TMUX_SESSION_NAME" 2>/dev/null; then
+        echo "没有可用tmux的session"
+        return 1
+    fi
+
+    local ssh_target
+    local count=0
+    for ssh_target in "${SSH_ARRAY[@]}"; do
+        if [ $count -eq 0 ]; then
+            # 第一个服务器在默认窗格 C-m 为回车
+            tmux send-keys -t "$SSH_TMUX_SESSION_NAME" "ssh ${ssh_target}" C-m "clear" C-m
+        else
+            # 其他服务器在新窗格中执行 ssh
+            tmux split-window -h -t "$SSH_TMUX_SESSION_NAME" "ssh ${ssh_target}"
+        fi
+        count=$((count + 1))
+    done
+    # 选择第一个窗格
+    tmux select-pane -t "$SSH_TMUX_SESSION_NAME:1.1"
+    # 重新等宽等高布局
+    tmux select-layout -t "$SSH_TMUX_SESSION_NAME" tiled
+    # 让所有窗格启用同步输入模式
+    tmux set-option -t "$SSH_TMUX_SESSION_NAME" synchronize-panes on
+
+    # 附加到 session
+    local change
+    [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+    tmux "$change" -t "$SSH_TMUX_SESSION_NAME"
+}
+
 # 直接进入tmux,并显示session的选择, -s 是把session折叠;
 # \; 这是 tmux 命令的分隔符,它允许在同一行中执行多个 tmux 命令
 # -Z是先把当前窗格最大化,再显示session的选择,选择后,再还原;不然选择窗只会在窗格里展示,太小了

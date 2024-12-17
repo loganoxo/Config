@@ -6,5 +6,5 @@ Host github.com
     User git
     # Save the private key’s passphrase in the session memory to avoid repeated passphrase entry during the current session
     AddKeysToAgent yes
-    IdentityFile ~/.ssh/loganoxo-GitHub
+    IdentityFile ~/.ssh/id_ed25519
     #ProxyCommand nc -v -x 127.0.0.1:25307 %h %p

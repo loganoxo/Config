@@ -10,5 +10,5 @@ Host github.com
     AddKeysToAgent yes
     # Use the macOS Keychain to store the passphrase to avoid re-entering it after each login
     UseKeychain yes
-    IdentityFile ~/.ssh/loganoxo-GitHub
+    IdentityFile ~/.ssh/id_ed25519
     #ProxyCommand nc -v -x 127.0.0.1:25307 %h %p

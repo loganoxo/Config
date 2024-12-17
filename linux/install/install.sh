@@ -248,10 +248,10 @@ function _git_private() {
     notice "Need To Download Github Private Key ?" " (y/n):"
     read -r choice1 </dev/tty
     if [ "$choice1" = "y" ] || [ "$choice1" = "Y" ]; then
-        notice "Use 'http://192.168.0.101:18080/loganoxo-GitHub' ? " " (y/n):"
+        notice "Use 'http://192.168.0.101:18080/id_ed25519' ? " " (y/n):"
         read -r choice2 </dev/tty
         if [ "$choice2" = "y" ] || [ "$choice2" = "Y" ]; then
-            github_key_url="http://192.168.0.101:18080/loganoxo-GitHub"
+            github_key_url="http://192.168.0.101:18080/id_ed25519"
         else
             notice "Please Input The github_key_url .\n"
             echo -n "Input github_key_url:"

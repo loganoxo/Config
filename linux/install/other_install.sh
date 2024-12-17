@@ -90,3 +90,4 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # lsd
 [ ! -d "$HOME/.config/lsd" ] && ln -sf "${__PATH_MY_CNF}/others/lsd" "$HOME/.config/lsd"
 cargo install lsd
+################################################## End At 2024-12-17 ##################################################

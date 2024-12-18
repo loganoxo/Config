@@ -84,28 +84,24 @@ export FZF_ALT_C_COMMAND=""
 
 ################ 自定义以下功能函数 ######################################
 # fcd - 在当前目录查找文件，然后选中文件后回车，会自动cd到该文件所在目录
-fcd() {
+fcf() {
     local file
     local dir
     file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || return
 }
 
-# 显示在当前目录下所有一级目录,不包含子目录,按回车进入
-cf() {
-    dir=$(eval "fd $1 -HI --max-depth=1 --type d $FZF_FD_EXCLUDE_OPTS " | fzf) && cd "$dir" || return
-}
-#cf() {
-#    local dir
-#    dir=$(find . -maxdepth 1 -type d -name "*${1:-*}*" -print 2>/dev/null | fzf) && cd "$dir" || return
-#}
-
 # 从某个目录查找, 包含子目录,按回车进入
-ff() {
+fcd() {
     dir=$(eval "fd $1 -HI --type d $FZF_FD_EXCLUDE_OPTS " | fzf) && cd "$dir" || return
 }
 
+# 显示在当前目录下所有一级目录,不包含子目录,按回车进入
+fcd1() {
+    dir=$(eval "fd $1 -HI --max-depth=1 --type d $FZF_FD_EXCLUDE_OPTS " | fzf) && cd "$dir" || return
+}
+
 # 仅兼容zsh;列出当前会话中进入过的目录,需要 setopt autopushd;才能让 cd 自动加入 dirs; setopt | grep autopushd
-zf() {
+fcr() {
     local dir
     dir=$(
         dirs -l -p |         # 获取目录栈中的所有路径,-l 绝对路径; -p 换行输出每个路径

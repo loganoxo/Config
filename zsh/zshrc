@@ -38,9 +38,6 @@ if _logan_if_interactive; then
     source "${__PATH_MY_CNF}/zsh/framework.sh"
 fi
 
-# 加载 通用alias
-source "${__PATH_MY_CNF}/zsh/common_alias.sh"
-
 # 加载 fzf配置
 if _logan_if_interactive; then
     source "${__PATH_MY_CNF}/zsh/fzf.sh"

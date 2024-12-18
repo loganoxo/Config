@@ -38,9 +38,6 @@ fi
 # 加载 bash-it
 # source "${__PATH_MY_CNF}/bash/bash_it.sh"
 
-# 加载 通用alias
-source "${__PATH_MY_CNF}/zsh/common_alias.sh"
-
 # 加载 fzf配置
 if _logan_if_interactive; then
     source "${__PATH_MY_CNF}/zsh/fzf.sh"

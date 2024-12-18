@@ -124,7 +124,13 @@ ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"
 # shellcheck disable=SC1090
 if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
-########################### 加载自定义函数 ###########################
+
+
+########################### 最后加载,防止覆盖 ###########################
+# 加载 通用alias
+source "${__PATH_MY_CNF}/zsh/common_alias.sh"
+
+# 加载自定义函数
 source "${__PATH_MY_CNF}/my-functions/a_tmux.sh"
 source "${__PATH_MY_CNF}/my-functions/b_theme_handle.sh"
 source "${__PATH_MY_CNF}/my-functions/c1_getproxy.sh"

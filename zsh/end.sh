@@ -32,35 +32,6 @@ if _logan_if_command_exist "uvx"; then
     fi
 fi
 
-############################### 防止被覆盖的 alias 配置 ###################################
-alias rm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_rm.sh '
-if _logan_if_mac; then
-    alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash_mac.sh '
-    alias trash='echo "Do not use this command! Please use xxm! "; false '
-elif _logan_if_linux; then
-    alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash_linux.sh '
-fi
-#alias trash='trash -F'
-
-if _logan_if_interactive; then
-    if [ -f "${__PATH_MY_CNF}/zsh/ls.sh" ]; then
-        source "${__PATH_MY_CNF}/zsh/ls.sh"
-    fi
-fi
-
-# Temp
-alias tt='cd ~/Temp && pwd && ls -A'
-# Home
-alias th='cd ~ && pwd && ls -A'
-# Desktop
-alias tw='cd ~/Desktop && pwd && ls -A'
-# Data
-alias td='cd ~/Data && pwd && ls -A'
-# Config
-alias tc='cd ~/Data/Config && pwd && ls -A'
-# pull Config
-alias gpc='git -C "$__PATH_MY_CNF" pull'
-
 ###########################################################################################
 
 # 为 zsh和bash 自定义历史命令配置
@@ -124,8 +95,6 @@ ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"
 # shellcheck disable=SC1090
 if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
-
-
 ########################### 最后加载,防止覆盖 ###########################
 # 加载 通用alias
 source "${__PATH_MY_CNF}/zsh/common_alias.sh"
@@ -138,7 +107,8 @@ source "${__PATH_MY_CNF}/my-functions/c2_setproxy.sh"
 source "${__PATH_MY_CNF}/my-functions/c3_unproxy.sh"
 source "${__PATH_MY_CNF}/my-functions/d1_show_path.sh"
 source "${__PATH_MY_CNF}/my-functions/d2_show_fpath.sh"
-source "${__PATH_MY_CNF}/my-functions/e_other_functions.sh"
+source "${__PATH_MY_CNF}/my-functions/e_op.sh"
+source "${__PATH_MY_CNF}/my-functions/w_other_functions.sh"
 
 #fpath+=~/Data/Config/my-functions
 ## 代理函数

@@ -25,32 +25,36 @@ alias python='python3'
 # nvim
 alias nv='nvim'
 
-alias pinggoogle='ping google.com' # 快速检查网络连接
+alias pinggoogle='ping -c 4 google.com' # 快速检查网络连接
 alias myip='curl ipinfo.io'        # 获取本机公网 IP 地址
-# 局域网ip
-lanip() {
-    ifconfig | grep 'inet ' | grep -v 127.0.0.1 | awk '{print $2}'
-}
 
-# 增强mac的open命令
-op() {
-    if [ "$#" = "0" ]; then
-        echo "!!!error: 需要传参"
-        return 1
+alias rm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_rm.sh '
+if _logan_if_mac; then
+    alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash_mac.sh '
+    alias trash='echo "Do not use this command! Please use xxm! "; false '
+elif _logan_if_linux; then
+    alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash_linux.sh '
+fi
+#alias trash='trash -F'
+
+if _logan_if_interactive; then
+    if [ -f "${__PATH_MY_CNF}/zsh/ls.sh" ]; then
+        source "${__PATH_MY_CNF}/zsh/ls.sh"
     fi
-    if [ "$#" -gt 1 ]; then
-        echo "!!!error: 参数过多，检查是否有空格，可以用双引号包裹"
-        return 1
-    fi
-    if [[ "$1" == "." || -f $1 ]]; then
-        /usr/bin/open "$1"
-    elif [ -d "$1" ]; then
-        cd "$1" && /usr/bin/open .
-    else
-        echo "!!!error: 没有这个目录或文件"
-        return 1
-    fi
-}
+fi
+
+# Temp
+alias tt='cd ~/Temp && pwd && ls -A'
+# Home
+alias th='cd ~ && pwd && ls -A'
+# Desktop
+alias tw='cd ~/Desktop && pwd && ls -A'
+# Data
+alias td='cd ~/Data && pwd && ls -A'
+# Config
+alias tc='cd ~/Data/Config && pwd && ls -A'
+# pull Config
+alias gpc='git -C "$__PATH_MY_CNF" pull'
 
 # docker
 alias dops1='/usr/bin/env bash ${__PATH_MY_CNF}/shell/dockerps1.sh'

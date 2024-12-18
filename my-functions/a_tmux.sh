@@ -97,8 +97,10 @@ tms() {
                 tmux select-layout -t "$SSH_TMUX_SESSION_NAME" tiled
             done
         fi
-        # 选择第一个窗格
-        tmux select-pane -t "$SSH_TMUX_SESSION_NAME:1.1"
+        # 如果为偶数个窗格,则选择第一个窗格
+        if [ -n "$split_count" ] && ((split_count % 2 == 0)); then
+            tmux select-pane -t "$SSH_TMUX_SESSION_NAME:1.1"
+        fi
         echo -e "   \033[35m Created success. \033[0m"
 
         # 是否要直接进入

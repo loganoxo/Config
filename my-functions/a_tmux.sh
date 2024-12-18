@@ -92,7 +92,7 @@ tms() {
         # 是否要分屏
         if [ -n "$split_count" ]; then
             for ((i = 1; i < split_count; i++)); do
-                tmux split-window -v -t "$session_name"
+                tmux split-window -h -t "$session_name"
                 # 重新等宽等高布局,需要写在循环里,不然可能会没有空间创建新窗格
                 tmux select-layout -t "$SSH_TMUX_SESSION_NAME" tiled
             done

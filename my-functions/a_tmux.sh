@@ -1,24 +1,13 @@
-# kill sessions
-tmk() {
-    local sessions
-    sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null || true)
-    if [ -z "$sessions" ]; then
-        echo "No sessions found."
-        return
-    fi
-
-    local kill_sessions
-    local session
-
-    kill_sessions=$(echo "$sessions" | fzf --multi)
-
-    if [ -n "$kill_sessions" ]; then
-        while IFS= read -r session; do
-            if _logan_for_sure "if kill '$session' ?"; then
-                tmux kill-session -t "$session"
-                echo -e "   \033[31m '$session' killed. \033[0m"
-            fi
-        done <<<"$kill_sessions"
+# 精确判断某个 session name 是否已存在
+# tmux has-session -t "name" 是模糊匹配的
+function tm_has_session_exact() {
+    # -F：固定字符串匹配（不使用正则表达式）。
+    # -x：要求整个行与 参数 完全匹配。
+    # -q：静默模式，只返回状态码，不输出内容。
+    if tmux list-sessions -F '#{session_name}' 2>/dev/null | grep -Fxq "$1"; then
+        return 0
+    else
+        return 1
     fi
 }
 
@@ -124,19 +113,6 @@ tmp() {
     fi
 }
 
-# 精确判断某个 session name 是否已存在
-# tmux has-session -t "name" 是模糊匹配的
-function tm_has_session_exact() {
-    # -F：固定字符串匹配（不使用正则表达式）。
-    # -x：要求整个行与 参数 完全匹配。
-    # -q：静默模式，只返回状态码，不输出内容。
-    if tmux list-sessions -F '#{session_name}' 2>/dev/null | grep -Fxq "$1"; then
-        return 0
-    else
-        return 1
-    fi
-}
-
 # 用tmux同时打开多个ssh连接,并开启同步输入
 function tm_ssh() {
     local SSH_ARRAY=()
@@ -225,4 +201,28 @@ function tm_ssh() {
 # 折叠/打开: 左右箭头
 function tm() {
     tmux attach \; choose-tree -sZ
+}
+
+# kill sessions
+tmk() {
+    local sessions
+    sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null || true)
+    if [ -z "$sessions" ]; then
+        echo "No sessions found."
+        return
+    fi
+
+    local kill_sessions
+    local session
+
+    kill_sessions=$(echo "$sessions" | fzf --multi)
+
+    if [ -n "$kill_sessions" ]; then
+        while IFS= read -r session; do
+            if _logan_for_sure "if kill '$session' ?"; then
+                tmux kill-session -t "$session"
+                echo -e "   \033[31m '$session' killed. \033[0m"
+            fi
+        done <<<"$kill_sessions"
+    fi
 }

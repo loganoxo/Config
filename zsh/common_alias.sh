@@ -68,7 +68,9 @@ alias logan_format='/usr/bin/env bash ${__PATH_MY_CNF}/shell/format.sh'
 alias logan_check='/usr/bin/env bash ${__PATH_MY_CNF}/shell/logan_check.sh'
 
 # yt-dlp 命令简单化
-alias yt='/usr/bin/env bash ${__PATH_MY_CNF}/shell/yt_dlp_quick.sh'
+alias yts='/usr/bin/env bash ${__PATH_MY_CNF}/shell/yt_dlp_quick.sh "show" '
+alias ytd='/usr/bin/env bash ${__PATH_MY_CNF}/shell/yt_dlp_quick.sh "download" '
+alias ytb='/usr/bin/env bash ${__PATH_MY_CNF}/shell/yt_dlp_quick.sh "best" '
 
 ########################################## 命令行工具 ##########################################
 # 加载自定义函数

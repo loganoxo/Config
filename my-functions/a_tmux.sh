@@ -53,7 +53,7 @@ tms() {
         # 需要创建
         if [ -z "$session_name" ]; then
             # 传参为空,则提示输入
-            echo -e "   \033[35m tmux has none sessions! Create one?\033[0m"
+            echo -e "   \033[35m No tmux session available! Create one?\033[0m"
             echo -en "   \033[33m input session name:\033[0m"
             read -r session_name </dev/tty
             # session name 去除前后空格
@@ -174,14 +174,14 @@ function tm_ssh() {
     local SSH_TMUX_SESSION_NAME="multiple-ssh"
     # 检查参数
     if [ "$#" -lt 1 ]; then
-        echo "需要 -f '/path/file' "
-        echo "或者直接写参数 user@host1 user@host2 [user@hostN ...]"
+        echo "need: -f '/path/file' "
+        echo "or  : user@host1 user@host2 [user@hostN ...]"
         return 1
     elif [ "$1" = "-f" ]; then
         if [ "$#" -eq 2 ]; then
             SSH_FILE="$2"
         else
-            echo "需要 -f '/path/file' "
+            echo "need: -f '/path/file' "
             return 1
         fi
     else
@@ -204,11 +204,11 @@ function tm_ssh() {
     fi
 
     if [ "${#SSH_ARRAY[@]}" -lt 1 ]; then
-        echo "没有可用的ssh连接"
+        echo -e "   \033[35m There has none ssh hosts!\033[0m"
         return 1
     fi
     if [ "${#SSH_ARRAY[@]}" -gt 8 ]; then
-        echo "ssh连接太多了,最多8个"
+        echo -e "   \033[35m Too many ssh hosts! 8 Max \033[0m"
         return 1
     fi
 
@@ -224,7 +224,7 @@ function tm_ssh() {
     fi
 
     if ! tm_has_session_exact "$SSH_TMUX_SESSION_NAME" 2>/dev/null; then
-        echo "没有可用tmux的session"
+        echo -e "   \033[35m No tmux session available! \033[0m"
         return 1
     fi
 
@@ -267,7 +267,7 @@ tmk() {
     local sessions
     sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null || true)
     if [ -z "$sessions" ]; then
-        echo "No sessions found."
+        echo "No tmux session available!"
         return
     fi
 

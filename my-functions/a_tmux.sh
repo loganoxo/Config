@@ -1,6 +1,9 @@
 # 精确判断某个 session name 是否已存在
 # tmux has-session -t "name" 是模糊匹配的
 function tm_has_session_exact() {
+    if [ -z "$1" ]; then
+        return 1
+    fi
     # -F：固定字符串匹配（不使用正则表达式）。
     # -x：要求整个行与 参数 完全匹配。
     # -q：静默模式，只返回状态码，不输出内容。
@@ -17,46 +20,97 @@ function tm_has_session_exact() {
 # shellcheck disable=SC2120
 tms() {
     local change
-    [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-    if [ -n "$1" ]; then
-        if tmux "$change" -t "$1" 2>/dev/null; then
-            return
-        else
-            if _logan_for_sure "There is no such session, want to create '$1' ?"; then
-                tmux new-session -d -s "$1"
-                if _logan_for_sure "Created success, want to attach ?"; then
-                    tmux "$change" -t "$1"
-                fi
-            fi
-            return
-        fi
-    fi
+    local session_name="$1"
+    local split_count="$2"
+    local sessions
+    local if_enter_directly=0
 
     # 获取 tmux 会话列表
-    local sessions
     sessions=$(tmux list-sessions -F '#{session_id} #{session_name}' 2>/dev/null || true)
-    if [ -z "$sessions" ]; then
-        if _logan_for_sure "No sessions found, want to create one ?"; then
-            local input_session_name
-            echo -en "   \033[33m input session name:\033[0m"
-            read -r input_session_name </dev/tty
-            tmux new-session -d -s "$input_session_name"
-            if _logan_for_sure "Created success, want to attach ?"; then
-                tmux "$change" -t "$input_session_name"
-            fi
+    [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+    # tmux中有session,但是没有传参数时,调用fzf显示session列表
+    if [ -z "$session_name" ] && [ -n "$sessions" ]; then
+        local fzf_result
+        local session_id
+        # -e 显示颜色 -p 把窗格显示到终端 {1}是fzf的第一列,这里是 session_id($1) 或 window_id(@1) 或 pane_id(%1)
+        # --with-nth=2.. 表示只显示第二列到结尾的内容,不会影响fzf的输出; awk 让 fzf 只输出 {1} 的内容(id)
+        fzf_result=$(echo "$sessions" | fzf --with-nth=2.. --preview 'tmux capture-pane -pe -t {1}')
+        if [ -n "$fzf_result" ]; then
+            session_id=$(echo "$fzf_result" | awk '{print $1}')
+            tmux "$change" -t "$session_id"
         fi
         return
     fi
 
-    # 调用 fzf 选择会话
-    # -e 显示颜色 -p 把窗格显示到终端 {1}是fzf的第一列,这里是 session_id($1) 或 window_id(@1) 或 pane_id(%1)
-    # --with-nth=2.. 表示只显示第二列到结尾的内容,不会影响fzf的输出; awk 让 fzf 只输出 {1} 的内容(id)
-    local fzf_result
-    local session_id
-    fzf_result=$(echo "$sessions" | fzf --with-nth=2.. --preview 'tmux capture-pane -pe -t {1}')
-    if [ -n "$fzf_result" ]; then
-        session_id=$(echo "$fzf_result" | awk '{print $1}')
-        tmux "$change" -t "$session_id"
+    # session name 去除前后空格
+    session_name=$(echo "$session_name" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    # 判断是否需要创建session
+    if tm_has_session_exact "$session_name" 2>/dev/null; then
+        # 不需要创建,直接进入
+        tmux "$change" -t "$session_name"
+        return 0
+    else
+        # 需要创建
+        if [ -z "$session_name" ]; then
+            # 传参为空,则提示输入
+            echo -e "   \033[35m tmux has none sessions! Create one?\033[0m"
+            echo -en "   \033[33m input session name:\033[0m"
+            read -r session_name </dev/tty
+            # session name 去除前后空格
+            session_name=$(echo "$session_name" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            # 校验
+            if [ -z "$session_name" ]; then
+                echo -e "   \033[35m session name is blank, skip! \033[0m"
+                return 1
+            fi
+            echo -en "   \033[33m input split count:\033[0m"
+            read -r split_count </dev/tty
+        else
+            if_enter_directly=1
+        fi
+    fi
+
+    # 校验
+    if [ -z "$session_name" ]; then
+        echo -e "   \033[35m session name is blank, skip! \033[0m"
+        return 1
+    fi
+    if [ -n "$split_count" ]; then
+        if [[ $split_count =~ ^[0-9]+$ ]]; then
+            if [ "$split_count" -gt 10 ]; then
+                echo -e "   \033[35m split_count need less than 10, skip! \033[0m"
+                return 1
+            fi
+        else
+            echo -e "   \033[35m split_count need be number, skip! \033[0m"
+            return 1
+        fi
+
+    fi
+    # 后台创建session
+    if tmux new-session -d -s "$session_name"; then
+        # 是否要分屏
+        if [ -n "$split_count" ]; then
+            for ((i = 1; i < split_count; i++)); do
+                tmux split-window -v -t "$session_name"
+                # 重新等宽等高布局,需要写在循环里,不然可能会没有空间创建新窗格
+                tmux select-layout -t "$SSH_TMUX_SESSION_NAME" tiled
+            done
+        fi
+        # 选择第一个窗格
+        tmux select-pane -t "$SSH_TMUX_SESSION_NAME:1.1"
+        echo -e "   \033[35m Created success. \033[0m"
+
+        # 是否要直接进入
+        if [ "$if_enter_directly" -eq 1 ]; then
+            tmux "$change" -t "$session_name"
+            return 0
+        else
+            if _logan_for_sure "want to attach ?"; then
+                tmux "$change" -t "$session_name"
+            fi
+            return 0
+        fi
     fi
 }
 
@@ -153,6 +207,10 @@ function tm_ssh() {
         echo "没有可用的ssh连接"
         return 1
     fi
+    if [ "${#SSH_ARRAY[@]}" -gt 8 ]; then
+        echo "ssh连接太多了,最多8个"
+        return 1
+    fi
 
     # 循环判断是否已存在同名session,创建新的 tmux 会话
     local count_session=1
@@ -179,13 +237,14 @@ function tm_ssh() {
         else
             # 其他服务器在新窗格中执行 ssh
             tmux split-window -h -t "$SSH_TMUX_SESSION_NAME" "ssh ${ssh_target}"
+            # 重新等宽等高布局,需要写在循环里,不然可能会没有空间创建新窗格
+            tmux select-layout -t "$SSH_TMUX_SESSION_NAME" tiled
         fi
+        # 选择第一个窗格
+        tmux select-pane -t "$SSH_TMUX_SESSION_NAME:1.1"
         count=$((count + 1))
     done
-    # 选择第一个窗格
-    tmux select-pane -t "$SSH_TMUX_SESSION_NAME:1.1"
-    # 重新等宽等高布局
-    tmux select-layout -t "$SSH_TMUX_SESSION_NAME" tiled
+
     # 让所有窗格启用同步输入模式
     tmux set-option -t "$SSH_TMUX_SESSION_NAME" synchronize-panes on
 

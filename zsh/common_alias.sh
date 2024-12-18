@@ -67,6 +67,9 @@ alias logan_format='/usr/bin/env bash ${__PATH_MY_CNF}/shell/format.sh'
 # 检查多个git仓库的状态
 alias logan_check='/usr/bin/env bash ${__PATH_MY_CNF}/shell/logan_check.sh'
 
+# yt-dlp 命令简单化
+alias yt='/usr/bin/env bash ${__PATH_MY_CNF}/shell/yt_dlp_quick.sh'
+
 ########################################## 命令行工具 ##########################################
 # 加载自定义函数
 alias au='autoload -U'

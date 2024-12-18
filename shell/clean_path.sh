@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-#
 # 脚本名称: clean_path.sh
 # 作者: HeQin
 # 最后修改时间: 2024-04-08
-#
 # 描述: $PATH $FPATH 路径去重。
 
 set -eu

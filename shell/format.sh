@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#
 # 脚本名称: format.sh
 # 作者: HeQin
 # 最后修改时间: 2024-04-08

@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-#
 # 脚本名称: safe_trash.sh
 # 作者: HeQin
 # 最后修改时间: 2024-04-08
-#
 # 描述: 安全删除文件或文件夹到废纸篓;针对于linux系统
 
 #   trash-cli https://github.com/andreafrancia/trash-cli

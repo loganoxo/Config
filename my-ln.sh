@@ -64,6 +64,7 @@ touch "$HOME/.input-source-vim/data"
 echo -n 0 >"$HOME/.input-source-vim/data"
 
 # bat
+mkdir -p "$HOME/.config/bat"
 ln -sf "${__PATH_MY_CNF}/others/bat/themes" "$HOME/.config/bat/themes"
 if ! _logan_if_command_exist "bat"; then
     bat cache --build

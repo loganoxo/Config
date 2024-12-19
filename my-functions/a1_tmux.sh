@@ -256,6 +256,41 @@ function tm_ssh() {
     tmux "$change" -t "$SSH_TMUX_SESSION_NAME"
 }
 
+# 创建两个分屏,一个zsh 一个bash
+function tmzb() {
+    local ZB_TMUX_SESSION_NAME="zsh_and_bash"
+
+    # 循环判断是否已存在同名session,创建新的 tmux 会话
+    local count_session=1
+    while tm_has_session_exact "${ZB_TMUX_SESSION_NAME}-${count_session}" 2>/dev/null; do
+        count_session=$((count_session + 1))
+    done
+    ZB_TMUX_SESSION_NAME="${ZB_TMUX_SESSION_NAME}-${count_session}"
+
+    if ! tm_has_session_exact "$ZB_TMUX_SESSION_NAME" 2>/dev/null; then
+        # 创建session,默认为zsh的login shell
+        tmux new-session -d -s "$ZB_TMUX_SESSION_NAME" "exec -a -zsh zsh -l"
+    fi
+
+    if ! tm_has_session_exact "$ZB_TMUX_SESSION_NAME" 2>/dev/null; then
+        echo -e "   \033[35m No tmux session available! \033[0m"
+        return 1
+    fi
+
+    # 创建bash的 logins hell
+    tmux split-window -h -t "$ZB_TMUX_SESSION_NAME" "exec -a -bash bash -l"
+    # 选择第一个窗格
+    tmux select-pane -t "$ZB_TMUX_SESSION_NAME:1.1"
+
+    # 让所有窗格启用同步输入模式
+    # tmux set-option -t "$ZB_TMUX_SESSION_NAME" synchronize-panes on
+
+    # 附加到 session
+    local change
+    [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+    tmux "$change" -t "$ZB_TMUX_SESSION_NAME"
+}
+
 # 直接进入tmux,并显示session的选择, -s 是把session折叠;
 # \; 这是 tmux 命令的分隔符,它允许在同一行中执行多个 tmux 命令
 # -Z是先把当前窗格最大化,再显示session的选择,选择后,再还原;不然选择窗只会在窗格里展示,太小了

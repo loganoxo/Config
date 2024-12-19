@@ -73,7 +73,7 @@ alias ytd='/usr/bin/env bash ${__PATH_MY_CNF}/shell/yt_dlp_quick.sh "download" '
 alias ytb='/usr/bin/env bash ${__PATH_MY_CNF}/shell/yt_dlp_quick.sh "best" '
 
 # 获取绝对路径
-alias get_home_relative_path='/usr/bin/env bash ${__PATH_MY_CNF}/shell/public_shell_function_run.sh "logan_get_home_relative_path"'
+alias get_home_relative_path='/usr/bin/env bash ${__PATH_MY_CNF}/shell/public_shell_function_run.sh "get_home_relative_path_func"'
 
 # 复制绝对路径
 alias fcp='/usr/bin/env bash ${__PATH_MY_CNF}/shell/fcp.sh'

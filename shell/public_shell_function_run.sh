@@ -7,19 +7,19 @@
 set -e
 source "${__PATH_MY_CNF}/shell/public_shell_function.sh"
 
-function logan_public_shell_function_run() {
-    local my_shell_function="$1"
-    if [ -z "$my_shell_function" ]; then
+function run_shell_func() {
+    local my_shell_func="$1"
+    if [ -z "$my_shell_func" ]; then
         return 1
     fi
     shift # 移除第一个参数，保留其余参数
 
-    case $my_shell_function in
-    logan_get_home_relative_path)
-        logan_get_home_relative_path "$@"
+    case $my_shell_func in
+    get_home_relative_path_func)
+        get_home_relative_path_func "$@"
         ;;
     esac
     return
 }
 
-logan_public_shell_function_run "$@"
+run_shell_func "$@"

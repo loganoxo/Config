@@ -5,7 +5,7 @@
 # 描述: 公共的给shell脚本使用的函数,与zshrc或bashrc解偶;
 
 # 获取绝对路径; 有些环境的cd命令会自动打印一行当前目录的数据,所以写在脚本里,而不是zshrc/bashrc中
-function logan_get_home_relative_path() {
+function get_home_relative_path_func() {
     local the_path="$1"
     local absolute_path
     if [ ! -e "$the_path" ]; then

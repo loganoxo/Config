@@ -30,18 +30,18 @@ function logan_fcp() {
 
     # 如果没有传参,或者传参的path不存在,则直接通过fzf搜索
     if [ -z "$fcp_path" ] || [ ! -e "$fcp_path" ]; then
-        absolute_path=$(logan_get_home_relative_path ".")
+        absolute_path=$(get_home_relative_path_func ".")
         copy_path=$(ffp "$absolute_path" "$fcp_path")
     else
         # fcp . 直接复制当前目录
         if [ "$fcp_path" = "." ]; then
-            if ! absolute_path=$(logan_get_home_relative_path "$fcp_path"); then
+            if ! absolute_path=$(get_home_relative_path_func "$fcp_path"); then
                 echo -e "   \033[35m Failed to get absolute path for '$fcp_path'! \033[0m"
                 return 1
             fi
             copy_path="$absolute_path"
         else
-            if ! absolute_path=$(logan_get_home_relative_path "$fcp_path"); then
+            if ! absolute_path=$(get_home_relative_path_func "$fcp_path"); then
                 echo -e "   \033[35m Failed to get absolute path for '$fcp_path'! \033[0m"
                 return 1
             fi
@@ -63,7 +63,7 @@ function logan_fcp() {
         fi
     fi
 
-    copy_path=$(logan_get_home_relative_path "$copy_path")
+    copy_path=$(get_home_relative_path_func "$copy_path")
     if [ ! -e "$copy_path" ]; then
         echo -e "   \033[35m copy_path is error, skip! \033[0m"
         return 1

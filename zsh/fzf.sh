@@ -9,7 +9,7 @@ fi
 
 # fzf配置
 FZF_FD_EXCLUDE_OPTS=" --exclude={.git,.mvn,.idea,.vscode,.sass-cache,node_modules,.DS_Store} "
-export FZF_DEFAULT_COMMAND="fd -HI $FZF_FD_EXCLUDE_OPTS "
+export FZF_DEFAULT_COMMAND="fd -HLI $FZF_FD_EXCLUDE_OPTS "
 
 FZF_FACE_OPTS=" --height=85% --layout=reverse --border -m --tmux 82% " #m为多选
 
@@ -92,11 +92,13 @@ fcf() {
 
 # 从某个目录查找, 包含子目录,按回车进入
 fcd() {
+    local dir
     dir=$(eval "fd $1 -HI --type d $FZF_FD_EXCLUDE_OPTS " | fzf) && cd "$dir" || return
 }
 
 # 显示在当前目录下所有一级目录,不包含子目录,按回车进入
 fcd1() {
+    local dir
     dir=$(eval "fd $1 -HI --max-depth=1 --type d $FZF_FD_EXCLUDE_OPTS " | fzf) && cd "$dir" || return
 }
 
@@ -108,6 +110,63 @@ fcr() {
             fzf --height 40% # 用 fzf 选择
     )
     [ -d "$dir" ] && cd "$dir" || return
+}
+
+# 复制文件或文件夹的地址
+function fcp() {
+    local fcp_path="$1"
+    local absolute_path
+    local copy_path
+    if [ -n "$fcp_path" ] && [ ! -e "$fcp_path" ]; then
+        absolute_path=$(get_home_relative_path ".")
+        copy_path=$(find "$absolute_path" | fzf --query "${fcp_path}") || return 1
+    else
+        if [ "$fcp_path" = "." ]; then
+            if ! absolute_path=$(get_home_relative_path "$fcp_path"); then
+                echo -e "   \033[35m Failed to get absolute path for '$fcp_path'! \033[0m"
+                return 1
+            fi
+            copy_path="$absolute_path"
+        else
+            if [ -z "$fcp_path" ]; then
+                fcp_path="."
+            fi
+            if [ ! -e "$fcp_path" ]; then
+                echo -e "   \033[35m Path '$fcp_path' does not exist! \033[0m"
+                return 1
+            fi
+            if ! absolute_path=$(get_home_relative_path "$fcp_path"); then
+                echo -e "   \033[35m Failed to get absolute path for '$fcp_path'! \033[0m"
+                return 1
+            fi
+
+            if [ ! -e "$absolute_path" ]; then
+                echo -e "   \033[35m Path $absolute_path does not exist! \033[0m"
+                return 1
+            fi
+
+            if [ -f "$absolute_path" ]; then
+                copy_path="$absolute_path"
+            elif [ -d "$absolute_path" ]; then
+                copy_path=$(find "$absolute_path" | fzf) || return 1
+            fi
+        fi
+    fi
+
+    if [ -z "$copy_path" ]; then
+        echo -e "   \033[35m Path is blank, skip! \033[0m"
+        return 1
+    fi
+    # 替换主目录为 $HOME
+    copy_path="\"${copy_path/#$HOME/\$HOME}\""
+    echo ""
+    echo -n "      $copy_path      "
+    if _logan_if_command_exist "pbcopy"; then
+        echo -n "$copy_path" | pbcopy
+        echo -e "\033[35m Already copied! \033[0m"
+    fi
+    echo ""
+    return 0
 }
 
 # 显示进程,选择kill

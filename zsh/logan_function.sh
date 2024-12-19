@@ -102,3 +102,26 @@ function _logan_for_sure() {
         ;;
     esac
 }
+
+# 获取绝对路径
+function get_home_relative_path() {
+    local the_path="$1"
+    local absolute_path
+    if [ ! -e "$the_path" ]; then
+        echo -e "   \033[35m Path '$the_path' does not exist! \033[0m"
+        return 1
+    fi
+
+    if [ -d "$the_path" ]; then
+        absolute_path="$(cd "$the_path" && pwd)"
+    else
+        local dir_path base_name
+        dir_path="$(cd "$(dirname "$the_path")" && pwd)"
+        base_name="$(basename "$the_path")"
+        if [ "$dir_path" = "/" ]; then
+            dir_path=""
+        fi
+        absolute_path="$dir_path/$base_name"
+    fi
+    echo "$absolute_path"
+}

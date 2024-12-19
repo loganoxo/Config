@@ -1,5 +1,10 @@
 ###################################################### init #################################################################
 ##################        zprofile zshrc 统一执行的脚本
+# 00、系统启动的 login shell 中,执行 echo $0 会输出 -zsh 或者 -bash, 因为系统会在启动时自动添加 - ; 手动执行bash和zsh启动的shell不是login shell;需要用 zsh -l 或者 bash -l, 这种方式的登录shell中执行 echo $0 显示的是没有 - 符号的
+#     因为手动执行时并没有给shell添加 - ;如果你想强制模拟,可以使用 zsh -l -c "exec -zsh", bash -l -c "exec -bash"; 但是这种方式和系统启动的登录shell和zsh -l 和 bash-l 启动的没有区别,只是显示不同罢了
+#     相比于判断 $0 这种显示的方式,更好的判断方式为:
+#     zsh:      [[ -o login ]] && echo "Login shell" || echo "Not a login shell"   # 提供了一个内置选项 login; -o 是 zsh 的内置条件选项，用于检查或启用/禁用某些 shell 的运行选项
+#     bash:     shopt login_shell    #会显示 on 或 off
 # 01、Mac电脑开机并登陆用户后,并不会自动执行zprofile和zshrc和zshenv;
 # 02、若要在Mac电脑登陆后自动执行脚本,需要用 launchctl + plist 的方式,如jetbrains的破解
 # 03、将终端程序(Iterm2和Terminal)从关闭状态打开 或者 新建一个终端窗口或标签页 后,以下文件会按顺序执行 1(注意是一次,zshenv并不会执行两次) 次: zshenv zprofile zshrc

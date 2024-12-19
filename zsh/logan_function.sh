@@ -1,3 +1,6 @@
+########### 此文件只能写函数,不能写具体的设置和执行命令操作 ##############
+########### 因为有很多脚本都source了这个文件 #########################
+
 function _logan_if_mac() {
     if [[ "$(uname -s)" == Darwin* ]]; then
         return 0
@@ -101,27 +104,4 @@ function _logan_for_sure() {
         return 1 #脚本停止
         ;;
     esac
-}
-
-# 获取绝对路径
-function get_home_relative_path() {
-    local the_path="$1"
-    local absolute_path
-    if [ ! -e "$the_path" ]; then
-        echo -e "   \033[35m Path '$the_path' does not exist! \033[0m"
-        return 1
-    fi
-
-    if [ -d "$the_path" ]; then
-        absolute_path="$(cd "$the_path" && pwd)"
-    else
-        local dir_path base_name
-        dir_path="$(cd "$(dirname "$the_path")" && pwd)"
-        base_name="$(basename "$the_path")"
-        if [ "$dir_path" = "/" ]; then
-            dir_path=""
-        fi
-        absolute_path="$dir_path/$base_name"
-    fi
-    echo "$absolute_path"
 }

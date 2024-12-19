@@ -100,7 +100,8 @@ if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}
 source "${__PATH_MY_CNF}/zsh/common_alias.sh"
 
 # 加载自定义函数
-source "${__PATH_MY_CNF}/my-functions/a_tmux.sh"
+source "${__PATH_MY_CNF}/my-functions/a1_tmux.sh"
+source "${__PATH_MY_CNF}/my-functions/a2_fzf.sh"
 source "${__PATH_MY_CNF}/my-functions/b_theme_handle.sh"
 source "${__PATH_MY_CNF}/my-functions/c1_getproxy.sh"
 source "${__PATH_MY_CNF}/my-functions/c2_setproxy.sh"

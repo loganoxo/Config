@@ -19,8 +19,8 @@ $bun\
 $dotnet\
 $deno\
 $sudo\
-$time\
 $shell\
+$time\
 $line_break\
 $character\
 """
@@ -233,22 +233,22 @@ style = 'bold 9'
 allow_windows = false #由于 Windows 没有默认的 sudo,因此默认被禁用
 disabled = false
 
-[time]
-#  🕙                  |
-format = '[ ](bold 248)[$time]($style) '
-style = 'bold bright-cyan'
-time_format = '%H:%M'
-use_12hr = false #12小时制
-disabled = false
-
 [shell] #      _ |
 format = '[ ](bold 248)[$indicator]($style) '
 style = 'bold bright-blue'
 unknown_indicator = 'shell'
 powershell_indicator = 'powershell'
 fish_indicator = 'fish'
-bash_indicator = 'bash'
-zsh_indicator = 'zsh'
+bash_indicator = 'BASH'
+zsh_indicator = 'ZSH'
+disabled = false
+
+[time]
+#  🕙                  |
+format = '[ ](bold 248)[$time]($style) '
+style = 'bold bright-cyan'
+time_format = '%H:%M'
+use_12hr = false #12小时制
 disabled = false
 
 [character]

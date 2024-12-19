@@ -58,7 +58,7 @@ export TERM=xterm-256color
 
 # 默认情况下,按下 C-s 会暂停终端的输出,实际上程序仍在运行;按下 C-q 可以恢复被 C-s 暂停的终端输出,屏幕会继续显示先前未输出的内容
 # 禁用这个功能,把C-s这个快捷键用来做 tmux 的prefix
-stty -ixon
+[ -n "$TMUX" ] && stty -ixon
 
 # mkdir -p "$(bat --config-dir)/themes"
 # wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Latte.tmTheme

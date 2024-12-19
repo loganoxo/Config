@@ -27,7 +27,7 @@ tms() {
 
     # 获取 tmux 会话列表
     sessions=$(tmux list-sessions -F '#{session_id} #{session_name}' 2>/dev/null || true)
-    [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+    [ -n "$TMUX" ] && change="switch-client" || change="attach-session"
     # tmux中有session,但是没有传参数时,调用fzf显示session列表
     if [ -z "$session_name" ] && [ -n "$sessions" ]; then
         local fzf_result

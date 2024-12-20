@@ -28,10 +28,10 @@
 "    <Command+Enter>        (Generate)生成操作;
 "    <Option+Enter>         (ShowContextActions,ShowQuickFixes)显示快速操作
 "    <Option+V>             打开或关闭vim
-"    <Command+;>            打开AceJump搜索字符,快速跳转,支持分屏时跨窗口跳转
-"    <Option+;>             给所有单词加标签,跳转;AceJump
-"    <Shift+Command+;>      给所有行首行尾加标签,跳转;AceJump
-"    <Option+Command+;>     跳转后选中跳转后的单词;AceJump
+"    <Command+'>            打开AceJump搜索字符,快速跳转,支持分屏时跨窗口跳转
+"    <Option+'>             给所有单词加标签,跳转;AceJump
+"    <Ctrl+Shift+'>         给所有行首行尾加标签,跳转;AceJump
+"    <Option+Shift+'>       跳转后选中跳转后的单词;AceJump
 "    <Ctrl+.>               从各种窗口中,把focus跳转回编辑窗口
 "    <Command+1>            toggle目录窗口
 "    <Command+2>            打开目录窗口,并选中当前文件

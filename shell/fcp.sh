@@ -70,7 +70,10 @@ function logan_fcp() {
     fi
 
     # 替换主目录为 $HOME
-    copy_path="\"${copy_path/#$HOME/\$HOME}\""
+    if [ -n "$HOME" ] && [[ "$copy_path" == "$HOME"/* ]]; then
+        # ${var/#pattern/replacement}, `#`表示匹配字符串开头的模式,配合替换语法用于处理变量内容
+        copy_path="\"${copy_path/#$HOME/\$HOME}\""
+    fi
     echo ""
     echo -n "      $copy_path      "
     if _logan_if_command_exist "pbcopy"; then

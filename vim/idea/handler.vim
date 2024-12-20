@@ -38,5 +38,8 @@ sethandler <C-V> a:vim
 sethandler <C-W> a:vim
 sethandler <A-[> a:vim
 sethandler <A-]> a:vim
-sethandler <A-;> a:ide
-sethandler <A-S-;> a:ide
+sethandler <S-CR> a:ide
+sethandler <S-Left> a:ide
+sethandler <S-Up> a:ide
+sethandler <S-Right> a:ide
+sethandler <S-Down> a:ide

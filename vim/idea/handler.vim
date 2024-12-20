@@ -43,3 +43,5 @@ sethandler <S-Left> a:ide
 sethandler <S-Up> a:ide
 sethandler <S-Right> a:ide
 sethandler <S-Down> a:ide
+sethandler <C-[> a:ide
+sethandler <C-]> a:ide

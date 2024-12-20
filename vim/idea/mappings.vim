@@ -49,16 +49,9 @@ map Q gq
 " 重新加载vim
 nnoremap \r :source ~/.ideavimrc<CR>
 " 使用 jj 进入normal模式,`^指的是从insert到normal模式下,保持光标位置不变
-inoremap jj <Esc>`^:!/Users/logan/.input-source-vim/toggle-normal.sh<CR>
+inoremap jj <Esc>`^
 " 解决esc后光标左移的问题,自动切换输入法
-inoremap <silent> <Esc> <Esc>`^:!/Users/logan/.input-source-vim/toggle-normal.sh<CR>
-nnoremap <silent> i :!/Users/logan/.input-source-vim/toggle-insert.sh<CR>i
-nnoremap <silent> I :!/Users/logan/.input-source-vim/toggle-insert.sh<CR>I
-nnoremap <silent> o :!/Users/logan/.input-source-vim/toggle-insert.sh<CR>o
-nnoremap <silent> O :!/Users/logan/.input-source-vim/toggle-insert.sh<CR>O
-nnoremap <silent> a :!/Users/logan/.input-source-vim/toggle-insert.sh<CR>a
-nnoremap <silent> A :!/Users/logan/.input-source-vim/toggle-insert.sh<CR>A
-
+inoremap <silent> <Esc> <Esc>`^
 
 " 撤销(u和<C-z>)和重做(U和<C-r>)
 imap <C-z> <Action>($Undo)

@@ -4,7 +4,8 @@
 
 [manager]
 
-keymap = [
-    { on = "q", run = "quit", desc = "Quit the process" },
-    { on = "<C-->", run = "hardlink", desc = "Hardlink yanked files" }
+prepend_keymap = [
+]
+
+append_keymap = [
 ]

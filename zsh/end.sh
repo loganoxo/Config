@@ -34,7 +34,7 @@ fi
 
 # 加载 yazi
 if _logan_if_interactive; then
-    source "${__PATH_MY_CNF}/others/yazi.sh"
+    source "${__PATH_MY_CNF}/others/yzi/yazi.sh"
 fi
 
 ###########################################################################################

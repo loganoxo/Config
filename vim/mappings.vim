@@ -53,8 +53,9 @@ let g:mapleader = " "
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
-" 重新加载vim
-nnoremap \r :source ~/.vimrc<CR>
+" 重新加载 vimrc 并输出提示信息
+nnoremap <silent> <Leader>r :source ~/.vimrc <Bar> echohl Question <Bar> echo "Vim configuration reloaded!" <Bar> sleep 2 <Bar> redraw <Bar> echohl None<CR>
+
 " 使用 jj 进入normal模式,`^指的是从insert到normal模式下，保持光标位置不变
 inoremap jj <Esc>`^
 " 解决esc后光标左移的问题
@@ -331,6 +332,9 @@ nnoremap <silent><Tab>^ :0tabmove<CR>
 " :sp[file] 上下分屏   :vsp[file] 左右分屏
 " vim -o file1 file2 file3    上下分屏
 " vim -O file1 file2 file3    左右分屏
+noremap <C-w><Bar> :vsp<CR>
+noremap <C-w>- :sp<CR>
+
 " <C-w>h/j/k/l/w              在窗口间移动光标
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j

@@ -26,6 +26,8 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 " vim开屏美化
 Plug 'mhinz/vim-startify'
+" 最大化/还原 当前分屏 <C-w>z
+Plug 'loganoxo/vim-zoom'
 " 复制的时候高亮
 Plug 'machakann/vim-highlightedyank'
 " vim底部状态栏
@@ -94,15 +96,19 @@ Plug 'ryanoasis/vim-devicons'
 " 增强高亮搜索,<Leader>pz高亮 <Leader>pZ去高亮   n下一个 N上一个
 " Plug 'loganoxo/vim-interestingwords' 用本地代码替代(plugin/vim-interestingwords)
 
-
 "-----------------------end-----------------------
 "}}}
 call plug#end()
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           插件配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"----------------------- 最大化/还原 当前分屏 vim-zoom {{{ -----------------------
+nnoremap <silent> <C-W>z <Plug>(zoom-toggle)
+" 在 lightline 插件配置中
+" set statusline+=%{zoom#statusline()}
+"}}}
 
 "----------------------- 移动多行文本块 matze/vim-move {{{ -----------------------
 " 移动多行文本块(A-h/j/k/l),左右横跳需要set selection=inclusive
@@ -563,10 +569,12 @@ let g:lightline = {
             \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
             \   'right': [ [ 'lineinfo' ],
             \              [ 'percent' ],
-            \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \              [ 'zoomStatus', 'fileformat', 'fileencoding', 'filetype' ]
+            \            ]
             \ },
             \ 'component_function': {
             \   'filetype': 'MyFiletypeLogan',
+            \   'zoomStatus': 'MyZoomStatus',
             \   'fileformat': 'MyFileformatLogan',
             \   'gitbranch': 'FugitiveHead'
             \ },
@@ -583,6 +591,10 @@ endfunction
 
 function! MyFileformatLogan()
   return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
+function! MyZoomStatus()
+  return zoom#statusline()
 endfunction
 "}}}
 

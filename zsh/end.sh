@@ -32,6 +32,11 @@ if _logan_if_command_exist "uvx"; then
     fi
 fi
 
+# 加载 yazi
+if _logan_if_interactive; then
+    source "${__PATH_MY_CNF}/others/yazi.sh"
+fi
+
 ###########################################################################################
 
 # 为 zsh和bash 自定义历史命令配置

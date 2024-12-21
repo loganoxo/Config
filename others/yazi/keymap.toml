@@ -1,0 +1,10 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+
+[manager]
+
+keymap = [
+    { on = "q", run = "quit", desc = "Quit the process" },
+    { on = "<C-->", run = "hardlink", desc = "Hardlink yanked files" }
+]

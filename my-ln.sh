@@ -78,6 +78,12 @@ ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
 # ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"
 ln -sf "${__PATH_MY_CNF}/others/aria2/aria2.conf" "$HOME/.aria2/aria2.conf"
 
+# yazi
+mkdir -p "$HOME/.config/yazi"
+ln -sf "${__PATH_MY_CNF}/others/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
+ln -sf "${__PATH_MY_CNF}/others/yazi/keymap.toml" "$HOME/.config/yazi/keymap.toml"
+ln -sf "${__PATH_MY_CNF}/others/yazi/theme.toml" "$HOME/.config/yazi/theme.toml"
+
 # navi
 mkdir -p "$HOME/.config/navi" && ln -sf "${__PATH_MY_CNF}/others/navi/config.yaml" "$HOME/.config/navi/config.yaml"
 for file in "${__PATH_MY_CNF}"/others/navi/*.cheat; do

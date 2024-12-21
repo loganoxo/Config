@@ -1,23 +1,19 @@
-#!/usr/bin/env bash
-# shellcheck disable=SC2317
-# 描述: ffmpeg 的使用
-# 作者: HeQin
-# 最后修改时间: 2024-04-08
-# 防止直接执行
-set -eu
-echo "This script is not meant to be executed directly."
-exit 0
-return 0
-#################################################  Start  #################################################
+# ffmpeg
 
+## 一、安装
+
+```shell
 # ffmpeg 安装
 sudo apt install -y ffmpeg
 # 查看文件信息
 ffmpeg -i aaa.mp4
 # 隐藏 ffmpeg 的版本信息和库的详细配置; 我写在alias里面了
 ffmpeg -hide_banner -i aaa.mp4
+```
 
-############################# 下载视频
+## 二、下载视频
+
+```shell
 # 下载 m3u8 视频,不重新编码
 ffmpeg -hide_banner -i "https://vip.ffzy-play7.com/20230501/23679_393f1ee4/2000k/hls/mixed.m3u8" -c copy -bsf:a aac_adtstoasc output.mp4
 # 有的网站不允许直接访问 m3u8 文件, 所以需要使用 headers; 这里用了重新编码
@@ -25,7 +21,12 @@ ffmpeg -headers "Referer: https://tv.cctv.com/" \
     -i "https://dh5.cntv.qcloudcdn.com/asp/h5e/hls/4000/0303000a/3/default/fe1b5738af444920954477dcdaf0001d/4000.m3u8" \
     -c:v libx264 -c:a aac -bsf:a aac_adtstoasc output.mp4
 
-############################# 视频/音频 处理
+```
+
+## 三、 视频/音频 处理
+
+```shell
+
 # 用 ffmpeg 转换 视频格式
 ffmpeg -hide_banner -i aaa.mp4 -c copy aaa.mkv # 不重新编码
 ffmpeg -hide_banner -i aaa.mp4 copy aaa.mkv    # 重新编码,兼容性更好,但是慢一点
@@ -88,5 +89,4 @@ ffmpeg -i "concat:temp1.ts|temp2.ts" -c copy -bsf:a aac_adtstoasc output.mp4 # �
 # file 'video2.mp4'
 # file 'video3.mp4'
 ffmpeg -f concat -safe 0 -i filelist.txt -c copy output.mp4
-
-#################################################  End  #################################################
+```

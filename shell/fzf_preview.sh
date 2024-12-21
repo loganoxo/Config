@@ -27,7 +27,7 @@ function bat_cat() {
         cat "$1"
         return
     fi
-    ${batname} --style="${BAT_STYLE:-numbers}" --color=always --line-range :600 --pager=never -- "$1" 2>/dev/null
+    ${batname} --style="${BAT_STYLE:-numbers}" --color=always --line-range :600 --paging=never -- "$1" 2>/dev/null
 }
 
 function image_cat() {

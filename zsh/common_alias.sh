@@ -79,6 +79,9 @@ alias get_home_relative_path='/usr/bin/env bash ${__PATH_MY_CNF}/shell/public_sh
 alias fcp='/usr/bin/env bash ${__PATH_MY_CNF}/shell/fcp.sh'
 
 ########################################## 命令行工具 ##########################################
+# glow 查看 cli-reference
+alias glr='/usr/bin/env bash ${__PATH_MY_CNF}/shell/cli_reference.sh '
+
 # 加载自定义函数
 alias au='autoload -U'
 

@@ -7,3 +7,6 @@ __pycache__
 nginx/www/files/*
 !nginx/www/files/.autoindex.html
 !nginx/www/files/share.txt
+
+cli-reference/.obsidian
+cli-reference/1-obsidian

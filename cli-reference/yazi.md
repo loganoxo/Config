@@ -120,6 +120,7 @@ brew install imagemagick poppler
 | `s`            |                    使用 `fd` 按名称搜索 文件或文件夹                    |
 | `S` (大写)       |                    使用 `ripgrep` 按内容搜索文件                    |
 | `C-s` 或者 `ESC` |                        `取消` 正在进行的搜索                        |
+| `F`            |                      使用插件 智能搜索; 连续搜索                       |
 
 ### 8、排序
 

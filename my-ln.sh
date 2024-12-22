@@ -92,6 +92,11 @@ ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/hide-preview.yazi" "$HOME/.config/y
 ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/max-preview.yazi" "$HOME/.config/yazi/plugins/max-preview.yazi"
 ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/arrow.yazi" "$HOME/.config/yazi/plugins/arrow.yazi"
 
+
+ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/copy-file-contents.yazi" "$HOME/.config/yazi/plugins/copy-file-contents.yazi"
+
+
+
 # navi
 mkdir -p "$HOME/.config/navi" && ln -sf "${__PATH_MY_CNF}/others/navi/config.yaml" "$HOME/.config/navi/config.yaml"
 for file in "${__PATH_MY_CNF}"/others/navi/*.cheat; do

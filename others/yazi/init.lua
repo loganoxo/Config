@@ -44,3 +44,11 @@ Header:children_add(function()
     end
     return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. " 📂 "):fg("green")
 end, 500, Header.LEFT)
+
+-- 复制文件内容的插件配置
+-- append_char; 设置要附加在每个复制的文件内容末尾的字符,默认为"\n"
+-- notification; 复制内容后启用/禁用通知; 默认为true
+require("copy-file-contents"):setup({
+    append_char = "\n",
+    notification = true
+})

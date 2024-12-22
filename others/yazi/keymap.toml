@@ -1,11 +1,11 @@
-# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
-# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
-"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
-
 [manager]
-
+#keymap = [
+    # 这里会覆盖所有的快捷键,所有默认按键都会消失
+#]
 prepend_keymap = [
+    # 按需微调默认的按键; prepend总是比默认优先级高
 ]
 
 append_keymap = [
+    # 按需微调默认的按键; append总是比默认优先级低
 ]

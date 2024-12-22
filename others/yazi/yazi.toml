@@ -1,0 +1,42 @@
+# 按需覆盖默认的设置
+[manager]
+# 按比例布局,父级为 1/8 宽度,当前为 4/8 宽度,预览为 3/8 宽度
+ratio = [1, 4, 3]
+# 字母顺序排序
+sort_by = "alphabetical"
+# 排序时;区分大小写
+sort_sensitive = false
+# 排序时;目录优先
+sort_dir_first = true
+linemode = "permissions"
+# 显示隐藏文件,可按 `.` 切换
+show_hidden = true
+
+
+[opener]
+edit = [
+    { run = '${EDITOR:-vi} "$@"', desc = "$EDITOR", block = true, for = "unix" },
+    { run = 'code %*', orphan = true, desc = "code", for = "windows" },
+    { run = 'code -w %*', block = true, desc = "code (block)", for = "windows" },
+]
+open = [
+    { run = 'xdg-open "$1"', desc = "Open", for = "linux" },
+    { run = 'open "$@"', orphan = true, desc = "Open", for = "macos" },
+    { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
+]
+reveal = [
+    { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal", for = "linux" },
+    { run = 'open -R "$1"', orphan = true, desc = "Reveal", for = "macos" },
+    { run = 'explorer /select,"%1"', orphan = true, desc = "Reveal", for = "windows" },
+    { run = '''exiftool "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
+]
+extract = [
+    { run = 'ya pub extract --list "$@"', desc = "Extract here", for = "unix" },
+    { run = 'ya pub extract --list %*', desc = "Extract here", for = "windows" },
+]
+play = [
+    { run = 'open "$@"', orphan = true, for = "macos" },
+    { run = 'mpv --force-window "$@"', orphan = true, for = "linux" },
+    { run = 'mpv --force-window %*', orphan = true, for = "windows" },
+    { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
+]

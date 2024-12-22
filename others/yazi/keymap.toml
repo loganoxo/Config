@@ -19,6 +19,13 @@ prepend_keymap = [
     { on = "j", run = "plugin arrow --args=1", desc = "Move cursor down" },
     { on = "<Up>", run = "plugin arrow --args=-1", desc = "Move cursor up" },
     { on = "<Down>", run = "plugin arrow --args=1", desc = "Move cursor down" },
+    ########################## 预览窗口
+    # 隐藏 预览 窗口 ya pack -a yazi-rs/plugins:hide-preview
+    { on = ["=", "h"], run = "plugin hide-preview", desc = "隐藏 预览 窗口" },
+    # 最大化 预览 窗口 ya pack -a yazi-rs/plugins:max-preview
+    { on = ["=", "m"], run = "plugin max-preview", desc = "最大化 预览 窗口" },
+    # 使用 mac系统 的快速预览 查看文件
+    { on = ["=", "p"], run = "shell 'qlmanage -p \"$@\"'", desc = "使用 mac系统 的快速预览 查看文件" },
     ########################### 其他
     # 在当前目录打开shell
     { on = "!", run = 'shell "$SHELL" --block', desc = "Open shell here" },
@@ -26,10 +33,7 @@ prepend_keymap = [
     { on = "p", run = "plugin smart-paste", desc = "直接把复制的内容粘贴到文件夹下" },
     # 如果当前选中的是文件夹, 按 t 创建新的标签页时,会在新标签页中直接进入当前选中的文件夹
     { on = "t", run = "plugin smart-tab", desc = "在新标签页中直接进入当前选中的文件夹" },
-    # 隐藏 预览 窗口 ya pack -a yazi-rs/plugins:hide-preview
-    { on = ["=", "h"], run = "plugin hide-preview", desc = "隐藏 预览 窗口" },
-    # 最大化 预览 窗口 ya pack -a yazi-rs/plugins:max-preview
-    { on = ["=", "m"], run = "plugin max-preview", desc = "最大化 预览 窗口" },
+
     ########################## 禁用默认按键
     # { on = ["g", "c"], run = "noop", desc = "禁用默认按键(转入 ~/.config 目录)" },
 ]

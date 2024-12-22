@@ -94,6 +94,7 @@ ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/arrow.yazi" "$HOME/.config/yazi/plu
 
 
 ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/copy-file-contents.yazi" "$HOME/.config/yazi/plugins/copy-file-contents.yazi"
+ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/logan-glow.yazi" "$HOME/.config/yazi/plugins/logan-glow.yazi"
 
 
 

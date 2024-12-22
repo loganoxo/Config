@@ -2,8 +2,8 @@
 
 # 文件管理器
 [manager]
-# 按比例布局,父级为 1/8 宽度,当前为 4/8 宽度,预览为 3/8 宽度
-ratio = [1, 4, 3]
+# 按比例布局,父级为 1/8 宽度,当前为 3/8 宽度,预览为 4/8 宽度
+ratio = [1, 3, 4]
 # 字母顺序排序
 sort_by = "alphabetical"
 # 排序时;区分大小写
@@ -113,6 +113,13 @@ sort_translit = false
 #]
 
 # 插件
+[plugin]
+prepend_previewers = [
+    #   优先级高于默认配置
+    { name = "*.md", run = "logan-glow" },
+]
+
+
 # [plugin]
 # 不知道干啥的
 # fetchers = []

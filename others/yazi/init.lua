@@ -60,4 +60,13 @@ require("full-border"):setup {
 }
 
 -- 添加git支持-插件: git.yazi
-require("logan-git"):setup()
+THEME.git = THEME.git or {}
+THEME.git.added = ui.Style():fg("magenta"):bold()
+THEME.git.untracked = ui.Style():fg("cyan"):bold()
+THEME.git.modified = ui.Style():fg("blue"):bold()
+THEME.git.deleted = ui.Style():fg("red"):bold()
+THEME.git.modified_sign = " M "
+THEME.git.untracked_sign = " ? "
+THEME.git.deleted_sign = " D "
+THEME.git.added_sign = " A "
+require("logan-git"):setup({ order = 1 })

@@ -36,7 +36,7 @@ prepend_keymap = [
     # 复制文件的内容
     { on = ["=", "y"], run = "plugin copy-file-contents", desc = "复制文件的内容" },
     # 智能搜索; 连续搜索
-    { on = ["F"], run = "plugin smart-filter", desc = "智能搜索; 连续搜索" },
+    { on = ["F"], run = "plugin smart-filter", desc = "智能搜索; 连续搜索; 提交后打开文件" },
     ########################## 禁用默认按键
     # { on = ["g", "c"], run = "noop", desc = "禁用默认按键(转入 ~/.config 目录)" },
 ]

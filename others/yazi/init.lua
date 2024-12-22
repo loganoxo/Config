@@ -37,13 +37,7 @@ Status:children_add(function()
         ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg("magenta"), " " }
 end, 500, Status.RIGHT)
 
--- 在标题中显示用户名和主机名
-Header:children_add(function()
-    if ya.target_family() ~= "unix" then
-        return ""
-    end
-    return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. " 📂 "):fg("green")
-end, 500, Header.LEFT)
+
 
 -- 复制文件内容的插件配置-插件: copy-file-contents.yazi
 -- append_char; 设置要附加在每个复制的文件内容末尾的字符,默认为"\n"
@@ -70,3 +64,14 @@ THEME.git.untracked_sign = " ? "
 THEME.git.deleted_sign = " D "
 THEME.git.added_sign = " A "
 require("logan-git"):setup({ order = 1 })
+
+-- 显示 starship
+require("logan-starship"):setup()
+
+-- 在标题中显示用户名和主机名, 用starship显示了
+-- Header:children_add(function()
+--     if ya.target_family() ~= "unix" then
+--         return ""
+--     end
+--     return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. " 📂 "):fg("green")
+-- end, 500, Header.LEFT)

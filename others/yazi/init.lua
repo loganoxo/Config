@@ -33,8 +33,8 @@ Status:children_add(function()
         return ""
     end
 
-    return ui.Line {ui.Span(ya.user_name(h.cha.uid) or tostring(h.cha.uid)):fg("magenta"), ":",
-                    ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg("magenta"), " "}
+    return ui.Line { ui.Span(ya.user_name(h.cha.uid) or tostring(h.cha.uid)):fg("magenta"), ":",
+        ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg("magenta"), " " }
 end, 500, Status.RIGHT)
 
 -- 在标题中显示用户名和主机名
@@ -45,10 +45,19 @@ Header:children_add(function()
     return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. " 📂 "):fg("green")
 end, 500, Header.LEFT)
 
--- 复制文件内容的插件配置
+-- 复制文件内容的插件配置-插件: copy-file-contents.yazi
 -- append_char; 设置要附加在每个复制的文件内容末尾的字符,默认为"\n"
 -- notification; 复制内容后启用/禁用通知; 默认为true
 require("copy-file-contents"):setup({
     append_char = "\n",
     notification = true
 })
+
+-- 添加边框-插件: full-border.yazi
+require("full-border"):setup {
+    -- Available values: ui.Border.PLAIN, ui.Border.ROUNDED
+    type = ui.Border.ROUNDED,
+}
+
+-- 添加git支持-插件: git.yazi
+require("logan-git"):setup()

@@ -1,3 +1,4 @@
+-- https://github.com/AnirudhG07/plugins-yazi/tree/main/copy-file-contents.yazi
 -- 获取选中的文件或文件夹路径
 local selected_files = ya.sync(function()
     local tab, paths = cx.active, {}

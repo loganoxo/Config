@@ -12,3 +12,16 @@ function Linemode:size_and_mtime()
     local size = self._file:size()
     return string.format("%s %s", size and ya.readable_size(size) or "-", time)
 end
+
+-- 在状态栏显示软链接
+function Status:name()
+    local h = self._current.hovered
+    if not h then
+        return ""
+    end
+    local linked = ""
+    if h.link_to ~= nil then
+        linked = " -> " .. tostring(h.link_to)
+    end
+    return " " .. h.name:gsub("\r", "?", 1) .. linked
+end

@@ -25,3 +25,22 @@ function Status:name()
     end
     return " " .. h.name:gsub("\r", "?", 1) .. linked
 end
+
+-- 在状态栏显示文件或者夹所属用户组
+Status:children_add(function()
+    local h = cx.active.current.hovered
+    if h == nil or ya.target_family() ~= "unix" then
+        return ""
+    end
+
+    return ui.Line {ui.Span(ya.user_name(h.cha.uid) or tostring(h.cha.uid)):fg("magenta"), ":",
+                    ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg("magenta"), " "}
+end, 500, Status.RIGHT)
+
+-- 在标题中显示用户名和主机名
+Header:children_add(function()
+    if ya.target_family() ~= "unix" then
+        return ""
+    end
+    return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. " 📂 "):fg("green")
+end, 500, Header.LEFT)

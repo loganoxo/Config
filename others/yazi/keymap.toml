@@ -2,15 +2,46 @@
 #keymap = [
 # 这里会覆盖所有的快捷键,所有默认按键都会消失
 #]
+
+# 按需微调默认的按键; prepend总是比默认优先级高
 prepend_keymap = [
-    # 按需微调默认的按键; prepend总是比默认优先级高
-
-
-
-    # 禁用默认按键
+    ########################### 快速进入目录
+    { on = ["g", "t"], run = "cd ~/Temp", desc = "Go ~/Temp" },
+    { on = ["g", "T"], run = "cd ~/TempCode", desc = "Go ~/TempCode" },
+    { on = ["g", "w"], run = "cd ~/Desktop", desc = "Go ~/Desktop" },
+    { on = ["g", "d"], run = "cd ~/Data", desc = "Go ~/Data" },
+    { on = ["g", "c"], run = "cd ~/Data/Config", desc = "Goto ~/Data/Config" },
+    { on = ["g", "h"], run = "cd ~", desc = "Go home" },
+    { on = ["g", "r"], run = "shell 'ya emit cd \"$(git rev-parse --show-toplevel)\"'", desc = "进入git仓库的根目录" },
+    { on = ["g", "<Space>"], run = "cd --interactive", desc = "Jump interactively" },
+    ########################## 让 yazi 支持上下循环移动光标
+    { on = "k", run = "plugin arrow --args=-1", desc = "Move cursor up" },
+    { on = "j", run = "plugin arrow --args=1", desc = "Move cursor down" },
+    { on = "<Up>", run = "plugin arrow --args=-1", desc = "Move cursor up" },
+    { on = "<Down>", run = "plugin arrow --args=1", desc = "Move cursor down" },
+    ########################### 其他
+    # 在当前目录打开shell
+    { on = "!", run = 'shell "$SHELL" --block', desc = "Open shell here" },
+    # 智能粘贴; 选中目录后,直接把复制的内容粘贴到选中的文件夹下,不用进入文件夹了;如果要粘贴到当前目录,则需选中当前目录中的文件
+    { on = "p", run = "plugin smart-paste", desc = "直接把复制的内容粘贴到文件夹下" },
+    # 如果当前选中的是文件夹, 按 t 创建新的标签页时,会在新标签页中直接进入当前选中的文件夹
+    { on = "t", run = "plugin smart-tab", desc = "在新标签页中直接进入当前选中的文件夹" },
+    # 隐藏 预览 窗口 ya pack -a yazi-rs/plugins:hide-preview
+    { on = ["=", "h"], run = "plugin hide-preview", desc = "隐藏 预览 窗口" },
+    # 最大化 预览 窗口 ya pack -a yazi-rs/plugins:max-preview
+    { on = ["=", "m"], run = "plugin max-preview", desc = "最大化 预览 窗口" },
+    ########################## 禁用默认按键
     # { on = ["g", "c"], run = "noop", desc = "禁用默认按键(转入 ~/.config 目录)" },
 ]
 
+
+# 按需微调默认的按键; append总是比默认优先级低
 append_keymap = [
-    # 按需微调默认的按键; append总是比默认优先级低
+
+]
+
+[input]
+prepend_keymap = [
+    # 直接退出输入,而不进入 Vi 模式,使其表现得像常规输入框
+    { on = "<Esc>", run = "close", desc = "Cancel input" },
 ]

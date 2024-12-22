@@ -30,9 +30,9 @@ wrap = "no"
 # 制表符显示为几个空格
 tab_size = 4
 # 图像的最大预览宽度;更改此后执行 yazi --clear-cache 即可生效
-max_width = 600
+max_width = 1000
 # 图像的最大预览高度;更改此后执行 yazi --clear-cache 即可生效
-max_height = 900
+max_height = 1000
 
 # 文件打开方式
 [opener]

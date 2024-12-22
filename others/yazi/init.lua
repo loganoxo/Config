@@ -1,4 +1,4 @@
--- ~/.config/yazi/init.lua
+-- 在每个文件的行尾加上 大小和修改时间
 function Linemode:size_and_mtime()
     local time = math.floor(self._file.cha.mtime or 0)
     if time == 0 then

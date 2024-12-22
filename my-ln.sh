@@ -79,12 +79,17 @@ ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
 ln -sf "${__PATH_MY_CNF}/others/aria2/aria2.conf" "$HOME/.aria2/aria2.conf"
 
 # yazi
-mkdir -p "$HOME/.config/yazi"
+mkdir -p "$HOME/.config/yazi/plugins"
 ln -sf "${__PATH_MY_CNF}/others/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
 ln -sf "${__PATH_MY_CNF}/others/yazi/keymap.toml" "$HOME/.config/yazi/keymap.toml"
 ln -sf "${__PATH_MY_CNF}/others/yazi/theme.toml" "$HOME/.config/yazi/theme.toml"
 ln -sf "${__PATH_MY_CNF}/others/yazi/flavors" "$HOME/.config/yazi/flavors"
 ln -sf "${__PATH_MY_CNF}/others/yazi/init.lua" "$HOME/.config/yazi/init.lua"
+ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/smart-paste.yazi" "$HOME/.config/yazi/plugins/smart-paste.yazi"
+ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/smart-tab.yazi" "$HOME/.config/yazi/plugins/smart-tab.yazi"
+ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/hide-preview.yazi" "$HOME/.config/yazi/plugins/hide-preview.yazi"
+ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/max-preview.yazi" "$HOME/.config/yazi/plugins/max-preview.yazi"
+ln -sf "${__PATH_MY_CNF}/others/yazi/plugins/arrow.yazi" "$HOME/.config/yazi/plugins/arrow.yazi"
 
 # navi
 mkdir -p "$HOME/.config/navi" && ln -sf "${__PATH_MY_CNF}/others/navi/config.yaml" "$HOME/.config/navi/config.yaml"

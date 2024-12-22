@@ -1,4 +1,6 @@
 # 按需覆盖默认的设置
+
+# 文件管理器
 [manager]
 # 按比例布局,父级为 1/8 宽度,当前为 4/8 宽度,预览为 3/8 宽度
 ratio = [1, 4, 3]
@@ -8,35 +10,135 @@ sort_by = "alphabetical"
 sort_sensitive = false
 # 排序时;目录优先
 sort_dir_first = true
-linemode = "permissions"
+# 在文件列表行的右侧显示与文件相关的信息:大小 和 最后修改时间,在~/.config/yazi/init.lua中配置
+linemode = "size_and_mtime"
 # 显示隐藏文件,可按 `.` 切换
 show_hidden = true
+# 显示软链接指向的路径
+show_symlink = true
+# 数量很多的文件列表中,光标最多能滚动到 与上下顶层相距的单位
+scrolloff = 5
+# 可以接收的鼠标事件类型,点击和滚动,通常,您不需要更改它,除非您使用的插件需要启用某个事件
+mouse_events = ["click", "scroll"]
+# 终端标题格式,需要终端支持;不希望 Yazi 自动更新标题,设置空字符串
+title_format = "Yazi: {cwd}"
 
+# 预览窗口
+[preview]
+# 在代码预览中是否自动换行
+wrap = "no"
+# 制表符显示为几个空格
+tab_size = 4
+# 图像的最大预览宽度;更改此后执行 yazi --clear-cache 即可生效
+max_width = 600
+# 图像的最大预览高度;更改此后执行 yazi --clear-cache 即可生效
+max_height = 900
 
+# 文件打开方式
 [opener]
+# 编辑
 edit = [
     { run = '${EDITOR:-vi} "$@"', desc = "$EDITOR", block = true, for = "unix" },
     { run = 'code %*', orphan = true, desc = "code", for = "windows" },
     { run = 'code -w %*', block = true, desc = "code (block)", for = "windows" },
 ]
+# 打开
 open = [
     { run = 'xdg-open "$1"', desc = "Open", for = "linux" },
     { run = 'open "$@"', orphan = true, desc = "Open", for = "macos" },
     { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
 ]
+# 在finder中显示
 reveal = [
     { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal", for = "linux" },
     { run = 'open -R "$1"', orphan = true, desc = "Reveal", for = "macos" },
     { run = 'explorer /select,"%1"', orphan = true, desc = "Reveal", for = "windows" },
     { run = '''exiftool "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
 ]
+# 解压
 extract = [
     { run = 'ya pub extract --list "$@"', desc = "Extract here", for = "unix" },
     { run = 'ya pub extract --list %*', desc = "Extract here", for = "windows" },
 ]
+# 视频或者音频播放
 play = [
     { run = 'open "$@"', orphan = true, for = "macos" },
     { run = 'mpv --force-window "$@"', orphan = true, for = "linux" },
     { run = 'mpv --force-window %*', orphan = true, for = "windows" },
     { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
 ]
+
+[input]
+# 控制光标闪烁,但好像没啥区别
+cursor_blink = false
+
+# 交互式输入框的标签和位置
+# cd (改变目录)  按键:  <g>+<Space>
+cd_title = "更改当前目录:"
+cd_origin = "top-center"
+cd_offset = [0, 2, 50, 3]
+
+# 设置确认框的标题和位置
+[confirm]
+trash_title = "删除到废纸篓 {n} selected file{s}?"
+trash_origin = "center"
+trash_offset = [0, 0, 70, 20]
+
+# 设置打开方式框的标题和位置( 按键: 大写的字母`O`)
+[pick]
+open_title = "选择打开方式:"
+open_origin = "hovered"
+open_offset = [0, 1, 50, 7]
+
+# 按键提示的顺序,如 `,` `c` 等按键提示
+[which]
+# "none", "key", "desc"
+# 以 按键 排序
+sort_by = "key"
+sort_sensitive = false
+sort_reverse = false
+sort_translit = false
+
+# 文件的打开规则
+#[open]
+# 优先级高于默认配置
+# prepend_rules = [
+#    { name = "*.json", use = "edit" },
+#    # Multiple openers for a single rule
+#    { name = "*.html", use = ["open", "edit"] },
+#]
+# 优先级低于默认配置
+# append_rules = [
+#    { name = "*", use = "my-fallback" },
+#]
+
+# 插件
+# [plugin]
+# 不知道干啥的
+# fetchers = []
+# tab键查看的文件信息
+# potters = []
+# 预览预加载使用什么插件预加载
+# preloaders = [
+#   优先级高于默认配置
+#   prepend_preloaders = [
+#       # HEIC preloader
+#	    { mime = "image/heic", run = "heic" },
+#   ]
+#   优先级低于默认配置
+#   append_preloaders = [
+#   ]
+#]
+# 用什么插件预览
+# previewers = [
+#   优先级高于默认配置
+#   prepend_previewers = [
+#       HEIC previewer
+#       { mime = "image/heic", run = "heic" },
+#   ]
+#   优先级低于默认配置
+#   append_previewers = [
+#   My fallback previewer
+#       { name = "*", run = "binary" },
+#   ]
+#]

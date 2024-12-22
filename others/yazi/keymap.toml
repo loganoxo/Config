@@ -1,9 +1,14 @@
 [manager]
 #keymap = [
-    # 这里会覆盖所有的快捷键,所有默认按键都会消失
+# 这里会覆盖所有的快捷键,所有默认按键都会消失
 #]
 prepend_keymap = [
     # 按需微调默认的按键; prepend总是比默认优先级高
+
+
+
+    # 禁用默认按键
+    # { on = ["g", "c"], run = "noop", desc = "禁用默认按键(转入 ~/.config 目录)" },
 ]
 
 append_keymap = [

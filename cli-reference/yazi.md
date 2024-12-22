@@ -52,8 +52,9 @@ brew install imagemagick poppler
 | `gw`   |                   cd ~/Desktop                   |
 | `gd`   |                    cd ~/Data                     |
 | `gc`   |                 cd ~/Data/Config                 |
+| `gr`   |          cd ~/Data/Config/cli-reference          |
 | `gh`   |                       cd ~                       |
-| `gr`   |                   进入git仓库的根目录                    |
+| `gg`   |                   进入git仓库的根目录                    |
 
 ### 3、预览窗口
 

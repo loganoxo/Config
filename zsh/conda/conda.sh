@@ -15,7 +15,7 @@ if [ $? -eq 0 ]; then
         eval "$__conda_setup"
     fi
 else
-    if [ -f "$HOME/.miniconda3/etc/profile.d/conda.sh" ]; then
+    if [ -r "$HOME/.miniconda3/etc/profile.d/conda.sh" ]; then
         . "$HOME/.miniconda3/etc/profile.d/conda.sh"
     else
         export PATH="$HOME/.miniconda3/bin:$PATH"

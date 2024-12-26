@@ -25,7 +25,7 @@ fi
 
 export TERM=xterm-256color
 # 加载通用函数
-if [ -f "${__PATH_MY_CNF_FOR_ROOT}/zsh/logan_function.sh" ]; then
+if [ -r "${__PATH_MY_CNF_FOR_ROOT}/zsh/logan_function.sh" ]; then
     source "${__PATH_MY_CNF_FOR_ROOT}/zsh/logan_function.sh"
 fi
 # 加载自定义函数

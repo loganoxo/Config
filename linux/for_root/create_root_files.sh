@@ -70,8 +70,8 @@ for file in "${files[@]}"; do
 done
 
 # 确保模板文件存在
-if [[ ! -f "$template_file" ]]; then
-    echo "Template file $template_file does not exist."
+if [[ ! -r "$template_file" ]]; then
+    echo "Template file $template_file does not exist or not readable."
     exit 1
 fi
 

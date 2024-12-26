@@ -72,7 +72,7 @@ fi
 source "${__PATH_MY_CNF}/zsh/conda/conda.sh"
 
 # fastfetch 放在最后
-if [ -f "${__PATH_MY_CNF}/others/fastfetch/fastfetch.sh" ]; then
+if [ -r "${__PATH_MY_CNF}/others/fastfetch/fastfetch.sh" ]; then
     source "${__PATH_MY_CNF}/others/fastfetch/fastfetch.sh"
 fi
 
@@ -98,7 +98,7 @@ function rr() {
 # idea
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"
 # shellcheck disable=SC1090
-if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+if [ -r "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
 ########################### 最后加载,防止覆盖 ###########################
 # 加载 通用alias

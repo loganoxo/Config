@@ -22,7 +22,7 @@ alias python='python3'
 
 # ls == lsd
 if _logan_if_interactive; then
-    if [ -f "${__PATH_MY_CNF}/zsh/ls.sh" ]; then
+    if [ -r "${__PATH_MY_CNF}/zsh/ls.sh" ]; then
         source "${__PATH_MY_CNF}/zsh/ls.sh"
     fi
 fi

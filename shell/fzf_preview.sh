@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
+if [ -r "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
     source "${__PATH_MY_CNF}/zsh/logan_function.sh"
 fi
 

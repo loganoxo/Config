@@ -14,7 +14,7 @@ if _logan_if_interactive; then
     if _logan_if_command_exist "navi"; then
         eval "$(navi widget zsh)"
         #加载navi配置,覆盖 eval "$(navi widget zsh)"
-        if [ -f "${__PATH_MY_CNF}/others/navi/navi.sh" ]; then
+        if [ -r "${__PATH_MY_CNF}/others/navi/navi.sh" ]; then
             source "${__PATH_MY_CNF}/others/navi/navi.sh"
         fi
     fi

@@ -9,7 +9,7 @@
 
 export __PATH_MY_CNF="$HOME/Data/Config" # 我自己的配置文件目录
 # 加载通用函数
-if [ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
+if [ -r "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
     source "${__PATH_MY_CNF}/zsh/logan_function.sh"
 fi
 

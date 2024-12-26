@@ -54,7 +54,7 @@
 # touch "$HOME/.hushlogin" # 默认每次打开终端(zsh/bash)都会在第一行提示上次登陆信息,创建这个空文件后,就不显示了;
 
 # 加载通用函数
-if [ -f "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
+if [ -r "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
     source "${__PATH_MY_CNF}/zsh/logan_function.sh"
 fi
 
@@ -143,7 +143,7 @@ if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
 fi
 
 # Added by OrbStack: command-line tools and integration
-if [[ -f "$HOME/.orbstack/shell/init.zsh" ]]; then
+if [[ -r "$HOME/.orbstack/shell/init.zsh" ]]; then
     source "$HOME/.orbstack/shell/init.zsh"
 fi
 

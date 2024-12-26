@@ -15,8 +15,8 @@ fi
 input_file="$1"
 
 # 检查文件是否存在
-if [ ! -f "$input_file" ]; then
-    echo "Error: File not found!"
+if [ ! -r "$input_file" ]; then
+    echo "Error: File not found or not readable!"
     exit 1
 fi
 

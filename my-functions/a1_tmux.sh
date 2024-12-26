@@ -195,7 +195,7 @@ function tm_ssh() {
         done
     fi
 
-    if [ "${#SSH_ARRAY[@]}" -lt 1 ] && [ -f "$SSH_FILE" ]; then
+    if [ "${#SSH_ARRAY[@]}" -lt 1 ] && [ -r "$SSH_FILE" ]; then
         local line
         while IFS= read -r line; do
             line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')

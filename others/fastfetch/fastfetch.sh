@@ -12,7 +12,7 @@ if _logan_if_command_exist "fastfetch"; then
     alias fastfetch='command fastfetch -c "$fastfetch_config_path"'
 fi
 # 自动执行
-if [ -f "$fastfetch_config_path" ] && [ $fastfetch_if_run -eq 1 ] && _logan_if_command_exist "fastfetch"; then
+if [ -r "$fastfetch_config_path" ] && [ $fastfetch_if_run -eq 1 ] && _logan_if_command_exist "fastfetch"; then
     if _logan_if_mac; then
         supported_terms=("iTerm.app" "Apple_Terminal" "WezTerm" "Tabby")
         for term in "${supported_terms[@]}"; do

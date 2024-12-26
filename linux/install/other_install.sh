@@ -91,3 +91,6 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 [ ! -d "$HOME/.config/lsd" ] && ln -sf "${__PATH_MY_CNF}/others/lsd" "$HOME/.config/lsd"
 cargo install lsd
 ################################################## End At 2024-12-17 ##################################################
+uv tool install thefuck
+
+################################################## End At 2024-12-27 ##################################################

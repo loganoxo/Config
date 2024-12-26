@@ -20,8 +20,8 @@ if _logan_if_interactive; then
     fi
 fi
 
+# zoxide
 if _logan_if_interactive; then
-    # zoxide
     export _ZO_DATA_DIR="$HOME/.zoxide"                          #zz命令数据存放的目录
     export _ZO_EXCLUDE_DIRS="/:$HOME:$HOME/private/*:$HOME/Temp" #排除某些目录
     if _logan_if_command_exist "zoxide"; then

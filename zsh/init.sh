@@ -156,6 +156,18 @@ if _logan_if_command_exist "fnm"; then
     fi
 fi
 
+# 加载 cargo 的环境变量,安装的rust命令行工具的存放路径加入到path中
+if [ -r "$HOME/.cargo/env" ]; then
+    source "$HOME/.cargo/env"
+fi
+case ":${PATH}:" in
+*:"$HOME/.cargo/bin":*) ;;
+*)
+    # Prepending path in case a system-installed rustc needs to be overridden
+    export PATH="$HOME/.cargo/bin:$PATH"
+    ;;
+esac
+
 # nvm 弃用,太慢了
 #export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

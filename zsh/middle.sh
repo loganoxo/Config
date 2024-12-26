@@ -30,3 +30,16 @@ if _logan_if_interactive; then
     alias z="__zoxide_z"   # z <path> 直接跳转到最佳匹配的目录
     alias zz="__zoxide_zi" # zz <path> 通过fzf
 fi
+
+# thefuck
+if _logan_if_interactive; then
+    if _logan_if_command_exist "thefuck"; then
+        if _logan_if_zsh; then
+            # 使用 omz 加载
+            :
+        fi
+        if _logan_if_bash; then
+            eval "$(thefuck --alias)"
+        fi
+    fi
+fi

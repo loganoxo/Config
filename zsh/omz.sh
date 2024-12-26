@@ -38,6 +38,7 @@ plugins=(
     zsh-autosuggestions
     # brew install autojump
     # autojump
+    thefuck
 )
 
 # 加载ohmyzsh

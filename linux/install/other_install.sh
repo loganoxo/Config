@@ -91,6 +91,8 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 [ ! -d "$HOME/.config/lsd" ] && ln -sf "${__PATH_MY_CNF}/others/lsd" "$HOME/.config/lsd"
 cargo install lsd
 ################################################## End At 2024-12-17 ##################################################
-uv tool install thefuck
+# thefuck 好久不更新, python3.12后 移除了 distutils 和 imp 模块, 导致thefuck执行报错;
+# mac上不用担心,查看rb文件的代码,homebrew安装时会自动修改thefuck中的代码
+uv tool install --python 3.11 thefuck
 
 ################################################## End At 2024-12-27 ##################################################

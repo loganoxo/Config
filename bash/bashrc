@@ -2,11 +2,6 @@
 # 加载必备环境变量
 source "$HOME/.zshenv"
 
-# 加载 rust
-if [[ -f "$HOME/.cargo/env" ]]; then
-    source "$HOME/.cargo/env"
-fi
-
 # 加载初始化配置
 source "${__PATH_MY_CNF}/zsh/init.sh"
 

@@ -34,6 +34,9 @@ fi
 # thefuck
 if _logan_if_interactive; then
     if _logan_if_command_exist "thefuck"; then
+        if _logan_if_mac; then
+            export THEFUCK_EXCLUDE_RULES='sudo'
+        fi
         if _logan_if_zsh; then
             # 使用 omz 加载
             :

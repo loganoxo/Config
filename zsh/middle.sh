@@ -38,7 +38,7 @@ if _logan_if_interactive; then
             export THEFUCK_EXCLUDE_RULES='sudo'
         fi
         if _logan_if_zsh; then
-            # 使用 omz 加载
+            # 使用 omz 加载; 可以执行 fuck 命令调用; 也可以按两次 Esc 键调用;(Esc功能是这个omz插件配置的)
             :
         fi
         if _logan_if_bash; then

@@ -45,7 +45,7 @@ alias gpc='git -C "$__PATH_MY_CNF" pull'
 
 ########################################## 脚本的快速调用 ##########################################
 # 查看 cli-reference common_alias.sh 等文档
-alias doc='/usr/bin/env bash ${__PATH_MY_CNF}/shell/cli_reference.sh'
+alias doc='/usr/bin/env bash ${__PATH_MY_CNF}/shell/doc.sh'
 
 # docker
 alias dops1='/usr/bin/env bash ${__PATH_MY_CNF}/shell/dockerps1.sh'

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# 脚本名称: cli_reference.sh
+# 脚本名称: doc.sh
 # 作者: HeQin
 # 最后修改时间: 2024-04-08
-# 描述: 用 glow 查看 cli-reference
+# 描述: 查看 cli-reference common_alias.sh 等文档
 
 set -e #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 
@@ -32,9 +32,9 @@ function logan_bat_common_alias() {
 function logan_glr() {
     echo1="\033[35m[ 1 ]\033[0m glow cli-reference \n"
     echo2="\033[35m[ 2 ]\033[0m bat cli-reference \n"
-    echo2="\033[35m[ 3 ]\033[0m bat common_alias \n"
-    echo3="\033[35m[ 4 ]\033[0m Exit.\n"
-    echo -e "$echo1$echo2$echo3"
+    echo3="\033[35m[ 3 ]\033[0m bat common_alias \n"
+    echo4="\033[35m[ 4 ]\033[0m Exit.\n"
+    echo -e "${echo1}${echo2}${echo3}${echo4}"
     local choice
     echo -en "\033[33m Input your choice:"
     read -r choice </dev/tty

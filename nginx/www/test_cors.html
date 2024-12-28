@@ -29,7 +29,7 @@
       // 创建 XMLHttpRequest 对象
       var xhttp = new XMLHttpRequest();
 
-      xhttp.open("GET", "http://127.0.0.1:18000/debug" + new Date().getTime(), true);
+      xhttp.open("GET", "http://127.0.0.1:18000/debug?t=" + new Date().getTime(), true);
 
       // 定义请求完成时的回调函数
       xhttp.onreadystatechange = function () {

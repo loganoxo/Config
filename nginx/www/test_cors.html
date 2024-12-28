@@ -30,6 +30,7 @@
     // 创建 XMLHttpRequest 对象
     var xhttp = new XMLHttpRequest();
 
+    // 不要加上时间戳,测试预检请求针对于某个url的缓存,浏览器中使用清空缓存硬性加载可以再次看到预检请求
     xhttp.open("GET", "http://127.0.0.1:18000/test_cors", true);
     xhttp.setRequestHeader("Authorization", "aaa") //测试预检请求
     // 定义请求完成时的回调函数

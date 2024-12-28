@@ -1,4 +1,8 @@
 # yt-dlp
+- 自己配置的 alias:
+    - `yts <URL>`  # 显示可下载的视频源
+    - `ytb <URL>`  # 用ariac(如果有的话)下载最佳视频和音频
+    - `ytd <URL>`  # 用ariac(如果有的话)下载m3u8视频
 
 ## 一、安装
 

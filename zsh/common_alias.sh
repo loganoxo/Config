@@ -44,6 +44,9 @@ alias tc='cd ~/Data/Config && pwd && ls -A'
 alias gpc='git -C "$__PATH_MY_CNF" pull'
 
 ########################################## 脚本的快速调用 ##########################################
+# 查看 cli-reference common_alias.sh 等文档
+alias doc='/usr/bin/env bash ${__PATH_MY_CNF}/shell/cli_reference.sh'
+
 # docker
 alias dops1='/usr/bin/env bash ${__PATH_MY_CNF}/shell/dockerps1.sh'
 alias dops2='/usr/bin/env bash ${__PATH_MY_CNF}/shell/dockerps2.sh'
@@ -79,8 +82,6 @@ alias get_home_relative_path='/usr/bin/env bash ${__PATH_MY_CNF}/shell/public_sh
 alias fcp='/usr/bin/env bash ${__PATH_MY_CNF}/shell/fcp.sh'
 
 ########################################## 命令行工具 ##########################################
-# glow 查看 cli-reference
-alias glr='/usr/bin/env bash ${__PATH_MY_CNF}/shell/cli_reference.sh'
 # glow 宽度增大
 alias glow='command glow -p -s dark -w 0'
 

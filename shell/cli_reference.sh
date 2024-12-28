@@ -24,10 +24,16 @@ function logan_bat_cli_reference() {
     bat --style="${BAT_STYLE:-numbers}" --color=always --line-range :600 --paging=always -- "$file_path"
 }
 
+function logan_bat_common_alias() {
+    local file_path="${__PATH_MY_CNF}/zsh/common_alias.sh"
+    bat --style="${BAT_STYLE:-numbers}" --color=always --line-range :600 --paging=always -- "$file_path"
+}
+
 function logan_glr() {
-    echo1="\033[35m[ 1 ]\033[0m glow \n"
-    echo2="\033[35m[ 2 ]\033[0m bat \n"
-    echo3="\033[35m[ 3 ]\033[0m Exit.\n"
+    echo1="\033[35m[ 1 ]\033[0m glow cli-reference \n"
+    echo2="\033[35m[ 2 ]\033[0m bat cli-reference \n"
+    echo2="\033[35m[ 3 ]\033[0m bat common_alias \n"
+    echo3="\033[35m[ 4 ]\033[0m Exit.\n"
     echo -e "$echo1$echo2$echo3"
     local choice
     echo -en "\033[33m Input your choice:"
@@ -38,6 +44,9 @@ function logan_glr() {
         ;;
     2)
         logan_bat_cli_reference
+        ;;
+    3)
+        logan_bat_common_alias
         ;;
     *)
         echo -e "\033[36m skip. \033[0m"

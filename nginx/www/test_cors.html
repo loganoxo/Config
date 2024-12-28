@@ -30,7 +30,7 @@
     // 创建 XMLHttpRequest 对象
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open("GET", "http://127.0.0.1:18000/test_cors?t=" + new Date().getTime(), true);
+    xhttp.open("GET", "http://127.0.0.1:18000/test_cors", true);
     xhttp.setRequestHeader("Authorization", "aaa") //测试预检请求
     // 定义请求完成时的回调函数
     xhttp.onreadystatechange = function () {

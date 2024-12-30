@@ -12,9 +12,9 @@ function yt_show() {
 
 function yt_download() {
     if command -v "aria2c" >/dev/null 2>&1; then
-        command yt-dlp --external-downloader aria2c -o "%(title)s-%(autonumber)s.%(ext)s" "$@"
+        command yt-dlp --external-downloader aria2c -o "%(title)s-%(timestamp)s.%(ext)s" "$@"
     else
-        command yt-dlp -o "%(title)s-%(autonumber)s.%(ext)s" "$@"
+        command yt-dlp -o "%(title)s-%(timestamp)s.%(ext)s" "$@"
     fi
 }
 

@@ -10,19 +10,22 @@ function yt_show() {
     command yt-dlp -F "$@"
 }
 
+# 针对 m3u8 等视频的下载
+# 下载多个同名视频时,使用 autonumber 加序号, epoch 为信息提取完成时的时间戳
 function yt_download() {
     if command -v "aria2c" >/dev/null 2>&1; then
-        command yt-dlp --external-downloader aria2c -o "%(title)s-%(timestamp)s.%(ext)s" "$@"
+        command yt-dlp --external-downloader aria2c -o "%(autonumber)s-%(title)s-%(epoch)s.%(ext)s" "$@"
     else
-        command yt-dlp -o "%(title)s-%(timestamp)s.%(ext)s" "$@"
+        command yt-dlp -o "%(autonumber)s-%(title)s-%(epoch)s.%(ext)s" "$@"
     fi
 }
 
+# 针对 b站 youtube 等 视频的下载
 function yt_download_best() {
     if command -v "aria2c" >/dev/null 2>&1; then
-        command yt-dlp --external-downloader aria2c -f "bestvideo+bestaudio" -o "%(title)s.%(ext)s" "$@"
+        command yt-dlp --external-downloader aria2c -f "bestvideo+bestaudio" -o "%(playlist_index)s-%(title)s.%(ext)s" "$@"
     else
-        command yt-dlp -f "bestvideo+bestaudio" -o "%(title)s.%(ext)s" "$@"
+        command yt-dlp -f "bestvideo+bestaudio" -o "%(playlist_index)s-%(title)s.%(ext)s" "$@"
     fi
 }
 

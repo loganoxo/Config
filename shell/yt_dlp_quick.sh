@@ -12,17 +12,17 @@ function yt_show() {
 
 function yt_download() {
     if command -v "aria2c" >/dev/null 2>&1; then
-        command yt-dlp --external-downloader aria2c "$@"
+        command yt-dlp --external-downloader aria2c -o "%(title)s-%(autonumber)s.%(ext)s" "$@"
     else
-        command yt-dlp "$@"
+        command yt-dlp -o "%(title)s-%(autonumber)s.%(ext)s" "$@"
     fi
 }
 
 function yt_download_best() {
     if command -v "aria2c" >/dev/null 2>&1; then
-        command yt-dlp --external-downloader aria2c -f "bestvideo+bestaudio" "$@"
+        command yt-dlp --external-downloader aria2c -f "bestvideo+bestaudio" -o "%(title)s.%(ext)s" "$@"
     else
-        command yt-dlp -f "bestvideo+bestaudio" "$@"
+        command yt-dlp -f "bestvideo+bestaudio" -o "%(title)s.%(ext)s" "$@"
     fi
 }
 

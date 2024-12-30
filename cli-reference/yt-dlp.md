@@ -1,8 +1,8 @@
 # yt-dlp
 - 自己配置的 alias:
-    - `yts <URL>`  # 显示可下载的视频源
-    - `ytb <URL>`  # 用ariac(如果有的话)下载最佳视频和音频
-    - `ytd <URL>`  # 用ariac(如果有的话)下载m3u8视频
+    - `yts <URLs>`  # 显示可下载的视频源
+    - `ytb <URLs>`  # 用ariac(如果有的话)下载最佳视频和音频
+    - `ytd <URLs>`  # 用ariac(如果有的话)下载m3u8视频
 
 ## 一、安装
 
@@ -99,4 +99,7 @@ yt-dlp "https://space.bilibili.com/123456/video"
 yt-dlp -o "%(playlist_index)s - %(title)s.%(ext)s" "https://www.bilibili.com/video/BV1xx4y1t7xx"
 # 跳过已下载文件;避免重复下载
 yt-dlp -i "https://www.bilibili.com/video/BV1xx4y1t7xx"
+# 下载多个同名视频时,使用 autonumber 加序号
+yt-dlp -o "%(title)s-%(autonumber)s.%(ext)s" "url1" "url2" "url3"
+
 ```

@@ -7,22 +7,22 @@
 set -eu #e:遇到错误就停止执行；u:遇到不存在的变量，报错停止执行
 
 function yt_show() {
-    command yt-dlp -F "$1"
+    command yt-dlp -F "$@"
 }
 
 function yt_download() {
     if command -v "aria2c" >/dev/null 2>&1; then
-        command yt-dlp --external-downloader aria2c "$1"
+        command yt-dlp --external-downloader aria2c "$@"
     else
-        command yt-dlp "$1"
+        command yt-dlp "$@"
     fi
 }
 
 function yt_download_best() {
     if command -v "aria2c" >/dev/null 2>&1; then
-        command yt-dlp --external-downloader aria2c -f "bestvideo+bestaudio" "$1"
+        command yt-dlp --external-downloader aria2c -f "bestvideo+bestaudio" "$@"
     else
-        command yt-dlp -f "bestvideo+bestaudio" "$1"
+        command yt-dlp -f "bestvideo+bestaudio" "$@"
     fi
 }
 
@@ -32,16 +32,17 @@ function yt_run() {
         exit 1
     fi
     local yt_operation="$1"
-    local yt_url="$2"
+    # 移除第一个位置参数并让后面的参数依次向左移位
+    shift
     case $yt_operation in
     show)
-        yt_show "$yt_url"
+        yt_show "$@"
         ;;
     download)
-        yt_download "$yt_url"
+        yt_download "$@"
         ;;
     best)
-        yt_download_best "$yt_url"
+        yt_download_best "$@"
         ;;
     *)
         echo -e "   \033[35m operation error! \033[0m"

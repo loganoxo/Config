@@ -99,7 +99,7 @@ yt-dlp "https://space.bilibili.com/123456/video"
 yt-dlp -o "%(playlist_index)s - %(title)s.%(ext)s" "https://www.bilibili.com/video/BV1xx4y1t7xx"
 # 跳过已下载文件;避免重复下载
 yt-dlp -i "https://www.bilibili.com/video/BV1xx4y1t7xx"
-# 下载多个同名视频时,使用 autonumber 加序号
-yt-dlp -o "%(title)s-%(autonumber)s.%(ext)s" "url1" "url2" "url3"
+# 下载多个同名视频时,使用 timestamp 加时间戳
+yt-dlp -o "%(title)s-%(timestamp)s.%(ext)s" "url1" "url2" "url3"
 
 ```

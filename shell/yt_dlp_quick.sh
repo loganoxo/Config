@@ -27,7 +27,7 @@ function yt_download_best() {
 }
 
 function yt_run() {
-    if [ "$#" -ne 2 ] || [ -z "$1" ] || [ -z "$2" ]; then
+    if [ "$#" -lt 2 ]; then
         echo -e "   \033[35m args error! \033[0m"
         exit 1
     fi

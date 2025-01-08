@@ -1,4 +1,5 @@
 # yt-dlp
+
 - 自己配置的 alias:
     - `yts <URLs>`  # 显示可下载的视频源
     - `ytb <URLs>`  # 用ariac(如果有的话)下载最佳视频和音频
@@ -33,7 +34,7 @@ ffmpeg -i aaa.mp4 -c copy aaa.mkv
 ## 四、按条件下载
 
 ```shell
-# 目标格式没有音频（通常是 DASH 流分离了音视频, 像youtube的8k视频）,可以下载指定分辨率的视频流和音频流,然后让 yt-dlp 自动合并
+# 目标格式没有音频(通常是 DASH 流分离了音视频, 像youtube的8k视频),可以下载指定分辨率的视频流和音频流,然后让 yt-dlp 自动合并
 # 如果视频和音频是分离的,可以通过这个命令自动合并; 如: 127 是视频的格式编号; 222 是音频的格式编号
 yt-dlp -f "127+222" "https://www.bilibili.com/video/BVxxxxxx"
 # 自动选择包含视频和音频的最佳格式;

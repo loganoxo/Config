@@ -1,6 +1,6 @@
 # yazi
 
-https://yazi-rs.github.io/docs/quick-start
+<https://yazi-rs.github.io/docs/quick-start>
 
 ## 一、[安装](https://yazi-rs.github.io/docs/installation/)
 

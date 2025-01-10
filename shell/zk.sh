@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 # This is controller for start/stop-zk-all.sh .
 set -e
 

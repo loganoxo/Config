@@ -97,6 +97,35 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
 # export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
 
+# GNU 软件包, brew安装后, 默认会在命令前加上g前缀(如gls,gsed,gfind 等),除非按照下面这样配置path,替换掉原始BSD命令
+# =============================================================
+# ls /opt/homebrew/opt/coreutils/libexec/gnubin
+# man -w ls # 查看man命令查找到的ls的文档位置 是不是gnu的
+# export MANPATH="/opt/homebrew/opt/coreutils/libexec/gnuman:$MANPATH"
+# 在现代 man 工具中，MANPATH 环境变量并不是必须的; 如果你没有显式设置 MANPATH，man 会根据 PATH 环境变量推导手册页的位置
+# 如果 PATH 中包含 /opt/homebrew/opt/coreutils/libexec/gnubin
+# 那么 man 会自动尝试查找 /opt/homebrew/opt/coreutils/libexec/gnubin/man/man1/ls.1
+LOGAN_GNU_PATHS=(
+    # ls cat cp mv rm ln pwd wc 等命令的 gnu 版本
+    "/opt/homebrew/opt/coreutils/libexec/gnubin"
+    # find locate updatedb xargs 命令的 gnu 版本
+    "/opt/homebrew/opt/findutils/libexec/gnubin"
+    # tar 命令的 gnu 版本
+    "/opt/homebrew/opt/gnu-tar/libexec/gnubin"
+    # sed 命令的 gnu 版本
+    "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
+    # awk 命令的 gnu 版本
+    "/opt/homebrew/opt/gawk/libexec/gnubin"
+    # grep fgrep egrep 命令的 gnu 版本
+    "/opt/homebrew/opt/grep/libexec/gnubin"
+)
+for logan_gnu_path in "${LOGAN_GNU_PATHS[@]}"; do
+    if [ -d "$logan_gnu_path" ]; then
+        export PATH="$logan_gnu_path:$PATH"
+    fi
+done
+# =============================================================
+
 # maven
 if _logan_if_mac; then
     export MAVEN_HOME=~/Data/Software/apache-maven

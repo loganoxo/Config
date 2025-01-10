@@ -22,7 +22,7 @@ function _safe_trash_function() {
         read -r -n 1 choice # -n 1 等待一个字符输入，不需要回车
         case "$choice" in
         y | Y)
-            /opt/homebrew/bin/trash -F "$item"
+            /opt/homebrew/opt/trash/bin/trash -F "$item"
             echo "   ✅ success"
             ;;
         *) echo "   ❌ cancel" ;;

@@ -33,7 +33,7 @@ function _safe_delete_validate() {
 
     # 检查输入参数是否为空
     if [ $# -eq 0 ]; then
-        echo "!!!error: not trash, need argument"
+        echo "!!!error: not rm, need argument"
         return 1
     fi
 
@@ -41,7 +41,7 @@ function _safe_delete_validate() {
     for item in "$@"; do
         if [[ "$item" == "~" || "$item" == "/" || "$item" == "-" || "$item" == "." || "$item" == "\\" ]]; then
             # 如果条件满足，执行相应的操作
-            echo "!!!error: not trash, $item --Character illegal ."
+            echo "!!!error: not rm, $item --Character illegal ."
             return 1
         fi
     done
@@ -65,14 +65,14 @@ function _safe_delete_validate() {
             parent_path="$(dirname -- "$absolute_item")"
             if [ "$parent_path" = "/" ]; then
                 # /目录下的文件夹不能删除
-                echo "!!!error: not trash, The folders in ' $parent_path ' cannot be trash ."
+                echo "!!!error: not rm, The folders in ' $parent_path ' cannot be rm ."
                 return 1
             fi
         else
             # 如果是文件
             name=$(basename -- "$absolute_item") #去除前面所有目录，到最后一个/截止
             if [[ "$name" == "~" || "$name" == "/" || "$name" == "-" || "$name" == "." || "$item" == "\\" ]]; then
-                echo "!!!error: not trash, $name --Character illegal ."
+                echo "!!!error: not rm, $name --Character illegal ."
                 return 1
             fi
         fi
@@ -83,7 +83,7 @@ function _safe_delete_validate() {
             for important_path in "${important_paths[@]}"; do
                 if [ "$absolute_item" = "$important_path" ] || [ "$absolute_item" = "$important_path/" ]; then
                     # important_paths中定义的目录都不能删除
-                    echo "!!!error: not trash, $important_path is an important path ."
+                    echo "!!!error: not rm, $important_path is an important path ."
                     return 1
                 fi
             done
@@ -101,7 +101,7 @@ function _validate_illegal_character() {
         char="${str:$i:1}"
         # 检查字符是否在非法字符集合中
         if [[ "$char" =~ [\\*{}\!\`\"\'|:] || "$char" == "]" || "$char" == "[" ]]; then
-            echo "!!!error: not trash, Illegal character '$char' found in '$item'."
+            echo "!!!error: not rm, Illegal character '$char' found in '$item'."
             return 1 # 执行失败，返回非零值
         fi
     done

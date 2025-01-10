@@ -56,7 +56,7 @@ alias dops='dops1'
 alias rm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_rm.sh '
 if _logan_if_mac; then
     alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash_mac.sh '
-    alias trash='echo "Do not use this command! Please use xxm! "; false '
+    # alias trash='echo "Do not use this command! Please use xxm! "; false '
 elif _logan_if_linux; then
     alias xxm='/usr/bin/env bash ${__PATH_MY_CNF}/shell/safe_trash_linux.sh '
 fi

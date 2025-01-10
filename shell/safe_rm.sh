@@ -12,8 +12,8 @@ function _safe_rm_function() {
         return 1
     fi
 
-    # 如果都通过检查，执行 /bin/rm 命令
-    /bin/rm "$@"
+    # 如果都通过检查，执行 rm 命令
+    command rm "$@"
 }
 
 # 校验

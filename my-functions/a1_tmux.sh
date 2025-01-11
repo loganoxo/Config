@@ -170,6 +170,9 @@ tmp() {
 }
 
 # 用tmux同时打开多个ssh连接,并开启同步输入
+# 示例文件格式在当前目录的 z_ssh-hosts.txt 文件
+# tm_ssh -f ./z_ssh-hosts.txt
+# tm_ssh helq@172.16.106.110 helq@172.16.106.120
 function tm_ssh() {
     local SSH_ARRAY=()
     local SSH_FILE

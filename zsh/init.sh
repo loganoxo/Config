@@ -106,24 +106,27 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # 如果 PATH 中包含 /opt/homebrew/opt/coreutils/libexec/gnubin
 # 那么 man 会自动尝试查找 /opt/homebrew/opt/coreutils/libexec/gnubin/man/man1/ls.1
 LOGAN_GNU_PATHS=(
+    # 为了防止homebrew等工具在构建过程中出现失败的情况(默认会使用BSD版本的命令选项,与GNU不兼容),以下先注释了,用g前缀吧
     # ls cat cp mv rm ln pwd wc 等命令的 gnu 版本
-    "/opt/homebrew/opt/coreutils/libexec/gnubin"
+    # "/opt/homebrew/opt/coreutils/libexec/gnubin"
     # find locate updatedb xargs 命令的 gnu 版本
-    "/opt/homebrew/opt/findutils/libexec/gnubin"
+    # "/opt/homebrew/opt/findutils/libexec/gnubin"
     # tar 命令的 gnu 版本
-    "/opt/homebrew/opt/gnu-tar/libexec/gnubin"
+    # "/opt/homebrew/opt/gnu-tar/libexec/gnubin"
     # sed 命令的 gnu 版本
-    "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
+    # "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
     # awk 命令的 gnu 版本
-    "/opt/homebrew/opt/gawk/libexec/gnubin"
+    # "/opt/homebrew/opt/gawk/libexec/gnubin"
     # grep fgrep egrep 命令的 gnu 版本
-    "/opt/homebrew/opt/grep/libexec/gnubin"
+    # "/opt/homebrew/opt/grep/libexec/gnubin"
 )
-for logan_gnu_path in "${LOGAN_GNU_PATHS[@]}"; do
-    if [ -d "$logan_gnu_path" ]; then
-        export PATH="$logan_gnu_path:$PATH"
-    fi
-done
+if [[ ${#LOGAN_GNU_PATHS[@]} -gt 0 ]]; then
+    for logan_gnu_path in "${LOGAN_GNU_PATHS[@]}"; do
+        if [ -d "$logan_gnu_path" ]; then
+            export PATH="$logan_gnu_path:$PATH"
+        fi
+    done
+fi
 # =============================================================
 
 # maven

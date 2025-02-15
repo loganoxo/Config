@@ -5,7 +5,8 @@
         "padding": {
             // logo 的位置
             "top": 5,
-            "left": 15
+            "left": 15,
+            "right": 15
         }
     },
     "modules": [

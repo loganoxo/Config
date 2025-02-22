@@ -35,7 +35,7 @@ FZF_BIND_OPTS2=" --bind 'ctrl-y:execute-silent(echo -n {} | pbcopy)' "
 
 FZF_HEADER="C-y:copy C-w:wrap C-s:spin C-l:view Tab:mul C-g:top C-d:down C-u:up "
 # 其他配置: fzf 行号/搜索项数/全部数 ; +S 表示排序模式已启用; (0) 表示当前的多选模式中已选择的条目数
-FZF_INFO_OPTS="--info-command='echo -e \"\$FZF_POS/\$FZF_INFO 💛 $FZF_HEADER \"'"
+FZF_INFO_OPTS="--info-command='echo \"\$FZF_POS/\$FZF_INFO 💛 $FZF_HEADER \"'"
 if _logan_if_linux; then
     # FZF_INFO_OPTS=""
     :

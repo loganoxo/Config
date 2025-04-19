@@ -1,0 +1,24 @@
+{
+    "title": "其他功能性绑定",
+    "rules": [
+        {
+            "description": "Pressing the a,s,d keys simultaneously launches Mission Control",
+            "manipulators": [
+                {
+                    "from": {
+                        "modifiers": { "optional": ["any"] },
+                        "simultaneous": [
+                            { "key_code": "a" },
+                            { "key_code": "s" },
+                            { "key_code": "d" }
+                        ]
+                    },
+                    "to": [
+                        { "apple_vendor_keyboard_key_code": "mission_control" }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        }
+    ]
+}

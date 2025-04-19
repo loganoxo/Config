@@ -95,6 +95,9 @@ done
 # Karabiner-Elements
 ln -sf "${__PATH_MY_CNF}/others/karabiner" "$HOME/.config/karabiner"
 
+# hammerspoon
+ln -sf "${__PATH_MY_CNF}/others/hammerspoon" "$HOME/.hammerspoon"
+
 # tmux
 ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
 

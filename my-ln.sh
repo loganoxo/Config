@@ -73,11 +73,6 @@ fi
 # lsd
 ln -sf "${__PATH_MY_CNF}/others/lsd" "$HOME/.config/lsd"
 
-# others
-ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
-# ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"
-ln -sf "${__PATH_MY_CNF}/others/aria2/aria2.conf" "$HOME/.aria2/aria2.conf"
-
 # yazi
 mkdir -p "$HOME/.config/yazi"
 ln -sf "${__PATH_MY_CNF}/others/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
@@ -96,3 +91,15 @@ for file in "${__PATH_MY_CNF}"/others/navi/*.cheat; do
         ln -sf "$file" "$HOME/.config/navi/$name"
     fi
 done
+
+# Karabiner-Elements
+ln -sf "${__PATH_MY_CNF}/others/karabiner" "$HOME/.config/karabiner"
+
+# tmux
+ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
+
+# ranger
+# ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"
+
+# aria2
+ln -sf "${__PATH_MY_CNF}/others/aria2/aria2.conf" "$HOME/.aria2/aria2.conf"

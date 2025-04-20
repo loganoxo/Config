@@ -1,8 +1,8 @@
 {
-    "title": "其他功能性绑定",
+    "title": "4. 其他功能性绑定",
     "rules": [
         {
-            "description": "Pressing the a,s,d keys simultaneously launches Mission Control",
+            "description": "同时按下 a、s、d 三个按键 打开 Mission Control",
             "manipulators": [
                 {
                     "from": {

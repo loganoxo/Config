@@ -1,5 +1,5 @@
 {
-    "title": "HyperKey 的绑定",
+    "title": "1. HyperKey 的绑定",
     "rules": [
         {
             "description": "长按 CapsLock 变 HyperKey,不修改'修饰键+CapsLock' 和 '短按CapsLock' 的绑定",

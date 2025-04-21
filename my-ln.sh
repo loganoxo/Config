@@ -98,6 +98,10 @@ ln -sf "${__PATH_MY_CNF}/others/karabiner" "$HOME/.config/karabiner"
 # hammerspoon
 ln -sf "${__PATH_MY_CNF}/others/hammerspoon" "$HOME/.hammerspoon"
 
+# uv
+mkdir -p "$HOME/.config/uv"
+ln -sf "${__PATH_MY_CNF}/others/uv/uv.toml" "$HOME/.config/uv/uv.toml"
+
 # tmux
 ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
 

@@ -9,7 +9,7 @@
 
 ```shell
 # yt-dlp 安装
-uv tool install yt-dlp
+brew install yt-dlp
 ```
 
 ## 二、简单下载

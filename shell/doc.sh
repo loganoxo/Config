@@ -15,7 +15,7 @@ FZF_FD_EXCLUDE_OPTS="{.git,.mvn,.idea,.vscode,.sass-cache,node_modules,.DS_Store
 
 function logan_glow_cli_reference() {
     cd "${__PATH_MY_CNF}/cli-reference"
-    glow -p -s dark -w 0
+    glow
 }
 
 function logan_bat_cli_reference() {

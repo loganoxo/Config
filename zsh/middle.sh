@@ -46,3 +46,6 @@ if _logan_if_interactive; then
         fi
     fi
 fi
+
+# 设置glow默认配置文件路径
+export GLOW_CONFIG_HOME="${__PATH_MY_CNF}/others/glow"

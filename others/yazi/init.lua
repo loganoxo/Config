@@ -54,15 +54,15 @@ require("full-border"):setup {
 }
 
 -- 添加git支持-插件: git.yazi
-THEME.git = THEME.git or {}
-THEME.git.added = ui.Style():fg("magenta"):bold()
-THEME.git.untracked = ui.Style():fg("cyan"):bold()
-THEME.git.modified = ui.Style():fg("blue"):bold()
-THEME.git.deleted = ui.Style():fg("red"):bold()
-THEME.git.modified_sign = " M "
-THEME.git.untracked_sign = " ? "
-THEME.git.deleted_sign = " D "
-THEME.git.added_sign = " A "
+th.git = th.git or {}
+th.git.added = ui.Style():fg("magenta"):bold()
+th.git.untracked = ui.Style():fg("cyan"):bold()
+th.git.modified = ui.Style():fg("blue"):bold()
+th.git.deleted = ui.Style():fg("red"):bold()
+th.git.modified_sign = " M "
+th.git.untracked_sign = " ? "
+th.git.deleted_sign = " D "
+th.git.added_sign = " A "
 require("logan-git"):setup({ order = 1 })
 
 -- 显示 starship

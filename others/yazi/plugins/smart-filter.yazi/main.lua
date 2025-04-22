@@ -27,20 +27,20 @@ local function entry()
     while true do
         local value, event = input:recv()
         if event ~= 1 and event ~= 3 then
-            ya.manager_emit("escape", { filter = true })
+            ya.mgr_emit("escape", { filter = true })
             break
         end
 
-        ya.manager_emit("filter_do", { value, smart = true })
+        ya.mgr_emit("filter_do", { value, smart = true })
 
         local h = hovered()
         if h.unique and h.is_dir then
-            ya.manager_emit("escape", { filter = true })
-            ya.manager_emit("enter", {})
+            ya.mgr_emit("escape", { filter = true })
+            ya.mgr_emit("enter", {})
             input = prompt()
         elseif event == 1 then
-            ya.manager_emit("escape", { filter = true })
-            ya.manager_emit(h.is_dir and "enter" or "open", { h.url })
+            ya.mgr_emit("escape", { filter = true })
+            ya.mgr_emit(h.is_dir and "enter" or "open", { h.url })
         end
     end
 end

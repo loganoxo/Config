@@ -1,3 +1,5 @@
+--- https://github.com/yazi-rs/plugins/tree/main/toggle-pane.yazi
+
 --- @since 25.2.26
 --- @sync entry
 

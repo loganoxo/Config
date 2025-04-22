@@ -11,6 +11,14 @@ local selected_files = ya.sync(function()
     return paths
 end)
 
+local function notify(str)
+    ya.notify({
+        title = "Copy-file-contents",
+        content = str,
+        timeout = 3,
+        level = "info"
+    })
+end
 
 -- 判断是否可以被复制
 local function can_copy_to_clipboard(content)
@@ -28,23 +36,7 @@ local function can_copy_to_clipboard(content)
         return false
     end
 
-    -- 检查内容是否包含过多不可打印字符
-    local non_printable = content:gsub("[%g%s]", "") -- 去掉可打印字符和空格后的剩余字符
-    if #non_printable / #content > 0.2 then
-        -- 如果不可打印字符超过 20%，认为是二进制文件，跳过
-        return false
-    end
-
     return true
-end
-
-local function notify(str)
-    ya.notify({
-        title = "Copy-file-contents",
-        content = str,
-        timeout = 3,
-        level = "info"
-    })
 end
 
 local function notify_error(str)
@@ -56,8 +48,18 @@ local function notify_error(str)
     })
 end
 
-
-
+function trim_end_utf8(s)
+    -- 使用 utf8.offset 保证不截断字符
+    local i = #s
+    while i > 0 do
+        local b = s:byte(i)
+        if b ~= 9 and b ~= 10 and b ~= 13 and b ~= 32 then  -- \t, \n, \r, space
+            break
+        end
+        i = i - 1
+    end
+    return s:sub(1, i)
+end
 
 local state_option = ya.sync(function(state, attr)
     return state[attr]
@@ -66,6 +68,7 @@ end)
 local function entry()
     local files = selected_files()
     if #files == 0 then
+        notify_error("No valid file")
         return
     end
 
@@ -84,7 +87,7 @@ local function entry()
         if f then
             local file_content = f:read("*a")
             -- Remove trailing newline before file appending
-            file_content = file_content:gsub("%s+$", "")
+            file_content = trim_end_utf8(file_content)
             text = text .. file_content
             if i < #files then
                 text = text .. append_char

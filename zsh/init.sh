@@ -65,6 +65,15 @@ export TERM=xterm-256color
 # 禁用这个功能,把C-s这个快捷键用来做 tmux 的prefix
 [ -n "$TMUX" ] && stty -ixon
 
+# 默认编辑器
+if [[ -n $SSH_CONNECTION ]]; then
+    # 远程会话
+    export EDITOR='vim'
+else
+    # 本地
+    export EDITOR='vim'
+fi
+
 # mkdir -p "$(bat --config-dir)/themes"
 # wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Latte.tmTheme
 # wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Frappe.tmTheme

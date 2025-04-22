@@ -96,3 +96,24 @@ cargo install lsd
 uv tool install --python 3.11 thefuck
 
 ################################################## End At 2024-12-27 ##################################################
+tm_ssh -f ./ssh-hosts.txt #开启tmux连接虚拟机
+Ctrl-s + Ctrl-t #开启同步
+gpc #拉取最新配置
+
+# 安装yazi
+rustup update
+mkdir -p "$HOME/.config/yazi"
+ln -sf "${__PATH_MY_CNF}/others/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
+ln -sf "${__PATH_MY_CNF}/others/yazi/keymap.toml" "$HOME/.config/yazi/keymap.toml"
+ln -sf "${__PATH_MY_CNF}/others/yazi/theme.toml" "$HOME/.config/yazi/theme.toml"
+ln -sf "${__PATH_MY_CNF}/others/yazi/flavors" "$HOME/.config/yazi/flavors"
+ln -sf "${__PATH_MY_CNF}/others/yazi/init.lua" "$HOME/.config/yazi/init.lua"
+ln -sf "${__PATH_MY_CNF}/others/yazi/plugins" "$HOME/.config/yazi/plugins"
+cargo install --locked yazi-fm yazi-cli
+
+# uv
+mkdir -p "$HOME/.config/uv"
+ln -sf "${__PATH_MY_CNF}/others/uv/uv.toml" "$HOME/.config/uv/uv.toml"
+uv self update #uv升级
+uv tool install toolong  #安装查看日志的工具
+################################################## End At 2025-04-22 ##################################################

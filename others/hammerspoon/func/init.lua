@@ -5,6 +5,7 @@ require("lib.util")
 local logger = require("lib.logger").new("func")
 
 local modules = {
+    "menu",
     "misc",
     "test",
     "reload"

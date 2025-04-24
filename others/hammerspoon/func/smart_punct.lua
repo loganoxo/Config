@@ -1,0 +1,105 @@
+-- 当前输入法为中文时,把一些中文标点替换为英文标点
+-- hs.eventtap 是监听键盘事件,而中文引号是输入法替换之后产生的文本,两者根本不是一回事
+-- 所以 getCharacters() 总是返回你按下的按键(英文引号),和你看到的不一样,是正常的
+
+-- 中文输入法 source id 列表
+ChineseInputMethodIds = {
+    ["com.apple.inputmethod.SCIM.ITABC"] = true,
+    ["com.apple.inputmethod.Pinyin"] = true
+}
+
+-- 符号表
+SmartPunctReplaceMap = {
+    ["\""] = "\"",
+    ["'"] = "'",
+    [","] = ",",
+    ["."] = ".",
+    ["，"] = ",",
+    ["。"] = ".",
+    ["["] = "[",
+    ["]"] = "]",
+    ["「"] = "{",
+    ["」"] = "}",
+    ["【"] = "[",
+    ["】"] = "]",
+    [";"] = ";",
+    [":"] = ":",
+    ["；"] = ";",
+    ["："] = ":",
+    ["!"] = "!",
+    ["?"] = "?",
+    ["！"] = "!",
+    ["？"] = "?",
+    ["`"] = "`",
+    ["·"] = "`",
+    ["~"] = "~",
+    ["～"] = "~",
+    ["-"] = "-",
+    ["("] = "(",
+    [")"] = ")",
+    ["（"] = "(",
+    ["）"] = ")",
+    ["……"] = "^",
+    ["¥"] = "$",
+    ["——"] = "_",
+    ["｜"] = "|",
+
+}
+
+PunctKeyListener = nil
+-- 忽略下一次 keyDown 的标志
+IgnoreNextPunct = nil
+
+-- /opt/homebrew/bin/hs -c 'Smart_Punct_Start()'
+function Smart_Punct_Start()
+    -- 创建一个按键事件监听器
+    if not PunctKeyListener then
+        PunctKeyListener = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
+            local char = event:getCharacters()
+            local repl = SmartPunctReplaceMap[char]
+            local sourceId = hs.keycodes.currentSourceID()
+            -- print("char:", char, "repl:", repl)
+
+            if ChineseInputMethodIds[sourceId] and repl then
+                if IgnoreNextPunct == char then
+                    IgnoreNextPunct = nil
+                    -- print("忽略这次事件,char:" .. char)
+                    return false -- 不拦截，正常放行
+                end
+
+                -- 标记忽略下一次事件（模拟输入用）
+                IgnoreNextPunct = repl
+                hs.eventtap.keyStrokes(repl) -- 模拟英文符号输入
+                -- print("模拟输入,repl:", repl)
+                return true                  -- 阻止原始输入
+            end
+            return false                     -- 允许其他按键事件
+        end)
+    end
+
+    -- 启动监听器
+    if not PunctKeyListener:isEnabled() then
+        PunctKeyListener:start()
+    end
+end
+
+-- /opt/homebrew/bin/hs -c 'Smart_Punct_Stop()'
+function Smart_Punct_Stop()
+    if PunctKeyListener then
+        PunctKeyListener:stop()
+        PunctKeyListener = nil
+        IgnoreNextPunct = nil
+    end
+end
+
+-- /opt/homebrew/bin/hs -c 'Smart_Punct_Status()'
+function Smart_Punct_Status()
+    if PunctKeyListener and PunctKeyListener:isEnabled() then
+        return 1
+    else
+        return 0
+    end
+end
+
+-- 自启动
+Smart_Punct_Start()

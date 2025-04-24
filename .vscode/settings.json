@@ -1,4 +1,12 @@
 {
-    "cSpell.words": ["hammerspoon", "urlevent"],
+    "cSpell.words": [
+        "eventtap",
+        "hammerspoon",
+        "inputmethod",
+        "ITABC",
+        "punct",
+        "SCIM",
+        "urlevent"
+    ],
     "Lua.diagnostics.globals": ["hs", "spoon"]
 }

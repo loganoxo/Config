@@ -5,8 +5,10 @@ require("lib.util")
 local logger = require("lib.logger").new("func")
 
 local modules = {
-    "menu",
     "misc",
+    "show_app_id",
+    "smart_punct",
+    "clipboard_punct",
     "test",
     "reload"
 }

@@ -86,6 +86,7 @@ function Smart_Punct_Start()
     -- 启动监听器
     if not PunctKeyListener:isEnabled() then
         PunctKeyListener:start()
+        LOGAN_ALERT("智能标点已开启")
     end
 end
 
@@ -95,6 +96,7 @@ function Smart_Punct_Stop()
         PunctKeyListener:stop()
         PunctKeyListener = nil
         IgnoreNextPunct = nil
+        LOGAN_ALERT("智能标点已关闭")
     end
 end
 

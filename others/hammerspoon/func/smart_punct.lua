@@ -1,6 +1,14 @@
--- 当前输入法为中文时,把一些中文标点替换为英文标点
--- hs.eventtap 是监听键盘事件,而中文引号是输入法替换之后产生的文本,两者根本不是一回事
--- 所以 getCharacters() 总是返回你按下的按键(英文引号),和你看到的不一样,是正常的
+-- author: Logan
+-- date: 2025-04-24
+-- desc: 智能标点
+-- 说明: 在中文输入法下，自动将中文标点替换为英文标点
+-- 参考:
+--      hs.eventtap 是监听键盘事件,而中文引号是输入法替换之后产生的文本,两者根本不是一回事
+--      所以 getCharacters() 总是返回你按下的按键(英文引号),和你看到的不一样,是正常的
+-- 使用:
+-- 开启:    /opt/homebrew/bin/hs -c 'Smart_Punct_Start()'
+-- 关闭:    /opt/homebrew/bin/hs -c 'Smart_Punct_Stop()'
+-- 状态:    /opt/homebrew/bin/hs -c 'Smart_Punct_Status()'
 
 -- 中文输入法 source id 列表
 ChineseInputMethodIds = {

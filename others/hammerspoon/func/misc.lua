@@ -1,8 +1,11 @@
 -- 1、模拟键盘粘贴; 一些程序和网站非常努力地阻止你粘贴文本;发出伪造的键盘事件来输入剪贴板内容绕过这个问题
-hs.hotkey.bind(HYPER_KEY, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
+hs.hotkey.bind(HYPER_KEY, "V", function()
+    hs.eventtap.keyStrokes(hs.pasteboard.getContents())
+end)
 
 -- 2、激活Finder时,自动使所有Finder窗口在前面
-FinderWatcher = hs.application.watcher.new(function(appName, eventType, appObject)
+ApplicationWatcherSubscribeAppend("FinderWatcher", function(appName, eventType, appObject)
+    -- LOGAN_ALERT("FinderWatcher")
     -- 监听应用程序的激活事件
     if (eventType == hs.application.watcher.activated) then
         if (appObject:bundleID() == "com.apple.finder") then
@@ -16,7 +19,7 @@ FinderWatcher = hs.application.watcher.new(function(appName, eventType, appObjec
         end
     end
 end)
-FinderWatcher:start()
+ApplicationWatcherStart()
 
 
 -- 3、外部提示(URL方式)
@@ -28,4 +31,40 @@ hs.urlevent.bind("ExternalAlertUrl", function(eventName, params)
     LOGAN_ALERT(msg)
 end)
 
+-- 4、显示当前App的详细信息的快捷键
+hs.hotkey.bind(HYPER_KEY, "P", function()
+    local win = hs.window.focusedWindow()
+    local app = win:application()
+    local str = "App name:      " .. app:name() .. "\n"
+        .. "App path:      " .. app:path() .. "\n"
+        .. "App bundle:    " .. app:bundleID() .. "\n"
+        .. "App pid:       " .. app:pid() .. "\n"
+        .. "Win title:     " .. win:title() .. "\n"
+        .. "输入法ID:       " .. hs.keycodes.currentSourceID() .. "\n"
+    hs.pasteboard.setContents(str)
+    LOGAN_ALERT_BOTTOM(str, 10)
+end)
+
+-- 5、Option+A 快捷键打开bob翻译窗口时,自动切换输入法到中文
+local Pinyin = 'com.apple.inputmethod.SCIM.ITABC'
+hs.hotkey.bind({ "alt" }, "A", function()
+    local currentSourceID = hs.keycodes.currentSourceID()
+    -- 切换到中文输入法
+    if currentSourceID ~= Pinyin then
+        hs.timer.doAfter(0.2, function()
+            hs.keycodes.currentSourceID(Pinyin)
+        end)
+    end
+    -- 启动bob
+    local js = [[
+        bob = Application("com.hezongyidev.Bob")
+        bob.request(JSON.stringify({
+            "path": "translate",
+            "body": {
+                "action": "showWindow",
+            }
+        }))
+    ]]
+    hs.osascript.javascript(js)
+end)
 

@@ -1,14 +1,16 @@
 -- ~/.hammerspoon/func/init.lua
 -- 所有模块统一加载点
-
-require("lib.util")
-local logger = require("lib.logger").new("func")
+local logger = NewLogger("func")
 
 local modules = {
+    "modal",
     "misc",
-    "show_app_id",
+    "show_information",
     "smart_punct",
     "clipboard_punct",
+    "auto_switch_input_method",
+    "input_method_indicator",
+    "window",
     "test",
     "reload"
 }

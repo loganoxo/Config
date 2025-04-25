@@ -58,8 +58,7 @@ PunctKeyListener = nil
 -- 忽略下一次 keyDown 的标志
 IgnoreNextPunct = nil
 
--- /opt/homebrew/bin/hs -c 'Smart_Punct_Start()'
-function Smart_Punct_Start()
+function SmartPunctInit()
     -- 创建一个按键事件监听器
     if not PunctKeyListener then
         PunctKeyListener = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
@@ -94,8 +93,13 @@ function Smart_Punct_Start()
     -- 启动监听器
     if not PunctKeyListener:isEnabled() then
         PunctKeyListener:start()
-        LOGAN_ALERT("智能标点已开启")
     end
+end
+
+-- /opt/homebrew/bin/hs -c 'Smart_Punct_Start()'
+function Smart_Punct_Start()
+    SmartPunctInit()
+    LOGAN_ALERT("智能标点已开启")
 end
 
 -- /opt/homebrew/bin/hs -c 'Smart_Punct_Stop()'
@@ -118,4 +122,4 @@ function Smart_Punct_Status()
 end
 
 -- 自启动
-Smart_Punct_Start()
+SmartPunctInit()

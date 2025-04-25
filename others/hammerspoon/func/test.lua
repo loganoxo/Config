@@ -112,5 +112,25 @@ local function test_menu2()
     })
 end
 
+-- 9、创建/管理模态键盘快捷键环境
+local function test_modal()
+    k = hs.hotkey.modal.new('cmd-shift', 'd')
+    function k:entered() hs.alert 'Entered mode' end
+
+    function k:exited() hs.alert 'Exited mode' end
+
+    k:bind('', 'escape', function() k:exit() end)
+    k:bind('', 'J', 'Pressed J', function() print 'let the record show that J was pressed' end)
+end
+
 -- 测试
-test_alert()
+-- test_alert()
+
+
+local function test_alert2()
+    hs.hotkey.bind({ "cmd", "ctrl", "alt", "shift" }, "/", function()
+        hs.alert.show("Hello World!")
+    end)
+end
+
+test_alert2()

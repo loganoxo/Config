@@ -54,4 +54,3 @@ hs.hotkey.bind({ "alt" }, "A", function()
 
     hs.osascript.javascript(js)
 end)
-

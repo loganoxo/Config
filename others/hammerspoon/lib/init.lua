@@ -1,6 +1,7 @@
 -- ~/.hammerspoon/lib/init.lua
 
 local modules = {
+    "spoon",
     "util",
     "whenActive"
 }

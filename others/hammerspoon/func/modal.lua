@@ -16,6 +16,9 @@ local function reInit()
     ModalMgr.min_width = 700
     ModalMgr.min_height = 400
 
+    ModalMgr.alignmentRightColumn = 'right'
+    ModalMgr.fillByRow = true
+
     -- 主窗口(模态)
     ModalMgr.supervisor = hs.hotkey.modal.new(hsupervisor_keys[1], hsupervisor_keys[2], '进入主窗口')
     ModalMgr.supervisor:bind(hsupervisor_keys[1], hsupervisor_keys[2], "👋 退出主窗口", function()
@@ -85,7 +88,7 @@ local function showAppInformation()
     hs.pasteboard.setContents(str)
     LOGAN_ALERT_BOTTOM(str, 10)
 end
-ModalMgr.supervisor:bind("ctrl", "P", "🟢 显示当前App的详细信息", function()
+ModalMgr.supervisor:bind("ctrl", "P", "🟢 显示当前App的信息(hyperKey + P)", function()
     ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
     showAppInformation()
     ModalMgr.supervisor:enter() -- 重新进入主模态
@@ -119,5 +122,13 @@ end
 ModalMgr.supervisor:bind("ctrl", "F", "🟢 开启/关闭专注模式", function()
     ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
     toggleFocusMode()
+    ModalMgr.supervisor:exit() -- 直接退出主模态
+end)
+
+-- 3、应用程序菜单搜索窗
+local MC = hs.loadSpoon("MenuChooser")
+ModalMgr.supervisor:bind("ctrl", "M", "🟢 应用程序菜单搜索窗", function()
+    ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
+    MC.chooseMenuItem()
     ModalMgr.supervisor:exit() -- 直接退出主模态
 end)

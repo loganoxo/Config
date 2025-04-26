@@ -95,5 +95,29 @@ hs.hotkey.bind(HYPER_KEY, "P", function()
     showAppInformation()
 end)
 
-
-
+-- 2、专注模式
+local fhl = hs.loadSpoon("FocusHighlight")
+local function toggleFocusMode()
+    if hs.settings.get("focusModeEnable") then
+        -- hs.window.highlight.stop()
+        fhl:stop()
+        hs.settings.set("focusModeEnable", false)
+    else
+        -- hs.window.highlight.ui.overlay = true
+        -- hs.window.highlight.ui.flashDuration = 0.1
+        -- hs.window.highlight.start()
+        fhl.color = "#f9bc34"
+        fhl.windowFilter = hs.window.filter.default
+        fhl.arrowSize = 128
+        fhl.arrowFadeOutDuration = 1
+        fhl.highlightFadeOutDuration = 2
+        fhl.highlightFillAlpha = 0.3
+        fhl:start()
+        hs.settings.set("focusModeEnable", true)
+    end
+end
+ModalMgr.supervisor:bind("ctrl", "F", "🟢 开启/关闭专注模式", function()
+    ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
+    toggleFocusMode()
+    ModalMgr.supervisor:exit() -- 直接退出主模态
+end)

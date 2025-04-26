@@ -73,10 +73,10 @@ local function window_resize()
         local f = win:frame()
         local screen = win:screen()
         local max = screen:frame()
-        f.x = max.x + 15
-        f.y = max.y
-        f.w = max.w - 100
-        f.h = max.h - 10
+        f.x = max.x + 2
+        f.y = max.y + 2
+        f.w = max.w - 70
+        f.h = max.h - 5
         win:setFrame(f)
     end)
 end

@@ -31,21 +31,7 @@ hs.urlevent.bind("ExternalAlertUrl", function(eventName, params)
     LOGAN_ALERT(msg)
 end)
 
--- 4、显示当前App的详细信息的快捷键
-hs.hotkey.bind(HYPER_KEY, "P", function()
-    local win = hs.window.focusedWindow()
-    local app = win:application()
-    local str = "App name:      " .. app:name() .. "\n"
-        .. "App path:      " .. app:path() .. "\n"
-        .. "App bundle:    " .. app:bundleID() .. "\n"
-        .. "App pid:       " .. app:pid() .. "\n"
-        .. "Win title:     " .. win:title() .. "\n"
-        .. "输入法ID:       " .. hs.keycodes.currentSourceID() .. "\n"
-    hs.pasteboard.setContents(str)
-    LOGAN_ALERT_BOTTOM(str, 10)
-end)
-
--- 5、Option+A 快捷键打开bob翻译窗口时,自动切换输入法到中文
+-- 4、Option+A 快捷键打开bob翻译窗口时,自动切换输入法到中文
 local Pinyin = 'com.apple.inputmethod.SCIM.ITABC'
 hs.hotkey.bind({ "alt" }, "A", function()
     local currentSourceID = hs.keycodes.currentSourceID()
@@ -61,10 +47,11 @@ hs.hotkey.bind({ "alt" }, "A", function()
         bob.request(JSON.stringify({
             "path": "translate",
             "body": {
-                "action": "showWindow",
+                "action": "inputTranslate",
             }
         }))
     ]]
+
     hs.osascript.javascript(js)
 end)
 

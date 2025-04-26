@@ -11,6 +11,7 @@ local modules = {
     "auto_switch_input_method",
     "input_method_indicator",
     "window",
+    "app_sheet",
     "test",
     "reload"
 }

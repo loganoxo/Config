@@ -96,11 +96,13 @@ local function test_menu2()
         hs.alert.show("clicked!")
     end)
     menu:setMenu({
-        { title = "my menu item",  fn = function() LOGAN_ALERT("you clicked my menu item!") end },
+        { title = "my menu item", fn = function()
+            LOGAN_ALERT("you clicked my menu item!")
+        end },
         { title = "-" },
         { title = "other item" },
         { title = "disabled item", disabled = true },
-        { title = "checked item",  checked = true },
+        { title = "checked item", checked = true },
         {
             title = "切换外观",
             menu = {
@@ -115,22 +117,22 @@ end
 -- 9、创建/管理模态键盘快捷键环境
 local function test_modal()
     k = hs.hotkey.modal.new('cmd-shift', 'd')
-    function k:entered() hs.alert 'Entered mode' end
+    function k:entered()
+        hs.alert 'Entered mode'
+    end
 
-    function k:exited() hs.alert 'Exited mode' end
+    function k:exited()
+        hs.alert 'Exited mode'
+    end
 
-    k:bind('', 'escape', function() k:exit() end)
-    k:bind('', 'J', 'Pressed J', function() print 'let the record show that J was pressed' end)
+    k:bind('', 'escape', function()
+        k:exit()
+    end)
+    k:bind('', 'J', 'Pressed J', function()
+        print 'let the record show that J was pressed'
+    end)
 end
 
 -- 测试
 -- test_alert()
 
-
-local function test_alert2()
-    hs.hotkey.bind({ "cmd", "ctrl", "alt", "shift" }, "/", function()
-        hs.alert.show("Hello World!")
-    end)
-end
-
-test_alert2()

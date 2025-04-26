@@ -163,24 +163,20 @@ end)
 WindowKeyEventListener:start()
 
 
--- Modal模式(窗口移动)
+--- Modal模式(窗口移动)
 -- 定义一个新的 modal 环境，命名为 "winModal"
 ModalMgr:new("winModal")
 
 -- 获取名为 "winModal" 的 modal 环境对象
 local winModal = ModalMgr.modal_list["winModal"]
--- winModal.entered = function() hs.alert.show("✅ 进入 窗口 模式") end
--- winModal.exited = function() hs.alert.show("👋 退出 窗口 模式") end
--- 绑定快捷键：在 "winModal" 模式下，按下 'escape' 键退出该模式
+-- 绑定快捷键
+ModalMgr.supervisor:bind("ctrl", "W", "🟢 进入窗口模式", function()
+    ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
+    ModalMgr:activate({ "winModal" }, "#FFBD2E", true) -- 激活名为 "winModal" 的 modal 模式,并设置右下角圆形的填充颜色,并直接显示快捷键面板
+end)
 winModal:bind("", "escape", "👋 退出窗口模式", function()
     ModalMgr:deactivate({ "winModal" })
-end)
-
--- 绑定快捷键：在主模式下，按下 'W' 键进入 "winModal" 模式
-ModalMgr.supervisor:bind("", "W", "✅ 进入窗口模式", function()
-    ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
-    -- ModalMgr:activate({ "winModal" }, "#FFBD2E") -- 激活名为 "winModal" 的 modal 模式,并设置提示框颜色
-    ModalMgr:activate({ "winModal" }, "#FFBD2E", true)
+    ModalMgr.supervisor:enter() -- 重新进入主模态
 end)
 
 -- 窗口移动绑定快捷键

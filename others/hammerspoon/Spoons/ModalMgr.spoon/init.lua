@@ -32,27 +32,25 @@ obj.alignmentRightColumn = 'right'
 obj.fillByRow = false
 
 function obj:init()
-    hsupervisor_keys = hsupervisor_keys or { { "cmd", "shift", "ctrl" }, "Q" }
+    hsupervisor_keys = hsupervisor_keys or {{"cmd", "shift", "ctrl"}, "Q"}
     obj.supervisor = hs.hotkey.modal.new(hsupervisor_keys[1], hsupervisor_keys[2], 'Initialize Modal Environment')
-    obj.supervisor:bind(hsupervisor_keys[1], hsupervisor_keys[2], "Reset Modal Environment",
-        function() obj.supervisor:exit() end)
-    hshelp_keys = hshelp_keys or { { "alt", "shift" }, "/" }
-    obj.supervisor:bind(hshelp_keys[1], hshelp_keys[2], "Toggle Help Panel",
-        function() obj:toggleCheatsheet({ all = obj.supervisor }) end)
-    obj.modal_tray = hs.canvas.new({ x = 0, y = 0, w = 0, h = 0 })
+    obj.supervisor:bind(hsupervisor_keys[1], hsupervisor_keys[2], "Reset Modal Environment", function() obj.supervisor:exit() end)
+    hshelp_keys = hshelp_keys or {{"alt", "shift"}, "/"}
+    obj.supervisor:bind(hshelp_keys[1], hshelp_keys[2], "Toggle Help Panel", function() obj:toggleCheatsheet({all=obj.supervisor}) end)
+    obj.modal_tray = hs.canvas.new({x = 0, y = 0, w = 0, h = 0})
     obj.modal_tray:level(hs.canvas.windowLevels.tornOffMenu)
     obj.modal_tray[1] = {
         type = "circle",
         action = "fill",
-        fillColor = { hex = "#FFFFFF", alpha = 0.7 },
+        fillColor = {hex = "#FFFFFF", alpha = 0.7},
     }
-    obj.which_key = hs.canvas.new({ x = 0, y = 0, w = 0, h = 0 })
+    obj.which_key = hs.canvas.new({x = 0, y = 0, w = 0, h = 0})
     obj.which_key:level(hs.canvas.windowLevels.tornOffMenu)
     obj.which_key[1] = {
         type = "rectangle",
         action = "fill",
-        fillColor = { hex = "#EEEEEE", alpha = 0.95 },
-        roundedRectRadii = { xRadius = 10, yRadius = 10 },
+        fillColor = {hex = "#EEEEEE", alpha = 0.95},
+        roundedRectRadii = {xRadius = 10, yRadius = 10},
     }
 end
 
@@ -67,60 +65,62 @@ function obj:new(id)
     obj.modal_list[id] = hs.hotkey.modal.new()
 end
 
+
 -- this function draws the text on the window
 --
 -- by default, it fills by row
 -- but it can be customized to fill by column
 function insertIntoSheet(position, st, row, column, n)
-    local textAlign = "left"
-    local xpos
-    local ypos
-    -- height available for one item, in percentage
-    -- add one for a small margin of at least 1/2 element at the bottom
-    local h = 100 / (math.ceil(n * 1.0 / 2) + 1)
-    local w = "47%"
-    local xposLeft = "3%"
-    local xposRight = "50%"
-    if obj.fillByRow then
-        if position % 2 == 1 then
-            xpos = xposLeft
-            ypos = tostring(math.floor(h * position / 2)) .. "%"
-        else
-            -- this one goes to the right
-            textAlign = obj.alignmentRigthColumn
-            xpos = xposRight
-            ypos = tostring(math.floor(h * (position - 1) / 2)) .. "%"
-        end
-    else
-        local actualPos
-        if position > math.ceil(n / 2) then
-            -- this one goes to the right
-            textAlign = obj.alignmentRightColumn
-            xpos = xposRight
-            actualPos = position - math.ceil(n * 1.0 / 2)
-        else
-            xpos = xposLeft
-            actualPos = position
-        end
-        ypos = tostring(math.floor(actualPos * h)) .. "%"
-    end
+   local textAlign = "left"
+   local xpos
+   local ypos
+   -- height available for one item, in percentage
+   -- add one for a small margin of at least 1/2 element at the bottom
+   local h = 100 / (math.ceil(n*1.0/2) + 1)
+   local w = "47%"
+   local xposLeft = "3%"
+   local xposRight = "50%"
+   if obj.fillByRow then
+      if position %2 == 1 then
+         xpos = xposLeft
+         ypos = tostring(math.floor(h * position / 2)) .. "%"
+      else
+         -- this one goes to the right
+         textAlign =  obj.alignmentRigthColumn
+         xpos = xposRight
+         ypos = tostring(math.floor(h * (position-1) / 2)) .. "%"
+      end
+   else
+      local actualPos
+      if position > math.ceil(n / 2) then
+         -- this one goes to the right
+         textAlign =  obj.alignmentRightColumn
+         xpos = xposRight
+         actualPos = position - math.ceil(n*1.0/2)
+      else
+         xpos = xposLeft
+         actualPos = position
+      end
+      ypos = tostring(math.floor(actualPos * h)) .. "%"
+   end
 
-    --   print(ypos, n, h)
-    obj.which_key[position + 1] = {
-        type = "text",
-        text = st,
-        textFont = "Courier-Bold",
-        textSize = 16,
-        textColor = { hex = "#2390FF", alpha = 1 },
-        textAlignment = textAlign,
-        frame = {
-            x = xpos,
-            y = ypos,
-            --         w = tostring((1 - 80 / (cres.w / 5 * 3)) / 2),
-            w = w,
-            h = tostring(math.floor(h)) .. "%"
-        }
-    }
+--   print(ypos, n, h)
+   obj.which_key[position + 1] = {
+      type = "text",
+      text = st,
+      textFont = "Courier-Bold",
+      textSize = 16,
+      textColor = {hex = "#2390FF", alpha = 1},
+      textAlignment = textAlign,
+      frame = {
+         x = xpos,
+         y = ypos,
+         --         w = tostring((1 - 80 / (cres.w / 5 * 3)) / 2),
+         w = w,
+         h = tostring(math.floor(h)) .. "%"
+      }
+   }
+
 end
 
 --- ModalMgr:toggleCheatsheet([idList], [force])
@@ -138,13 +138,13 @@ function obj:toggleCheatsheet(iterList, force)
         local cscreen = hs.screen.mainScreen()
         local cres = cscreen:fullFrame()
 
-        local framew = math.max(math.floor(cres.w * obj.width_factor), obj.min_width)
-        local frameh = math.max(math.floor(cres.h * obj.height_factor), obj.min_height)
+        local framew = math.max(math.floor(cres.w  * obj.width_factor),obj.min_width)
+        local frameh = math.max(math.floor(cres.h  * obj.height_factor), obj.min_height)
         obj.which_key:frame({
-            w = framew,
-            h = frameh,
-            x = cres.x + (cres.w - framew) / 2,
-            y = cres.y + (cres.h - frameh) / 2
+              w = framew,
+              h = frameh,
+              x = cres.x + (cres.w - framew) /2,
+              y = cres.y + (cres.h - frameh) /2
         })
         local keys_pool = {}
         local tmplist = iterList or obj.active_list
@@ -163,9 +163,9 @@ function obj:toggleCheatsheet(iterList, force)
         end
         --        if obj.orderByColumn then
         if true then
-            for idx, val in ipairs(keys_pool) do
-                insertIntoSheet(idx, val, idx, 0, #keys_pool)
-            end
+           for idx, val in ipairs(keys_pool) do
+              insertIntoSheet(idx,val, idx, 0, #keys_pool)
+           end
         end
         obj.which_key:show()
     end
@@ -189,12 +189,12 @@ function obj:activate(idList, trayColor, showKeys)
         local cscreen = hs.screen.mainScreen()
         local cres = cscreen:fullFrame()
         obj.modal_tray:frame({
-            x = cres.w - math.ceil(cres.w / 32),
-            y = cres.h - math.ceil(cres.w / 32),
-            w = math.ceil(cres.w / 32 / 2),
-            h = math.ceil(cres.w / 32 / 2)
+            x = cres.w - math.ceil(cres.w / 16),
+            y = cres.h - math.ceil(cres.w / 16),
+            w = math.ceil(cres.w / 16 / 2),
+            h = math.ceil(cres.w / 16 / 2)
         })
-        obj.modal_tray[1].fillColor = { hex = trayColor, alpha = 0.7 }
+        obj.modal_tray[1].fillColor = {hex = trayColor, alpha = 0.8}
         obj.modal_tray:show()
     end
     if showKeys then
@@ -232,8 +232,8 @@ function obj:deactivateAll()
     local i = 1
     local tab = {}
     for k, _ in pairs(obj.active_list) do
-        tab[i] = k
-        i = i + 1
+      tab[i] = k
+      i = i + 1
     end
     obj:deactivate(tab)
 end

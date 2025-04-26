@@ -70,6 +70,7 @@ end
 -- 退出主模态时
 ModalMgr.supervisor.exited = function()
     ModalMgr:deactivateAll()
+    LOGAN_ALERT("主模态已退出", 5)
 end
 
 

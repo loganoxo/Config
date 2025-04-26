@@ -1,5 +1,6 @@
 -- 加载 ModalMgr 模块
 ModalMgr = hs.loadSpoon("ModalMgr")
+ModalSupervisorEnable = false
 
 local mainTrayColor = "#FF0000"
 local backgroundColor = "#000000"
@@ -20,8 +21,8 @@ local function reInit()
     ModalMgr.fillByRow = true
 
     -- 主窗口(模态)
-    ModalMgr.supervisor = hs.hotkey.modal.new(hsupervisor_keys[1], hsupervisor_keys[2], '进入主窗口')
-    ModalMgr.supervisor:bind(hsupervisor_keys[1], hsupervisor_keys[2], "👋 退出主窗口", function()
+    ModalMgr.supervisor = hs.hotkey.modal.new(hsupervisor_keys[1], hsupervisor_keys[2], '进入主模态')
+    ModalMgr.supervisor:bind(hsupervisor_keys[1], hsupervisor_keys[2], "👋 退出主模态", function()
         ModalMgr.supervisor:exit()
     end)
 
@@ -65,14 +66,26 @@ end
 -- 进入主模态时
 ModalMgr.supervisor.entered = function()
     ShowMainModal()
+    ModalSupervisorEnable = true
 end
 
 -- 退出主模态时
 ModalMgr.supervisor.exited = function()
     ModalMgr:deactivateAll()
+    ModalSupervisorEnable = false
     LOGAN_ALERT("主模态已退出", 5)
 end
 
+-- 右option键+A 进入或退出主模态
+LeftRightHotkey:bind({ "rAlt" }, "A", function()
+    if ModalSupervisorEnable then
+        ModalMgr.supervisor:exit()
+        LOGAN_ALERT("退出主模态", 2)
+    else
+        LOGAN_ALERT("进入主模态", 2)
+        ModalMgr.supervisor:enter()
+    end
+end)
 
 --------------  以下为主模态中可以执行的快捷键
 

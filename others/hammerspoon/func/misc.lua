@@ -1,5 +1,5 @@
 -- 1、模拟键盘粘贴; 一些程序和网站非常努力地阻止你粘贴文本;发出伪造的键盘事件来输入剪贴板内容绕过这个问题
-hs.hotkey.bind(HYPER_KEY, "V", function()
+hs.hotkey.bind(HYPER_KEY, "V", "模拟键盘粘贴", function()
     hs.eventtap.keyStrokes(hs.pasteboard.getContents())
 end)
 
@@ -33,7 +33,7 @@ end)
 
 -- 4、Option+A 快捷键打开bob翻译窗口时,自动切换输入法到中文
 local Pinyin = 'com.apple.inputmethod.SCIM.ITABC'
-hs.hotkey.bind({ "alt" }, "A", function()
+hs.hotkey.bind({ "alt" }, "A", "bob", function()
     local currentSourceID = hs.keycodes.currentSourceID()
     -- 切换到中文输入法
     if currentSourceID ~= Pinyin then

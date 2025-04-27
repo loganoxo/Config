@@ -1,15 +1,15 @@
+-- 快捷键写在load前
+hsupervisor_keys = { HYPER_KEY, "0" } -- 设置 supervisor(主模态) 激活快捷键
+hshelp_keys = { "ctrl", "/" }         -- 设置切换帮助面板的快捷键
+
 -- 加载 ModalMgr 模块
 ModalMgr = hs.loadSpoon("ModalMgr")
 ModalSupervisorEnable = false
-
 local mainTrayColor = "#FF0000"
 local backgroundColor = "#000000"
 
 -- 重新初始化
 local function reInit()
-    hsupervisor_keys = { HYPER_KEY, "0" } -- 设置 supervisor(主模态) 激活快捷键
-    hshelp_keys = { "ctrl", "/" }         -- 设置切换帮助面板的快捷键
-
     -- 面板宽高占屏幕的比例
     ModalMgr.width_factor = 0.50
     ModalMgr.height_factor = 0.40
@@ -108,7 +108,7 @@ ModalMgr.supervisor:bind("ctrl", "P", "🟢 显示当前App的信息(hyperKey + 
     ModalMgr.supervisor:enter() -- 重新进入主模态
 end)
 -- 额外绑定一个非模态下的快捷键
-hs.hotkey.bind(HYPER_KEY, "P", function()
+hs.hotkey.bind(HYPER_KEY, "P", "显示当前App的信息", function()
     showAppInformation()
 end)
 
@@ -146,3 +146,22 @@ ModalMgr.supervisor:bind("ctrl", "M", "🟢 应用程序菜单搜索窗", functi
     MC.chooseMenuItem()
     ModalMgr.supervisor:exit() -- 直接退出主模态
 end)
+
+-- 4、显示注册的所有快捷键
+local HSKeybindings = hs.loadSpoon("HSKeybindings")
+ModalMgr:new("hSKeybindingsModal")
+local hSKeybindingsModal = ModalMgr.modal_list["hSKeybindingsModal"]
+ModalMgr.supervisor:bind("ctrl", "H", "🟢 显示注册的所有快捷键", function()
+    ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
+    ModalMgr:activate({ "hSKeybindingsModal" }, "#166678")
+end)
+hSKeybindingsModal:bind("", "escape", "👋 退出显示", function()
+    ModalMgr:deactivate({ "hSKeybindingsModal" })
+    ModalMgr.supervisor:enter() -- 重新进入主模态
+end)
+hSKeybindingsModal.entered = function()
+    HSKeybindings:show()
+end
+hSKeybindingsModal.exited = function()
+    HSKeybindings:hide()
+end

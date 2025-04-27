@@ -1,8 +1,42 @@
 # Evolution
 
-![image.png|500](./img/Evolution.png)
+![|500](./img/Evolution1.png#inl)![|500](./img/Evolution2.png#inl)
 
-##  1、剪切板标点  
+##  1、自动输入法  
+
+![image.png|500](./img/自动输入法.png)
+
+```shell
+# 开启(shell)
+/opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStart()'
+
+# 关闭(shell)
+/opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStop()'
+
+# 状态(shell)
+/opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
+
+# 输出 1
+```
+
+##  2、输入法监视器
+
+![image.png|500](./img/输入法监视器.png)
+
+```shell
+# 开启(shell)
+/opt/homebrew/bin/hs -c 'MyInputMethodIndicatorStart()'
+
+# 关闭(shell)
+/opt/homebrew/bin/hs -c 'MyInputMethodIndicatorStop()'
+
+# 状态(shell)
+/opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
+
+# 输出 1
+```
+
+##  3、剪切板标点
 
 ![image.png|500](./img/剪切板标点.png)
 
@@ -10,7 +44,7 @@
 /opt/homebrew/bin/hs -c 'Clipboard_Punct()'
 ```
 
-## 2、智能标点
+## 4、智能标点
 
 ![image.png|500](./img/智能标点.png)
 
@@ -27,24 +61,64 @@
 # 输出 1
 ```
 
-## 3、显示应用ID
+## 5、显示各种信息
 
-![image.png|500](./img/显示应用ID.png)
+![image.png|500](./img/显示各种信息.png)
 
 ```shell
 # 开启(shell)
-open -g 'hammerspoon://ShowAppBundleID?enable=true'
+/opt/homebrew/bin/hs -c 'ShowInformationStart()'
 
 # 关闭(shell)
-open -g 'hammerspoon://ShowAppBundleID?enable=false'
+/opt/homebrew/bin/hs -c 'ShowInformationStop()'
 
 # 状态(shell)
-/opt/homebrew/bin/hs -c 'ReturnShowAppBundleIDFlag()'
+/opt/homebrew/bin/hs -c 'ShowInformationStatus()'
 
 # 输出 1
 ```
 
-## 4、低电量模式
+## 6、台前调度
+
+![image.png|500](./img/台前调度.png)
+
+```shell
+
+# 开启(shell)
+defaults write com.apple.WindowManager GloballyEnabled -bool true
+
+# 关闭(shell)
+defaults write com.apple.WindowManager GloballyEnabled -bool false
+
+# 状态(shell)
+defaults read com.apple.windowManager GloballyEnabled
+
+# 输出 1
+```
+
+## 7、获取网络信息
+
+![image.png|500](./img/获取网络信息.png)
+
+```shell
+tell application "Shortcuts Events"
+    run shortcut "IP-Address-Information"
+end tell
+```
+
+## 8、刷新DNS缓存
+
+![image.png|500](./img/刷新DNS缓存.png)
+
+```shell
+
+tell application "Shortcuts Events"
+    run shortcut "Flush-DNS-Cache"
+end tell
+
+```
+
+## 9、低电量模式
 
 ![image.png|500](./img/低电量模式.png)
 
@@ -73,47 +147,7 @@ fi
 # 输出 1
 ```
 
-## 5、台前调度
-
-![image.png|500](./img/台前调度.png)
-
-```shell
-
-# 开启(shell)
-defaults write com.apple.WindowManager GloballyEnabled -bool true
-
-# 关闭(shell)
-defaults write com.apple.WindowManager GloballyEnabled -bool false
-
-# 状态(shell)
-defaults read com.apple.windowManager GloballyEnabled
-
-# 输出 1
-```
-
-## 6、获取网络信息
-
-![image.png|500](./img/获取网络信息.png)
-
-```shell
-tell application "Shortcuts Events"
-    run shortcut "IP-Address-Information"
-end tell
-```
-
-## 7、刷新DNS缓存
-
-![image.png|500](./img/刷新DNS缓存.png)
-
-```shell
-
-tell application "Shortcuts Events"
-    run shortcut "Flush-DNS-Cache"
-end tell
-
-```
-
-## 8、打开系统外观设置
+## 10、打开系统外观设置
 
 ![image.png|500](./img/打开系统外观设置.png)
 
@@ -121,12 +155,11 @@ end tell
 open 'x-apple.systempreferences:com.apple.Appearance-Settings.extension'
 ```
 
-## 9、清空废纸篓
+## 11、清空废纸篓
 
 ![image.png|500](./img/清空废纸篓.png)
 
 ```shell
-
 tell application "Finder"
 	-- 我本地默认执行这个就没有确认提示框
 	-- set warns before emptying of trash to false
@@ -139,7 +172,6 @@ tell application "Finder"
 	end if
 	-- set warns before emptying of trash to true
 end tell
-
 ```
 
 ## 10、Hide Desktop Widget(不用)

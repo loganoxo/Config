@@ -1,8 +1,5 @@
 --------------------------------------------------- 窗口大小调整
--- 模态外:
--------------
 
--- 模态内:
 ------------------------------------------- Modal模式(窗口)
 -- 定义一个新的 modal 环境，命名为 "winModal"
 ModalMgr:new("winModal")
@@ -563,7 +560,7 @@ end
 move_to_screen_bind()
 
 -- 绑定快捷键-按比例调整窗口 向 上下左右 扩展/缩小
--- 模态内:ctrl+kjhl 进入调整 上下左右 边距的modal; 然后用 + 和 - 调整窗口大小
+-- 模态内:ctrl+kjhl 进入调整 上下左右 边距的modal; 然后用 ctrl+ <=> 和 <-> 调整窗口大小
 -- 模态外: 右option+hjkl
 AdjustPaddingDirection = nil
 local function adjust_window_padding_bind()

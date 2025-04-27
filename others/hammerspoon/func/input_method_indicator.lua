@@ -5,12 +5,12 @@
 
 -- 默认配置参数
 InputMethodIndicatorObj = {
-    ABCColor = "#62C555",           -- ABC输入法颜色(绿色)
+    ABCColor = "#62C555", -- ABC输入法颜色(绿色)
     LocalLanguageColor = "#ED6A5E", -- 其他语言输入法颜色(红色)
-    showOnChangeDuration = 5,       -- 变化显示时长(秒)
-    dotSize = 25,                   -- 圆点尺寸
-    deltaY = 18,                    -- 垂直偏移量(距离光标位置)
-    deltaX = 10,                    -- 水平偏移量(距离光标位置)
+    showOnChangeDuration = 5, -- 变化显示时长(秒)
+    dotSize = 25, -- 圆点尺寸
+    deltaY = 18, -- 垂直偏移量(距离光标位置)
+    deltaX = 10, -- 水平偏移量(距离光标位置)
 }
 
 local exclude = {
@@ -21,12 +21,12 @@ local exclude = {
     ["cc.ffitch.shottr"] = true,
     ["com.runningwithcrayons.Alfred"] = true,
     ["org.hammerspoon.Hammerspoon"] = true,
+    ["com.lwouis.alt-tab-macos"] = true,
     ["com.apple.systemevents"] = true,
     ["com.apple.Preview"] = true,
     ["com.apple.Spotlight"] = true,
     ["com.apple.systempreferences"] = true,
 }
-
 
 local function hideOrDeleteCanvas(str)
     if str == "hide" then
@@ -73,11 +73,12 @@ local function showCanvas()
         -- LOGAN_ALERT(win:title() .. "的窗口中心:" .. centerX .. "----" .. centerY)
 
         -- 创建画布并显示在屏幕中心
-        if not InputMethodIndicatorObj.canvas then                 -- 首次初始化时创建画布
+        if not InputMethodIndicatorObj.canvas then
+            -- 首次初始化时创建画布
             InputMethodIndicatorObj.canvas = hs.canvas.new({       -- 创建新画布
                 x = centerX - InputMethodIndicatorObj.dotSize / 2, -- 水平居中
                 y = centerY - InputMethodIndicatorObj.dotSize / 2, -- 垂直居中
-                w = InputMethodIndicatorObj.dotSize,               -- 宽度
+                w = InputMethodIndicatorObj.dotSize, -- 宽度
                 h = InputMethodIndicatorObj.dotSize                -- 高度
             })
         else
@@ -97,8 +98,8 @@ local function showCanvas()
 
         -- 配置画布元素(圆形)
         InputMethodIndicatorObj.canvas[1] = {
-            action = "fill",                                     -- 填充图形
-            type = "circle",                                     -- 圆形类型
+            action = "fill", -- 填充图形
+            type = "circle", -- 圆形类型
             fillColor = { hex = InputMethodIndicatorObj.color }, -- 填充颜色
             frame = {                                            -- 圆形尺寸和位置
                 x = 0,

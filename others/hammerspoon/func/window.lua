@@ -790,7 +790,7 @@ local function automatic_window_layout()
         layout_grid(same_application())
     end)
 
-    -- hammerspoon的窗口平铺api,实验性,有可能会改
+    -- hammerspoon的窗口平铺api,实验性,有可能会改(也不适用于台前调度开启时)
     winModal:bind("", "tab", "自动布局(当前空间)", function()
         layout_tile(same_space())
     end)

@@ -57,6 +57,7 @@ function obj:killCurrentApp()
         local app = win:application()
         if app:bundleID() == MyHoldToQuitBundleID then
             MyHoldToQuitAlert = true
+            hs.application.get("org.hammerspoon.Hammerspoon"):setFrontmost()
             hs.dialog.alert(MyHoldToQuitX + (MyHoldToQuitW - 260) / 2 + 125, MyHoldToQuitY + (MyHoldToQuitH / 2) - 98, function(result)
                 MyHoldToQuitAlert = false
                 if result == "OK" then
@@ -67,18 +68,16 @@ function obj:killCurrentApp()
                 else
                     hs.alert.show("错误的按钮!")
                 end
-
             end, "是否要退出 " .. app:name() .. " ?", "退出期间不能切换应用,否则会失败", "OK", "Cancel", "warn")
-            hs.timer.doAfter(1, function()
+
+            -- 置顶alert
+            hs.timer.doWhile(function()
+                return MyHoldToQuitAlert
+            end, function()
                 if MyHoldToQuitAlert then
                     hs.application.get("org.hammerspoon.Hammerspoon"):setFrontmost()
                 end
-            end)
-            hs.timer.doAfter(4, function()
-                if MyHoldToQuitAlert then
-                    hs.application.get("org.hammerspoon.Hammerspoon"):setFrontmost()
-                end
-            end)
+            end, 0.1)
         else
             hs.alert.show("App已被切换,不能退出! 按键时: " .. MyHoldToQuitName .. "; 当前: " .. app:name())
         end
@@ -104,21 +103,26 @@ end
 --- Parameters:
 ---  * None
 function obj:onKeyDown()
-    local win = hs.window.focusedWindow()
-    if win then
-        local app = win:application()
-        local max = win:frame()
+    if not MyHoldToQuitAlert then
+        local win = hs.window.focusedWindow()
+        if win then
+            local app = win:application()
+            local max = win:frame()
 
-        MyHoldToQuitBundleID = app:bundleID() --记录按下键时当前app的id,实际退出时进行判断
-        MyHoldToQuitName = app:name() --记录按下键时当前app的id,实际退出时进行判断
-        MyHoldToQuitW = max.w
-        MyHoldToQuitH = max.h
-        MyHoldToQuitX = max.x
-        MyHoldToQuitY = max.y
-        self.timer:start()
+            MyHoldToQuitBundleID = app:bundleID() --记录按下键时当前app的id,实际退出时进行判断
+            MyHoldToQuitName = app:name() --记录按下键时当前app的id,实际退出时进行判断
+            MyHoldToQuitW = max.w
+            MyHoldToQuitH = max.h
+            MyHoldToQuitX = max.x
+            MyHoldToQuitY = max.y
+            self.timer:start()
+        else
+            hs.alert.show("没有聚焦窗口!")
+        end
     else
-        hs.alert.show("没有聚焦窗口!")
+        hs.alert.show("一个一个退出!")
     end
+
 end
 
 --- HoldToQuit:onKeyUp()

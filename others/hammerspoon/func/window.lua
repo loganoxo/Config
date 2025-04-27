@@ -401,6 +401,18 @@ local function layout_grid(windows)
     end
 end
 
+-- hammerspoon自带的平铺api,这是实验性模块,API 可能随时改
+-- https://www.hammerspoon.org/docs/hs.window.tiling.html#tileWindows
+-- hs.window.tiling.tileWindows(windows,rect[,desiredAspect[,processInOrder[,preserveRelativeArea[,animationDuration]]]])
+-- desiredAspect:宽高比,默认为1; processInOrder:窗口顺序,默认为false,不会根据传入的顺序排序;true:根据传入的顺序排序
+-- preserveRelativeArea:true:保持窗口之间的相对面积,如果窗口 A 目前是窗口 B 的两倍大,那么平铺后仍然如此;false:尽可能保持一样大
+-- animationDuration: 窗口移动/调整大小操作的动画时长,单位为秒;如果省略,则默认为 hs.window.animationDuration(0.2) 的值
+local function layout_tile(windows)
+    local screenFrame = hs.screen.mainScreen():frame()
+    shuffle(windows)
+    hs.window.tiling.tileWindows(windows, screenFrame, nil, true)
+end
+
 ------------------------------------------------------------- 快捷键绑定
 
 -- 绑定快捷键-半屏分屏
@@ -770,11 +782,22 @@ adjust_window_padding_bind()
 
 -- 绑定快捷键-窗口自动布局-将窗口按最合适的行列数，尽量填满屏幕(当台前调度开启时,会有问题,会分别分屏,没在一个桌面下显示)
 local function automatic_window_layout()
-    winModal:bind("ctrl", "tab", "窗口自动布局(空间内所有窗口)", function()
+    -- 我自己的,可以用的
+    winModal:bind("ctrl", "tab", "自动布局(当前空间)", function()
         layout_grid(same_space())
     end)
-    winModal:bind("ctrl", "`", "窗口自动布局(当前app的所有窗口)", function()
+    winModal:bind("ctrl", "`", "自动布局(当前app)", function()
         layout_grid(same_application())
+    end)
+
+    -- hammerspoon的窗口平铺api,实验性,有可能会改
+    winModal:bind("", "tab", "自动布局(当前空间)", function()
+        layout_tile(same_space())
+    end)
+    winModal:bind("", "`", "自动布局(当前app)", function()
+        layout_tile(same_application())
     end)
 end
 automatic_window_layout()
+
+

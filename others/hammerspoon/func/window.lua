@@ -348,29 +348,59 @@ local function window_other()
 end
 window_other()
 
--- 增大或减少窗口的宽高
-local function window_resize()
-    winModal:bind("", "9", "窗口增大宽高", function()
-        local win = hs.window.focusedWindow()
-        local f = win:frame()
-        f.w = f.w + 20
-        f.h = f.h + 20
-        win:setFrame(f)
-    end)
-
-    winModal:bind("", "0", "窗口缩小宽高", function()
-        local win = hs.window.focusedWindow()
-        local f = win:frame()
-        f.w = f.w - 20
-        f.h = f.h - 20
-        win:setFrame(f)
-    end)
-end
-
 -- 吸附屏幕边缘
-local function funcName()
+local function stickToScreen(direction)
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    if direction == "up" then
+        f.y = max.y
+        win:setFrame(f)
+    elseif direction == "down" then
+        f.y = max.y + (max.h - f.h)
+        win:setFrame(f)
+    elseif direction == "left" then
+        f.x = max.x
+        win:setFrame(f)
+    elseif direction == "right" then
+        f.x = max.x + (max.w - f.w)
+        win:setFrame(f)
+    else
+        hs.alert.show("Unknown direction: " .. direction)
+    end
+end
+local function stickToScreenBind()
+    winModal:bind("alt", "left", "移动到屏幕的左边", function()
+        stickToScreen("left")
+    end)
+    winModal:bind("alt", "right", "移动到屏幕的右边", function()
+        stickToScreen("right")
+    end)
+    winModal:bind("alt", "up", "移动到屏幕的上边", function()
+        stickToScreen("up")
+    end)
+    winModal:bind("alt", "down", "移动到屏幕的下边", function()
+        stickToScreen("down")
+    end)
+
+    -- 直接绑定右alt键,不需要模态
+    LeftRightHotkey:bind({ "rAlt" }, "left", "移动到屏幕的左边", function()
+        stickToScreen("left")
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "right", "移动到屏幕的右边", function()
+        stickToScreen("right")
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "up", "移动到屏幕的上边", function()
+        stickToScreen("up")
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "down", "移动到屏幕的下边", function()
+        stickToScreen("down")
+    end)
 
 end
+stickToScreenBind()
+
 
 -- 移动到其他屏幕
 function moveToScreen(direction)
@@ -394,6 +424,21 @@ function moveToScreen(direction)
         hs.alert.show("No focused window!")
     end
 end
+winModal:bind("ctrl", "left", "移动到左边的屏幕", function()
+    moveToScreen("left")
+end)
+winModal:bind("ctrl", "right", "移动到右边的屏幕", function()
+    moveToScreen("right")
+end)
+winModal:bind("ctrl", "up", "移动到上边的屏幕", function()
+    moveToScreen("up")
+end)
+winModal:bind("ctrl", "down", "移动到下边的屏幕", function()
+    moveToScreen("down")
+end)
+winModal:bind("ctrl", "N", "移动到下一个屏幕", function()
+    moveToScreen("next")
+end)
 
 -- 右option键+W 打开窗口模态
 LeftRightHotkey:bind({ "rAlt" }, "W", "打开窗口模态", function()

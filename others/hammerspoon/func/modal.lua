@@ -11,8 +11,8 @@ local backgroundColor = "#000000"
 -- 重新初始化
 local function reInit()
     -- 面板宽高占屏幕的比例
-    ModalMgr.width_factor = 0.50
-    ModalMgr.height_factor = 0.40
+    ModalMgr.width_factor = 0.80
+    ModalMgr.height_factor = 0.70
     -- 面板最小宽高
     ModalMgr.min_width = 700
     ModalMgr.min_height = 400

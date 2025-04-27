@@ -6,7 +6,7 @@ local function suitable()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
-    f.x = max.x + 2
+    f.x = max.x + 15
     f.y = max.y + 2
     f.w = max.w - 70
     f.h = max.h - 5

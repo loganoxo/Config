@@ -240,8 +240,8 @@ local function same_application()
     return visibleWindows
 end
 
--- 找出当前桌面空间下的所有可视窗口
-local function same_space()
+-- 找出当前桌面空间下的所有可视窗口(hs.window.filter很慢)
+local function same_space_slow()
     local window_filter = hs.window.filter.new():setOverrideFilter({
         visible = true,
         fullscreen = false,
@@ -256,6 +256,21 @@ local function same_space()
     for _, window in ipairs(all_windows) do
         if window ~= nil and window:isStandard() and not window:isMinimized() then
             table.insert(visibleWindows, window)
+        end
+    end
+    return visibleWindows
+end
+
+-- 更快版本的 same_space
+local function same_space()
+    local allWindows = hs.window.visibleWindows()
+    local visibleWindows = {}
+    for _, window in ipairs(allWindows) do
+        if window and window:isStandard() and not window:isMinimized() and not window:isFullScreen() then
+            if window:screen() == hs.screen.mainScreen() then
+                -- 只要当前屏幕的
+                table.insert(visibleWindows, window)
+            end
         end
     end
     return visibleWindows

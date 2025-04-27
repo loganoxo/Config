@@ -141,7 +141,7 @@ function MyInputMethodIndicatorStart()
             if InputMethodIndicatorObj.canvas and InputMethodIndicatorObj.canvas:isShowing() then
                 showCanvas()
             else
-                hs.timer.doAfter(0.2, function()
+                hs.timer.doAfter(0.1, function()
                     showCanvas()
                 end)
             end

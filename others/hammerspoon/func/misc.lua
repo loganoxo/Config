@@ -54,3 +54,7 @@ hs.hotkey.bind({ "alt" }, "A", function()
 
     hs.osascript.javascript(js)
 end)
+
+-- 5、按住 CMD+Q 一段时间 才会退出应用程序
+MyHoldToQuit = hs.loadSpoon("MyHoldToQuit")
+MyHoldToQuit:start()

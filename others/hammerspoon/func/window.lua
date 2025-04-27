@@ -164,49 +164,6 @@ local function adjust_window_padding(direction, ratio)
     win:setFrame(f)
 end
 
--- 找出同一个app的所有可视窗口
-local function same_application()
-    local focusedWindow = hs.window.focusedWindow()
-    local application = focusedWindow:application()
-    -- 当前屏幕
-    local focusedScreen = focusedWindow:screen()
-    -- 同一应用的所有窗口
-    local visibleWindows = application:visibleWindows()
-    for k, visibleWindow in ipairs(visibleWindows) do
-        -- 关于 Standard window 可参考：http://www.hammerspoon.org/docs/hs.window.html#isStandard
-        -- 例如打开 Finder 就一定会存在一个非标准窗口，这种窗口需要排除
-        if not visibleWindow:isStandard() then
-            table.remove(visibleWindows, k)
-        end
-        if visibleWindow ~= focusedWindow then
-            -- 将同一应用的其他窗口移动到当前屏幕
-            visibleWindow:moveToScreen(focusedScreen)
-        end
-    end
-    return visibleWindows
-end
-
--- 找出当前桌面空间下的所有可视窗口
-local function same_space()
-    local window_filter = hs.window.filter.new():setOverrideFilter({
-        visible = true,
-        fullscreen = false,
-        hasTitlebar = true,
-        currentSpace = true,
-        allowRoles = "AXStandardWindow",
-    })
-
-    local all_windows = window_filter:getWindows()
-
-    local visibleWindows = {}
-    for _, window in ipairs(all_windows) do
-        if window ~= nil and window:isStandard() and not window:isMinimized() then
-            table.insert(visibleWindows, window)
-        end
-    end
-    return visibleWindows
-end
-
 -- 移动到屏幕边缘
 local function stick_to_screen(direction)
     local win = hs.window.focusedWindow()
@@ -250,6 +207,182 @@ local function move_to_screen(direction)
         end
     else
         hs.alert.show("No focused window!")
+    end
+end
+
+-- 打乱一个数组
+local function shuffle(tbl)
+    for i = #tbl, 2, -1 do
+        local j = math.random(1, i)
+        tbl[i], tbl[j] = tbl[j], tbl[i]
+    end
+end
+
+-- 找出同一个app的所有可视窗口
+local function same_application()
+    local focusedWindow = hs.window.focusedWindow()
+    local application = focusedWindow:application()
+    -- 当前屏幕
+    local focusedScreen = focusedWindow:screen()
+    -- 同一应用的所有窗口
+    local visibleWindows = application:visibleWindows()
+    for k, visibleWindow in ipairs(visibleWindows) do
+        -- 关于 Standard window 可参考：http://www.hammerspoon.org/docs/hs.window.html#isStandard
+        -- 例如打开 Finder 就一定会存在一个非标准窗口，这种窗口需要排除
+        if not visibleWindow:isStandard() then
+            table.remove(visibleWindows, k)
+        end
+        if visibleWindow ~= focusedWindow then
+            -- 将同一应用的其他窗口移动到当前屏幕
+            visibleWindow:moveToScreen(focusedScreen)
+        end
+    end
+    return visibleWindows
+end
+
+-- 找出当前桌面空间下的所有可视窗口
+local function same_space()
+    local window_filter = hs.window.filter.new():setOverrideFilter({
+        visible = true,
+        fullscreen = false,
+        hasTitlebar = true,
+        currentSpace = true,
+        allowRoles = "AXStandardWindow",
+    })
+
+    local all_windows = window_filter:getWindows()
+
+    local visibleWindows = {}
+    for _, window in ipairs(all_windows) do
+        if window ~= nil and window:isStandard() and not window:isMinimized() then
+            table.insert(visibleWindows, window)
+        end
+    end
+    return visibleWindows
+end
+
+-- 判断指定屏幕是否为竖屏
+local function is_vertical_screen(screen)
+    -- 获取屏幕旋转角度，90 或 270 代表竖屏
+    local rotation = screen:rotate()
+    return rotation == 90 or rotation == 270
+end
+
+local layout = {
+    {
+        num = 1,
+        row = 1,
+        column = 1,
+    },
+    {
+        num = 2,
+        row = 1,
+        column = 2,
+    },
+    {
+        num = 3,
+        row = 2,
+        column = 2,
+    },
+    {
+        num = 4,
+        row = 2,
+        column = 2,
+    },
+    {
+        num = 5,
+        row = 2,
+        column = 3,
+    },
+    {
+        num = 6,
+        row = 2,
+        column = 3,
+    },
+    {
+        num = 7,
+        row = 2,
+        column = 4,
+    },
+    {
+        num = 9,
+        row = 3,
+        column = 3,
+    }
+}
+
+-- 网格布局：将窗口按最合适的行列数，尽量填满屏幕(当台前调度开启时,会有问题,会分别分屏,没在一个桌面下显示)
+local function layout_grid(windows)
+    shuffle(windows)  -- 打乱顺序
+
+    -- 获取当前主屏幕
+    local focusedScreen = hs.screen.mainScreen()
+    local focusedScreenFrame = focusedScreen:frame()
+
+    -- 窗口数量
+    local windowNum = #windows
+    if windowNum == 0 then
+        return
+    end
+
+    if windowNum > 9 then
+        LOGAN_ALERT("窗口过多")
+        return
+    end
+
+    -- 选出最合适的行数和列数，保证窗口排列尽量紧凑
+    local bestRow, bestColumn
+    for _, item in ipairs(layout) do
+        if windowNum == item.num then
+            bestRow = item.row
+            bestColumn = item.column
+        end
+    end
+
+    -- 判断是否为竖屏
+    if is_vertical_screen(focusedScreen) then
+        -- 竖屏时，交换行列数
+        bestRow, bestColumn = bestColumn, bestRow
+    end
+
+    -- 计算每个窗口的宽度和高度
+    local widthForPerWindow = focusedScreenFrame.w / bestColumn
+    local heightForPerWindow = focusedScreenFrame.h / bestRow
+
+    -- 逐个窗口放置
+    local elseH = focusedScreenFrame.h
+    local nth = 1
+    for c = 0, bestColumn - 1 do
+        elseH = focusedScreenFrame.h
+        for r = 0, bestRow - 1 do
+            if nth > windowNum then
+                break
+            end
+            local window = windows[nth]
+            local windowFrame = window:frame()
+            if nth == windowNum then
+                windowFrame.y = focusedScreenFrame.y + (focusedScreenFrame.h - elseH)
+                windowFrame.h = elseH
+
+                -- 计算每个窗口的起始位置
+                windowFrame.x = focusedScreenFrame.x + c * widthForPerWindow
+                -- 设置窗口宽高，留出一点边距
+                windowFrame.w = widthForPerWindow
+            else
+                -- 计算每个窗口的起始位置
+                windowFrame.x = focusedScreenFrame.x + c * widthForPerWindow
+                windowFrame.y = focusedScreenFrame.y + r * heightForPerWindow
+                -- 设置窗口宽高，留出一点边距
+                windowFrame.w = widthForPerWindow
+                windowFrame.h = heightForPerWindow
+                elseH = elseH - windowFrame.h
+            end
+
+            window:setFrame(windowFrame)
+            -- 让窗口浮到最前
+            window:focus()
+            nth = nth + 1
+        end
     end
 end
 
@@ -620,5 +753,13 @@ local function adjust_window_padding_bind()
 end
 adjust_window_padding_bind()
 
--- 窗口自动布局
-
+-- 绑定快捷键-窗口自动布局-将窗口按最合适的行列数，尽量填满屏幕(当台前调度开启时,会有问题,会分别分屏,没在一个桌面下显示)
+local function automatic_window_layout()
+    winModal:bind("ctrl", "tab", "窗口自动布局(空间内所有窗口)", function()
+        layout_grid(same_space())
+    end)
+    winModal:bind("ctrl", "`", "窗口自动布局(当前app的所有窗口)", function()
+        layout_grid(same_application())
+    end)
+end
+automatic_window_layout()

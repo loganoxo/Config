@@ -71,14 +71,14 @@ end
 
 -- 退出主模态时
 ModalMgr.supervisor.exited = function()
-    ModalMgr:deactivateAll()
     ModalSupervisorEnable = false
+    ModalMgr:deactivateAll()
     LOGAN_ALERT("主模态已退出", 5)
 end
 
 -- 右option键+A 进入或退出主模态
 LeftRightHotkey:bind({ "rAlt" }, "A", function()
-    if ModalSupervisorEnable then
+    if ModalSupervisorEnable or next(ModalMgr.active_list) then
         ModalMgr.supervisor:exit()
         LOGAN_ALERT("退出主模态", 2)
     else

@@ -1,5 +1,56 @@
---- 窗口大小调整
+--------------------------------------------------- 窗口大小调整
+-- 模态外:
+-------------
 
+-- 模态内:
+------------------------------------------- Modal模式(窗口)
+-- 定义一个新的 modal 环境，命名为 "winModal"
+ModalMgr:new("winModal")
+-- 获取名为 "winModal" 的 modal 环境对象
+local winModal = ModalMgr.modal_list["winModal"]
+
+-- 绑定快捷键 (模态外: 右option键+W 打开窗口模态; 模态内: Ctrl+W 进入窗口模式; Esc: 退出窗口模式  )
+local function win_modal_bind()
+    ModalMgr.supervisor:bind("ctrl", "W", "🟢 进入窗口模式", function()
+        ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
+        ModalMgr:activate({ "winModal" }, "#FFBD2E", true) -- 激活名为 "winModal" 的 modal 模式,并设置右下角圆形的填充颜色,并直接显示快捷键面板
+    end)
+    winModal:bind("", "escape", "👋 退出窗口模式", function()
+        ModalMgr:deactivate({ "winModal" })
+        -- ModalMgr.supervisor:enter() -- 重新进入主模态
+        -- 直接退出吧
+        ModalMgr.supervisor:exit()
+    end)
+    -- 右option键+W 打开窗口模态
+    LeftRightHotkey:bind({ "rAlt" }, "W", "打开窗口模态", function()
+        ModalMgr:activate({ "winModal" }, "#FFBD2E", true)
+    end)
+
+end
+win_modal_bind()
+
+-- 调整边距的modal
+ModalMgr:new("winPaddingModal")
+local winPaddingModal = ModalMgr.modal_list["winPaddingModal"]
+local ifRightAlt = false
+
+local function enterWinPaddingModal()
+    -- ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
+    ModalMgr:activate({ "winModal" }, "#FFBD2E")
+    ModalMgr:activate({ "winPaddingModal" }, "#604652", true)
+end
+
+winPaddingModal:bind('', 'escape', '👋 退出调整边距的modal', function()
+    ModalMgr:deactivate({ "winPaddingModal" })
+    if ifRightAlt then
+        ModalMgr.supervisor:exit()
+        ifRightAlt = false
+    else
+        ModalMgr:activate({ "winModal" }, "#FFBD2E", true)
+    end
+end)
+
+------------------------------------------- 通用方法
 -- 大小合适的窗口
 local function suitable()
     local win = hs.window.focusedWindow()
@@ -14,7 +65,7 @@ local function suitable()
 end
 
 -- 全屏
-local function fullScreen()
+local function full_screen()
     local win = hs.window.focusedWindow()
     local f = win:frame()
     local screen = win:screen()
@@ -26,7 +77,191 @@ local function fullScreen()
     win:setFrame(f)
 end
 
-local function window_resize()
+-- 窗口按 factorW(宽度) 比例居中
+local function centerX(factorW, win)
+    -- 居中
+    if not win then
+        win = hs.window.focusedWindow()
+    end
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+
+    local frameW = max.w * factorW
+    local padding = (max.w - frameW) / 2
+    f.x = max.x + padding
+    f.y = f.y
+    f.w = frameW
+    f.h = f.h
+    win:setFrame(f)
+    return true -- 阻止默认行为(可选)
+end
+
+-- 窗口按 factorH(高度) 比例居中
+local function centerY(factorH, win)
+    -- 居中
+    if not win then
+        win = hs.window.focusedWindow()
+    end
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+
+    local frameH = max.h * factorH
+    local padding = (max.h - frameH) / 2
+    f.x = f.x
+    f.y = max.y + padding
+    f.w = f.w
+    f.h = frameH
+    win:setFrame(f)
+    return true -- 阻止默认行为(可选)
+end
+
+-- 按比例移动当前窗口的位置,边距增加或减少
+local function window_move(direction, ratio)
+    local win = hs.window.focusedWindow()
+    local screen = win:screen()
+    local max = screen:frame()
+    local stepX = max.w / ratio
+    local stepY = max.h / ratio
+
+    local f = win:frame()
+    if direction == "left" then
+        f.x = f.x - stepX
+    elseif direction == "right" then
+        f.x = f.x + stepX
+    elseif direction == "up" then
+        f.y = f.y - stepY
+    elseif direction == "down" then
+        f.y = f.y + stepY
+    end
+    win:setFrame(f)
+end
+
+-- 按比例调整窗口 向 上下左右 扩展/缩小
+local function adjust_window_padding(direction, ratio)
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    local stepX = max.w / ratio
+    local stepY = max.h / ratio
+    -- 以下运算按 窗口大小增大的方式; 如果减少,则把ratio传参为负数
+    if f.w + stepX - 400 > 0 then
+        if direction == "left" then
+            f.x = f.x - stepX
+            f.w = f.w + stepX
+        elseif direction == "right" then
+            f.w = f.w + stepX
+        end
+    end
+
+    if f.h + stepY - 50 > 0 then
+        if direction == "up" then
+            f.y = f.y - stepY
+            f.h = f.h + stepY
+        elseif direction == "down" then
+            f.h = f.h + stepY
+        end
+    end
+    win:setFrame(f)
+end
+
+-- 找出同一个app的所有可视窗口
+local function same_application()
+    local focusedWindow = hs.window.focusedWindow()
+    local application = focusedWindow:application()
+    -- 当前屏幕
+    local focusedScreen = focusedWindow:screen()
+    -- 同一应用的所有窗口
+    local visibleWindows = application:visibleWindows()
+    for k, visibleWindow in ipairs(visibleWindows) do
+        -- 关于 Standard window 可参考：http://www.hammerspoon.org/docs/hs.window.html#isStandard
+        -- 例如打开 Finder 就一定会存在一个非标准窗口，这种窗口需要排除
+        if not visibleWindow:isStandard() then
+            table.remove(visibleWindows, k)
+        end
+        if visibleWindow ~= focusedWindow then
+            -- 将同一应用的其他窗口移动到当前屏幕
+            visibleWindow:moveToScreen(focusedScreen)
+        end
+    end
+    return visibleWindows
+end
+
+-- 找出当前桌面空间下的所有可视窗口
+local function same_space()
+    local window_filter = hs.window.filter.new():setOverrideFilter({
+        visible = true,
+        fullscreen = false,
+        hasTitlebar = true,
+        currentSpace = true,
+        allowRoles = "AXStandardWindow",
+    })
+
+    local all_windows = window_filter:getWindows()
+
+    local visibleWindows = {}
+    for _, window in ipairs(all_windows) do
+        if window ~= nil and window:isStandard() and not window:isMinimized() then
+            table.insert(visibleWindows, window)
+        end
+    end
+    return visibleWindows
+end
+
+-- 移动到屏幕边缘
+local function stick_to_screen(direction)
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    if direction == "up" then
+        f.y = max.y
+        win:setFrame(f)
+    elseif direction == "down" then
+        f.y = max.y + (max.h - f.h)
+        win:setFrame(f)
+    elseif direction == "left" then
+        f.x = max.x
+        win:setFrame(f)
+    elseif direction == "right" then
+        f.x = max.x + (max.w - f.w)
+        win:setFrame(f)
+    else
+        hs.alert.show("Unknown direction: " .. direction)
+    end
+end
+
+-- 移动到其他屏幕(多屏幕时)
+local function move_to_screen(direction)
+    local win = hs.window.focusedWindow()
+    if win then
+        local screen = win:screen()
+        if direction == "up" then
+            win:moveOneScreenNorth()
+        elseif direction == "down" then
+            win:moveOneScreenSouth()
+        elseif direction == "left" then
+            win:moveOneScreenWest()
+        elseif direction == "right" then
+            win:moveOneScreenEast()
+        elseif direction == "next" then
+            win:moveToScreen(screen:next())
+        else
+            hs.alert.show("Unknown direction: " .. direction)
+        end
+    else
+        hs.alert.show("No focused window!")
+    end
+end
+
+------------------------------------------------------------- 快捷键绑定
+
+-- 绑定快捷键-半屏分屏
+-- 模态外,用hyper键+方向键/空格/回车 分别设置当前窗口 半屏,全屏,合适大小
+-- 模态内,直接按 空格/回车 分别设置当前窗口 全屏,合适大小
+local function window_resize_bind()
     -- 左半屏
     hs.hotkey.bind(HYPER_KEY, "Left", "左半屏", function()
         local win = hs.window.focusedWindow()
@@ -83,212 +318,146 @@ local function window_resize()
 
     -- 全屏
     hs.hotkey.bind(HYPER_KEY, "space", "全屏", function()
-        fullScreen()
+        full_screen()
     end)
 
     -- 大小合适的窗口
     hs.hotkey.bind(HYPER_KEY, "return", "大小合适的窗口", function()
         suitable()
     end)
+
+    -- 全屏(模态内)
+    winModal:bind("", "space", "全屏", function()
+        full_screen()
+    end)
+
+    -- 大小合适的窗口(模态内)
+    winModal:bind("", "return", "大小合适的窗口", function()
+        suitable()
+    end)
 end
-window_resize()
+window_resize_bind()
 
--- 四个角 hyperKey+两个方向键
-local eventtap = hs.eventtap
-local eventTypes = eventtap.event.types
--- 保存当前方向键的状态
-local leftPressed = false
-local rightPressed = false
-local upPressed = false
-local downPressed = false
-local otherPressed = false
+-- 绑定快捷键-角落分屏; 设置当前窗口 放在屏幕四个角 (模态外 hyperKey+两个方向键同时按)
+local function window_corner_bind()
+    local eventtap = hs.eventtap
+    local eventTypes = eventtap.event.types
+    -- 保存当前方向键的状态
+    local leftPressed = false
+    local rightPressed = false
+    local upPressed = false
+    local downPressed = false
+    local otherPressed = false
 
-WindowKeyEventListener = eventtap.new({ eventTypes.keyDown, eventTypes.keyUp }, function(event)
-    local keyCode = event:getKeyCode()
-    local char = event:getCharacters()
-    local isDown = event:getType() == eventTypes.keyDown
-    local flags = event:getFlags()
-    local ifHyper = IsHyperKey(flags)
-    local modifiers = PrintFlags(flags)
+    WindowKeyEventListener = eventtap.new({ eventTypes.keyDown, eventTypes.keyUp }, function(event)
+        local keyCode = event:getKeyCode()
+        local char = event:getCharacters()
+        local isDown = event:getType() == eventTypes.keyDown
+        local flags = event:getFlags()
+        local ifHyper = IsHyperKey(flags)
+        local modifiers = PrintFlags(flags)
 
-    -- keyCode 对应表：https://www.hammerspoon.org/docs/hs.keycodes.html#map
-    if keyCode == hs.keycodes.map.left then
-        leftPressed = isDown
-    elseif keyCode == hs.keycodes.map.right then
-        rightPressed = isDown
-    elseif keyCode == hs.keycodes.map.up then
-        upPressed = isDown
-    elseif keyCode == hs.keycodes.map.down then
-        downPressed = isDown
-    else
-        otherPressed = isDown
-    end
-
-    --print(string.format(
-    --    "keyCode: %s, char: %s, isDown: %s, leftPressed: %s, rightPressed: %s, upPressed: %s, downPressed: %s, otherPressed: %s,ifHyper: %s",
-    --    keyCode, char, isDown, leftPressed, rightPressed, upPressed, downPressed, otherPressed, ifHyper))
-
-    if isDown and ifHyper and not otherPressed then
-        local win = hs.window.focusedWindow()
-        local f = win:frame()
-        local screen = win:screen()
-        local max = screen:frame()
-        if leftPressed and upPressed and not downPressed and not rightPressed then
-            -- 左上角
-            f.x = max.x
-            f.y = max.y
-            f.w = max.w / 2
-            f.h = max.h / 2
-            win:setFrame(f)
-            return true -- 阻止默认行为(可选)
-        elseif leftPressed and downPressed and not rightPressed and not upPressed then
-            -- 左下角
-            f.x = max.x
-            f.y = max.y + (max.h / 2)
-            f.w = max.w / 2
-            f.h = max.h / 2
-            win:setFrame(f)
-            return true -- 阻止默认行为(可选)
-        elseif rightPressed and upPressed and not leftPressed and not downPressed then
-            -- 右上角
-            f.x = max.x + (max.w / 2)
-            f.y = max.y
-            f.w = max.w / 2
-            f.h = max.h / 2
-            win:setFrame(f)
-            return true -- 阻止默认行为(可选)
-        elseif rightPressed and downPressed and not leftPressed and not upPressed then
-            -- 右下角
-            f.x = max.x + (max.w / 2)
-            f.y = max.y + (max.h / 2)
-            f.w = max.w / 2
-            f.h = max.h / 2
-            win:setFrame(f)
-            return true -- 阻止默认行为(可选)
+        -- keyCode 对应表：https://www.hammerspoon.org/docs/hs.keycodes.html#map
+        if keyCode == hs.keycodes.map.left then
+            leftPressed = isDown
+        elseif keyCode == hs.keycodes.map.right then
+            rightPressed = isDown
+        elseif keyCode == hs.keycodes.map.up then
+            upPressed = isDown
+        elseif keyCode == hs.keycodes.map.down then
+            downPressed = isDown
+        else
+            otherPressed = isDown
         end
-    end
 
-    return false -- 允许其他事件继续传播
-end)
+        --print(string.format(
+        --    "keyCode: %s, char: %s, isDown: %s, leftPressed: %s, rightPressed: %s, upPressed: %s, downPressed: %s, otherPressed: %s,ifHyper: %s",
+        --    keyCode, char, isDown, leftPressed, rightPressed, upPressed, downPressed, otherPressed, ifHyper))
 
-WindowKeyEventListener:start()
+        if isDown and ifHyper and not otherPressed then
+            local win = hs.window.focusedWindow()
+            local f = win:frame()
+            local screen = win:screen()
+            local max = screen:frame()
+            if leftPressed and upPressed and not downPressed and not rightPressed then
+                -- 左上角
+                f.x = max.x
+                f.y = max.y
+                f.w = max.w / 2
+                f.h = max.h / 2
+                win:setFrame(f)
+                return true -- 阻止默认行为(可选)
+            elseif leftPressed and downPressed and not rightPressed and not upPressed then
+                -- 左下角
+                f.x = max.x
+                f.y = max.y + (max.h / 2)
+                f.w = max.w / 2
+                f.h = max.h / 2
+                win:setFrame(f)
+                return true -- 阻止默认行为(可选)
+            elseif rightPressed and upPressed and not leftPressed and not downPressed then
+                -- 右上角
+                f.x = max.x + (max.w / 2)
+                f.y = max.y
+                f.w = max.w / 2
+                f.h = max.h / 2
+                win:setFrame(f)
+                return true -- 阻止默认行为(可选)
+            elseif rightPressed and downPressed and not leftPressed and not upPressed then
+                -- 右下角
+                f.x = max.x + (max.w / 2)
+                f.y = max.y + (max.h / 2)
+                f.w = max.w / 2
+                f.h = max.h / 2
+                win:setFrame(f)
+                return true -- 阻止默认行为(可选)
+            end
+        end
 
+        return false -- 允许其他事件继续传播
+    end)
 
---- Modal模式(窗口)
--- 定义一个新的 modal 环境，命名为 "winModal"
-ModalMgr:new("winModal")
+    WindowKeyEventListener:start()
+end
+window_corner_bind()
 
--- 获取名为 "winModal" 的 modal 环境对象
-local winModal = ModalMgr.modal_list["winModal"]
--- 绑定快捷键
-ModalMgr.supervisor:bind("ctrl", "W", "🟢 进入窗口模式", function()
-    ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
-    ModalMgr:activate({ "winModal" }, "#FFBD2E", true) -- 激活名为 "winModal" 的 modal 模式,并设置右下角圆形的填充颜色,并直接显示快捷键面板
-end)
-winModal:bind("", "escape", "👋 退出窗口模式", function()
-    ModalMgr:deactivate({ "winModal" })
-    -- ModalMgr.supervisor:enter() -- 重新进入主模态
-    -- 直接退出吧
-    ModalMgr.supervisor:exit()
-end)
-
--- 窗口移动绑定快捷键
+-- 绑定快捷键-窗口移动 (模态内 只需要按方向键)
 local function window_move_bind()
-    -- 按比例移动
-    local function move(direction, ratio)
-        local win = hs.window.focusedWindow()
-        local screen = win:screen()
-        local max = screen:frame()
-        local stepX = max.w / ratio
-        local stepY = max.h / ratio
-
-        local f = win:frame()
-        if direction == "left" then
-            f.x = f.x - stepX
-        elseif direction == "right" then
-            f.x = f.x + stepX
-        elseif direction == "up" then
-            f.y = f.y - stepY
-        elseif direction == "down" then
-            f.y = f.y + stepY
-        end
-        win:setFrame(f)
-    end
     local ratioX = 45
     local ratioY = 45
     winModal:bind("", "left", "窗口左移", function()
-        move("left", ratioX)
+        window_move("left", ratioX)
     end, nil, function()
         -- 按住不放
-        move("left", ratioX + 1)
+        window_move("left", ratioX + 1)
     end)
 
     winModal:bind("", "right", "窗口右移", function()
-        move("right", ratioX)
+        window_move("right", ratioX)
     end, nil, function()
         -- 按住不放
-        move("right", ratioX + 1)
+        window_move("right", ratioX + 1)
     end)
 
     winModal:bind("", "up", "窗口上移", function()
-        move("up", ratioY)
+        window_move("up", ratioY)
     end, nil, function()
         -- 按住不放
-        move("up", ratioY + 1)
+        window_move("up", ratioY + 1)
     end)
 
     winModal:bind("", "down", "窗口下移", function()
-        move("down", ratioY)
+        window_move("down", ratioY)
     end, nil, function()
         -- 按住不放
-        move("down", ratioY + 1)
+        window_move("down", ratioY + 1)
     end)
 end
 -- 执行
 window_move_bind()
 
--- 窗口按 factorW(宽度) 比例居中
-local function centerX(factorW, win)
-    -- 居中
-    if not win then
-        win = hs.window.focusedWindow()
-    end
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    local frameW = max.w * factorW
-    local padding = (max.w - frameW) / 2
-    f.x = max.x + padding
-    f.y = f.y
-    f.w = frameW
-    f.h = f.h
-    win:setFrame(f)
-    return true -- 阻止默认行为(可选)
-end
-
--- 窗口按 factorH(高度) 比例居中
-local function centerY(factorH, win)
-    -- 居中
-    if not win then
-        win = hs.window.focusedWindow()
-    end
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    local frameH = max.h * factorH
-    local padding = (max.h - frameH) / 2
-    f.x = f.x
-    f.y = max.y + padding
-    f.w = f.w
-    f.h = frameH
-    win:setFrame(f)
-    return true -- 阻止默认行为(可选)
-end
-
--- 其他窗口变化
-local function window_other()
+-- 绑定快捷键-窗口居中; 并且宽高按缩放比例调整 (模态内, <1-9>:调整宽度居中; ctrl+<1-9> 调整高度居中 )
+local function window_center_bind()
     for i = 1, 9 do
         winModal:bind("", tostring(i), "窗口按 " .. i / 10 .. "(宽度) 比例居中", function()
             centerX(i / 10)
@@ -335,112 +504,124 @@ local function window_other()
     --        LOGAN_ALERT("已取消", 2)
     --    end
     --end)
-
-    -- 全屏
-    winModal:bind("", "space", "全屏", function()
-        fullScreen()
-    end)
-
-    -- 大小合适的窗口
-    winModal:bind("", "return", "大小合适的窗口", function()
-        suitable()
-    end)
 end
-window_other()
+window_center_bind()
 
--- 吸附屏幕边缘
-local function stickToScreen(direction)
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    if direction == "up" then
-        f.y = max.y
-        win:setFrame(f)
-    elseif direction == "down" then
-        f.y = max.y + (max.h - f.h)
-        win:setFrame(f)
-    elseif direction == "left" then
-        f.x = max.x
-        win:setFrame(f)
-    elseif direction == "right" then
-        f.x = max.x + (max.w - f.w)
-        win:setFrame(f)
-    else
-        hs.alert.show("Unknown direction: " .. direction)
-    end
-end
-local function stickToScreenBind()
+-- 绑定快捷键-移动到屏幕边缘 (移动到屏幕的 上/下/左/右 边)
+-- 模态内: alt+方向键
+-- 模态外: 右alt+方向键
+local function stick_to_screen_bind()
     winModal:bind("alt", "left", "移动到屏幕的左边", function()
-        stickToScreen("left")
+        stick_to_screen("left")
     end)
     winModal:bind("alt", "right", "移动到屏幕的右边", function()
-        stickToScreen("right")
+        stick_to_screen("right")
     end)
     winModal:bind("alt", "up", "移动到屏幕的上边", function()
-        stickToScreen("up")
+        stick_to_screen("up")
     end)
     winModal:bind("alt", "down", "移动到屏幕的下边", function()
-        stickToScreen("down")
+        stick_to_screen("down")
     end)
 
     -- 直接绑定右alt键,不需要模态
     LeftRightHotkey:bind({ "rAlt" }, "left", "移动到屏幕的左边", function()
-        stickToScreen("left")
+        stick_to_screen("left")
     end)
     LeftRightHotkey:bind({ "rAlt" }, "right", "移动到屏幕的右边", function()
-        stickToScreen("right")
+        stick_to_screen("right")
     end)
     LeftRightHotkey:bind({ "rAlt" }, "up", "移动到屏幕的上边", function()
-        stickToScreen("up")
+        stick_to_screen("up")
     end)
     LeftRightHotkey:bind({ "rAlt" }, "down", "移动到屏幕的下边", function()
-        stickToScreen("down")
+        stick_to_screen("down")
     end)
 
 end
-stickToScreenBind()
+stick_to_screen_bind()
 
-
--- 移动到其他屏幕
-function moveToScreen(direction)
-    local cwin = hs.window.focusedWindow()
-    if cwin then
-        local cscreen = cwin:screen()
-        if direction == "up" then
-            cwin:moveOneScreenNorth()
-        elseif direction == "down" then
-            cwin:moveOneScreenSouth()
-        elseif direction == "left" then
-            cwin:moveOneScreenWest()
-        elseif direction == "right" then
-            cwin:moveOneScreenEast()
-        elseif direction == "next" then
-            cwin:moveToScreen(cscreen:next())
-        else
-            hs.alert.show("Unknown direction: " .. direction)
-        end
-    else
-        hs.alert.show("No focused window!")
-    end
+-- 绑定快捷键-移动到其他屏幕(多屏幕时)
+-- 模态内: Ctrl+方向键 移动到 左/右/上/下 边的屏幕; Ctrl+N 移动到下一个屏幕
+local function move_to_screen_bind()
+    winModal:bind("ctrl", "left", "移动到左边的屏幕(多屏幕时)", function()
+        move_to_screen("left")
+    end)
+    winModal:bind("ctrl", "right", "移动到右边的屏幕(多屏幕时)", function()
+        move_to_screen("right")
+    end)
+    winModal:bind("ctrl", "up", "移动到上边的屏幕(多屏幕时)", function()
+        move_to_screen("up")
+    end)
+    winModal:bind("ctrl", "down", "移动到下边的屏幕(多屏幕时)", function()
+        move_to_screen("down")
+    end)
+    winModal:bind("ctrl", "N", "移动到下一个屏幕(多屏幕时)", function()
+        move_to_screen("next")
+    end)
 end
-winModal:bind("ctrl", "left", "移动到左边的屏幕", function()
-    moveToScreen("left")
-end)
-winModal:bind("ctrl", "right", "移动到右边的屏幕", function()
-    moveToScreen("right")
-end)
-winModal:bind("ctrl", "up", "移动到上边的屏幕", function()
-    moveToScreen("up")
-end)
-winModal:bind("ctrl", "down", "移动到下边的屏幕", function()
-    moveToScreen("down")
-end)
-winModal:bind("ctrl", "N", "移动到下一个屏幕", function()
-    moveToScreen("next")
-end)
+move_to_screen_bind()
 
--- 右option键+W 打开窗口模态
-LeftRightHotkey:bind({ "rAlt" }, "W", "打开窗口模态", function()
-    ModalMgr:activate({ "winModal" }, "#FFBD2E", true)
-end)
+-- 绑定快捷键-按比例调整窗口 向 上下左右 扩展/缩小
+-- 模态内:ctrl+kjhl 进入调整 上下左右 边距的modal; 然后用 + 和 - 调整窗口大小
+-- 模态外: 右option+hjkl
+AdjustPaddingDirection = nil
+local function adjust_window_padding_bind()
+    LeftRightHotkey:bind({ "rAlt" }, "H", "窗口左边扩展/缩小", function()
+        AdjustPaddingDirection = "left"
+        ifRightAlt = true
+        enterWinPaddingModal()
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "L", "窗口右边扩展/缩小", function()
+        AdjustPaddingDirection = "right"
+        ifRightAlt = true
+        enterWinPaddingModal()
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "K", "窗口上边扩展/缩小", function()
+        AdjustPaddingDirection = "up"
+        ifRightAlt = true
+        enterWinPaddingModal()
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "J", "窗口下边扩展/缩小", function()
+        AdjustPaddingDirection = "down"
+        ifRightAlt = true
+        enterWinPaddingModal()
+    end)
+
+    winModal:bind("ctrl", "H", "窗口左边扩展/缩小", function()
+        AdjustPaddingDirection = "left"
+        ifRightAlt = false
+        enterWinPaddingModal()
+    end)
+    winModal:bind("ctrl", "L", "窗口右边扩展/缩小", function()
+        AdjustPaddingDirection = "right"
+        ifRightAlt = false
+        enterWinPaddingModal()
+    end)
+    winModal:bind("ctrl", "K", "窗口上边扩展/缩小", function()
+        AdjustPaddingDirection = "up"
+        ifRightAlt = false
+        enterWinPaddingModal()
+    end)
+    winModal:bind("ctrl", "J", "窗口下边扩展/缩小", function()
+        AdjustPaddingDirection = "down"
+        ifRightAlt = false
+        enterWinPaddingModal()
+    end)
+
+    -- 在 边距的modal 中 用 + 和 - 调整边距
+    winPaddingModal:bind("ctrl", "=", "扩展" .. "窗口", function()
+        adjust_window_padding(AdjustPaddingDirection, 45)
+    end, nil, function()
+        adjust_window_padding(AdjustPaddingDirection, 45)
+    end)
+    winPaddingModal:bind("ctrl", "-", "缩小" .. "窗口", function()
+        adjust_window_padding(AdjustPaddingDirection, -45)
+    end, nil, function()
+        adjust_window_padding(AdjustPaddingDirection, -45)
+    end)
+end
+adjust_window_padding_bind()
+
+-- 窗口自动布局
+

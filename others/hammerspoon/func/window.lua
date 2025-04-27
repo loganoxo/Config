@@ -13,6 +13,19 @@ local function suitable()
     win:setFrame(f)
 end
 
+-- 全屏
+local function fullScreen()
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w
+    f.h = max.h
+    win:setFrame(f)
+end
+
 local function window_resize()
     -- 左半屏
     hs.hotkey.bind(HYPER_KEY, "Left", "左半屏", function()
@@ -70,15 +83,7 @@ local function window_resize()
 
     -- 全屏
     hs.hotkey.bind(HYPER_KEY, "space", "全屏", function()
-        local win = hs.window.focusedWindow()
-        local f = win:frame()
-        local screen = win:screen()
-        local max = screen:frame()
-        f.x = max.x
-        f.y = max.y
-        f.w = max.w
-        f.h = max.h
-        win:setFrame(f)
+        fullScreen()
     end)
 
     -- 大小合适的窗口
@@ -331,6 +336,15 @@ local function window_other()
     --    end
     --end)
 
+    -- 全屏
+    winModal:bind("", "space", "全屏", function()
+        fullScreen()
+    end)
+
+    -- 大小合适的窗口
+    winModal:bind("", "return", "大小合适的窗口", function()
+        suitable()
+    end)
 end
 window_other()
 

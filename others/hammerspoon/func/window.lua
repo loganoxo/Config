@@ -74,6 +74,23 @@ local function full_screen()
     win:setFrame(f)
 end
 
+-- 窗口直接居中
+local function center(win)
+    -- 居中
+    if not win then
+        win = hs.window.focusedWindow()
+    end
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    local padding_left_right = (max.w - f.w) / 2
+    local padding_up_down = (max.h - f.h) / 2
+    f.x = max.x + padding_left_right
+    f.y = max.y + padding_up_down
+    win:setFrame(f)
+    return true -- 阻止默认行为(可选)
+end
+
 -- 窗口按 factorW(宽度) 比例居中
 local function centerX(factorW, win)
     -- 居中
@@ -614,6 +631,7 @@ end
 window_move_bind()
 
 -- 绑定快捷键-窗口居中; 并且宽高按缩放比例调整 (模态内, <1-9>:调整宽度居中; ctrl+<1-9> 调整高度居中 )
+-- 窗口直接居中: C (模态内) ; HYPER_KEY + C  (模态外)
 local function window_center_bind()
     for i = 1, 9 do
         winModal:bind("", tostring(i), "窗口按 " .. i / 10 .. "(宽度) 比例居中", function()
@@ -630,6 +648,14 @@ local function window_center_bind()
     end)
     winModal:bind("ctrl", "0", "高度更大", function()
         centerY(9.8 / 10)
+    end)
+
+    -- 窗口直接居中
+    hs.hotkey.bind(HYPER_KEY, "C", "窗口直接居中", function()
+        center()
+    end)
+    winModal:bind("", "C", "窗口直接居中", function()
+        center()
     end)
 
     --winModal:bind("", "W", "手动输入比例(宽)居中", function()
@@ -799,5 +825,3 @@ local function automatic_window_layout()
     end)
 end
 automatic_window_layout()
-
-

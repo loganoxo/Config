@@ -22,7 +22,6 @@ local exclude = {
     ["com.runningwithcrayons.Alfred"] = true,
     ["org.hammerspoon.Hammerspoon"] = true,
     ["com.lwouis.alt-tab-macos"] = true,
-    ["com.apple.systemevents"] = true,
     ["com.apple.Preview"] = true,
     ["com.apple.Spotlight"] = true,
     ["com.apple.systempreferences"] = true,
@@ -156,14 +155,15 @@ function MyInputMethodIndicatorStart()
             local canvasVisible = InputMethodIndicatorObj.canvas and InputMethodIndicatorObj.canvas:isShowing()
             -- print("b1:" .. currentSourceID)
             -- print("b2:" .. (InputMethodIndicatorObj.lastSourceId or "nil"))
-            local realChange = false
-            if InputMethodIndicatorObj.lastSourceId and InputMethodIndicatorObj.lastSourceId == currentSourceID then
-                realChange = false
-            else
-                InputMethodIndicatorObj.lastSourceId = hs.keycodes.currentSourceID()
-                realChange = true
-            end
-            if canvasVisible and realChange then
+            --local realChange = false
+            --if InputMethodIndicatorObj.lastSourceId and InputMethodIndicatorObj.lastSourceId == currentSourceID then
+            --    realChange = false
+            --else
+            --    InputMethodIndicatorObj.lastSourceId = hs.keycodes.currentSourceID()
+            --    realChange = true
+            --end
+            --if canvasVisible and realChange then
+            if canvasVisible then
                 hideOrDeleteCanvas("hide")
                 hs.timer.doAfter(0.2, function()
                     showCanvas()

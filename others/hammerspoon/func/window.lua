@@ -153,9 +153,11 @@ local function centerXY(factorW, factorH, win)
     return true -- 阻止默认行为(可选)
 end
 
--- 按比例移动当前窗口的位置,边距增加或减少
-local function window_move(direction, ratio)
-    local win = hs.window.focusedWindow()
+-- 按比例移动当前窗口的位置
+local function window_move(direction, ratio, win)
+    if not win then
+        win = hs.window.focusedWindow()
+    end
     local screen = win:screen()
     local max = screen:frame()
     local stepX = max.w / ratio
@@ -172,6 +174,27 @@ local function window_move(direction, ratio)
         f.y = f.y + stepY
     end
     win:setFrame(f)
+end
+
+
+-- 移动窗口,以显示桌面边缘
+LastEdgeFrames = {}
+local function window_edge()
+    local win = hs.window.focusedWindow()
+    if not win or not win:isStandard() or not win:isVisible() or win:isMinimized() or win:isFullScreen() then
+        LOGAN_ALERT("没有可用窗口", 2)
+        return
+    end
+    local winId = win:id()
+    if LastEdgeFrames[winId] then
+        -- 有记录，复原
+        win:setFrame(LastEdgeFrames[winId])
+        LastEdgeFrames[winId] = nil
+    else
+        -- 没有记录，保存并移动
+        LastEdgeFrames[winId] = win:frame()
+        window_move("left", 10, win)
+    end
 end
 
 -- 按比例调整窗口 向 上下左右 扩展/缩小
@@ -889,3 +912,11 @@ local function automatic_window_layout()
     end)
 end
 automatic_window_layout()
+
+-- 绑定快捷键-移动窗口,以显示桌面边缘
+local function window_edge_bind()
+    hs.hotkey.bind(HYPER_KEY, "Z", "显示/回退桌面边缘", function()
+        window_edge()
+    end)
+end
+window_edge_bind()

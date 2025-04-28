@@ -923,4 +923,5 @@ local function window_edge_bind()
         --window_edge()
     end)
 end
-window_edge_bind()
+-- 已经用Rectangle Pro设置快捷了
+-- window_edge_bind()

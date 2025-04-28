@@ -916,7 +916,11 @@ automatic_window_layout()
 -- 绑定快捷键-移动窗口,以显示桌面边缘
 local function window_edge_bind()
     hs.hotkey.bind(HYPER_KEY, "Z", "显示/回退桌面边缘", function()
-        window_edge()
+        -- 调用 Rectangle Pro 的功能
+        hs.execute('open -g "rectangle-pro://execute-action?name=reveal-desktop-edge"')
+
+        -- 自己写的功能,没有上面的好
+        --window_edge()
     end)
 end
 window_edge_bind()

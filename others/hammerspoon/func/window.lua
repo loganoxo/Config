@@ -648,9 +648,69 @@ local function window_move_bind()
         -- 按住不放
         window_move("down", ratioY + 1)
     end)
+
+    -- 直接绑定右alt键,不需要模态
+    LeftRightHotkey:bind({ "rAlt" }, "left", "窗口左移", function()
+        window_move("left", ratioX)
+    end, nil, function()
+        -- 按住不放
+        window_move("left", ratioX + 1)
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "right", "窗口右移", function()
+        window_move("right", ratioX)
+    end, nil, function()
+        -- 按住不放
+        window_move("right", ratioX + 1)
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "up", "窗口上移", function()
+        window_move("up", ratioY)
+    end, nil, function()
+        -- 按住不放
+        window_move("up", ratioY + 1)
+    end)
+    LeftRightHotkey:bind({ "rAlt" }, "down", "窗口下移", function()
+        window_move("down", ratioY)
+    end, nil, function()
+        -- 按住不放
+        window_move("down", ratioY + 1)
+    end)
+
 end
--- 执行
 window_move_bind()
+
+-- 绑定快捷键-移动到屏幕边缘 (移动到屏幕的 上/下/左/右 边)
+-- 模态内: alt+方向键
+-- 模态外: 右alt+方向键
+local function stick_to_screen_bind()
+    winModal:bind("alt", "left", "移动到屏幕的左边", function()
+        stick_to_screen("left")
+    end)
+    winModal:bind("alt", "right", "移动到屏幕的右边", function()
+        stick_to_screen("right")
+    end)
+    winModal:bind("alt", "up", "移动到屏幕的上边", function()
+        stick_to_screen("up")
+    end)
+    winModal:bind("alt", "down", "移动到屏幕的下边", function()
+        stick_to_screen("down")
+    end)
+
+    -- 直接绑定右cmd键,不需要模态
+    LeftRightHotkey:bind({ "rCmd" }, "H", "移动到屏幕的左边", function()
+        stick_to_screen("left")
+    end)
+    LeftRightHotkey:bind({ "rCmd" }, "L", "移动到屏幕的右边", function()
+        stick_to_screen("right")
+    end)
+    LeftRightHotkey:bind({ "rCmd" }, "K", "移动到屏幕的上边", function()
+        stick_to_screen("up")
+    end)
+    LeftRightHotkey:bind({ "rCmd" }, "J", "移动到屏幕的下边", function()
+        stick_to_screen("down")
+    end)
+
+end
+stick_to_screen_bind()
 
 -- 绑定快捷键-窗口居中; 并且宽高按缩放比例调整 (模态内, <1-9>:调整宽度居中; ctrl+<1-9> 调整高度居中; 模态外用右option+数字键 )
 -- 窗口直接居中: C (模态内) ; HYPER_KEY + C  (模态外)
@@ -727,40 +787,6 @@ local function window_center_bind()
     --end)
 end
 window_center_bind()
-
--- 绑定快捷键-移动到屏幕边缘 (移动到屏幕的 上/下/左/右 边)
--- 模态内: alt+方向键
--- 模态外: 右alt+方向键
-local function stick_to_screen_bind()
-    winModal:bind("alt", "left", "移动到屏幕的左边", function()
-        stick_to_screen("left")
-    end)
-    winModal:bind("alt", "right", "移动到屏幕的右边", function()
-        stick_to_screen("right")
-    end)
-    winModal:bind("alt", "up", "移动到屏幕的上边", function()
-        stick_to_screen("up")
-    end)
-    winModal:bind("alt", "down", "移动到屏幕的下边", function()
-        stick_to_screen("down")
-    end)
-
-    -- 直接绑定右alt键,不需要模态
-    LeftRightHotkey:bind({ "rAlt" }, "left", "移动到屏幕的左边", function()
-        stick_to_screen("left")
-    end)
-    LeftRightHotkey:bind({ "rAlt" }, "right", "移动到屏幕的右边", function()
-        stick_to_screen("right")
-    end)
-    LeftRightHotkey:bind({ "rAlt" }, "up", "移动到屏幕的上边", function()
-        stick_to_screen("up")
-    end)
-    LeftRightHotkey:bind({ "rAlt" }, "down", "移动到屏幕的下边", function()
-        stick_to_screen("down")
-    end)
-
-end
-stick_to_screen_bind()
 
 -- 绑定快捷键-移动到其他屏幕(多屏幕时)
 -- 模态内: Ctrl+方向键 移动到 左/右/上/下 边的屏幕; Ctrl+N 移动到下一个屏幕

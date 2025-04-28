@@ -131,6 +131,28 @@ local function centerY(factorH, win)
     return true -- 阻止默认行为(可选)
 end
 
+-- 窗口按 factor(宽高) 比例居中
+local function centerXY(factorW, factorH, win)
+    -- 居中
+    if not win then
+        win = hs.window.focusedWindow()
+    end
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+
+    local frameW = max.w * factorW
+    local frameH = max.h * factorH
+    local paddingW = (max.w - frameW) / 2
+    local paddingH = (max.h - frameH) / 2
+    f.x = max.x + paddingW
+    f.y = max.y + paddingH
+    f.w = frameW
+    f.h = frameH
+    win:setFrame(f)
+    return true -- 阻止默认行为(可选)
+end
+
 -- 按比例移动当前窗口的位置,边距增加或减少
 local function window_move(direction, ratio)
     local win = hs.window.focusedWindow()
@@ -630,27 +652,43 @@ end
 -- 执行
 window_move_bind()
 
--- 绑定快捷键-窗口居中; 并且宽高按缩放比例调整 (模态内, <1-9>:调整宽度居中; ctrl+<1-9> 调整高度居中 )
+-- 绑定快捷键-窗口居中; 并且宽高按缩放比例调整 (模态内, <1-9>:调整宽度居中; ctrl+<1-9> 调整高度居中; 模态外用右option+数字键 )
 -- 窗口直接居中: C (模态内) ; HYPER_KEY + C  (模态外)
 local function window_center_bind()
+    -- 模态内-比例居中
     for i = 1, 9 do
-        winModal:bind("", tostring(i), "窗口按 " .. i / 10 .. "(宽度) 比例居中", function()
+        winModal:bind("", tostring(i), "窗口按比例居中(" .. i / 10 .. ")", function()
+            centerXY(i / 10, i / 10)
+        end)
+        winModal:bind("ctrl", tostring(i), "窗口按 " .. i / 10 .. "(宽度) 比例居中", function()
             centerX(i / 10)
         end)
-    end
-    for i = 1, 9 do
-        winModal:bind("ctrl", tostring(i), "窗口按 " .. i / 10 .. "(高度) 比例居中", function()
+        winModal:bind("cmd", tostring(i), "窗口按 " .. i / 10 .. "(高度) 比例居中", function()
             centerY(i / 10)
         end)
     end
-    winModal:bind("", "0", "宽度更大", function()
+
+    winModal:bind("", "0", "窗口按比例居中(0.98)", function()
+        centerXY(9.8 / 10, 9.8 / 10)
+    end)
+    winModal:bind("ctrl", "0", "宽度更大", function()
         centerX(9.8 / 10)
     end)
-    winModal:bind("ctrl", "0", "高度更大", function()
+    winModal:bind("cmd", "0", "高度更大", function()
         centerY(9.8 / 10)
     end)
 
-    -- 窗口直接居中
+    -- 模态外-宽高比例居中-右option+数字
+    for i = 1, 9 do
+        LeftRightHotkey:bind({ "rAlt" }, tostring(i), "窗口按比例居中(" .. i / 10 .. ")", function()
+            centerXY(i / 10, i / 10)
+        end)
+    end
+    LeftRightHotkey:bind({ "rAlt" }, "0", "窗口按比例居中(0.98)", function()
+        centerXY(9.8 / 10, 9.8 / 10)
+    end)
+
+    -- 窗口直接居中(不改变宽高)
     hs.hotkey.bind(HYPER_KEY, "C", "窗口直接居中", function()
         center()
     end)

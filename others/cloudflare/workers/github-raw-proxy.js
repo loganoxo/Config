@@ -95,5 +95,8 @@ export default {
         if (response.status === 200) {
             ctx.waitUntil(cache.put(cacheKey, finalResponse.clone()))
         }
+
+        // 返回
+        return finalResponse
     }
 }

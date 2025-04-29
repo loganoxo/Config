@@ -982,7 +982,7 @@ end
 -- condition: all(所有)  no(全部不绑定) modal(只绑定模态内快捷键) common(只绑定模态外的快捷键)
 local function window_key_bind_always_execute()
     window_resize_bind("no")
-    window_corner_bind("all")
+    window_corner_bind("no")
     window_move_bind("all")
     stick_to_screen_bind("all")
     window_center_bind("all")
@@ -997,6 +997,7 @@ window_key_bind_always_execute()
 local function window_key_bind_condition_execute()
     if GetMySetting("window_key_bind_condition_execute") then
         window_resize_bind("all")
+        window_corner_bind("all")
         window_edge_bind("all")
     end
 end

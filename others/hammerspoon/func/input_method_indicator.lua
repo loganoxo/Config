@@ -26,6 +26,7 @@ local exclude = {
     ["com.apple.systempreferences"] = true,
     ["com.apple.loginwindow"] = true,
     ["com.apple.finder"] = true,
+    ["com.knollsoft.Hookshot"] = true,
 }
 
 local function hideOrDeleteCanvas(str)

@@ -145,12 +145,14 @@ if _logan_if_mac; then
 fi
 
 # ruby
-if _logan_if_command_exist "brew"; then
-    export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
-    export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"
-    export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
-    export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
-    export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+if false; then
+    if _logan_if_command_exist "brew"; then
+        export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+        export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"
+        export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+        export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+        export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+    fi
 fi
 
 # go安装的包的路径

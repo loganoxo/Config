@@ -582,6 +582,7 @@ local function window_corner_bind(condition)
         return
     end
     if condition == "all" or condition == "common" then
+        local window_corner_use_hammerspoon = GetMySetting("window_corner_use_hammerspoon")
         local eventtap = hs.eventtap
         local eventTypes = eventtap.event.types
         -- 保存当前方向键的状态
@@ -617,41 +618,69 @@ local function window_corner_bind(condition)
             --    keyCode, char, isDown, leftPressed, rightPressed, upPressed, downPressed, otherPressed, ifHyper))
 
             if isDown and ifHyper and not otherPressed then
-                local win = hs.window.focusedWindow()
-                local f = win:frame()
-                local screen = win:screen()
-                local max = screen:frame()
+                local win = nil
+                local f = nil
+                local screen = nil
+                local max = nil
+
+                if window_corner_use_hammerspoon then
+                    win = hs.window.focusedWindow()
+                    f = win:frame()
+                    screen = win:screen()
+                    max = screen:frame()
+                end
+
                 if leftPressed and upPressed and not downPressed and not rightPressed then
                     -- 左上角
-                    f.x = max.x
-                    f.y = max.y
-                    f.w = max.w / 2
-                    f.h = max.h / 2
-                    win:setFrame(f)
+                    if not window_corner_use_hammerspoon then
+                        hs.execute("open -g 'rectangle-pro://execute-action?name=top-left'", false)
+                    else
+                        f.x = max.x
+                        f.y = max.y
+                        f.w = max.w / 2
+                        f.h = max.h / 2
+                        win:setFrame(f)
+                        LOGAN_ALERT("左上角", 1)
+                    end
                     return true -- 阻止默认行为(可选)
                 elseif leftPressed and downPressed and not rightPressed and not upPressed then
                     -- 左下角
-                    f.x = max.x
-                    f.y = max.y + (max.h / 2)
-                    f.w = max.w / 2
-                    f.h = max.h / 2
-                    win:setFrame(f)
+                    if not window_corner_use_hammerspoon then
+                        hs.execute("open -g 'rectangle-pro://execute-action?name=bottom-left'", false)
+                    else
+                        f.x = max.x
+                        f.y = max.y + (max.h / 2)
+                        f.w = max.w / 2
+                        f.h = max.h / 2
+                        win:setFrame(f)
+                        LOGAN_ALERT("左下角", 1)
+                    end
                     return true -- 阻止默认行为(可选)
                 elseif rightPressed and upPressed and not leftPressed and not downPressed then
                     -- 右上角
-                    f.x = max.x + (max.w / 2)
-                    f.y = max.y
-                    f.w = max.w / 2
-                    f.h = max.h / 2
-                    win:setFrame(f)
+                    if not window_corner_use_hammerspoon then
+                        hs.execute("open -g 'rectangle-pro://execute-action?name=top-right'", false)
+                    else
+                        f.x = max.x + (max.w / 2)
+                        f.y = max.y
+                        f.w = max.w / 2
+                        f.h = max.h / 2
+                        win:setFrame(f)
+                        LOGAN_ALERT("右上角", 1)
+                    end
                     return true -- 阻止默认行为(可选)
                 elseif rightPressed and downPressed and not leftPressed and not upPressed then
                     -- 右下角
-                    f.x = max.x + (max.w / 2)
-                    f.y = max.y + (max.h / 2)
-                    f.w = max.w / 2
-                    f.h = max.h / 2
-                    win:setFrame(f)
+                    if not window_corner_use_hammerspoon then
+                        hs.execute("open -g 'rectangle-pro://execute-action?name=bottom-right'", false)
+                    else
+                        f.x = max.x + (max.w / 2)
+                        f.y = max.y + (max.h / 2)
+                        f.w = max.w / 2
+                        f.h = max.h / 2
+                        win:setFrame(f)
+                        LOGAN_ALERT("右下角", 1)
+                    end
                     return true -- 阻止默认行为(可选)
                 end
             end
@@ -997,8 +1026,10 @@ window_key_bind_always_execute()
 local function window_key_bind_condition_execute()
     if GetMySetting("window_key_bind_condition_execute") then
         window_resize_bind("all")
-        window_corner_bind("all")
         window_edge_bind("all")
+    end
+    if not GetMySetting("window_corner_bind_disable") then
+        window_corner_bind("all")
     end
 end
 window_key_bind_condition_execute()

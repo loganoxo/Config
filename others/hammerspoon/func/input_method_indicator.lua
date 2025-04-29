@@ -14,7 +14,6 @@ InputMethodIndicatorObj = {
 }
 
 local exclude = {
-    ["com.apple.finder"] = true, -- Finder
     ["jacklandrin.OnlySwitch"] = true,
     ["com.surteesstudios.Bartender"] = true,
     ["com.bjango.istatmenus.status"] = true,
@@ -25,6 +24,8 @@ local exclude = {
     ["com.apple.Preview"] = true,
     ["com.apple.Spotlight"] = true,
     ["com.apple.systempreferences"] = true,
+    ["com.apple.loginwindow"] = true,
+    ["com.apple.finder"] = true,
 }
 
 local function hideOrDeleteCanvas(str)

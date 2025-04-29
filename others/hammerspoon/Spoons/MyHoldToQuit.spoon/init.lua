@@ -45,6 +45,14 @@ MyHoldToQuitX = nil
 MyHoldToQuitY = nil
 MyHoldToQuitAlert = false
 
+function obj:check_window(win)
+    if not win or not win:isStandard() or not win:isVisible() or win:isMinimized() then
+        LOGAN_ALERT("没有可用窗口", 2)
+        return false
+    end
+    return true
+end
+
 --- HoldToQuit.killCurrentApp()
 --- Method
 --- Kill the frontmost application
@@ -53,7 +61,7 @@ MyHoldToQuitAlert = false
 ---  * None
 function obj:killCurrentApp()
     local win = hs.window.focusedWindow()
-    if win then
+    if obj:check_window(win) then
         local app = win:application()
         if app:bundleID() == MyHoldToQuitBundleID then
             MyHoldToQuitAlert = true
@@ -105,7 +113,7 @@ end
 function obj:onKeyDown()
     if not MyHoldToQuitAlert then
         local win = hs.window.focusedWindow()
-        if win then
+        if obj:check_window(win) then
             local app = win:application()
             local max = win:frame()
 
@@ -116,8 +124,6 @@ function obj:onKeyDown()
             MyHoldToQuitX = max.x
             MyHoldToQuitY = max.y
             self.timer:start()
-        else
-            hs.alert.show("没有聚焦窗口!")
         end
     else
         hs.alert.show("一个一个退出!")

@@ -1,12 +1,56 @@
 {
-    "title": "1. 屏蔽command+control+shift+option+w/点/逗号的功能(sysdiagnosed)",
+    "title": "2. 屏蔽command+control+shift+option+w/点/逗号的功能(sysdiagnosed)",
     "rules": [
         {
-            "description": "1.1 屏蔽command+control+shift+option+w,改为f15",
+            "description": "2.1 屏蔽command+control+shift+option+w,改为f13",
             "manipulators": [
                 {
                     "from": {
                         "key_code": "w",
+                        "modifiers": {
+                            "mandatory": [
+                                "command",
+                                "control",
+                                "option",
+                                "shift"
+                            ]
+                        }
+                    },
+                    "to": {
+                        "key_code": "f13"
+                    },
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "2.2 屏蔽command+control+shift+option+/,改为f14",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "slash",
+                        "modifiers": {
+                            "mandatory": [
+                                "command",
+                                "control",
+                                "option",
+                                "shift"
+                            ]
+                        }
+                    },
+                    "to": {
+                        "key_code": "f14"
+                    },
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "2.3 屏蔽command+control+shift+option+退格键,改为f15",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "delete_or_backspace",
                         "modifiers": {
                             "mandatory": [
                                 "command",
@@ -24,7 +68,7 @@
             ]
         },
         {
-            "description": "1.2 屏蔽command+control+shift+option+点,改为f16",
+            "description": "2.4 屏蔽command+control+shift+option+点,改为f16",
             "manipulators": [
                 {
                     "from": {
@@ -46,7 +90,7 @@
             ]
         },
         {
-            "description": "1.3 屏蔽command+control+shift+option+逗号,改为f17",
+            "description": "2.5 屏蔽command+control+shift+option+逗号,改为f17",
             "manipulators": [
                 {
                     "from": {

@@ -1,8 +1,8 @@
 {
-    "title": "4. 其他功能性绑定",
+    "title": "5. 其他功能性绑定",
     "rules": [
         {
-            "description": "同时按下 a、s、d 三个按键 打开 Mission Control",
+            "description": "5.1 同时按下 a、s、d 三个按键 打开 Mission Control",
             "manipulators": [
                 {
                     "from": {

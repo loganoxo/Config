@@ -1,8 +1,8 @@
 {
-    "title": "1. HyperKey 的绑定",
+    "title": "2. HyperKey 的绑定",
     "rules": [
         {
-            "description": "长按 CapsLock 变 HyperKey,不修改'修饰键+CapsLock' 和 '短按CapsLock' 的绑定",
+            "description": "2.1 长按 CapsLock 变 HyperKey,不修改'修饰键+CapsLock' 和 '短按CapsLock' 的绑定",
             "manipulators": [
                 {
                     "from": {
@@ -47,7 +47,7 @@
             ]
         },
         {
-            "description": "Shift+CapsLock 切换半角/全角标点",
+            "description": "2.2 Shift+CapsLock 切换半角/全角标点",
             "manipulators": [
                 {
                     "from": {

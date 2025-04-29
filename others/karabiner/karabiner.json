@@ -4,7 +4,46 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "长按 CapsLock 变 HyperKey,不修改'修饰键+CapsLock' 和 '短按CapsLock' 的绑定",
+                        "description": "1.1 屏蔽command+control+shift+option+w,改为f15",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "w",
+                                    "modifiers": { "mandatory": ["command", "control", "option", "shift"] }
+                                },
+                                "to": { "key_code": "f15" },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "1.2 屏蔽command+control+shift+option+点,改为f16",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "period",
+                                    "modifiers": { "mandatory": ["command", "control", "option", "shift"] }
+                                },
+                                "to": { "key_code": "f16" },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "1.3 屏蔽command+control+shift+option+逗号,改为f17",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "comma",
+                                    "modifiers": { "mandatory": ["command", "control", "option", "shift"] }
+                                },
+                                "to": { "key_code": "f17" },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "2.1 长按 CapsLock 变 HyperKey,不修改'修饰键+CapsLock' 和 '短按CapsLock' 的绑定",
                         "manipulators": [
                             {
                                 "from": { "key_code": "caps_lock" },
@@ -37,7 +76,7 @@
                         ]
                     },
                     {
-                        "description": "Shift+CapsLock 切换半角/全角标点",
+                        "description": "2.2 Shift+CapsLock 切换半角/全角标点",
                         "manipulators": [
                             {
                                 "from": {
@@ -55,7 +94,7 @@
                         ]
                     },
                     {
-                        "description": "短按左 Command (⌘) 切换到英文输入法",
+                        "description": "3.1 短按左 Command (⌘) 切换到英文输入法",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -82,7 +121,7 @@
                         ]
                     },
                     {
-                        "description": "短按右 Command (⌘) 切换到中文输入法",
+                        "description": "3.2 短按右 Command (⌘) 切换到中文输入法",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -109,7 +148,7 @@
                         ]
                     },
                     {
-                        "description": "right_command+UpArrow 设为 PageUp",
+                        "description": "4.1 right_command+UpArrow 设为 PageUp",
                         "manipulators": [
                             {
                                 "from": {
@@ -122,7 +161,7 @@
                         ]
                     },
                     {
-                        "description": "right_command+DownArrow 设为 PageDown",
+                        "description": "4.2 right_command+DownArrow 设为 PageDown",
                         "manipulators": [
                             {
                                 "from": {
@@ -135,7 +174,7 @@
                         ]
                     },
                     {
-                        "description": "right_command+RightArrow 打开 Mission Control",
+                        "description": "4.3 right_command+RightArrow 打开 Mission Control",
                         "manipulators": [
                             {
                                 "from": {
@@ -148,7 +187,7 @@
                         ]
                     },
                     {
-                        "description": "right_command+LeftArrow 显示桌面 (需要在系统设置把该快捷键设为f19)",
+                        "description": "4.4 right_command+LeftArrow 显示桌面 (需要在系统设置把该快捷键设为f19)",
                         "manipulators": [
                             {
                                 "from": {
@@ -161,7 +200,7 @@
                         ]
                     },
                     {
-                        "description": "right_command+退格键 设为 del 键",
+                        "description": "4.5 right_command+退格键 设为 del 键",
                         "manipulators": [
                             {
                                 "from": {
@@ -174,7 +213,7 @@
                         ]
                     },
                     {
-                        "description": "同时按下 a、s、d 三个按键 打开 Mission Control",
+                        "description": "5.1 同时按下 a、s、d 三个按键 打开 Mission Control",
                         "manipulators": [
                             {
                                 "from": {

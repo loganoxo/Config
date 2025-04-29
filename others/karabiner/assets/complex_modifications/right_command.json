@@ -1,8 +1,8 @@
 {
-    "title": "3. 右边command的键绑定",
+    "title": "4. 右边command的键绑定",
     "rules": [
         {
-            "description": "right_command+UpArrow 设为 PageUp",
+            "description": "4.1 right_command+UpArrow 设为 PageUp",
             "manipulators": [
                 {
                     "from": {
@@ -23,7 +23,7 @@
             ]
         },
         {
-            "description": "right_command+DownArrow 设为 PageDown",
+            "description": "4.2 right_command+DownArrow 设为 PageDown",
             "manipulators": [
                 {
                     "from": {
@@ -44,7 +44,7 @@
             ]
         },
         {
-            "description": "right_command+RightArrow 打开 Mission Control",
+            "description": "4.3 right_command+RightArrow 打开 Mission Control",
             "manipulators": [
                 {
                     "from": {
@@ -65,7 +65,7 @@
             ]
         },
         {
-            "description": "right_command+LeftArrow 显示桌面 (需要在系统设置把该快捷键设为f19)",
+            "description": "4.4 right_command+LeftArrow 显示桌面 (需要在系统设置把该快捷键设为f19)",
             "manipulators": [
                 {
                     "from": {
@@ -86,7 +86,7 @@
             ]
         },
         {
-            "description": "right_command+退格键 设为 del 键",
+            "description": "4.5 right_command+退格键 设为 del 键",
             "manipulators": [
                 {
                     "from": {

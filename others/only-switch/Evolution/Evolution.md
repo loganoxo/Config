@@ -174,7 +174,15 @@ tell application "Finder"
 end tell
 ```
 
-## 10、Hide Desktop Widget(不用)
+## 11、重载HS(hammerspoon)
+
+![image.png|500](./img/重载HS.png)
+
+```shell
+/opt/homebrew/bin/hs -c 'MY_RELOAD()'
+```
+
+## 13、Hide Desktop Widget(不用)
 
 ![image.png|500](./img/Hide-Desktop-Widget.png)
 
@@ -193,7 +201,7 @@ defaults read com.apple.WindowManager StandardHideWidgets
 
 ```
 
-## 11、Hide Desktop Icons(不用)
+## 14、Hide Desktop Icons(不用)
 ![image.png|500](./img/Hide-Desktop-Icons.png)
 
 ```shell

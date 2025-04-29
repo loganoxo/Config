@@ -58,3 +58,12 @@ end)
 -- 5、按住 CMD+Q 一段时间 才会退出应用程序
 MyHoldToQuit = hs.loadSpoon("MyHoldToQuit")
 MyHoldToQuit:start()
+
+-- 6、重载hammerspoon(全局方法,供外部使用)
+-- /opt/homebrew/bin/hs -c 'MY_RELOAD()'
+function MY_RELOAD()
+    -- 要先返回,异步执行重载,否则onlySwitch不能保存成功
+    hs.timer.doAfter(0.1, function()
+        hs.reload()
+    end)
+end

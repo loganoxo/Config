@@ -10,3 +10,5 @@ nginx/www/files/*
 
 cli-reference/.obsidian
 cli-reference/1-obsidian
+
+others/hammerspoon/settings.json

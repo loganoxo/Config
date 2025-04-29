@@ -1,9 +1,10 @@
 -- ~/.hammerspoon/lib/init.lua
 
 local modules = {
+    "my_settings",
     "spoon",
     "util",
-    "whenActive"
+    "whenActive",
 }
 
 for _, m in ipairs(modules) do

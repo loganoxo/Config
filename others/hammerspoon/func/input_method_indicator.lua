@@ -50,11 +50,12 @@ local function hideOrDeleteCanvas(str)
 end
 
 --- 模块初始化 创建画布对象并设置初始状态
-local function showCanvas()
+---   force: 即使窗口在排除列表中,也强制显示标志
+local function showCanvas(force)
     local win = hs.window.focusedWindow()
     local frame = nil
     if win then
-        if exclude[win:application():bundleID()] then
+        if not force and exclude[win:application():bundleID()] then
             if InputMethodIndicatorObj.canvas then
                 hideOrDeleteCanvas("hide")
             end
@@ -141,10 +142,10 @@ function MyInputMethodIndicatorStart()
 
         if realChange then
             if InputMethodIndicatorObj.canvas and InputMethodIndicatorObj.canvas:isShowing() then
-                showCanvas()
+                showCanvas(true)
             else
                 hs.timer.doAfter(0.1, function()
-                    showCanvas()
+                    showCanvas(true)
                 end)
             end
         end

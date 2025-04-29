@@ -706,25 +706,25 @@ local function window_move_bind(condition)
             window_move("left", ratioX)
         end, nil, function()
             -- 按住不放
-            window_move("left", ratioX + 1)
+            window_move("left", ratioX + 10)
         end)
         LeftRightHotkey:bind({ "rAlt" }, "right", "窗口右移", function()
             window_move("right", ratioX)
         end, nil, function()
             -- 按住不放
-            window_move("right", ratioX + 1)
+            window_move("right", ratioX + 10)
         end)
         LeftRightHotkey:bind({ "rAlt" }, "up", "窗口上移", function()
             window_move("up", ratioY)
         end, nil, function()
             -- 按住不放
-            window_move("up", ratioY + 1)
+            window_move("up", ratioY + 10)
         end)
         LeftRightHotkey:bind({ "rAlt" }, "down", "窗口下移", function()
             window_move("down", ratioY)
         end, nil, function()
             -- 按住不放
-            window_move("down", ratioY + 1)
+            window_move("down", ratioY + 10)
         end)
     end
     if condition == "all" or condition == "modal" then
@@ -732,28 +732,28 @@ local function window_move_bind(condition)
             window_move("left", ratioX)
         end, nil, function()
             -- 按住不放
-            window_move("left", ratioX + 1)
+            window_move("left", ratioX + 10)
         end)
 
         winModal:bind("", "right", "窗口右移", function()
             window_move("right", ratioX)
         end, nil, function()
             -- 按住不放
-            window_move("right", ratioX + 1)
+            window_move("right", ratioX + 10)
         end)
 
         winModal:bind("", "up", "窗口上移", function()
             window_move("up", ratioY)
         end, nil, function()
             -- 按住不放
-            window_move("up", ratioY + 1)
+            window_move("up", ratioY + 10)
         end)
 
         winModal:bind("", "down", "窗口下移", function()
             window_move("down", ratioY)
         end, nil, function()
             -- 按住不放
-            window_move("down", ratioY + 1)
+            window_move("down", ratioY + 10)
         end)
     end
 end

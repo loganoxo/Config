@@ -84,13 +84,13 @@ local function showAppInformation()
     hs.pasteboard.setContents(str)
     LOGAN_ALERT_BOTTOM(str, 10)
 end
-ModalMgr.supervisor:bind("ctrl", "P", "🟢 显示当前App的信息(hyperKey + P)", function()
+ModalMgr.supervisor:bind("ctrl", "I", "🟢 显示当前App的信息(hyperKey+I)", function()
     ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
     showAppInformation()
     ModalMgr.supervisor:enter() -- 重新进入主模态
 end)
 -- 额外绑定一个非模态下的快捷键
-hs.hotkey.bind(HYPER_KEY, "P", "显示当前App的信息", function()
+hs.hotkey.bind(HYPER_KEY, "I", "显示当前App的信息", function()
     showAppInformation()
 end)
 

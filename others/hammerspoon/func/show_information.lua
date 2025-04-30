@@ -84,7 +84,7 @@ end
 --- 显示应用详情(实时)
 ModalMgr:new("showAppInfoModal")
 local showAppInfoModal = ModalMgr.modal_list["showAppInfoModal"]
-ModalMgr.supervisor:bind("ctrl", "A", "🟢 显示应用详情(实时)", function()
+ModalMgr.supervisor:bind("cmd", "A", "🟢 显示应用详情(实时)", function()
     ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
     ModalMgr:activate({ "showAppInfoModal" }, "#5F8B4C")
 end)

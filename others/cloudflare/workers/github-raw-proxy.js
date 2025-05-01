@@ -20,6 +20,9 @@ export default {
         if (!path) {
             return new Response("Usage: /<owner>/<repo>/<branch>/path/to/file", {status: 400})
         }
+        if (request.method!=="GET") {
+            return new Response("method must be get", {status: 500})
+        }
 
         const segments = path.split('/')
 

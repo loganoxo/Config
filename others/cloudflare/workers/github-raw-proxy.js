@@ -45,8 +45,8 @@ export default {
 
         // 构造缓存 key
         const cache = caches.default
-        // 构造缓存键，仅基于 URL 和 method（GET）
-        const cacheKey = new Request(request.url, {method: 'GET'})
+        // 构造缓存键
+        const cacheKey = request
         // 尝试读取缓存
         const cachedResponse = await cache.match(cacheKey)
         if (cachedResponse) {

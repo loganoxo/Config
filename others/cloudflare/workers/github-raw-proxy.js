@@ -20,10 +20,6 @@ export default {
         if (!path) {
             return new Response("Usage: /<owner>/<repo>/<branch>/path/to/file", {status: 400})
         }
-        // 禁止访问 GitHub 高敏感接口路径
-        if (path.includes("/refs/") || path.includes(".git")) {
-            return new Response("禁止访问 GitHub 高敏感接口路径.", {status: 403})
-        }
 
         const segments = path.split('/')
 

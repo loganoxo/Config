@@ -1,7 +1,8 @@
 -- 全局变量配置
 
 -- 默认中/英文输入法ID
-DefaultPinyin = 'com.apple.inputmethod.SCIM.ITABC'
+-- DefaultPinyin = 'com.apple.inputmethod.SCIM.ITABC' -- mac原生中文输入法ID
+DefaultPinyin = 'com.tencent.inputmethod.wetype.pinyin'  -- 微信输入法
 DefaultABC = 'com.apple.keylayout.ABC'
 
 -- 当前正在使用的中/英文输入法ID (settings.json中配置)
@@ -16,6 +17,7 @@ end
 
 -- 中文输入法 source id 列表
 ChineseInputMethodIds = {
+    ["com.tencent.inputmethod.wetype.pinyin"] = true,
     ["com.apple.inputmethod.SCIM.ITABC"] = true,
     ["com.apple.inputmethod.Pinyin"] = true
 }

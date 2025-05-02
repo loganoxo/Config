@@ -92,10 +92,12 @@ local function showCanvas(force)
 
         -- 获取当前输入法并设置初始颜色
         local sourceID = hs.keycodes.currentSourceID()
-        if sourceID == CurrentABC then
-            InputMethodIndicatorObj.color = InputMethodIndicatorObj.ABCColor
-        else
+        if ChineseInputMethodIds[sourceID] then
+            -- 中文输入法
             InputMethodIndicatorObj.color = InputMethodIndicatorObj.LocalLanguageColor
+        else
+            -- 英文输入法
+            InputMethodIndicatorObj.color = InputMethodIndicatorObj.ABCColor
         end
 
         -- 配置画布元素(圆形)

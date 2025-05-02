@@ -37,14 +37,19 @@
                         ]
                     },
                     {
-                        "description": "1.2 Command+CapsLock => f20; 用于hammerspoon中切换标点",
+                        "description": "1.2 Shift+CapsLock 切换半角/全角标点",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "caps_lock",
-                                    "modifiers": { "mandatory": ["command"] }
+                                    "modifiers": { "mandatory": ["shift"] }
                                 },
-                                "to": [{ "key_code": "f20" }],
+                                "to": [
+                                    {
+                                        "key_code": "h",
+                                        "modifiers": ["left_option", "left_shift"]
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]

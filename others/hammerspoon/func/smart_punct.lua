@@ -122,4 +122,4 @@ function Smart_Punct_Status()
 end
 
 -- 自启动
-SmartPunctInit()
+-- SmartPunctInit()

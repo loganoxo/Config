@@ -71,6 +71,22 @@ function MY_RELOAD()
     end)
 end
 
+-- 7、切换中文输入法时的标点
+hs.hotkey.bind(nil, "f20", "切换标点", function()
+    local sourceID = hs.keycodes.currentSourceID()
+    if MacPinyin == sourceID then
+        hs.eventtap.keyStroke({ "alt", "shift" }, "H")
+    elseif WxPinyin == sourceID then
+        hs.eventtap.keyStroke({ "alt", "shift" }, ".")
+    else
+        LOGAN_ALERT("不支持的输入法")
+    end
+end)
+
+-- 8、全局快捷键,输入中文顿号
+hs.hotkey.bind(HYPER_KEY, "\\", "输入中文顿号", function()
+    hs.eventtap.keyStrokes("、")
+end)
 
 --------------  以下为主模态中可以执行的快捷键
 

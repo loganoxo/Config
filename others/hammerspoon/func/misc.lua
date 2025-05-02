@@ -1,10 +1,17 @@
 -- 1、模拟键盘粘贴; 一些程序和网站非常努力地阻止你粘贴文本;发出伪造的键盘事件来输入剪贴板内容绕过这个问题
 hs.hotkey.bind(HYPER_KEY, "V", "模拟键盘粘贴", function()
+    local content = hs.pasteboard.getContents()
+    if not content or content == "" then
+        LOGAN_ALERT("剪贴板为空")
+        return
+    end
     if Smart_Punct_Status() == 1 then
         LOGAN_ALERT("需要先关闭智能标点")
-    else
-        hs.eventtap.keyStrokes(hs.pasteboard.getContents())
+        return
     end
+    hs.timer.doAfter(0.1, function()
+        hs.eventtap.keyStrokes(content)
+    end)
 end)
 
 -- 2、激活Finder时,自动使所有Finder窗口在前面

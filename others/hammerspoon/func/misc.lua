@@ -36,13 +36,12 @@ hs.urlevent.bind("ExternalAlertUrl", function(eventName, params)
 end)
 
 -- 4、Option+A 快捷键打开bob翻译窗口时,自动切换输入法到中文
-local Pinyin = 'com.apple.inputmethod.SCIM.ITABC'
 hs.hotkey.bind({ "alt" }, "A", "bob", function()
     local currentSourceID = hs.keycodes.currentSourceID()
     -- 切换到中文输入法
-    if currentSourceID ~= Pinyin then
+    if currentSourceID ~= CurrentPinyin then
         hs.timer.doAfter(0.2, function()
-            hs.keycodes.currentSourceID(Pinyin)
+            hs.keycodes.currentSourceID(CurrentPinyin)
         end)
     end
     -- 启动bob

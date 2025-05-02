@@ -2,6 +2,7 @@
 
 local modules = {
     "my_settings",
+    "global",
     "spoon",
     "util",
     "whenActive",

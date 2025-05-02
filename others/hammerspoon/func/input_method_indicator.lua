@@ -92,7 +92,7 @@ local function showCanvas(force)
 
         -- 获取当前输入法并设置初始颜色
         local sourceID = hs.keycodes.currentSourceID()
-        if sourceID == "com.apple.keylayout.ABC" then
+        if sourceID == CurrentABC then
             InputMethodIndicatorObj.color = InputMethodIndicatorObj.ABCColor
         else
             InputMethodIndicatorObj.color = InputMethodIndicatorObj.LocalLanguageColor

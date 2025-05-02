@@ -10,12 +10,6 @@
 -- 关闭:    /opt/homebrew/bin/hs -c 'Smart_Punct_Stop()'
 -- 状态:    /opt/homebrew/bin/hs -c 'Smart_Punct_Status()'
 
--- 中文输入法 source id 列表
-ChineseInputMethodIds = {
-    ["com.apple.inputmethod.SCIM.ITABC"] = true,
-    ["com.apple.inputmethod.Pinyin"] = true
-}
-
 -- 符号表
 SmartPunctReplaceMap = {
     ["\""] = "\"",

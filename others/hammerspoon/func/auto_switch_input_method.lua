@@ -3,19 +3,17 @@
 -- **************************************************
 
 -- --------------------------------------------------
-local Pinyin = 'com.apple.inputmethod.SCIM.ITABC'
-local ABC = 'com.apple.keylayout.ABC'
 local lastSourceId = hs.keycodes.currentSourceID()
 
 -- 定义你自己想要自动切换输入法的 app
 local APP_TO_IME = {
-    ['com.googlecode.iterm2'] = ABC,
-    ['com.apple.Terminal'] = ABC,
-    ['com.google.Chrome'] = Pinyin,
-    ['com.hezongyidev.Bob'] = Pinyin,
-    ['com.tencent.qq'] = Pinyin,
-    ['com.tencent.xinWeChat'] = Pinyin,
-    ['com.openai.chat'] = Pinyin,
+    ['com.googlecode.iterm2'] = CurrentABC,
+    ['com.apple.Terminal'] = CurrentABC,
+    ['com.google.Chrome'] = CurrentPinyin,
+    ['com.hezongyidev.Bob'] = CurrentPinyin,
+    ['com.tencent.qq'] = CurrentPinyin,
+    ['com.tencent.xinWeChat'] = CurrentPinyin,
+    ['com.openai.chat'] = CurrentPinyin,
 }
 -- --------------------------------------------------
 

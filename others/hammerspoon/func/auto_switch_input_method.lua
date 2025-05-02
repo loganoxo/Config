@@ -15,6 +15,7 @@ local APP_TO_IME = {
     ['com.hezongyidev.Bob'] = Pinyin,
     ['com.tencent.qq'] = Pinyin,
     ['com.tencent.xinWeChat'] = Pinyin,
+    ['com.openai.chat'] = Pinyin,
 }
 -- --------------------------------------------------
 

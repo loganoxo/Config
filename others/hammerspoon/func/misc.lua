@@ -84,6 +84,8 @@ local function showAppInformation()
         .. "App pid:       " .. app:pid() .. "\n"
         .. "Win title:     " .. win:title() .. "\n"
         .. "输入法ID:       " .. hs.keycodes.currentSourceID() .. "\n"
+        .. "键盘布局:       " .. hs.keycodes.currentLayout() .. "\n"
+        .. "输入法名称:      " .. hs.keycodes.currentMethod() .. "\n"
     hs.pasteboard.setContents(str)
     LOGAN_ALERT_BOTTOM(str, 10)
 end

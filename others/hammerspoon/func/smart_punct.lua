@@ -66,8 +66,8 @@ function SmartPunctInit()
             -- 判断是否按下了修饰键,排除shift
             local modifierPressed = flags["cmd"] or flags["alt"] or flags["ctrl"] or flags["fn"]
 
-            -- 当前输入法是中文，并且有替换规则，且没有按修饰键
-            if ChineseInputMethodIds[sourceId] and repl and not modifierPressed then
+            -- 当前输入法是mac原生中文输入法时，并且有替换规则，且没有按修饰键
+            if sourceId == MacPinyin and repl and not modifierPressed then
                 if IgnoreNextPunct == char then
                     IgnoreNextPunct = nil
                     -- print("忽略这次事件,char:" .. char)

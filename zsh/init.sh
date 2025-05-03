@@ -40,7 +40,7 @@
 # d.    /etc/zlogin   和  ~/.zlogin：   仅在 login Shell 中运行，且在 .zshrc 之后执行。
 # e.    /etc/zlogout  和  ~/.zlogout：  在 login Shell 退出时运行。
 
-##############################################################################################################################
+############################################# 此脚本主要加载一些开发环境的环境变量(只需加载zprofile) #######################################################
 
 #if [ -z "${_INIT_ZSH_INIT_LOADED}" ]; then
 #    _INIT_ZSH_INIT_LOADED=1
@@ -210,6 +210,9 @@ case ":${PATH}:" in
     export PATH="$HOME/.cargo/bin:$PATH"
     ;;
 esac
+
+# 加载 conda配置
+source "${__PATH_MY_CNF}/zsh/conda/conda.sh"
 
 # nvm 弃用,太慢了
 #export NVM_DIR="$HOME/.nvm"

@@ -70,9 +70,6 @@ if _logan_if_linux; then
     fi
 fi
 
-# 加载 conda配置
-source "${__PATH_MY_CNF}/zsh/conda/conda.sh"
-
 # fastfetch 放在最后
 if [ -r "${__PATH_MY_CNF}/others/fastfetch/fastfetch.sh" ]; then
     source "${__PATH_MY_CNF}/others/fastfetch/fastfetch.sh"

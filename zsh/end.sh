@@ -39,6 +39,24 @@ if _logan_if_interactive; then
     source "${__PATH_MY_CNF}/others/yazi/yazi.sh"
 fi
 
+# 加载navi
+# export NAVI_CONFIG="${__PATH_HOME_CONFIG}/navi/config.yaml" #不配置,则默认在~/.config/navi/config.yaml
+if _logan_if_interactive; then
+    if _logan_if_command_exist "navi"; then
+        if _logan_if_zsh; then
+            eval "$(navi widget zsh)"
+            #加载navi配置,覆盖 eval "$(navi widget zsh)"
+            if [ -r "${__PATH_MY_CNF}/others/navi/navi.sh" ]; then
+                source "${__PATH_MY_CNF}/others/navi/navi.sh"
+            fi
+        fi
+        if _logan_if_bash; then
+            eval "$(navi widget bash)"
+        fi
+    fi
+fi
+
+
 ###########################################################################################
 
 # 为 zsh和bash 自定义历史命令配置

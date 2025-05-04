@@ -13,7 +13,7 @@ if [ -r "${__PATH_MY_CNF}/zsh/logan_function.sh" ]; then
     source "${__PATH_MY_CNF}/zsh/logan_function.sh"
 fi
 
-mkdir -p "$HOME/.aria2" "$HOME/.config" "$HOME/.ssh"
+mkdir -p "$HOME/.config" "$HOME/.ssh"
 
 # zsh
 ln -sf "${__PATH_MY_CNF}/zsh/zshrc" "$HOME/.zshrc"
@@ -107,6 +107,3 @@ ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
 
 # ranger
 # ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"
-
-# aria2
-ln -sf "${__PATH_MY_CNF}/others/aria2/aria2.conf" "$HOME/.aria2/aria2.conf"

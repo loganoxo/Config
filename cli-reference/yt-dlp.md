@@ -8,9 +8,23 @@
 ## 一、安装
 
 ```shell
-# yt-dlp 安装
-brew install yt-dlp
+# yt-dlp 安装,推荐下载github上的可执行包
+curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos -o ~/.local/bin/yt-dlp
+# 或者
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos -O ~/.local/bin/yt-dlp
+
+# 必须设置权限
+chmod u+rx ~/.local/bin/yt-dlp # Make executable
+
+# 更新:重新下载覆盖 或者 
+yt-dlp -U
 ```
+### 注意:
+
+- 若遇到 需要cloudflare验证的网站报403,则需要先在浏览器中访问那个网站,并验证,然后执行
+- yts "https://vidhub.me/vodplay/263419-1-1.html" --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" --cookies-from-browser chrome
+- user-agent必须有, 而且必须和浏览器的相同(chrome://version)
+
 
 ## 二、简单下载
 

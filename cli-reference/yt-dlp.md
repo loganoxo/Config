@@ -7,6 +7,8 @@
 
 ## 一、安装
 
+### 可执行文件(虽然推荐,但是执行速度太慢了,还是用brew吧)
+
 ```shell
 # yt-dlp 安装,推荐下载github上的可执行包
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos -o ~/.local/bin/yt-dlp
@@ -19,12 +21,16 @@ chmod u+rx ~/.local/bin/yt-dlp # Make executable
 # 更新:重新下载覆盖 或者 
 yt-dlp -U
 ```
-### 注意:
 
-- 若遇到 需要cloudflare验证的网站报403,则需要先在浏览器中访问那个网站,并验证,然后执行
-- yts "https://vidhub.me/vodplay/263419-1-1.html" --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" --cookies-from-browser chrome
-- user-agent必须有, 而且必须和浏览器的相同(chrome://version)
+### 包管理器
 
+```shell
+# brew
+brew install yt-dlp
+# uv
+uv tool install yt-dlp
+
+```
 
 ## 二、简单下载
 
@@ -45,7 +51,16 @@ yt-dlp -f 30032 -o "aaa.%(ext)s" --remux-video mkv "https://www.bilibili.com/vid
 ffmpeg -i aaa.mp4 -c copy aaa.mkv
 ```
 
-## 四、按条件下载
+## 四、cloudflare验证
+
+- 若遇到 需要cloudflare验证的网站报403,则需要先在浏览器中访问那个网站,并验证,然后执行
+- user-agent必须有, 而且必须和浏览器的相同(chrome://version)
+- 
+```shell
+yts "https://vidhub.me/vodplay/263419-1-1.html" --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" --cookies-from-browser chrome
+```
+
+## 五、按条件下载
 
 ```shell
 # 目标格式没有音频(通常是 DASH 流分离了音视频, 像youtube的8k视频),可以下载指定分辨率的视频流和音频流,然后让 yt-dlp 自动合并
@@ -61,7 +76,7 @@ yt-dlp -f "bestvideo[height<=720]+bestaudio" "https://www.youtube.com/watch?v=xx
 yt-dlp -f "best[height<=480]" "https://www.youtube.com/watch?v=xxxxxxx"
 ```
 
-## 五、指定 cookie 和 header
+## 六、指定 cookie 和 header
 
 ```shell
 # 指定 Cookies 文件, 在 yt-dlp 中,可以使用浏览器的登录状态(例如 Cookies)来绕过某些限制或访问会员专属内容
@@ -76,7 +91,7 @@ yt-dlp \
 
 ```
 
-## 六、指定使用 aria2 多线程下载
+## 七、指定使用 aria2 多线程下载
 
 ```shell
 # yt-dlp在使用aria2时加了 --no-conf 参数,所以我们用不了自己的配置文件,所有aria2的配置需要用 --external-downloader-args 传过去
@@ -89,7 +104,7 @@ yt-dlp --external-downloader aria2c --external-downloader-args "aria2c:-x 16 -k 
 
 ```
 
-## 七、记录下载时间
+## 八、记录下载时间
 
 ```shell
 # time <command>, 多个命令需要用 ( ) 包裹,最好有空格和括号分开,若没有空格,粘贴到iterm2中时右括号会被转译;但是代码格式化时会删空格,就挺冲突的
@@ -97,7 +112,7 @@ yt-dlp --external-downloader aria2c --external-downloader-args "aria2c:-x 16 -k 
 time yt-dlp "https://www.bilibili.com/video/BVxxxxxx"
 ```
 
-## 八、其他
+## 九、其他
 
 ```shell
 # 查看 yt-dlp 支持的网站列表

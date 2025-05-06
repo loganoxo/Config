@@ -96,7 +96,7 @@ if [ -x /opt/homebrew/bin/brew ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 # 禁止自动更新软件包
-export HOMEBREW_NO_AUTO_UPDATE=1
+# export HOMEBREW_NO_AUTO_UPDATE=1
 # brew 清华镜像源
 # export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
 # export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"

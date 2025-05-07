@@ -80,7 +80,7 @@ function _safe_delete_validate() {
         if [ ! -e "$item" ]; then
             # 文件或目录不存在
             echo "!!!error: not trash, $item does not exist."
-            return 1
+            continue
         fi
 
         # 获取绝对路径
@@ -126,7 +126,7 @@ function _validate_illegal_character() {
     for ((i = 0; i < ${#str}; i++)); do
         char="${str:$i:1}"
         # 检查字符是否在非法字符集合中  \[\]|:;@\'。
-        if [[ "$char" =~ [\\~～\!\`\"\',?$%^\&*()+={}|:\;@] || "$char" == "]" || "$char" == "[" ]]; then
+        if [[ "$char" =~ [\\～\!\`\"\',?%^\&*()+={}|:\;@] || "$char" == "]" || "$char" == "[" ]]; then
             echo "!!!error: not trash, Illegal character '$char' found in '$item'."
             return 1 # 执行失败，返回非零值
         fi

@@ -9,28 +9,6 @@ set -eu #e:遇到错误就停止执行；u:遇到不存在的变量，报错停�
 CURRENT_DIR="$(pwd)" # 执行命令的当前目录;用source命令加载函数时也可以使用"$(cd "$(dirname "$0")";pwd)"
 ABSOLUTE_PATH=()     # 绝对路径
 
-function _safe_trash_function() {
-    if ! _safe_delete_validate "$@"; then
-        # 校验失败
-        return 1
-    fi
-
-    # 执行删除前的确认
-    echo -e "CWD:    \033[31m '$CURRENT_DIR' \033[0m"
-    for item in "${ABSOLUTE_PATH[@]}"; do
-        echo -en "Confirm? \033[31m'$item'\033[0m will be moved. (y/n): "
-        read -r -n 1 choice # -n 1 等待一个字符输入，不需要回车
-        case "$choice" in
-        y | Y)
-            /opt/homebrew/opt/trash/bin/trash -F "$item"
-            echo "   ✅ success"
-            ;;
-        *) echo "   ❌ cancel" ;;
-        esac
-        echo ""
-    done
-}
-
 # 校验
 function _safe_delete_validate() {
     #  echo "_safe_delete_validate:$*"
@@ -136,4 +114,48 @@ function _get_absolute_path() {
     fi
 }
 
-_safe_trash_function "$@"
+function _safe_trash_run() {
+    if [ "$#" -lt 1 ]; then
+        echo -e "   \033[35m args error! \033[0m"
+        exit 1
+    fi
+
+    # 判断是否有 -f
+    local force="false"
+    if [ "$#" -gt 1 ]; then
+        local _safe_trash_operation="$1"
+        if [ "$_safe_trash_operation" = "-f" ]; then
+            force="true"
+            # 移除第一个位置参数并让后面的参数依次向左移位
+            shift
+        fi
+    fi
+
+    # 校验
+    if ! _safe_delete_validate "$@"; then
+        # 校验失败
+        return 1
+    fi
+
+    # 执行删除前的确认
+    echo -e "CWD:    \033[31m '$CURRENT_DIR' \033[0m"
+    for item in "${ABSOLUTE_PATH[@]}"; do
+        if [ "$force" = "true" ]; then
+            /opt/homebrew/opt/trash/bin/trash -F "$item"
+            echo -e "\033[31m'$item'\033[0m has been moved.  ✅ success "
+        else
+            echo -en "Confirm? \033[31m'$item'\033[0m will be moved. (y/n): "
+            read -r -n 1 choice # -n 1 等待一个字符输入，不需要回车
+            case "$choice" in
+            y | Y)
+                /opt/homebrew/opt/trash/bin/trash -F "$item"
+                echo "   ✅ success"
+                ;;
+            *) echo "   ❌ cancel" ;;
+            esac
+            echo ""
+        fi
+    done
+}
+
+_safe_trash_run "$@"

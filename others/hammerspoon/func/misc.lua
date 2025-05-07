@@ -111,14 +111,14 @@ end)
 local function showAppInformation()
     local win = hs.window.focusedWindow()
     local app = win:application()
-    local str = "App name:      " .. app:name() .. "\n"
-        .. "App path:      " .. app:path() .. "\n"
-        .. "App bundle:    " .. app:bundleID() .. "\n"
-        .. "App pid:       " .. app:pid() .. "\n"
-        .. "Win title:     " .. win:title() .. "\n"
-        .. "输入法ID:       " .. hs.keycodes.currentSourceID() .. "\n"
-        .. "键盘布局:       " .. hs.keycodes.currentLayout() .. "\n"
-        .. "输入法名称:      " .. hs.keycodes.currentMethod() .. "\n"
+    local str = "App name:      " .. (app:name() or "") .. "\n"
+        .. "App path:      " .. (app:path() or "") .. "\n"
+        .. "App bundle:    " .. (app:bundleID() or "") .. "\n"
+        .. "App pid:       " .. (app:pid() or "") .. "\n"
+        .. "Win title:     " .. (win:title() or "") .. "\n"
+        .. "输入法ID:       " .. (hs.keycodes.currentSourceID() or "") .. "\n"
+        .. "键盘布局:       " .. (hs.keycodes.currentLayout() or "") .. "\n"
+        .. "输入法名称:      " .. (hs.keycodes.currentMethod() or "") .. "\n"
     hs.pasteboard.setContents(str)
     LOGAN_ALERT_BOTTOM(str, 10)
 end

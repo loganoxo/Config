@@ -9,11 +9,13 @@ local lastSourceId = hs.keycodes.currentSourceID()
 local APP_TO_IME = {
     ['com.googlecode.iterm2'] = CurrentABC,
     ['com.apple.Terminal'] = CurrentABC,
+    ['com.bastiaanverreijt.Transnomino'] = CurrentABC,
     ['com.google.Chrome'] = CurrentPinyin,
     ['com.hezongyidev.Bob'] = CurrentPinyin,
     ['com.tencent.qq'] = CurrentPinyin,
     ['com.tencent.xinWeChat'] = CurrentPinyin,
     ['com.openai.chat'] = CurrentPinyin,
+    ['company.thebrowser.Browser'] = CurrentPinyin,
 }
 -- --------------------------------------------------
 

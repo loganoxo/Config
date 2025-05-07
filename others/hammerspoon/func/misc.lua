@@ -110,17 +110,21 @@ end)
 -- 1、显示当前App的详细信息
 local function showAppInformation()
     local win = hs.window.focusedWindow()
-    local app = win:application()
-    local str = "App name:      " .. (app:name() or "") .. "\n"
-        .. "App path:      " .. (app:path() or "") .. "\n"
-        .. "App bundle:    " .. (app:bundleID() or "") .. "\n"
-        .. "App pid:       " .. (app:pid() or "") .. "\n"
-        .. "Win title:     " .. (win:title() or "") .. "\n"
-        .. "输入法ID:       " .. (hs.keycodes.currentSourceID() or "") .. "\n"
-        .. "键盘布局:       " .. (hs.keycodes.currentLayout() or "") .. "\n"
-        .. "输入法名称:      " .. (hs.keycodes.currentMethod() or "") .. "\n"
-    hs.pasteboard.setContents(str)
-    LOGAN_ALERT_BOTTOM(str, 10)
+    if win then
+        local app = win:application()
+        local str = "App name:      " .. (app:name() or "") .. "\n"
+            .. "App path:      " .. (app:path() or "") .. "\n"
+            .. "App bundle:    " .. (app:bundleID() or "") .. "\n"
+            .. "App pid:       " .. (app:pid() or "") .. "\n"
+            .. "Win title:     " .. (win:title() or "") .. "\n"
+            .. "输入法ID:       " .. (hs.keycodes.currentSourceID() or "") .. "\n"
+            .. "键盘布局:       " .. (hs.keycodes.currentLayout() or "") .. "\n"
+            .. "输入法名称:      " .. (hs.keycodes.currentMethod() or "") .. "\n"
+        hs.pasteboard.setContents(str)
+        LOGAN_ALERT_BOTTOM(str, 10)
+    else
+        LOGAN_ALERT("no window", 2)
+    end
 end
 ModalMgr.supervisor:bind("ctrl", "A", "🟢 显示当前App的信息(hyperKey+A)", function()
     ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境

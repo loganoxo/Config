@@ -20,7 +20,7 @@ export default {
         if (!path) {
             return new Response("Usage: /<owner>/<repo>/<branch>/path/to/file", {status: 400})
         }
-        if (request.method!=="GET") {
+        if (request.method !== "GET") {
             return new Response("method must be get", {status: 500})
         }
 
@@ -82,8 +82,8 @@ export default {
         resHeaders.delete("content-security-policy")
         resHeaders.delete("content-security-policy-report-only")
         resHeaders.delete("clear-site-data")
-        // 设置缓存时间为4小时,会同时影响浏览器缓存和caches.default
-        resHeaders.set('Cache-Control', 'public, max-age=14400')
+        // 设置缓存时间为30天,会同时影响浏览器缓存和caches.default
+        resHeaders.set('Cache-Control', 'public, max-age=2592000')
 
         const finalResponse = new Response(response.body, {
             status: response.status,

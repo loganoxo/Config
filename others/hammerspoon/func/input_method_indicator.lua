@@ -21,12 +21,13 @@ local exclude = {
     ["com.runningwithcrayons.Alfred"] = true,
     ["org.hammerspoon.Hammerspoon"] = true,
     ["com.lwouis.alt-tab-macos"] = true,
+    ["com.xunyong.1capture"] = true,
+    ["com.knollsoft.Hookshot"] = true, --Rectangle Pro
     ["com.apple.Preview"] = true,
     ["com.apple.Spotlight"] = true,
     ["com.apple.systempreferences"] = true,
     ["com.apple.loginwindow"] = true,
-    ["com.apple.finder"] = true,
-    ["com.knollsoft.Hookshot"] = true, --Rectangle Pro
+    ["com.apple.finder"] = true
 }
 
 local function hideOrDeleteCanvas(str)

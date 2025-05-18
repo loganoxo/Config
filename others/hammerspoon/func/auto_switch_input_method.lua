@@ -3,7 +3,7 @@
 -- **************************************************
 
 -- --------------------------------------------------
-local lastSourceId = hs.keycodes.currentSourceID()
+AutoSwitch_LastSourceId = nil
 
 -- 定义你自己想要自动切换输入法的 app
 local APP_TO_IME = {
@@ -17,20 +17,41 @@ local APP_TO_IME = {
     ['com.openai.chat'] = CurrentPinyin,
     ['company.thebrowser.Browser'] = CurrentPinyin,
 }
+
+local exclude = {
+    ["jacklandrin.OnlySwitch"] = true,
+    ["com.surteesstudios.Bartender"] = true,
+    ["com.bjango.istatmenus.status"] = true,
+    ["cc.ffitch.shottr"] = true,
+    ["com.runningwithcrayons.Alfred"] = true,
+    ["org.hammerspoon.Hammerspoon"] = true,
+    ["com.lwouis.alt-tab-macos"] = true,
+    ["com.xunyong.1capture"] = true,
+    ["com.knollsoft.Hookshot"] = true, --Rectangle Pro
+    ["com.apple.Preview"] = true,
+    ["com.apple.Spotlight"] = true,
+    ["com.apple.systempreferences"] = true,
+    ["com.apple.loginwindow"] = true,
+    ["com.apple.finder"] = true
+}
+
 -- --------------------------------------------------
 
 local function updateFocusedAppInputMethod(bundleID)
     local ime = APP_TO_IME[bundleID]
     local currentSourceID = hs.keycodes.currentSourceID()
+    -- ~= 为 不等号
     if ime then
+        -- 目标应用有明确指定输入法
         if ime ~= currentSourceID then
-            lastSourceId = currentSourceID
+            AutoSwitch_LastSourceId = currentSourceID
             hs.keycodes.currentSourceID(ime)
         end
     else
-        if lastSourceId and lastSourceId ~= currentSourceID then
-            hs.keycodes.currentSourceID(lastSourceId)
-            lastSourceId = nil
+        -- 没有指定输入法的情况
+        if AutoSwitch_LastSourceId and AutoSwitch_LastSourceId ~= currentSourceID and not exclude[bundleID] then
+            hs.keycodes.currentSourceID(AutoSwitch_LastSourceId)
+            AutoSwitch_LastSourceId = nil
         end
     end
 end

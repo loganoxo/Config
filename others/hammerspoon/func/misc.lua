@@ -106,26 +106,48 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "K", "Temp目录下打开Iterm2", funct
 end)
 
 --------------  以下为主模态中可以执行的快捷键
-
 -- 1、显示当前App的详细信息
 local function showAppInformation()
     local win = hs.window.focusedWindow()
-    if win then
-        local app = win:application()
-        local str = "App name:      " .. (app:name() or "") .. "\n"
-            .. "App path:      " .. (app:path() or "") .. "\n"
-            .. "App bundle:    " .. (app:bundleID() or "") .. "\n"
-            .. "App pid:       " .. (app:pid() or "") .. "\n"
-            .. "Win title:     " .. (win:title() or "") .. "\n"
-            .. "输入法ID:       " .. (hs.keycodes.currentSourceID() or "") .. "\n"
-            .. "键盘布局:       " .. (hs.keycodes.currentLayout() or "") .. "\n"
-            .. "输入法名称:      " .. (hs.keycodes.currentMethod() or "") .. "\n"
-        hs.pasteboard.setContents(str)
-        LOGAN_ALERT_BOTTOM(str, 10)
+    local str = ""
+    local app = nil
+    if win and win:isStandard() and win:isVisible() and not win:isMinimized() then
+        app = win:application()
+        local title = win:title()
+        str = str .. LoganPad("Win title:", 15) .. (LoganIsBlank(title) and "no title" or title) .. "\n"
     else
-        LOGAN_ALERT("no window", 2)
+        str = str .. "              No Window" .. "\n"
+        app = hs.application.frontmostApplication()
     end
+
+    if app then
+        local name = app:name()
+        local path = app:path()
+        local bundleID = app:bundleID()
+        local pid = app:pid()
+        str = str .. LoganPad("App name:", 15) .. (LoganIsBlank(name) and "no name" or name) .. "\n"
+            .. LoganPad("App path:", 15) .. (LoganIsBlank(path) and "no path" or path) .. "\n"
+            .. LoganPad("App bundle:", 15) .. (LoganIsBlank(bundleID) and "no bundleID" or bundleID) .. "\n"
+            .. LoganPad("App pid:", 15) .. (LoganIsBlank(pid) and "no pid" or pid) .. "\n"
+    else
+        str = str .. "              No App\n"
+    end
+
+    local currentSourceID = hs.keycodes.currentSourceID()
+    local currentLayout = hs.keycodes.currentLayout()
+    local currentMethod = hs.keycodes.currentMethod()
+    str = str .. LoganPad("SourceID:", 15) .. (LoganIsBlank(currentSourceID) and "无" or currentSourceID) .. "\n"
+        .. LoganPad("SourceLayout:", 15) .. (LoganIsBlank(currentLayout) and "无" or currentLayout) .. "\n"
+        .. LoganPad("SourceName:", 15) .. (LoganIsBlank(currentMethod) and "无" or currentMethod) .. "\n"
+    hs.pasteboard.setContents(str)
+    if app and app:bundleID() then
+        hs.timer.doAfter(0.8, function()
+            hs.pasteboard.setContents(app:bundleID())
+        end)
+    end
+    LOGAN_ALERT_BOTTOM(str, 30, 20)
 end
+
 ModalMgr.supervisor:bind("ctrl", "A", "🟢 显示当前App的信息(hyperKey+A)", function()
     ModalMgr:deactivateAll() --退出所有其他 modal 模式,确保只进入一个干净的模式环境
     showAppInformation()

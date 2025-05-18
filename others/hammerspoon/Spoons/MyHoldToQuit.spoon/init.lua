@@ -45,12 +45,30 @@ MyHoldToQuitX = nil
 MyHoldToQuitY = nil
 MyHoldToQuitAlert = false
 
+obj.exclude = {
+    ["org.hammerspoon.Hammerspoon"] = true,
+    ["com.apple.Preview"] = true,
+    ["com.apple.Spotlight"] = true,
+    ["com.apple.systempreferences"] = true,
+    ["com.apple.loginwindow"] = true,
+    ["com.apple.finder"] = true,
+    ["com.tencent.WeTypeSettings"] = true,
+}
+
 function obj:check_window(win)
     if not win or not win:isStandard() or not win:isVisible() or win:isMinimized() then
         LOGAN_ALERT("没有可用窗口", 2)
         return false
     end
     return true
+end
+
+function obj:check_app(bundleID)
+    if self.exclude[bundleID] then
+        return false
+    else
+        return true
+    end
 end
 
 --- HoldToQuit.killCurrentApp()
@@ -63,7 +81,15 @@ function obj:killCurrentApp()
     local win = hs.window.focusedWindow()
     if obj:check_window(win) then
         local app = win:application()
-        if app:bundleID() == MyHoldToQuitBundleID then
+        if not app then
+            hs.alert.show("没有可退出的app")
+        end
+        local appBundleID = app:bundleID()
+        if not obj:check_app(appBundleID) then
+            hs.alert.show("当前app不能退出: " .. appBundleID)
+            return
+        end
+        if appBundleID == MyHoldToQuitBundleID then
             MyHoldToQuitAlert = true
             hs.application.get("org.hammerspoon.Hammerspoon"):setFrontmost()
             hs.dialog.alert(MyHoldToQuitX + (MyHoldToQuitW - 260) / 2 + 125, MyHoldToQuitY + (MyHoldToQuitH / 2) - 98, function(result)
@@ -115,9 +141,14 @@ function obj:onKeyDown()
         local win = hs.window.focusedWindow()
         if obj:check_window(win) then
             local app = win:application()
+            local appBundleID = app:bundleID()
+            if not obj:check_app(appBundleID) then
+                hs.alert.show("当前app不能退出: " .. appBundleID)
+                return
+            end
             local max = win:frame()
 
-            MyHoldToQuitBundleID = app:bundleID() --记录按下键时当前app的id,实际退出时进行判断
+            MyHoldToQuitBundleID = appBundleID --记录按下键时当前app的id,实际退出时进行判断
             MyHoldToQuitName = app:name() --记录按下键时当前app的id,实际退出时进行判断
             MyHoldToQuitW = max.w
             MyHoldToQuitH = max.h

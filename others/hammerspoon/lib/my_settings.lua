@@ -10,7 +10,7 @@ function my_settings_load()
             MySettings = {}
         else
             MySettings = settings
-            hs.alert.show("已加载settings.json")
+            -- hs.alert.show("已加载settings.json")
         end
     end
 end

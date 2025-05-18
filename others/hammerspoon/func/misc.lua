@@ -145,7 +145,7 @@ local function showAppInformation()
             hs.pasteboard.setContents(app:bundleID())
         end)
     end
-    LOGAN_ALERT_BOTTOM(str, 30, 20)
+    LOGAN_ALERT_BOTTOM(str, 5, 20)
 end
 
 ModalMgr.supervisor:bind("ctrl", "A", "🟢 显示当前App的信息(hyperKey+A)", function()

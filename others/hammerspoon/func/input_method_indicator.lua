@@ -1,7 +1,10 @@
---- === InputMethodIndicator ===
---- 输入法状态指示器模块
+-- **************************************************
+--  输入法状态指示器 InputMethodIndicator
 -- 在屏幕中心位置显示彩色圆点指示当前输入法状态
 -- 英文输入法显示绿点,非英文输入法显示红点
+-- **************************************************
+
+-- --------------------------------------------------
 
 -- 默认配置参数
 InputMethodIndicatorObj = {
@@ -11,23 +14,39 @@ InputMethodIndicatorObj = {
     dotSize = 25, -- 圆点尺寸
     deltaY = 18, -- 垂直偏移量(距离光标位置)
     deltaX = 10, -- 水平偏移量(距离光标位置)
-}
-
-local exclude = {
-    ["jacklandrin.OnlySwitch"] = true,
-    ["com.surteesstudios.Bartender"] = true,
-    ["com.bjango.istatmenus.status"] = true,
-    ["cc.ffitch.shottr"] = true,
-    ["com.runningwithcrayons.Alfred"] = true,
-    ["org.hammerspoon.Hammerspoon"] = true,
-    ["com.lwouis.alt-tab-macos"] = true,
-    ["com.xunyong.1capture"] = true,
-    ["com.knollsoft.Hookshot"] = true, --Rectangle Pro
-    ["com.apple.Preview"] = true,
-    ["com.apple.Spotlight"] = true,
-    ["com.apple.systempreferences"] = true,
-    ["com.apple.loginwindow"] = true,
-    ["com.apple.finder"] = true
+    lastSourceId = nil, -- 上次的输入法
+    lastBundleID = nil, -- 上次的appId
+    -- 当前app的排除列表
+    current_exclude = {
+        ["jacklandrin.OnlySwitch"] = true,
+        ["com.surteesstudios.Bartender"] = true,
+        ["com.bjango.istatmenus.status"] = true,
+        ["cc.ffitch.shottr"] = true,
+        ["com.runningwithcrayons.Alfred"] = true,
+        ["org.hammerspoon.Hammerspoon"] = true,
+        ["com.lwouis.alt-tab-macos"] = true,
+        ["com.xunyong.1capture"] = true,
+        ["com.knollsoft.Hookshot"] = true, --Rectangle Pro
+        ["com.apple.Preview"] = true,
+        ["com.apple.Spotlight"] = true,
+        ["com.apple.systempreferences"] = true,
+        ["com.apple.loginwindow"] = true,
+        ["com.apple.finder"] = true
+    },
+    -- 上一个app的排除列表
+    last_exclude = {
+        ["jacklandrin.OnlySwitch"] = true,
+        ["com.surteesstudios.Bartender"] = true,
+        ["com.bjango.istatmenus.status"] = true,
+        ["cc.ffitch.shottr"] = true,
+        ["com.runningwithcrayons.Alfred"] = true,
+        ["org.hammerspoon.Hammerspoon"] = true,
+        ["com.lwouis.alt-tab-macos"] = true,
+        ["com.xunyong.1capture"] = true,
+        ["com.knollsoft.Hookshot"] = true, --Rectangle Pro
+        ["com.apple.Preview"] = true,
+        ["com.apple.Spotlight"] = true,
+    }
 }
 
 local function hideOrDeleteCanvas(str)
@@ -56,7 +75,9 @@ local function showCanvas(force)
     local win = hs.window.focusedWindow()
     local frame = nil
     if win then
-        if not force and exclude[win:application():bundleID()] then
+        if not force and (InputMethodIndicatorObj.current_exclude[win:application():bundleID()]
+            or (InputMethodIndicatorObj.lastBundleID
+            and InputMethodIndicatorObj.last_exclude[InputMethodIndicatorObj.lastBundleID])) then
             if InputMethodIndicatorObj.canvas then
                 hideOrDeleteCanvas("hide")
             end
@@ -64,6 +85,8 @@ local function showCanvas(force)
             -- LOGAN_ALERT(win:application():bundleID())
             frame = win:frame() -- 获取窗口的位置和尺寸
         end
+        -- 记录appId
+        InputMethodIndicatorObj.lastBundleID = win:application():bundleID()
     else
         -- 获取主屏幕的信息
         local screen = hs.screen.mainScreen()
@@ -139,7 +162,7 @@ function MyInputMethodIndicatorStart()
         if InputMethodIndicatorObj.lastSourceId and InputMethodIndicatorObj.lastSourceId == currentSourceID then
             realChange = false
         else
-            InputMethodIndicatorObj.lastSourceId = hs.keycodes.currentSourceID()
+            InputMethodIndicatorObj.lastSourceId = currentSourceID
             realChange = true
         end
 
@@ -168,6 +191,7 @@ function MyInputMethodIndicatorStart()
             --    InputMethodIndicatorObj.lastSourceId = hs.keycodes.currentSourceID()
             --    realChange = true
             --end
+
             --if canvasVisible and realChange then
             if canvasVisible then
                 hideOrDeleteCanvas("hide")

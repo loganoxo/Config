@@ -1,0 +1,30 @@
+{
+    "name": "Terminal",
+    "identifier": "com.logan.popclip.extension.terminal",
+    "description": "将文本发送到iterm2",
+    "keywords": "terminal iterm2",
+    "popclip version": 4151,
+    "icon": "square filled scale=80 move-y=6 >_",
+    "requirements": ["text"],
+    "applescriptFile": "iterm2.applescript",
+    "app": {
+        "name": "iTerm2,checkInstalled是安装插件时检测是否已安装该APP",
+        "link": "https://iterm2.com/",
+        "bundleIdentifiers": ["com.googlecode.iterm2"],
+        "checkInstalled": false
+    },
+    "options": [
+        {
+            "identifier": "new_window",
+            "label": "每次都创建新窗口",
+            "type": "boolean",
+            "default value": false
+        },
+        {
+            "identifier": "new_tab",
+            "label": "每次都创建新标签",
+            "type": "boolean",
+            "default value": false
+        }
+    ]
+}

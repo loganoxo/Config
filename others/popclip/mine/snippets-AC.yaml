@@ -1,0 +1,12 @@
+#popclip 调用alfred的剪切板历史
+name: Alfred Clipboard
+icon: square filled AC
+actions:
+    - requirements: ["!text", "paste"] #没有选中文本
+      key combos:
+          - option C
+    - requirements: ["text", "paste"] #剪切板内容追加到选中文本之后
+      key combos:
+          - right #取消选中文本
+          - wait 50 # waits 50 milliseconds
+          - option C

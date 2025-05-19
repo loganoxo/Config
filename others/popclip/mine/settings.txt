@@ -1,0 +1,9 @@
+1、 搜索
+https://www.google.com/search?q=***
+https://www.baidu.com/s?wd=***
+2、 ai for aihubmix
+sk-AwaRtgnO8UfSFqkU6aBdE1F8A41a4b2c8dF3A17dEb031125
+我希望你能扮演一个软件开发者或者程序员的角色,涉及的知识包括但并不限于:前端(javascript/html/css/vue等),后端(java/数据库/sql等),各种脚本(bash/zsh/applescript/python等) 等技术知识。你的工作是针对我的提问, 给出最具时效性且稳定且性能最好的方案或代码或简单回答。以下是我对你的提问:
+
+3、chatgpt website
+我希望你能扮演一个软件开发者的角色，以下是我对你的提问:

@@ -1,0 +1,5 @@
+#popclip
+name: Alfred Action
+requirements: [text]
+icon: square filled AZ
+key combo: ctrl command Z

@@ -1,0 +1,11 @@
+name: Alfred
+identifier: com.logan.popclip.extension.alfred
+description: Activate Alfred with the selected text.
+popclip version: 4151
+icon: square filled scale=75 move-y=-1 file:alfred.png
+app:
+    name: Alfred
+    link: "https://www.alfredapp.com"
+    bundleIdentifier: com.runningwithcrayons.Alfred
+    checkInstalled: true
+applescript: 'tell application id "com.runningwithcrayons.Alfred" to search "{popclip text}"'

@@ -1,6 +1,6 @@
 // #popclip
 // name: ChatGPT Website
-// identifier: com.pilotmoon.popclip.extension.chatgpt-website
+// identifier: logan.chatgpt-website
 // description: Start a new chat on the ChatGPT Website.
 // icon: square filled scale=85 iconify:simple-icons:openai
 // app: { name: ChatGPT Website, link: 'https://chatgpt.com/' }

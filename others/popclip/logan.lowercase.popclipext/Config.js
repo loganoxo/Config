@@ -1,6 +1,6 @@
 // #popclip
 // name: Lowercase
-// identifier: com.pilotmoon.popclip.extension.lowercase
+// identifier: logan.lowercase
 // description: Make the selected text all lowercase.
 // icon: square filled ab
 // popclip version: 4151

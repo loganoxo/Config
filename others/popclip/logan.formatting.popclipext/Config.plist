@@ -47,7 +47,7 @@
 	<key>Extension Description</key>
 	<string>Bold, italic and underline.</string>
 	<key>Extension Identifier</key>
-	<string>com.pilotmoon.popclip.extension.formatting</string>
+	<string>logan.formatting</string>
 	<key>Extension Image File</key>
 	<string>formatting.png</string>
 	<key>Extension Name</key>

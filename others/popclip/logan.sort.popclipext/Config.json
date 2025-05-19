@@ -1,7 +1,7 @@
 {
   "popclip version": 3785,
-  "identifier": "com.pilotmoon.popclip.extension.sort",
-  "name": "Sort",  
+  "identifier": "logan.sort",
+  "name": "Sort",
   "icon": "sort.png",
   "regex": "(?s)^(.+)[\\r\\n](.+)$",
   "javascript file": "sort.js",

@@ -1,6 +1,6 @@
 // #popclip
 // name: Copy as Markdown
-// identifier: com.pilotmoon.popclip.extension.copy-as-markdown
+// identifier: logan.copy-as-markdown
 // description: Copy web content as Markdown.
 // icon: 'md.png'
 // popclip version: 4225

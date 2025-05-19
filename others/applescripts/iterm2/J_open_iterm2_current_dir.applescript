@@ -96,10 +96,12 @@ on get_window()
 	if exist_window is missing value then
 		return new_window()
 	else
-		if miniaturized of exist_window is true then
-			set miniaturized of exist_window to false
-			delay 0.1
-		end if
+		tell application id "com.googlecode.iterm2"
+			if miniaturized of exist_window is true then
+				set miniaturized of exist_window to false
+				delay 0.1
+			end if
+		end tell
 		return exist_window
 	end if
 end get_window

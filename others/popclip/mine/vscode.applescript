@@ -1,6 +1,6 @@
 -- #popclip
 -- name: Open_Vscode
--- identifier: com.logan.popclip.extension.vscode
+-- identifier: logan.vscode
 -- description: 将文本发送到vscode
 -- icon: square filled VS
 -- requirements: ["text"]

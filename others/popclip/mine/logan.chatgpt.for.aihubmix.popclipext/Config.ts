@@ -1,7 +1,7 @@
 // #popclip
 // name: OpenAI Chat For aihubmix
 // icon: openai-icon.svg
-// identifier: com.logan.popclip.extension.chatgpt.for.aihubmix
+// identifier: logan.chatgpt.for.aihubmix
 // description: Send the selected text to OpenAI's Chat API (aihubmix) and append the response.
 // app: { name: Chat API For aihubmix, link: 'https://platform.openai.com/docs/api-reference/chat' }
 // popclipVersion: 4586

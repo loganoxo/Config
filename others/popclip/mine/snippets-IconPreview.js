@@ -1,6 +1,6 @@
 // #popclip 图标预览
 // name: Icon Preview
-// identifier: com.logan.popclip.extension.IconPreview
+// identifier: logan.IconPreview
 // entitlements: [dynamic]
 // language: javascript
 // module: true

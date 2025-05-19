@@ -1,5 +1,5 @@
 name: Alfred
-identifier: com.logan.popclip.extension.alfred
+identifier: logan.alfred
 description: Activate Alfred with the selected text.
 popclip version: 4151
 icon: square filled scale=75 move-y=-1 file:alfred.png

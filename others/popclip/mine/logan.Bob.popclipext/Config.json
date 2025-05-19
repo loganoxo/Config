@@ -1,6 +1,6 @@
 {
     "name": "Bob",
-    "identifier": "com.logan.popclip.extension.Bob",
+    "identifier": "logan.Bob",
     "description": "Translate text with Bob.",
     "popclipVersion": 4151,
     "icon": "square filled scale=90 iconify:ri:translate",

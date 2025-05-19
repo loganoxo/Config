@@ -1,6 +1,6 @@
 // #popclip
 // name: Append
-// identifier: com.logan.popclip.extension.pasteboard.append
+// identifier: logan.pasteboard.append
 // description: 将选中的文字附加到剪切板后面
 // icon: square filled scale=128 move-y=7 +
 // requirements: [text]

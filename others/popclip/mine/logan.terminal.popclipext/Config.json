@@ -1,6 +1,6 @@
 {
     "name": "Terminal",
-    "identifier": "com.logan.popclip.extension.terminal",
+    "identifier": "logan.terminal",
     "description": "将文本发送到iterm2",
     "keywords": "terminal iterm2",
     "popclip version": 4151,

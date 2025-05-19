@@ -1,6 +1,6 @@
 -- #popclip
 -- name: website
--- identifier: com.logan.popclip.extension.website
+-- identifier: logan.website
 -- description: 搜索引擎
 -- icon: square filled scale=92 symbol:globe
 -- requirements: ["text"]

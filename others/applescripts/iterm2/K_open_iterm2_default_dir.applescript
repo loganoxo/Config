@@ -119,7 +119,7 @@ on run argv
 	end if
 	if cd_command is not missing value then
 		send_text_and_execute(the_current_window, cd_command)
+		delay 0.1
 	end if
-	delay 0.2
 	activate_app()
 end run

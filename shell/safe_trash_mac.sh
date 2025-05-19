@@ -32,6 +32,7 @@ function _safe_delete_validate() {
 
     # 预先判断
     for item in "$@"; do
+        # -* 排除把类似于 -rf 的选项当成目录的情况
         if [[ "$item" == "~" || "$item" == "/" || "$item" == -* || "$item" == */-* || "$item" == "." || "$item" == "\\" ]]; then
             # 如果条件满足，执行相应的操作
             echo "!!!error: not trash, $item --Character illegal ."
@@ -44,6 +45,11 @@ function _safe_delete_validate() {
         if ! _validate_illegal_character "$item"; then
             # 校验失败
             return 1
+        fi
+
+        # 将以 ~ 开头的路径替换为 $HOME
+        if [[ "$item" =~ ^~/.+$ ]]; then
+            item="${HOME}/${item:2}"
         fi
 
         if [ ! -e "$item" ]; then

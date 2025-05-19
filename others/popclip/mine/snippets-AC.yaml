@@ -1,5 +1,6 @@
 #popclip 调用alfred的剪切板历史
 name: Alfred Clipboard
+identifier: logan.AlfredClipboard
 icon: square filled AC
 actions:
     - requirements: ["!text", "paste"] #没有选中文本

@@ -1,5 +1,6 @@
 #popclip
 name: Alfred Action
+identifier: logan.AlfredAction
 requirements: [text]
 icon: square filled AZ
 key combo: ctrl command Z

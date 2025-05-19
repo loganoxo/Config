@@ -2,42 +2,52 @@
 // name: OpenAI Chat Adapter
 // icon: openai-icon.svg
 // identifier: logan.chatgpt.adapter
-// description: Send the selected text to OpenAI's Chat API(Adapter) and append the response.
-// app: { name: Chat API For Adapter, link: 'https://platform.openai.com/docs/api-reference/chat' }
+// description: Send the selected text to OpenAI's Chat API(Adapter).
+// app: { name: Chat API, link: 'https://platform.openai.com/docs/api-reference/chat' }
 // popclipVersion: 4586
 // keywords: openai chatgpt adapter
 // entitlements: [network]
 
 import axios from "axios";
 
-export const options: Option[] = [
+export const options = [
     {
-        identifier: "baseURL",
-        label: "API BaseURL",
-        type: "string",
-        description:
-            "API BaseURL(https://aihubmix.com/v1)",
-    },
-    {
-        identifier: "apiKey",
+        identifier: "apikey",
         label: "API Key",
         type: "secret",
         description:
-            "API Key",
+            "Obtain an API key from: https://platform.openai.com/account/api-keys",
     },
     {
         identifier: "model",
         label: "Model",
         type: "multiple",
-        defaultValue: "gpt-3.5-turbo",
-        values: ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo", "gpt-4o"],
+        defaultValue: "gpt-4o-mini",
+        values: ["gpt-4o", "gpt-4o-mini", "o1", "o1-mini", "o3-mini"],
     },
     {
         identifier: "systemMessage",
         label: "System Message",
         type: "string",
         description:
-            "Optional system message to specify the behaviour of the AI agent.",
+            "Optional system message to specify the behaviour of the AI assistant.",
+    },
+    {
+        identifier: "baseURL",
+        label: "API BaseURL",
+        type: "string",
+        defaultValue: `https://api.openai.com/v1`,
+        description: "Leave as default unless you use a custom server(https://aihubmix.com/v1).",
+    },
+    {
+        identifier: "textMode",
+        label: "Response Handling",
+        type: "multiple",
+        values: ["append", "replace", "copy"],
+        valueLabels: ["Append", "Replace", "Copy"],
+        defaultValue: "append",
+        description:
+            "Append the response, replace the selected text, or copy to clipboard.",
     },
     {
         identifier: "resetMinutes",
@@ -54,16 +64,9 @@ export const options: Option[] = [
         icon: "broom-icon.svg",
         description: "Show a button to reset the conversation.",
     },
-];
+] as const;
 
-type OptionsShape = {
-    baseURL: string;
-    apiKey: string;
-    model: string;
-    systemMessage: string;
-    resetMinutes: string;
-    showReset: boolean;
-};
+type Options = InferOptions<typeof options>;
 
 // typescript interfaces for OpenAI API
 interface Message {
@@ -100,10 +103,10 @@ function getTranscript(n: number): string {
 }
 
 // the main chat action
-const chat: ActionFunction<OptionsShape> = async (input, options) => {
+const chat: ActionFunction<Options> = async (input, options) => {
     const openai = axios.create({
         baseURL: `${options.baseURL}`,
-        headers: {Authorization: `Bearer ${options.apiKey}`},
+        headers: {Authorization: `Bearer ${options.apikey}`},
     });
 
     // if the last chat was long enough ago, reset the history
@@ -136,13 +139,20 @@ const chat: ActionFunction<OptionsShape> = async (input, options) => {
         messages.push(data.choices[0].message);
         lastChat = new Date();
 
-        // if holding shift and alt, paste just the response.
-        // if holding shift, copy just the response.
-        // else, paste the last input and response.
-        if (popclip.modifiers.shift && popclip.modifiers.option) {
-            popclip.pasteText(getTranscript(1));
-        } else if (popclip.modifiers.shift) {
+        // copy?
+        let copy = options.textMode === "copy" || popclip.modifiers.shift;
+
+        // append or replace?
+        let replace = options.textMode === "replace";
+        if (popclip.modifiers.option) {
+            // if holding option, toggle append mode
+            replace = !replace;
+        }
+
+        if (copy) {
             popclip.copyText(getTranscript(1));
+        } else if (replace) {
+            popclip.pasteText(getTranscript(1));
         } else {
             popclip.pasteText(getTranscript(2));
             popclip.showSuccess();
@@ -162,7 +172,7 @@ export function getErrorInfo(error: unknown): string {
 }
 
 // export the actions
-export const actions: Action<OptionsShape>[] = [
+export const actions: Action<Options>[] = [
     {
         title: "Chat",
         code: chat,

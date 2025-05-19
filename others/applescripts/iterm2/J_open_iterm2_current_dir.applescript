@@ -115,7 +115,7 @@ on run argv
 	-- variables
 	set open_in_new_window to false
 	set open_in_new_tab to true
-	set cd_command to "clear; cd ~/Temp/aaa"
+	set cd_command to "clear; cd ~/Temp"
 	
 	-- Main
 	set the_current_window to get_window()

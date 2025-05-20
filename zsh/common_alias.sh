@@ -89,7 +89,6 @@ alias au='autoload -U'
 # homebrew
 alias brewtree='brew deps --tree --installed'
 alias brewlist='brew leaves | xargs brew deps  --installed --for-each | sed "s/^.*:/$(tput setaf 4)&$(tput sgr0)/"'
-alias brewoutdated='/usr/bin/env zsh ${__PATH_MY_CNF}/shell/brew_outdated_tracker.sh'
 
 # navi不直接执行命令; 经测试,用 navi --print ; 选好命令后回车,会输出命令(不执行)并换行; 只有用ctrl-g快捷键,才能让选好的命令显示在光标后
 alias nav='navi --print'

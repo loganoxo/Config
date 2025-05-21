@@ -147,7 +147,7 @@
 	AAAZAAAAAAAAAAAAAAAAAAAA2Q==
 	</data>
 	<key>CommandString</key>
-	<string>cd ~/Temp;clear</string>
+	<string>cd ~/Temp ;clear;</string>
 	<key>Font</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMS
@@ -190,7 +190,7 @@
 	oqqtAAAAAAAAAQEAAAAAAAAAGQAAAAAAAAAAAAAAAAAAALY=
 	</data>
 	<key>columnCount</key>
-	<integer>100</integer>
+	<integer>120</integer>
 	<key>name</key>
 	<string>Dracula</string>
 	<key>rowCount</key>

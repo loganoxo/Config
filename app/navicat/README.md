@@ -34,7 +34,7 @@ chmod u+x /Users/logan/Data/Config/app/navicat/reset.sh
 2、将com.logan.reset.navicat.premium.trial.period.plist复制到~/Library/LaunchAgents文件夹中，当前用户登录后便会自动加载该定时任务
 
 ```shell
-cp com.logan.reset.navicat.premium.trial.period.plist ~/Library/LaunchAgents/
+cp "${__PATH_MY_CNF}/app/navicat/com.logan.reset.navicat.premium.trial.period.plist" ~/Library/LaunchAgents/
 # 可能会有系统通知: 有新的登录项. 可以去 设置-通用-登录项 查看
 ```
 

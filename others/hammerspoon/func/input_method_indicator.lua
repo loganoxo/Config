@@ -75,9 +75,14 @@ local function showCanvas(force)
     local win = hs.window.focusedWindow()
     local frame = nil
     if win then
-        if not force and (InputMethodIndicatorObj.current_exclude[win:application():bundleID()]
-            or (InputMethodIndicatorObj.lastBundleID
-            and InputMethodIndicatorObj.last_exclude[InputMethodIndicatorObj.lastBundleID])) then
+        local app = win:application()
+        local bundleID = nil
+        if app then
+            bundleID = app:bundleID()
+        end
+
+        if not force and ((bundleID and InputMethodIndicatorObj.current_exclude[bundleID])
+            or (InputMethodIndicatorObj.lastBundleID and InputMethodIndicatorObj.last_exclude[InputMethodIndicatorObj.lastBundleID])) then
             if InputMethodIndicatorObj.canvas then
                 hideOrDeleteCanvas("hide")
             end
@@ -86,7 +91,7 @@ local function showCanvas(force)
             frame = win:frame() -- 获取窗口的位置和尺寸
         end
         -- 记录appId
-        InputMethodIndicatorObj.lastBundleID = win:application():bundleID()
+        InputMethodIndicatorObj.lastBundleID = bundleID
     else
         -- 获取主屏幕的信息
         local screen = hs.screen.mainScreen()

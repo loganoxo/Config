@@ -9,12 +9,12 @@
 
         <!-- 要运行的程序， 如果省略这个选项，会把ProgramArguments的第一个元素作为要运行的程序 -->
         <key>Program</key>
-        <string>/Users/logan/Data/Config/app/navicat/reset.sh</string>
+        <string>/Users/logan/Data/Config/app/navicat/reset-navicat.sh</string>
 
         <!--
           <key>ProgramArguments</key>
           <array>
-              <string>/Users/logan/Data/Config/navicat/reset.sh</string>
+              <string>/Users/logan/Data/Config/navicat/reset-navicat.sh</string>
           </array>
         -->
 

@@ -5,8 +5,8 @@
 
 ## 需要修改的内容
 
-> reset.sh 里都是软件安装的默认目录,无特殊情况不用动
-> com.logan.reset.navicat.premium.trial.period.plist 里的 Program 要修改成reset.sh的绝对路径
+> reset-navicat.sh 里都是软件安装的默认目录,无特殊情况不用动
+> com.logan.reset.navicat.premium.trial.period.plist 里的 Program 要修改成reset-navicat.sh的绝对路径
 > 按需修改或删除日志记录的绝对路径: StandardOutPath StandardErrorPath
 
 ## plist应该放在哪个目录下?
@@ -25,7 +25,7 @@
 
 ## 步骤
 
-1、为reset.sh文件授予可执行权限
+1、为reset-navicat.sh文件授予可执行权限
 
 ```shell
 chmod u+x /Users/logan/Data/Config/app/navicat/reset.sh

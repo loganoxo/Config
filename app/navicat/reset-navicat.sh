@@ -8,7 +8,7 @@ set -e
 navicat_plist="$HOME/Library/Preferences/com.navicat.NavicatPremium.plist"
 navicat_dir="$HOME/Library/Application Support/PremiumSoft CyberTech/Navicat CC/Navicat Premium"
 navicat_info="/Applications/Navicat Premium.app/Contents/Info.plist"
-hash="" #如果有值则通过这个设定的值操作plist文件,没有值则通过正则匹配找出hash
+hash="" #如果有值(确定知道hash值的话)则通过这个设定的值操作plist文件,没有值则通过正则匹配找出hash
 echo "$(date "+%Y-%m-%d %H:%M:%S")   reset trial time RUNS"
 
 if [ -f "$navicat_info" ]; then

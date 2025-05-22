@@ -36,7 +36,7 @@ function Clipboard_Punct()
         end
         -- 设置回剪切板
         hs.pasteboard.setContents(content)
-        LOGAN_ALERT("标点已替换")
+        LOGAN_ALERT("标点已替换", 2)
         return true
     else
         LOGAN_ALERT("未检测到纯文本")
@@ -48,7 +48,7 @@ end
 hs.hotkey.bind(HYPER_KEY, "C", function()
     -- 清空剪贴板防止干扰
     hs.pasteboard.clearContents()
-    hs.timer.doAfter(0.5, function()
+    hs.timer.doAfter(0.2, function()
         -- 模拟系统复制 (⌘+C)
         hs.eventtap.keyStroke({ "CMD" }, "C")
         -- 稍等复制动作完成（用 timer 延迟 0.2 秒）

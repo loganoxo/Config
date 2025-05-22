@@ -1,3 +1,5 @@
+破解+密钥 网址:  https://3.jetbra.in/
+
 jetbra不能换位置;
 
 jetbrains.vmoptions.plist 放到    /Users/logan/Library/LaunchAgents/

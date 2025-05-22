@@ -36,7 +36,7 @@ function Clipboard_Punct()
         end
         -- 设置回剪切板
         hs.pasteboard.setContents(content)
-        LOGAN_ALERT("标点已替换", 2)
+        LOGAN_ALERT("标点已替换", 1)
         return true
     else
         LOGAN_ALERT("未检测到纯文本")

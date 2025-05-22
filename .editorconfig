@@ -34,3 +34,7 @@ trim_trailing_whitespace = false
 # 对 package.json 生效
 [package.json]
 indent_size = 2 # 使用2个空格缩进
+
+# 对 gitconfig 生效
+[gitconfig]
+indent_style = tab

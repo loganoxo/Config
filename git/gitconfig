@@ -69,10 +69,10 @@
 	# Remove file(s) from Git but not from disk
 	untrack = rm --cache --
 [diff]
-	# 指定默认 diff 工具为 vscode,只在时用 git difftool 时生效(不用加-t了)
+	# 指定默认 diff 工具为 vscode,只在时用 git difftool 时生效(不用加-t了); git diff 还是默认的Git 内置的命令行 diff 引擎
 	tool = vscode
 [merge]
-	# 设置默认合并工具为 vscode,只在时用 git mergetool 时生效(不用加-t了)
+	# 设置默认合并工具为 vscode,只在时用 git mergetool 时生效(不用加-t了); git merge 还是默认的Git 内置的命令行 merge 引擎
 	tool = vscode
 	# 显示 base 源(common ancestor)方便比对
 	conflictstyle = diff3

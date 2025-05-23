@@ -51,12 +51,19 @@
 	pruneTags = true
 	# 获取所有远程而非默认远程
 	all = true
+	# 默认值,仅在主项目引用的提交中包含子模块变更时才抓取子模块
+	recurseSubmodules = on-demand
 [branch]
 	# 按最后提交时间倒序排序分支列表(最新提交在前),默认是按分支名字母顺序 正序排列;相当于 git branch --sort=-committerdate ; 短横线表示倒序
 	sort = -committerdate
 [tag]
 	# 标签按版本号排序,优先级:语义版本; 在执行 git tag 时,按语义版本号排序标签列表(而不是默认的字母序)
 	sort = version:refname
+[status]
+	# 显示子模块变更摘要
+	submoduleSummary = true
+	# 递归显示所有未跟踪文件
+	showUntrackedFiles = all
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
 	last = log -1
@@ -67,6 +74,8 @@
 [diff]
 	# 使得 git diff、git status 等命令在检测文件变化时,自动识别重命名(rename),否则默认只看新增和删除,重命名会被当作删除+新增;
 	renames = true
+	# Git 会根据 diff 场景使用更有意义的前缀;默认用 a/(原文件)和 b/(新文件)前缀;启用后,c/:表示当前索引(cached),i/:表示工作区中的文件(index),w/:表示工作区改动(working tree)
+	mnemonicPrefix = true
 	# 指定默认 diff 工具为 vscode,只在时用 git difftool 时生效(不用加-t了); git diff 还是默认的Git 内置的命令行 diff 引擎
 	tool = vscode
 [merge]
@@ -111,6 +120,12 @@
 	# 不提示确认,直接打开对比工具; 或者用 git difftool -y
 	prompt = false
 [mergetool]
+	# 不保留 .orig 文件;执行合并后,带有冲突标记的原始文件可以保存为扩展名为 `.orig` 的文件;如果此变量设置为 false,则该文件不会被保留;默认为 true(即保留备份文件);
+	keepBackup = false
+	# 合并工具完成后删除临时文件
+	keepTemporaries = false
+	# 临时文件写入独立目录
+	writeToTemp = true
 	prompt = true
 [difftool "vscode"]
 	# 配置 vscode diff 命令,$LOCAL 和 $REMOTE 为 git 提供的比较文件路径
@@ -118,8 +133,6 @@
 [mergetool "vscode"]
 	# VS Code 打开合并结果文件,等待关闭后继续
 	cmd = code --wait "$MERGED"
-	# 不保留 .orig 文件;执行合并后,带有冲突标记的原始文件可以保存为扩展名为 `.orig` 的文件;如果此变量设置为 false,则该文件不会被保留;默认为 true(即保留备份文件);
-	keepBackup = false
 	# 忽略 VS Code 的退出码,避免非 0 导致 Git 停止流程
 	trustExitCode = true
 # sourcetree自动创建的, 这里只是定义了两个sourcetree的工具名,但是默认不是使用这个的;

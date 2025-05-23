@@ -59,10 +59,29 @@
 [tag]
 	# 标签按版本号排序,优先级:语义版本; 在执行 git tag 时,按语义版本号排序标签列表(而不是默认的字母序)
 	sort = version:refname
+# 即使使用sort = version:refname后,具有相同基础版本但不同后缀的标签仍然按字典顺序排序,结果可能是预发布标签排在正式版本之后(例如 "1.0-rc1" 排在 "1.0" 之后)
+# 可以通过设置此变量来指定带有不同后缀的标签的排序顺序(预发布版本等);通过在该变量中指定一个后缀,任何包含该后缀的标签都会出现在对应的正式版本之前
+# 例如,如果设置为 -rc,那么所有 "1.0-rcX" 标签都会排在 "1.0" 前面
+# 如果设置了多个后缀,则配置中这些后缀的顺序将决定具有这些后缀的标签的排序顺序
+# 例如,如果 -pre 在配置中排在 -rc 前面,则所有 "1.0-preX" 标签都会排在任何 "1.0-rcX" 标签前
+# 通过在这些后缀中指定空后缀,可以确定正式版本标签在各个带后缀标签之间的位置
+# 例如,如果配置中后缀的顺序是 -rc、""(空)、-ck、-bfs,那么所有 "v4.8-rcX" 标签将最先列出,然后是 "v4.8",接着是 "v4.8-ckX",最后是 "v4.8-bfsX"
+[versionsort]
+	suffix = -alpha
+	suffix = .alpha
+	suffix = -pre
+	suffix = .pre
+	suffix = -beta
+	suffix = .beta
+	suffix = -rc
+	suffix = .rc
+	suffix = ""
+	suffix = -patch
+	suffix = .patch
 [status]
 	# 显示子模块变更摘要
 	submoduleSummary = true
-	# 递归显示所有未跟踪文件
+	# 递归显示所有未跟踪文件,包括未跟踪目录中的所有文件;默认配置为normal,即如果某个目录中只有未跟踪文件,Git 只显示该目录名,而不会列出里面的每个文件;
 	showUntrackedFiles = all
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all

@@ -1,10 +1,10 @@
 # Evolution
 
-![|500](./img/Evolution1.png#inl)![|500](./img/Evolution2.png#inl)
+![|500](./img/Evolution.png)
 
-##  1、自动输入法  
+## 1、输入法切换器
 
-![image.png|500](./img/自动输入法.png)
+![image.png|500](./img/输入法切换器.png)
 
 ```shell
 # 开启(shell)
@@ -17,11 +17,12 @@
 /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
 
 # 输出 1
+
 ```
 
-##  2、输入法监视器
+## 2、输入法指示器
 
-![image.png|500](./img/输入法监视器.png)
+![image.png|500](./img/输入法指示器.png)
 
 ```shell
 # 开启(shell)
@@ -36,34 +37,34 @@
 # 输出 1
 ```
 
-##  3、剪切板标点
+## 3、剪切标点手动
 
-![image.png|500](./img/剪切板标点.png)
+![image.png|500](./img/剪切标点手动.png)
 
 ```shell
 /opt/homebrew/bin/hs -c 'Clipboard_Punct()'
 ```
 
-## 4、智能标点
+## 4、剪切标点监控
 
-![image.png|500](./img/智能标点.png)
+![image.png|500](./img/剪切标点监控.png)
 
 ```shell
 # 开启(shell)
-/opt/homebrew/bin/hs -c 'Smart_Punct_Start()'
+/opt/homebrew/bin/hs -c 'PasteboardPunctListenerStart()'
 
 # 关闭(shell)
-/opt/homebrew/bin/hs -c 'Smart_Punct_Stop()'
+/opt/homebrew/bin/hs -c 'PasteboardPunctListenerStop()'
 
 # 状态(shell)
-/opt/homebrew/bin/hs -c 'Smart_Punct_Status()'
+/opt/homebrew/bin/hs -c 'PasteboardPunctListenerStatus()'
 
 # 输出 1
 ```
 
-## 5、显示各种信息
+## 5、实时显示信息
 
-![image.png|500](./img/显示各种信息.png)
+![image.png|500](./img/实时显示信息.png)
 
 ```shell
 # 开启(shell)
@@ -78,22 +79,12 @@
 # 输出 1
 ```
 
-## 6、台前调度
+## 6、重载HS(hammerspoon)
 
-![image.png|500](./img/台前调度.png)
+![image.png|500](./img/重载HS.png)
 
 ```shell
-
-# 开启(shell)
-defaults write com.apple.WindowManager GloballyEnabled -bool true
-
-# 关闭(shell)
-defaults write com.apple.WindowManager GloballyEnabled -bool false
-
-# 状态(shell)
-defaults read com.apple.windowManager GloballyEnabled
-
-# 输出 1
+/opt/homebrew/bin/hs -c 'MY_RELOAD()'
 ```
 
 ## 7、获取网络信息
@@ -118,7 +109,33 @@ end tell
 
 ```
 
-## 9、低电量模式
+## 9、系统外观设置
+
+![image.png|500](./img/系统外观设置.png)
+
+```shell
+open 'x-apple.systempreferences:com.apple.Appearance-Settings.extension'
+```
+
+## 10、台前调度
+
+![image.png|500](./img/台前调度.png)
+
+```shell
+
+# 开启(shell)
+defaults write com.apple.WindowManager GloballyEnabled -bool true
+
+# 关闭(shell)
+defaults write com.apple.WindowManager GloballyEnabled -bool false
+
+# 状态(shell)
+defaults read com.apple.windowManager GloballyEnabled
+
+# 输出 1
+```
+
+## 11、低电量模式
 
 ![image.png|500](./img/低电量模式.png)
 
@@ -147,15 +164,24 @@ fi
 # 输出 1
 ```
 
-## 10、打开系统外观设置
+## 12、智能标点
 
-![image.png|500](./img/打开系统外观设置.png)
+![image.png|500](./img/智能标点.png)
 
 ```shell
-open 'x-apple.systempreferences:com.apple.Appearance-Settings.extension'
+# 开启(shell)
+/opt/homebrew/bin/hs -c 'Smart_Punct_Start()'
+
+# 关闭(shell)
+/opt/homebrew/bin/hs -c 'Smart_Punct_Stop()'
+
+# 状态(shell)
+/opt/homebrew/bin/hs -c 'Smart_Punct_Status()'
+
+# 输出 1
 ```
 
-## 11、清空废纸篓
+## 13、清空废纸篓
 
 ![image.png|500](./img/清空废纸篓.png)
 
@@ -172,14 +198,6 @@ tell application "Finder"
 	end if
 	-- set warns before emptying of trash to true
 end tell
-```
-
-## 11、重载HS(hammerspoon)
-
-![image.png|500](./img/重载HS.png)
-
-```shell
-/opt/homebrew/bin/hs -c 'MY_RELOAD()'
 ```
 
 ## 13、Hide Desktop Widget(不用)
@@ -202,6 +220,7 @@ defaults read com.apple.WindowManager StandardHideWidgets
 ```
 
 ## 14、Hide Desktop Icons(不用)
+
 ![image.png|500](./img/Hide-Desktop-Icons.png)
 
 ```shell

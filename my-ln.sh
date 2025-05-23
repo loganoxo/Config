@@ -47,7 +47,12 @@ ln -sf "${__PATH_MY_CNF}/bash/bash_profile" "$HOME/.bash_profile"
 ln -sf "${__PATH_MY_CNF}/bash/bashrc" "$HOME/.bashrc"
 
 # git
-ln -sf "${__PATH_MY_CNF}/git/gitconfig" "$HOME/.gitconfig"
+if _logan_if_mac; then
+    ln -sf "${__PATH_MY_CNF}/git/gitconfig-mac" "$HOME/.gitconfig"
+fi
+if _logan_if_linux; then
+    ln -sf "${__PATH_MY_CNF}/git/gitconfig-linux" "$HOME/.gitconfig"
+fi
 ln -sf "${__PATH_MY_CNF}/git/gitignore_global" "$HOME/.gitignore_global"
 ln -sf "${__PATH_MY_CNF}/git/hgignore_global" "$HOME/.hgignore_global"
 ln -sf "${__PATH_MY_CNF}/git/stCommitMsg" "$HOME/.stCommitMsg"

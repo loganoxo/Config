@@ -1,21 +1,106 @@
+# Put this in your ~/.gitconfig or ~/.config/git/config
+# Windows users: "~" is your profile's home directory, e.g. C:\Users\<YourName>
 [user]
 	name = loganoxo@163.com
 	email = loganoxo@163.com
 [core]
-	excludesfile = ~/.gitignore_global
+	# Global ignore file
+	excludesfile = /Users/logan/.gitignore_global
+	# 默认编辑器,许多 Git 命令会启动文本编辑器以提示进一步输入
+	# on Windows if you may have Notepad++
+	# editor = 'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin
+	# Sublime Text (Mac)            editor = subl -n -w
+	# VSCode                        editor = code --wait
+	# Sublime Text (Win, 32-bit)    editor = c:/program files (x86)/sublime text 3/sublimetext.exe -w
+	# Sublime Text (Win, 64-bit)    editor = c:/program files/sublime text 3/sublimetext.exe -w
+	# 配置为vim
+	editor = vim
+	# windows系统需要设为true(默认),Git可以在你commit时自动地把行结束符CRLF转换成LF,而在checkout时把LF转换成CRLF
+	# mac/linux 系统需要设为input(默认为false),checkout的时候不变,commit的时候转为LF(兜底)
 	autocrlf = input
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+	# 默认是less,这里改成cat,让git输出不分页
+	pager = cat
+	# whitespace是一个 逗号分隔的列表,用于告诉 Git 识别哪些空白字符问题;
+	# 这些设置会影响git diff(配合 color.diff.whitespace 高亮); git apply --whitespace=error(作为错误拒绝打补丁)
+	# 若首个单词为fix,表示在 apply 或 commit 时自动修复可识别的空白错误
+	# 可以使用 - 前缀禁用某项,比如 -trailing-space 表示不检查行尾空格
+	# blank-at-eol(默认开启): 检查行尾的空格(\n 前有空格)是否为错误; blank-at-eof(默认开启):检查文件结尾是否有多余空行
+	# trailing-space(默认开启):是 blank-at-eol 和 blank-at-eof 的简写(同时启用); space-before-tab(默认开启):检查缩进开头中 Tab 前是否有空格,视为格式错误
+	# indent-with-non-tab(未开启):检查缩进是否用了空格而不是 Tab(启用时推荐用于强制 Tab 风格)
+	# tab-in-indent(未开启):检查缩进是否包含 Tab,强制使用空格缩进时可启用
+	# cr-at-eol(未开启):支持 CR(\r)结尾的行,不会触发 trailing-space 错误(用于 Windows 换行)
+	# tabwidth=<n>(未开启):设置 Tab 显示宽度(影响缩进检测),默认 8,支持 1~63
+	whitespace = -trailing-space,space-before-tab,-indent-with-non-tab,tab-in-indent,-cr-at-eol
+# 设置 Git 使用 macOS 的 Keychain 存储密码或token
+[credential]
+	helper = osxkeychain
 [commit]
 	template = ~/.stCommitMsg
+# auto/true根据当前环境自动决定是否启用颜色输出,如果输出是终端(tty),就启用颜色;如果输出被重定向(比如管道或写入文件),则关闭颜色,避免乱码
+# always : 强制始终使用颜色输出; 测试: git diff 和 git diff | less
 [color]
-	ui = true
+	ui = auto
+[color "branch"]
+	current = yellow bold
+	local = green bold
+	remote = cyan bold
+[color "diff"]
+	# diff 元信息(如 "diff --git a/...")
+	meta = yellow bold
+	# 片段标识(如 "@@ -1,3 +1,4 @@")
+	frag = magenta bold
+	# 删除的行(以 - 开头)
+	old = red bold
+	# 新增的行(以 + 开头)
+	new = green bold
+	# 检测到多余空白的字符,用红色反色显示(背景为红色,文字为默认终端前景色,相当于高亮整段)
+	whitespace = red reverse
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
 [init]
 	defaultBranch = master
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
 	last = log -1
+	# List available aliases
+	aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
+	# Remove file(s) from Git but not from disk
+	untrack = rm --cache --
+[diff]
+	# 指定默认 diff 工具为 vscode,只在时用 git difftool 时生效(不用加-t了)
+	tool = vscode
+[merge]
+	# 设置默认合并工具为 vscode,只在时用 git mergetool 时生效(不用加-t了)
+	tool = vscode
+	# 显示 base 源(common ancestor)方便比对
+	conflictstyle = diff3
+[difftool]
+	# 不提示确认,直接打开对比工具; 或者用 git difftool -y
+	prompt = false
+[mergetool]
+	prompt = true
+[difftool "vscode"]
+	# 配置 vscode diff 命令,$LOCAL 和 $REMOTE 为 git 提供的比较文件路径
+	cmd = code --wait --diff "$LOCAL" "$REMOTE"
+[mergetool "vscode"]
+	# VS Code 打开合并结果文件,等待关闭后继续
+	cmd = code --wait "$MERGED"
+	# 不保留 .orig 文件;执行合并后,带有冲突标记的原始文件可以保存为扩展名为 `.orig` 的文件;如果此变量设置为 false,则该文件不会被保留;默认为 true(即保留备份文件);
+	keepBackup = false
+	# 忽略 VS Code 的退出码,避免非 0 导致 Git 停止流程
+	trustExitCode = true
+
+# sourcetree自动创建的, 这里只是定义了两个sourcetree的工具名,但是默认不是使用这个的;
+# 除非在命令行加上 -t,如: git mergetool -t sourcetree; 或者 git config --global diff.tool
+[difftool "sourcetree"]
+	# 指定用 macOS 自带的 opendiff(XCode软件提供的) 工具比较两个文件的差异,我用不了,因为电脑使用的commandlinetool是自己安装的,没有使用XCode提供的,所以不能使用
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	# 可用于指定工具路径,这里留空表示使用系统 PATH 中的 opendiff
+	path =
+[mergetool "sourcetree"]
+	# 调用 Sourcetree 自带脚本使用 FileMerge 进行三方合并
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	# Git 会根据退出码判断合并是否成功(true 表示信任)
+	trustExitCode = true

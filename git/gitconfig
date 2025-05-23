@@ -38,7 +38,7 @@
 	# 仓库初始化默认分支设置为 master
 	defaultBranch = master
 [commit]
-	template = ~/.stCommitMsg
+	template = /Users/logan/.stCommitMsg
 [push]
 	# 自动为新分支设置上游远程分支
 	autoSetupRemote = true

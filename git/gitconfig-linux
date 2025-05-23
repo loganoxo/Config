@@ -31,9 +31,6 @@
 	# cr-at-eol(未开启):支持 CR(\r)结尾的行,不会触发 trailing-space 错误(用于 Windows 换行)
 	# tabwidth=<n>(未开启):设置 Tab 显示宽度(影响缩进检测),默认 8,支持 1~63
 	whitespace = -trailing-space,space-before-tab,-indent-with-non-tab,tab-in-indent,-cr-at-eol
-# 设置 Git 使用 macOS 的 Keychain 存储密码或token
-[credential]
-	helper = osxkeychain
 [init]
 	# 仓库初始化默认分支设置为 master
 	defaultBranch = master
@@ -95,11 +92,7 @@
 	renames = true
 	# Git 会根据 diff 场景使用更有意义的前缀;默认用 a/(原文件)和 b/(新文件)前缀;启用后,c/:表示当前索引(cached),i/:表示工作区中的文件(index),w/:表示工作区改动(working tree)
 	mnemonicPrefix = true
-	# 指定默认 diff 工具为 vscode,只在时用 git difftool 时生效(不用加-t了); git diff 还是默认的Git 内置的命令行 diff 引擎
-	tool = vscode
 [merge]
-	# 设置默认合并工具为 vscode,只在时用 git mergetool 时生效(不用加-t了); git merge 还是默认的Git 内置的命令行 merge 引擎
-	tool = vscode
 	# 显示 base 源(common ancestor)方便比对
 	conflictstyle = diff3
 [column]
@@ -146,23 +139,3 @@
 	# 临时文件写入独立目录
 	writeToTemp = true
 	prompt = true
-[difftool "vscode"]
-	# 配置 vscode diff 命令,$LOCAL 和 $REMOTE 为 git 提供的比较文件路径
-	cmd = code --wait --diff "$LOCAL" "$REMOTE"
-[mergetool "vscode"]
-	# VS Code 打开合并结果文件,等待关闭后继续
-	cmd = code --wait "$MERGED"
-	# 忽略 VS Code 的退出码,避免非 0 导致 Git 停止流程
-	trustExitCode = true
-# sourcetree自动创建的, 这里只是定义了两个sourcetree的工具名,但是默认不是使用这个的;
-# 除非在命令行加上 -t,如: git mergetool -t sourcetree; 或者 git config --global diff.tool
-[difftool "sourcetree"]
-	# 指定用 macOS 自带的 opendiff(XCode软件提供的) 工具比较两个文件的差异,我用不了,因为电脑使用的commandlinetool是自己安装的,没有使用XCode提供的,所以不能使用
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	# 可用于指定工具路径,这里留空表示使用系统 PATH 中的 opendiff
-	path = 
-[mergetool "sourcetree"]
-	# 调用 Sourcetree 自带脚本使用 FileMerge 进行三方合并
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	# Git 会根据退出码判断合并是否成功(true 表示信任)
-	trustExitCode = true

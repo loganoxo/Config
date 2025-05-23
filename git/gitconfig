@@ -128,7 +128,7 @@
 	# 指定用 macOS 自带的 opendiff(XCode软件提供的) 工具比较两个文件的差异,我用不了,因为电脑使用的commandlinetool是自己安装的,没有使用XCode提供的,所以不能使用
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	# 可用于指定工具路径,这里留空表示使用系统 PATH 中的 opendiff
-	path =
+	path = 
 [mergetool "sourcetree"]
 	# 调用 Sourcetree 自带脚本使用 FileMerge 进行三方合并
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"

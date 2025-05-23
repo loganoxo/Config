@@ -81,8 +81,8 @@
 [web]
 	# 指定 Git 在需要打开网页时使用的浏览器(比如 git help --web、git instaweb)
 	browser = google-chrome
+# 可选:将 https 自动替换成 ssh 协议进行 clone/push/pull; 对于sourcetree、idea 等软件同样适用
 #[url "git@github.com:"]
-	# 可选:将 https 自动替换成 ssh 协议进行 clone/push/pull
 #    insteadOf = https://github.com/
 [color]
 	# auto/true根据当前环境自动决定是否启用颜色输出,如果输出是终端(tty),就启用颜色;如果输出被重定向(比如管道或写入文件),则关闭颜色,避免乱码

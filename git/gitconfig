@@ -5,7 +5,7 @@
 	email = loganoxo@163.com
 [core]
 	# Global ignore file
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/logan/.gitignore_global
 	# 默认编辑器,许多 Git 命令会启动文本编辑器以提示进一步输入
 	# on Windows if you may have Notepad++
 	# editor = 'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin

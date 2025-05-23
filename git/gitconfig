@@ -34,11 +34,59 @@
 # 设置 Git 使用 macOS 的 Keychain 存储密码或token
 [credential]
 	helper = osxkeychain
+[init]
+	# 仓库初始化默认分支设置为 master
+	defaultBranch = master
 [commit]
 	template = ~/.stCommitMsg
-# auto/true根据当前环境自动决定是否启用颜色输出,如果输出是终端(tty),就启用颜色;如果输出被重定向(比如管道或写入文件),则关闭颜色,避免乱码
-# always : 强制始终使用颜色输出; 测试: git diff 和 git diff | less
+[push]
+	# 自动为新分支设置上游远程分支
+	autoSetupRemote = true
+	# 推送时同时推送相关 tag
+	followTags = true
+[fetch]
+	# fetch 时删除已经在远程不存在的远程分支引用
+	prune = true
+	# 同样删除远程已移除的 tag
+	pruneTags = true
+	# 获取所有远程而非默认远程
+	all = true
+[branch]
+	# 按最后提交时间倒序排序分支列表(最新提交在前),默认是按分支名字母顺序 正序排列;相当于 git branch --sort=-committerdate ; 短横线表示倒序
+	sort = -committerdate
+[tag]
+	# 标签按版本号排序,优先级:语义版本; 在执行 git tag 时,按语义版本号排序标签列表(而不是默认的字母序)
+	sort = version:refname
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	last = log -1
+	# List available aliases
+	aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
+	# Remove file(s) from Git but not from disk
+	untrack = rm --cache --
+[diff]
+	# 使得 git diff、git status 等命令在检测文件变化时,自动识别重命名(rename),否则默认只看新增和删除,重命名会被当作删除+新增;
+	renames = true
+	# 指定默认 diff 工具为 vscode,只在时用 git difftool 时生效(不用加-t了); git diff 还是默认的Git 内置的命令行 diff 引擎
+	tool = vscode
+[merge]
+	# 设置默认合并工具为 vscode,只在时用 git mergetool 时生效(不用加-t了); git merge 还是默认的Git 内置的命令行 merge 引擎
+	tool = vscode
+	# 显示 base 源(common ancestor)方便比对
+	conflictstyle = diff3
+[column]
+	# 自动启用列显示,适应终端宽度,让输出更整洁; 假如有很多个branch,默认git branch会在一列,分多行,列出所有分支(每行一个);
+	# 使用auto后,每行会自动输出多个分支适应终端宽度
+	ui = auto
+[web]
+	# 指定 Git 在需要打开网页时使用的浏览器(比如 git help --web、git instaweb)
+	browser = google-chrome
+#[url "git@github.com:"]
+	# 可选:将 https 自动替换成 ssh 协议进行 clone/push/pull
+#    insteadOf = https://github.com/
 [color]
+	# auto/true根据当前环境自动决定是否启用颜色输出,如果输出是终端(tty),就启用颜色;如果输出被重定向(比如管道或写入文件),则关闭颜色,避免乱码
+	# always : 强制始终使用颜色输出; 测试: git diff 和 git diff | less
 	ui = auto
 [color "branch"]
 	current = yellow bold
@@ -59,23 +107,6 @@
 	added = green bold
 	changed = yellow bold
 	untracked = red bold
-[init]
-	defaultBranch = master
-[alias]
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
-	last = log -1
-	# List available aliases
-	aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
-	# Remove file(s) from Git but not from disk
-	untrack = rm --cache --
-[diff]
-	# 指定默认 diff 工具为 vscode,只在时用 git difftool 时生效(不用加-t了); git diff 还是默认的Git 内置的命令行 diff 引擎
-	tool = vscode
-[merge]
-	# 设置默认合并工具为 vscode,只在时用 git mergetool 时生效(不用加-t了); git merge 还是默认的Git 内置的命令行 merge 引擎
-	tool = vscode
-	# 显示 base 源(common ancestor)方便比对
-	conflictstyle = diff3
 [difftool]
 	# 不提示确认,直接打开对比工具; 或者用 git difftool -y
 	prompt = false
@@ -91,7 +122,6 @@
 	keepBackup = false
 	# 忽略 VS Code 的退出码,避免非 0 导致 Git 停止流程
 	trustExitCode = true
-
 # sourcetree自动创建的, 这里只是定义了两个sourcetree的工具名,但是默认不是使用这个的;
 # 除非在命令行加上 -t,如: git mergetool -t sourcetree; 或者 git config --global diff.tool
 [difftool "sourcetree"]

@@ -7,3 +7,4 @@ changeps1: false
 show_channel_urls: true
 ssl_verify: true
 channel_priority: strict
+auto_update_conda: true

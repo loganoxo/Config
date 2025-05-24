@@ -1,5 +1,10 @@
 # 最后加载的脚本
-# homebrew 命令自动补全
+# homebrew 安装的软件包 的命令的 自动补全
+# mac上的zsh不需要配置,自动在 brew shellenv 的时候就做好了
+# linux上的zsh需要在brew shellenv下面加上
+#       autoload -Uz compinit
+#       compinit
+# 但是如果使用了ohmyzsh,并是在brew shellenv 下面加载的,那linux上的zsh的命令补全也不用加上面的命令了,因为已经被ohmyzsh自动加上了
 if _logan_if_bash && _logan_if_command_exist "brew"; then
     HOMEBREW_PREFIX="$(brew --prefix)"
     if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
@@ -55,7 +60,6 @@ if _logan_if_interactive; then
         fi
     fi
 fi
-
 
 ###########################################################################################
 

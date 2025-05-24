@@ -8,6 +8,9 @@ source "$HOME/.zshenv"
 # 加载初始化配置
 source "${__PATH_MY_CNF}/zsh/init.sh"
 
+# 加载 conda配置
+source "${__PATH_MY_CNF}/zsh/conda/conda.sh"
+
 # 加载 middle 配置
 source "${__PATH_MY_CNF}/zsh/middle.sh"
 

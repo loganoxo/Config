@@ -4,4 +4,13 @@
 source "$HOME/.zshenv"
 
 # 加载初始化配置
+# mac中的终端打开时, 进入登录shell会加载zprofile, 但是随后也会加载zshrc
+# 所以这里init.sh需要避免执行一些耗时的操作(把conda.sh移到init.sh之外了),这里加载init.sh主要是为了一些环境变量和PATH的兜底
 source "${__PATH_MY_CNF}/zsh/init.sh"
+
+# 兜底环境变量
+# python,避免使用mac系统自带的python
+__logan_conda_env_for_profile="env_test"
+__logan_conda_home_for_profile="$HOME/.miniconda3"
+export PATH="${__logan_conda_home_for_profile}/condabin${PATH:+":${PATH}"}"
+export PATH="${__logan_conda_home_for_profile}/envs/${__logan_conda_env_for_profile}/bin${PATH:+":${PATH}"}"

@@ -211,9 +211,6 @@ case ":${PATH}:" in
     ;;
 esac
 
-# 加载 conda配置
-source "${__PATH_MY_CNF}/zsh/conda/conda.sh"
-
 # nvm 弃用,太慢了
 #export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

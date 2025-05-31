@@ -1,8 +1,8 @@
 # Put this in your ~/.gitconfig or ~/.config/git/config
 # Windows users: "~" is your profile's home directory, e.g. C:\Users\<YourName>
 [user]
-	name = loganoxo@163.com
-	email = loganoxo@163.com
+	name = logan
+	email = 40782521+loganoxo@users.noreply.github.com
 [core]
 	# Global ignore file
 	excludesfile = /Users/logan/.gitignore_global

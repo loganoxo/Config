@@ -24,7 +24,7 @@ fi
 unset __conda_setup
 
 # 切换conda到默认环境
-LOGAN_DEFAULT_ENV_NAME="env_test"
+LOGAN_DEFAULT_ENV_NAME="env_shell"
 #LOGAN_CONDA_ENV_DIR="${__logan_conda_home}/envs"
 
 if _logan_if_command_exist "conda"; then

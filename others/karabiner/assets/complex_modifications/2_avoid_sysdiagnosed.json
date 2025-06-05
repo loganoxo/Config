@@ -1,8 +1,8 @@
 {
-    "title": "2. 屏蔽command+control+shift+option+w/点/逗号的功能(sysdiagnosed)",
+    "title": "2. 屏蔽command+control+shift+option+w/点/逗号的功能(sysdiagnosed),统一改为vk_none(一个无任何功能的虚拟黑洞键)",
     "rules": [
         {
-            "description": "2.1 屏蔽command+control+shift+option+w,改为f13",
+            "description": "2.1 屏蔽command+control+shift+option+w,改为vk_none",
             "manipulators": [
                 {
                     "from": {
@@ -17,14 +17,14 @@
                         }
                     },
                     "to": {
-                        "key_code": "f13"
+                        "key_code": "vk_none"
                     },
                     "type": "basic"
                 }
             ]
         },
         {
-            "description": "2.2 屏蔽command+control+shift+option+/,改为f14",
+            "description": "2.2 屏蔽command+control+shift+option+/,改为vk_none",
             "manipulators": [
                 {
                     "from": {
@@ -39,14 +39,14 @@
                         }
                     },
                     "to": {
-                        "key_code": "f14"
+                        "key_code": "vk_none"
                     },
                     "type": "basic"
                 }
             ]
         },
         {
-            "description": "2.3 屏蔽command+control+shift+option+退格键,改为f15",
+            "description": "2.3 屏蔽command+control+shift+option+退格键,改为vk_none",
             "manipulators": [
                 {
                     "from": {
@@ -61,14 +61,14 @@
                         }
                     },
                     "to": {
-                        "key_code": "f15"
+                        "key_code": "vk_none"
                     },
                     "type": "basic"
                 }
             ]
         },
         {
-            "description": "2.4 屏蔽command+control+shift+option+点,改为f16",
+            "description": "2.4 屏蔽command+control+shift+option+点,改为vk_none",
             "manipulators": [
                 {
                     "from": {
@@ -83,14 +83,14 @@
                         }
                     },
                     "to": {
-                        "key_code": "f16"
+                        "key_code": "vk_none"
                     },
                     "type": "basic"
                 }
             ]
         },
         {
-            "description": "2.5 屏蔽command+control+shift+option+逗号,改为f17",
+            "description": "2.5 屏蔽command+control+shift+option+逗号,改为vk_none",
             "manipulators": [
                 {
                     "from": {
@@ -105,7 +105,7 @@
                         }
                     },
                     "to": {
-                        "key_code": "f17"
+                        "key_code": "vk_none"
                     },
                     "type": "basic"
                 }

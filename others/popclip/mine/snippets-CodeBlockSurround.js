@@ -6,4 +6,4 @@
 // icon: square filled symbol:chevron.left.forwardslash.chevron.right
 // language: javascript
 
-popclip.pasteText("```\n" + popclip.input.text + "\n```", { restore: true });
+popclip.pasteText("```\n" + popclip.input.text + "\n```\n", { restore: true });

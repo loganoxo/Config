@@ -79,7 +79,7 @@ function MY_RELOAD()
 end
 
 -- 7、切换中文输入法时的标点
-hs.hotkey.bind(nil, "f19", "切换标点", function()
+hs.hotkey.bind(nil, "f20", "切换标点", function()
     local sourceID = hs.keycodes.currentSourceID()
     if MacPinyin == sourceID then
         hs.eventtap.keyStroke({ "alt", "shift" }, "H")

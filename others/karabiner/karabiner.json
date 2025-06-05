@@ -115,7 +115,7 @@
                         ]
                     },
                     {
-                        "description": "3.1 短按左 Command (⌘) 切换到英文输入法",
+                        "description": "3.1 短按左 Command (⌘) 切换到英文输入法,需要在系统设置中把切换输入法的快捷键设置为f18",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -142,7 +142,7 @@
                         ]
                     },
                     {
-                        "description": "3.2 短按右 Command (⌘) 切换到中文输入法",
+                        "description": "3.2 短按右 Command (⌘) 切换到中文输入法,需要在系统设置中把切换输入法的快捷键设置为f18",
                         "manipulators": [
                             {
                                 "conditions": [

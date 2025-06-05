@@ -6,15 +6,71 @@
             "manipulators": [
                 {
                     "from": {
-                        "modifiers": { "optional": ["any"] },
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        },
                         "simultaneous": [
-                            { "key_code": "a" },
-                            { "key_code": "s" },
-                            { "key_code": "d" }
+                            {
+                                "key_code": "a"
+                            },
+                            {
+                                "key_code": "s"
+                            },
+                            {
+                                "key_code": "d"
+                            }
                         ]
                     },
                     "to": [
-                        { "apple_vendor_keyboard_key_code": "mission_control" }
+                        {
+                            "apple_vendor_keyboard_key_code": "mission_control"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "5.2 按下 a 按键填充一个无功能按键组合(cmd+shift+alt+ctrl+f12),作为某些快捷键配置的填充",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "a"
+                    },
+                    "to": [
+                        {
+                            "key_code": "f12",
+                            "modifiers": [
+                                "left_command",
+                                "left_control",
+                                "left_option",
+                                "left_shift"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "5.3 按下 b 按键填充一个无功能按键组合(cmd+shift+alt+ctrl+f20),作为某些快捷键配置的填充",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "b"
+                    },
+                    "to": [
+                        {
+                            "key_code": "f20",
+                            "modifiers": [
+                                "left_command",
+                                "left_control",
+                                "left_option",
+                                "left_shift"
+                            ]
+                        }
                     ],
                     "type": "basic"
                 }

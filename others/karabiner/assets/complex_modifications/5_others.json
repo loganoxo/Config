@@ -33,7 +33,7 @@
             ]
         },
         {
-            "description": "5.2 按下 a 按键填充一个无功能按键组合(cmd+shift+alt+ctrl+f12),作为某些快捷键配置的填充",
+            "description": "5.2 字母a => 一个无功能按键组合(cmd+shift+alt+ctrl+f20),作为系统某些快捷键配置的填充",
             "manipulators": [
                 {
                     "from": {
@@ -41,7 +41,7 @@
                     },
                     "to": [
                         {
-                            "key_code": "f12",
+                            "key_code": "f20",
                             "modifiers": [
                                 "command",
                                 "control",

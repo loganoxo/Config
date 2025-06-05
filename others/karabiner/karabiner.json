@@ -37,14 +37,14 @@
                         ]
                     },
                     {
-                        "description": "1.2 Command+CapsLock => f19; 用于hammerspoon中切换标点",
+                        "description": "1.2 Command+CapsLock 执行shell触发hammerspoon中切换标点",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "caps_lock",
                                     "modifiers": { "mandatory": ["command"] }
                                 },
-                                "to": [{ "key_code": "f19" }],
+                                "to": [{ "shell_command": "/opt/homebrew/bin/hs -c 'Switch_Punct()'" }],
                                 "type": "basic"
                             }
                         ]
@@ -246,6 +246,34 @@
                                     ]
                                 },
                                 "to": [{ "apple_vendor_keyboard_key_code": "mission_control" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "5.2 字母a => 一个无功能按键(f19),作为系统某些快捷键配置的填充",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "a",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "f19" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "5.2 字母b => f20",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "b",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "f20" }],
                                 "type": "basic"
                             }
                         ]

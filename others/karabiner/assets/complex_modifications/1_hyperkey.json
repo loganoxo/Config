@@ -47,7 +47,7 @@
             ]
         },
         {
-            "description": "1.2 Command+CapsLock => f20; 用于hammerspoon中切换标点",
+            "description": "1.2 Command+CapsLock => f19; 用于hammerspoon中切换标点",
             "manipulators": [
                 {
                     "from": {
@@ -58,7 +58,7 @@
                     },
                     "to": [
                         {
-                            "key_code": "f20"
+                            "key_code": "f19"
                         }
                     ],
                     "type": "basic"

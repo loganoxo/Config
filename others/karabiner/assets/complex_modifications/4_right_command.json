@@ -65,7 +65,7 @@
             ]
         },
         {
-            "description": "4.4 right_command+LeftArrow 显示桌面 (需要在系统设置把该快捷键设为f19)",
+            "description": "4.4 right_command+LeftArrow 显示桌面 (需要在系统设置把该快捷键设为f17)",
             "manipulators": [
                 {
                     "from": {
@@ -78,7 +78,7 @@
                     },
                     "to": [
                         {
-                            "key_code": "f19"
+                            "key_code": "f17"
                         }
                     ],
                     "type": "basic"

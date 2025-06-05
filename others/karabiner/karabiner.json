@@ -76,21 +76,7 @@
                         ]
                     },
                     {
-                        "description": "2.3 屏蔽command+control+shift+option+退格键,改为vk_none",
-                        "enabled": false,
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "delete_or_backspace",
-                                    "modifiers": { "mandatory": ["command", "control", "option", "shift"] }
-                                },
-                                "to": { "key_code": "vk_none" },
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "2.4 屏蔽command+control+shift+option+点,改为vk_none",
+                        "description": "2.3 屏蔽command+control+shift+option+点,改为vk_none",
                         "manipulators": [
                             {
                                 "from": {
@@ -103,7 +89,7 @@
                         ]
                     },
                     {
-                        "description": "2.5 屏蔽command+control+shift+option+逗号,改为vk_none",
+                        "description": "2.4 屏蔽command+control+shift+option+逗号,改为vk_none",
                         "manipulators": [
                             {
                                 "from": {
@@ -235,7 +221,20 @@
                         ]
                     },
                     {
-                        "description": "5.1 同时按下 a、s、d 三个按键 打开 Mission Control",
+                        "description": "5.1 cmd+ctrl+shift+alt+退格键 => f16, 用于RectanglePro",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "delete_or_backspace",
+                                    "modifiers": { "mandatory": ["command", "control", "option", "shift"] }
+                                },
+                                "to": { "key_code": "f16" },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "5.2 同时按下 a、s、d 三个按键 打开 Mission Control",
                         "manipulators": [
                             {
                                 "from": {
@@ -252,7 +251,7 @@
                         ]
                     },
                     {
-                        "description": "5.2 字母a => 一个无功能按键(f19),作为系统某些快捷键配置的填充",
+                        "description": "5.3 字母a => 一个无功能按键(f19),作为系统某些快捷键配置的填充",
                         "enabled": false,
                         "manipulators": [
                             {
@@ -266,7 +265,7 @@
                         ]
                     },
                     {
-                        "description": "5.2 字母b => f20",
+                        "description": "5.4 字母b => f20",
                         "enabled": false,
                         "manipulators": [
                             {

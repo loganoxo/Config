@@ -78,8 +78,10 @@ function MY_RELOAD()
     end)
 end
 
--- 7、切换中文输入法时的标点
-hs.hotkey.bind(nil, "f20", "切换标点", function()
+-- 7、切换中文输入法时的标点; 使用 Karabiner-Elements 触发
+-- /opt/homebrew/bin/hs -c 'Switch_Punct()'
+function Switch_Punct()
+    LOGAN_ALERT("切换标点", 2)
     local sourceID = hs.keycodes.currentSourceID()
     if MacPinyin == sourceID then
         hs.eventtap.keyStroke({ "alt", "shift" }, "H")
@@ -88,7 +90,7 @@ hs.hotkey.bind(nil, "f20", "切换标点", function()
     else
         LOGAN_ALERT("不支持的输入法")
     end
-end)
+end
 
 -- 8、全局快捷键,输入中文顿号
 hs.hotkey.bind(HYPER_KEY, "\\", "输入中文顿号", function()

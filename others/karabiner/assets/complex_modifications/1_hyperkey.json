@@ -47,18 +47,20 @@
             ]
         },
         {
-            "description": "1.2 Command+CapsLock => f20; 用于hammerspoon中切换标点",
+            "description": "1.2 Command+CapsLock 执行shell触发hammerspoon中切换标点",
             "manipulators": [
                 {
                     "from": {
                         "key_code": "caps_lock",
                         "modifiers": {
-                            "mandatory": ["command"]
+                            "mandatory": [
+                                "command"
+                            ]
                         }
                     },
                     "to": [
                         {
-                            "key_code": "f20"
+                            "shell_command": "/opt/homebrew/bin/hs -c 'Switch_Punct()'"
                         }
                     ],
                     "type": "basic"

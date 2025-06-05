@@ -33,21 +33,41 @@
             ]
         },
         {
-            "description": "5.2 字母a => 一个无功能按键组合(cmd+shift+alt+ctrl+f20),作为系统某些快捷键配置的填充",
+            "description": "5.2 字母a => 一个无功能按键(f19),作为系统某些快捷键配置的填充",
             "manipulators": [
                 {
                     "from": {
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        },
                         "key_code": "a"
                     },
                     "to": [
                         {
-                            "key_code": "f20",
-                            "modifiers": [
-                                "command",
-                                "control",
-                                "option",
-                                "shift"
+                            "key_code": "f19"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "5.2 字母b => f20",
+            "manipulators": [
+                {
+                    "from": {
+                        "modifiers": {
+                            "optional": [
+                                "any"
                             ]
+                        },
+                        "key_code": "b"
+                    },
+                    "to": [
+                        {
+                            "key_code": "f20"
                         }
                     ],
                     "type": "basic"

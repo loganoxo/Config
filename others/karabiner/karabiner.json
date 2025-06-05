@@ -77,6 +77,7 @@
                     },
                     {
                         "description": "2.3 屏蔽command+control+shift+option+退格键,改为vk_none",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {

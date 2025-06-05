@@ -53,28 +53,6 @@
                     "type": "basic"
                 }
             ]
-        },
-        {
-            "description": "5.3 按下 b 按键填充一个无功能按键组合(cmd+shift+alt+ctrl+f20),作为某些快捷键配置的填充",
-            "manipulators": [
-                {
-                    "from": {
-                        "key_code": "b"
-                    },
-                    "to": [
-                        {
-                            "key_code": "f20",
-                            "modifiers": [
-                                "command",
-                                "control",
-                                "option",
-                                "shift"
-                            ]
-                        }
-                    ],
-                    "type": "basic"
-                }
-            ]
         }
     ]
 }

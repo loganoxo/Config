@@ -43,10 +43,10 @@
                         {
                             "key_code": "f12",
                             "modifiers": [
-                                "left_command",
-                                "left_control",
-                                "left_option",
-                                "left_shift"
+                                "command",
+                                "control",
+                                "option",
+                                "shift"
                             ]
                         }
                     ],
@@ -65,10 +65,10 @@
                         {
                             "key_code": "f20",
                             "modifiers": [
-                                "left_command",
-                                "left_control",
-                                "left_option",
-                                "left_shift"
+                                "command",
+                                "control",
+                                "option",
+                                "shift"
                             ]
                         }
                     ],

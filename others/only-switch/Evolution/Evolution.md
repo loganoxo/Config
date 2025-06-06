@@ -15,7 +15,7 @@ fi
 # 关闭(shell)
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
     /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStop()'
-
+fi
 
 # 状态(shell)
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then

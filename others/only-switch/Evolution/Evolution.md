@@ -230,6 +230,8 @@ fi
 ![image.png|500](./img/清空废纸篓.png)
 
 ```shell
+# appleScript
+
 tell application "Finder"
 	-- 我本地默认执行这个就没有确认提示框
 	-- set warns before emptying of trash to false

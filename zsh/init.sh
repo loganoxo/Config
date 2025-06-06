@@ -187,7 +187,7 @@ fi
 
 # Added by OrbStack: command-line tools and integration
 if [[ -r "$HOME/.orbstack/shell/init.zsh" ]]; then
-    source "$HOME/.orbstack/shell/init.zsh"
+    source "$HOME/.orbstack/shell/init.zsh" || :
 fi
 
 # fnm(node版本管理工具)

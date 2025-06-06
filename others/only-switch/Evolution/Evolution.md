@@ -8,13 +8,21 @@
 
 ```shell
 # 开启(shell)
-/opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStart()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStart()'
+fi
 
 # 关闭(shell)
-/opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStop()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStop()'
+
 
 # 状态(shell)
-/opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
+else
+    echo "0"
+fi
 
 # 输出 1
 
@@ -26,13 +34,21 @@
 
 ```shell
 # 开启(shell)
-/opt/homebrew/bin/hs -c 'MyInputMethodIndicatorStart()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'MyInputMethodIndicatorStart()'
+fi
 
 # 关闭(shell)
-/opt/homebrew/bin/hs -c 'MyInputMethodIndicatorStop()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'MyInputMethodIndicatorStop()'
+fi
 
 # 状态(shell)
-/opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
+else
+    echo "0"
+fi
 
 # 输出 1
 ```
@@ -42,7 +58,9 @@
 ![image.png|500](./img/剪切标点手动.png)
 
 ```shell
-/opt/homebrew/bin/hs -c 'Clipboard_Punct()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'Clipboard_Punct()'
+fi
 ```
 
 ## 4、剪切标点监控
@@ -51,13 +69,21 @@
 
 ```shell
 # 开启(shell)
-/opt/homebrew/bin/hs -c 'PasteboardPunctListenerStart()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'PasteboardPunctListenerStart()'
+fi
 
 # 关闭(shell)
-/opt/homebrew/bin/hs -c 'PasteboardPunctListenerStop()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'PasteboardPunctListenerStop()'
+fi
 
 # 状态(shell)
-/opt/homebrew/bin/hs -c 'PasteboardPunctListenerStatus()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'PasteboardPunctListenerStatus()'
+else
+    echo "0"
+fi
 
 # 输出 1
 ```
@@ -68,13 +94,21 @@
 
 ```shell
 # 开启(shell)
-/opt/homebrew/bin/hs -c 'ShowInformationStart()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'ShowInformationStart()'
+fi
 
 # 关闭(shell)
-/opt/homebrew/bin/hs -c 'ShowInformationStop()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'ShowInformationStop()'
+fi
 
 # 状态(shell)
-/opt/homebrew/bin/hs -c 'ShowInformationStatus()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'ShowInformationStatus()'
+else
+    echo "0"
+fi
 
 # 输出 1
 ```
@@ -84,10 +118,12 @@
 ![image.png|500](./img/重载HS.png)
 
 ```shell
-/opt/homebrew/bin/hs -c 'MY_RELOAD()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'MY_RELOAD()'
+fi
 ```
 
-## 7、获取网络信息
+## 7、获取网络信息(不用了,macos15可以直接在onlyswitch中选择快捷指令了)
 
 ![image.png|500](./img/获取网络信息.png)
 
@@ -97,7 +133,7 @@ tell application "Shortcuts Events"
 end tell
 ```
 
-## 8、刷新DNS缓存
+## 8、刷新DNS缓存(不用了,macos15可以直接在onlyswitch中选择快捷指令了)
 
 ![image.png|500](./img/刷新DNS缓存.png)
 
@@ -135,7 +171,7 @@ defaults read com.apple.windowManager GloballyEnabled
 # 输出 1
 ```
 
-## 11、低电量模式
+## 11、低电量模式(不用了,系统电池菜单自带了)
 
 ![image.png|500](./img/低电量模式.png)
 
@@ -170,13 +206,21 @@ fi
 
 ```shell
 # 开启(shell)
-/opt/homebrew/bin/hs -c 'Smart_Punct_Start()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'Smart_Punct_Start()'
+fi
 
 # 关闭(shell)
-/opt/homebrew/bin/hs -c 'Smart_Punct_Stop()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'Smart_Punct_Stop()'
+fi
 
 # 状态(shell)
-/opt/homebrew/bin/hs -c 'Smart_Punct_Status()'
+if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
+    /opt/homebrew/bin/hs -c 'Smart_Punct_Status()'
+else
+    echo "0"
+fi
 
 # 输出 1
 ```
@@ -192,9 +236,9 @@ tell application "Finder"
 	-- 判断废纸篓中是否有内容,空废纸篓不然会报错(包括隐藏文件,只要是通过 Finder 删除的都会统计)
 	if (count of items in trash) > 0 then
 		empty trash
-		do shell script "open -g 'hammerspoon://ExternalAlertUrl?msg=清理废纸篓成功'"
+		do shell script "if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then open -g 'hammerspoon://ExternalAlertUrl?msg=清理废纸篓成功'; fi"
 	else
-		do shell script "/opt/homebrew/bin/hs -c 'LOGAN_ALERT(\"未执行,废纸篓已经是空的了!\")'"
+		do shell script "if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then /opt/homebrew/bin/hs -c 'LOGAN_ALERT(\"未执行,废纸篓已经是空的了!\")'; fi"
 	end if
 	-- set warns before emptying of trash to true
 end tell

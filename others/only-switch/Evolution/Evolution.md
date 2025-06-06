@@ -153,7 +153,7 @@ end tell
 open 'x-apple.systempreferences:com.apple.Appearance-Settings.extension'
 ```
 
-## 10、台前调度
+## 10、台前调度(不用了,系统菜单自带了)
 
 ![image.png|500](./img/台前调度.png)
 

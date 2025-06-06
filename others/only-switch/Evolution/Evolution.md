@@ -1,10 +1,6 @@
 # Evolution
 
-![|500](./img/Evolution.png)
-
 ## 1、输入法切换器
-
-![image.png|500](./img/输入法切换器.png)
 
 ```shell
 # 开启(shell)
@@ -30,8 +26,6 @@ fi
 
 ## 2、输入法指示器
 
-![image.png|500](./img/输入法指示器.png)
-
 ```shell
 # 开启(shell)
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
@@ -55,8 +49,6 @@ fi
 
 ## 3、剪切标点手动
 
-![image.png|500](./img/剪切标点手动.png)
-
 ```shell
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
     /opt/homebrew/bin/hs -c 'Clipboard_Punct()'
@@ -64,8 +56,6 @@ fi
 ```
 
 ## 4、剪切标点监控
-
-![image.png|500](./img/剪切标点监控.png)
 
 ```shell
 # 开启(shell)
@@ -90,8 +80,6 @@ fi
 
 ## 5、实时显示信息
 
-![image.png|500](./img/实时显示信息.png)
-
 ```shell
 # 开启(shell)
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
@@ -115,8 +103,6 @@ fi
 
 ## 6、重载HS(hammerspoon)
 
-![image.png|500](./img/重载HS.png)
-
 ```shell
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
     /opt/homebrew/bin/hs -c 'MY_RELOAD()'
@@ -125,8 +111,6 @@ fi
 
 ## 7、获取网络信息(不用了,macos15可以直接在onlyswitch中选择快捷指令了)
 
-![image.png|500](./img/获取网络信息.png)
-
 ```shell
 tell application "Shortcuts Events"
     run shortcut "IP-Address-Information"
@@ -134,8 +118,6 @@ end tell
 ```
 
 ## 8、刷新DNS缓存(不用了,macos15可以直接在onlyswitch中选择快捷指令了)
-
-![image.png|500](./img/刷新DNS缓存.png)
 
 ```shell
 
@@ -147,15 +129,11 @@ end tell
 
 ## 9、系统外观设置
 
-![image.png|500](./img/系统外观设置.png)
-
 ```shell
 open 'x-apple.systempreferences:com.apple.Appearance-Settings.extension'
 ```
 
 ## 10、台前调度(不用了,系统菜单自带了)
-
-![image.png|500](./img/台前调度.png)
 
 ```shell
 
@@ -172,8 +150,6 @@ defaults read com.apple.windowManager GloballyEnabled
 ```
 
 ## 11、低电量模式(不用了,系统电池菜单自带了)
-
-![image.png|500](./img/低电量模式.png)
 
 ```shell
 
@@ -202,8 +178,6 @@ fi
 
 ## 12、智能标点
 
-![image.png|500](./img/智能标点.png)
-
 ```shell
 # 开启(shell)
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
@@ -227,8 +201,6 @@ fi
 
 ## 13、清空废纸篓
 
-![image.png|500](./img/清空废纸篓.png)
-
 ```shell
 # appleScript
 
@@ -248,8 +220,6 @@ end tell
 
 ## 13、Hide Desktop Widget(不用)
 
-![image.png|500](./img/Hide-Desktop-Widget.png)
-
 ```shell
 
 # 开启(shell)
@@ -266,8 +236,6 @@ defaults read com.apple.WindowManager StandardHideWidgets
 ```
 
 ## 14、Hide Desktop Icons(不用)
-
-![image.png|500](./img/Hide-Desktop-Icons.png)
 
 ```shell
 

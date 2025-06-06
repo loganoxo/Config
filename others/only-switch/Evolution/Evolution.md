@@ -21,7 +21,7 @@ fi
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
     /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
 else
-    echo "0"
+    echo 0
 fi
 
 # 输出 1
@@ -47,7 +47,7 @@ fi
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
     /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
 else
-    echo "0"
+    echo 0
 fi
 
 # 输出 1
@@ -82,7 +82,7 @@ fi
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
     /opt/homebrew/bin/hs -c 'PasteboardPunctListenerStatus()'
 else
-    echo "0"
+    echo 0
 fi
 
 # 输出 1
@@ -107,7 +107,7 @@ fi
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
     /opt/homebrew/bin/hs -c 'ShowInformationStatus()'
 else
-    echo "0"
+    echo 0
 fi
 
 # 输出 1
@@ -219,7 +219,7 @@ fi
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
     /opt/homebrew/bin/hs -c 'Smart_Punct_Status()'
 else
-    echo "0"
+    echo 0
 fi
 
 # 输出 1

@@ -84,7 +84,7 @@ show_always = true
 format = '[([@](bold green)$hostname)]($style)' # '[$ssh_symbol](bold blue) on [$hostname](bold red) '
 ssh_symbol = '🌐 ' #   |
 style = 'bold yellow'
-ssh_only = true #仅在连接到 SSH 会话时显示主机名
+ssh_only = false #仅在连接到 SSH 会话时显示主机名
 trim_at = '' #第一个匹配之后主机名被截断的字符串; '.'将在第一个点后停止; ''将禁用任何截断
 aliases = { "loganmac.local" = "mac" } #将主机名替换为昵称
 # detect_env_vars = ['!TMUX', 'SSH_CONNECTION'] #隐藏远程 tmux 会话中的主机名

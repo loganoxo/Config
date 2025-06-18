@@ -110,5 +110,11 @@ ln -sf "${__PATH_MY_CNF}/others/uv/uv.toml" "$HOME/.config/uv/uv.toml"
 # tmux
 ln -sf "${__PATH_MY_CNF}/tmux/tmux.conf" "$HOME/.tmux.conf"
 
+# editorconfig
+ln -sf "${__PATH_MY_CNF}/.editorconfig" "$HOME/.editorconfig"
+ln -sf "${__PATH_MY_CNF}/.editorconfig" "$HOME/Temp/.editorconfig"
+ln -sf "${__PATH_MY_CNF}/.editorconfig" "$HOME/TempCode/.editorconfig"
+ln -sf "${__PATH_MY_CNF}/.editorconfig" "$HOME/Documents/Code/.editorconfig"
+
 # ranger
 # ln -sf "${__PATH_MY_CNF}/others/ranger" "$HOME/.config/ranger"

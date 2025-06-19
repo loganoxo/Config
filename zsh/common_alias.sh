@@ -87,6 +87,42 @@ alias fcp='/usr/bin/env bash ${__PATH_MY_CNF}/shell/fcp.sh'
 alias au='autoload -U'
 
 # homebrew
+alias brews='
+    echo "🔄 Updating Homebrew..."
+    brew update
+    echo "------------------------------------------------------------"
+
+    echo "⚙️ Brew config:"
+    brew config
+    echo "------------------------------------------------------------"
+
+    echo "💊 Running brew doctor:"
+    brew doctor
+    echo "------------------------------------------------------------"
+
+    echo "📦 Outdated global packages:"
+    brew outdated -g
+'
+alias brewc='
+    echo "🗑️ Cleanup Homebrew..."
+    brew cleanup --prune=all
+    echo "------------------------------------------------------------"
+
+    echo "🔄 Updating Homebrew..."
+    brew update
+    echo "------------------------------------------------------------"
+
+    echo "⚙️ Brew config..."
+    brew config
+    echo "------------------------------------------------------------"
+
+    echo "💊 Running brew doctor..."
+    brew doctor
+    echo "------------------------------------------------------------"
+
+    echo "📦 Outdated global packages..."
+    brew outdated -g
+'
 alias brewtree='brew deps --tree --installed'
 alias brewlist='brew leaves | xargs brew deps  --installed --for-each | sed "s/^.*:/$(tput setaf 4)&$(tput sgr0)/"'
 

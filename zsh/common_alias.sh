@@ -87,7 +87,7 @@ alias fcp='/usr/bin/env bash ${__PATH_MY_CNF}/shell/fcp.sh'
 alias au='autoload -U'
 
 # homebrew
-alias brews='
+alias brewu='
     echo "🔄 Updating Homebrew..."
     brew update
     echo "------------------------------------------------------------"

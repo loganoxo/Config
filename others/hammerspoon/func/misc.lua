@@ -97,27 +97,16 @@ hs.hotkey.bind(HYPER_KEY, "\\", "输入中文顿号", function()
     hs.eventtap.keyStrokes("、")
 end)
 
--- 9、iterm2启动快捷键,applescriptFromFile方法不能用编译后的scpt后缀名的脚本,hammerspoon不支持
-LOGAN_USE_SCPT = true
+-- 9、iterm2启动快捷键,applescriptFromFile方法不能用编译后的scpt后缀名的脚本,hammerspoon不支持;
+-- 而且scpt文件每次执行后,文件都会变,不利于git控制,里面包含了运行时信息或元数据(如编译缓存、执行状态等);
+-- 每次运行后,系统可能自动更新这些元数据,导致文件内容或修改时间变化,即使代码本身没有变;
 J_open_iterm2_current_dir = os.getenv("HOME") .. "/Data/Config/others/applescripts/iterm2/J_open_iterm2_current_dir.applescript"
-J_scpt_open_iterm2_current_dir = os.getenv("HOME") .. "/Data/Config/others/applescripts/iterm2/J_open_iterm2_current_dir.scpt"
 K_open_iterm2_default_dir = os.getenv("HOME") .. "/Data/Config/others/applescripts/iterm2/K_open_iterm2_default_dir.applescript"
-K_scpt_open_iterm2_default_dir = os.getenv("HOME") .. "/Data/Config/others/applescripts/iterm2/K_open_iterm2_default_dir.scpt"
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "J", "当前finder目录下打开Iterm2", function()
-    if LOGAN_USE_SCPT then
-        LOGAN_ALERT("当前finder目录下打开Iterm2", 2)
-        hs.execute("/usr/bin/osascript " .. J_scpt_open_iterm2_current_dir, false)
-    else
-        hs.osascript.applescriptFromFile(J_open_iterm2_current_dir)
-    end
+    hs.osascript.applescriptFromFile(J_open_iterm2_current_dir)
 end)
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "K", "Temp目录下打开Iterm2", function()
-    if LOGAN_USE_SCPT then
-        LOGAN_ALERT("Temp目录下打开Iterm2", 2)
-        hs.execute("/usr/bin/osascript " .. K_scpt_open_iterm2_default_dir, false)
-    else
-        hs.osascript.applescriptFromFile(K_open_iterm2_default_dir)
-    end
+    hs.osascript.applescriptFromFile(K_open_iterm2_default_dir)
 end)
 
 --------------  以下为主模态中可以执行的快捷键

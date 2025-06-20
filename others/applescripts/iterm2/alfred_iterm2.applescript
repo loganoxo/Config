@@ -74,7 +74,6 @@ on new_window()
 end new_window
 
 on new_tab(the_window)
-	set cd_command to missing value
 	tell application id "com.googlecode.iterm2" to tell the_window to create tab with default profile
 	delay 0.2
 end new_tab
@@ -111,7 +110,6 @@ on alfred_script(query)
 	set open_in_new_window to false
 	set open_in_new_tab to true
 	set cd_command to "clear; cd ~/Temp"
-	set clear_command to "clear"
 
 	-- Main
 	set the_current_window to get_window()

@@ -39,7 +39,7 @@ end has_windows
 on wait_until_iterm_ready(timeout_seconds)
 	set exist_window to has_windows()
 	if exist_window is not missing value then return exist_window
-	
+
 	set waitCount to 0
 	set maxWait to (timeout_seconds * 10)
 	repeat
@@ -52,7 +52,7 @@ on wait_until_iterm_ready(timeout_seconds)
 			error "iTerm2 failed to start"
 		end if
 	end repeat
-	
+
 	return exist_window
 end wait_until_iterm_ready
 
@@ -74,7 +74,6 @@ on new_window()
 end new_window
 
 on new_tab(the_window)
-	set cd_command to missing value
 	tell application id "com.googlecode.iterm2" to tell the_window to create tab with default profile
 	delay 0.2
 end new_tab
@@ -91,7 +90,7 @@ on get_window()
 	else
 		return activate_app_wait()
 	end if
-	
+
 	set exist_window to has_windows()
 	if exist_window is missing value then
 		return new_window()
@@ -111,7 +110,7 @@ on run argv
 	set open_in_new_window to false
 	set open_in_new_tab to true
 	set cd_command to "clear; cd ~/Temp"
-	
+
 	-- Main
 	set the_current_window to get_window()
 	if open_in_new_tab then

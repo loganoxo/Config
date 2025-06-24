@@ -120,6 +120,19 @@ function _get_absolute_path() {
     fi
 }
 
+function _logan_trash() {
+    # 判断 /usr/bin/trash 是否存在且可执行
+    if [ -x /usr/bin/trash ]; then
+        /usr/bin/trash -s "$@"
+    # 判断 /opt/homebrew/opt/trash/bin/trash 是否存在且可执行
+    elif [ -x /opt/homebrew/opt/trash/bin/trash ]; then
+        /opt/homebrew/opt/trash/bin/trash -F "$@"
+    else
+        echo "找不到 trash 命令, 无法删除文件"
+        exit 1
+    fi
+}
+
 function _safe_trash_run() {
     if [ "$#" -lt 1 ]; then
         echo -e "   \033[35m args error! \033[0m"
@@ -147,14 +160,16 @@ function _safe_trash_run() {
     echo -e "CWD:    \033[31m '$CURRENT_DIR' \033[0m"
     for item in "${ABSOLUTE_PATH[@]}"; do
         if [ "$force" = "true" ]; then
-            /opt/homebrew/opt/trash/bin/trash -F "$item"
+            # 使用找到的 trash 命令删除传入的文件
+            _logan_trash "$item"
             echo -e "\033[31m'$item'\033[0m has been moved.  ✅ success "
         else
             echo -en "Confirm? \033[31m'$item'\033[0m will be moved. (y/n): "
             read -r -n 1 choice # -n 1 等待一个字符输入，不需要回车
             case "$choice" in
             y | Y)
-                /opt/homebrew/opt/trash/bin/trash -F "$item"
+                # 使用找到的 trash 命令删除传入的文件
+                _logan_trash "$item"
                 echo "   ✅ success"
                 ;;
             *) echo "   ❌ cancel" ;;

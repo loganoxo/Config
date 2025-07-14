@@ -32,8 +32,9 @@ launchctl load -w ~/Library/LaunchAgents/com.logan.aria2.plist
 4、如果要调整 plist 文件或是停止任务，请执行以下命令后再进行调整
 
 ```shell
-launchctl list | grep com.logan.reset.navicat.premium.trial.period
-launchctl stop com.logan.reset.navicat.premium.trial.period
-launchctl kill com.logan.reset.navicat.premium.trial.period
-launchctl unload -w ~/Library/LaunchAgents/com.logan.reset.navicat.premium.trial.period.plist
+launchctl list | grep com.logan.reset.typora.trial.period
+launchctl stop com.logan.reset.typora.trial.period
+launchctl kill com.logan.reset.typora.trial.period
+launchctl unload -w ~/Library/LaunchAgents/com.logan.reset.typora.trial.period.plist
+rm -rf ~/Library/LaunchAgents/com.logan.reset.typora.trial.period.plist
 ```

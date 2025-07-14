@@ -3,7 +3,7 @@
 ```shell
 chmod u+x "${__PATH_MY_CNF}/app/bcompare/reset-bcompare.sh"
 chmod u+x "${__PATH_MY_CNF}/app/navicat/reset-navicat.sh"
-chmod u+x "${__PATH_MY_CNF}/app/typora/reset-typora.sh"
+# chmod u+x "${__PATH_MY_CNF}/app/typora/reset-typora.sh"
 ```
 
 2、将 plist 复制到~/Library/LaunchAgents 文件夹中，当前用户登录后便会自动加载该定时任务
@@ -12,7 +12,7 @@ chmod u+x "${__PATH_MY_CNF}/app/typora/reset-typora.sh"
 cp "${__PATH_MY_CNF}/app/bcompare/com.logan.reset.bcompare.trial.period.plist" ~/Library/LaunchAgents/
 cp "${__PATH_MY_CNF}/app/jetbrains/jetbrains.vmoptions.plist" ~/Library/LaunchAgents/
 cp "${__PATH_MY_CNF}/app/navicat/com.logan.reset.navicat.premium.trial.period.plist" ~/Library/LaunchAgents/
-cp "${__PATH_MY_CNF}/app/typora/com.logan.reset.typora.trial.period.plist" ~/Library/LaunchAgents/
+# cp "${__PATH_MY_CNF}/app/typora/com.logan.reset.typora.trial.period.plist" ~/Library/LaunchAgents/
 # aria2
 cp "${HOME}/Data/ConfigSensitive/aria2/com.logan.aria2.plist" ~/Library/LaunchAgents/
 # 可能会有系统通知: 有新的登录项. 可以去 设置-通用-登录项 查看
@@ -24,7 +24,7 @@ cp "${HOME}/Data/ConfigSensitive/aria2/com.logan.aria2.plist" ~/Library/LaunchAg
 launchctl load -w ~/Library/LaunchAgents/com.logan.reset.bcompare.trial.period.plist
 launchctl load -w ~/Library/LaunchAgents/jetbrains.vmoptions.plist
 launchctl load -w ~/Library/LaunchAgents/com.logan.reset.navicat.premium.trial.period.plist
-launchctl load -w ~/Library/LaunchAgents/com.logan.reset.typora.trial.period.plist
+# launchctl load -w ~/Library/LaunchAgents/com.logan.reset.typora.trial.period.plist
 # aria2
 launchctl load -w ~/Library/LaunchAgents/com.logan.aria2.plist
 ```

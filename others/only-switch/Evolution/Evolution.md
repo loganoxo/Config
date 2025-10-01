@@ -39,7 +39,7 @@ fi
 
 # 状态(shell)
 if [ -x /opt/homebrew/bin/hs ] && pgrep -x Hammerspoon > /dev/null; then
-    /opt/homebrew/bin/hs -c 'AutoSwitchInputMethodStatus()'
+    /opt/homebrew/bin/hs -c 'MyInputMethodIndicatorStatus()'
 else
     echo 0
 fi

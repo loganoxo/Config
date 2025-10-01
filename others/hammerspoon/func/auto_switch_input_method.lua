@@ -84,4 +84,5 @@ function AutoSwitchInputMethodStatus()
     end
 end
 
-AutoSwitchInputMethodStart()
+-- 默认关闭,使用InputSourcePro这个软件
+-- AutoSwitchInputMethodStart()

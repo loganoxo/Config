@@ -230,4 +230,5 @@ function MyInputMethodIndicatorStatus()
     end
 end
 
-MyInputMethodIndicatorStart()
+-- 默认关闭,使用InputSourcePro这个软件
+-- MyInputMethodIndicatorStart()

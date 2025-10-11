@@ -61,6 +61,19 @@ if _logan_if_interactive; then
     fi
 fi
 
+# 加载gcloud-cli命令补全
+if _logan_if_interactive; then
+    if _logan_if_command_exist "gcloud"; then
+        if _logan_if_zsh; then
+            __logan_google_cloud_sdk_completion="$HOME/.miniconda3"
+            if [ -r "${__logan_google_cloud_sdk_completion}" ]; then
+                # shellcheck disable=SC1090
+                source "${__logan_google_cloud_sdk_completion}"
+            fi
+        fi
+    fi
+fi
+
 ###########################################################################################
 
 # 为 zsh和bash 自定义历史命令配置

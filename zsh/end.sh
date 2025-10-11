@@ -65,7 +65,7 @@ fi
 if _logan_if_interactive; then
     if _logan_if_command_exist "gcloud"; then
         if _logan_if_zsh; then
-            __logan_google_cloud_sdk_completion="$HOME/.miniconda3"
+            __logan_google_cloud_sdk_completion="/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc"
             if [ -r "${__logan_google_cloud_sdk_completion}" ]; then
                 # shellcheck disable=SC1090
                 source "${__logan_google_cloud_sdk_completion}"

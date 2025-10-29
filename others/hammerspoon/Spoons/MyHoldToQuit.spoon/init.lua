@@ -151,8 +151,13 @@ end
 function obj:onKeyDown()
     if not MyHoldToQuitAlert then
         local win = hs.window.focusedWindow()
+        local app = hs.application.frontmostApplication()
+        if obj:if_immediately(app:bundleID()) then
+            app:kill()
+            return
+        end
         if obj:check_window(win) then
-            local app = win:application()
+            app = win:application()
             local appBundleID = app:bundleID()
             if obj:if_immediately(appBundleID) then
                 app:kill()

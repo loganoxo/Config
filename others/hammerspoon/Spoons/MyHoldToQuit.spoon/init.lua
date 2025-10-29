@@ -55,6 +55,10 @@ obj.exclude = {
     ["com.tencent.WeTypeSettings"] = true,
 }
 
+obj.immediately = {
+    ["com.apple.Stickies"] = true
+}
+
 function obj:check_window(win)
     if not win or not win:isStandard() or not win:isVisible() or win:isMinimized() then
         LOGAN_ALERT("没有可用窗口", 2)
@@ -68,6 +72,14 @@ function obj:check_app(bundleID)
         return false
     else
         return true
+    end
+end
+
+function obj:if_immediately(bundleID)
+    if self.immediately[bundleID] then
+        return true
+    else
+        return false
     end
 end
 
@@ -142,6 +154,10 @@ function obj:onKeyDown()
         if obj:check_window(win) then
             local app = win:application()
             local appBundleID = app:bundleID()
+            if obj:if_immediately(appBundleID) then
+                app:kill()
+                return
+            end
             if not obj:check_app(appBundleID) then
                 hs.alert.show("当前app不能退出: " .. appBundleID)
                 return

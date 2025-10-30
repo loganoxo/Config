@@ -34,7 +34,8 @@ launchctl load -w ~/Library/LaunchAgents/com.logan.aria2.plist
 ```shell
 launchctl list | grep com.logan.reset.typora.trial.period
 launchctl stop com.logan.reset.typora.trial.period
-launchctl kill com.logan.reset.typora.trial.period
+# launchctl kill TERM gui/$(id -u)/com.logan.SecondClipboard
+# launchctl bootout gui/$(id -u)/com.logan.SecondClipboard
 launchctl unload -w ~/Library/LaunchAgents/com.logan.reset.typora.trial.period.plist
 rm -rf ~/Library/LaunchAgents/com.logan.reset.typora.trial.period.plist
 ```

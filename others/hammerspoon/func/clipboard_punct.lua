@@ -56,7 +56,7 @@ function Clipboard_Punct()
 end
 
 -- 快捷键绑定
-hs.hotkey.bind(HYPER_KEY, "C", function()
+hs.hotkey.bind({ "ctrl", "shift" }, "C", function()
     -- 清空剪贴板防止干扰
     hs.pasteboard.clearContents()
     hs.timer.doAfter(0.4, function()

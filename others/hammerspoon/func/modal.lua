@@ -1,8 +1,9 @@
 -- 快捷键写在load前
-hsupervisor_keys = { HYPER_KEY, "0" } -- 设置 supervisor(主模态) 激活快捷键
+-- hsupervisor_keys = { HYPER_KEY, "0" } -- 设置 supervisor(主模态) 激活快捷键
 hshelp_keys = { "ctrl", "/" }         -- 设置切换帮助面板的快捷键
 
 -- 加载 ModalMgr 模块
+DisableModalMgrInit = true
 ModalMgr = hs.loadSpoon("ModalMgr")
 ModalSupervisorEnable = false
 local mainTrayColor = "#FF0000"
@@ -21,11 +22,11 @@ local function reInit()
     ModalMgr.fillByRow = true
 
     -- 主窗口(模态)
-    ModalMgr.supervisor = hs.hotkey.modal.new(hsupervisor_keys[1], hsupervisor_keys[2], '进入主模态')
-    ModalMgr.supervisor:bind(hsupervisor_keys[1], hsupervisor_keys[2], "👋 退出主模态", function()
-        ModalMgr.supervisor:exit()
-    end)
-
+    -- ModalMgr.supervisor = hs.hotkey.modal.new(hsupervisor_keys[1], hsupervisor_keys[2], '进入主模态')
+    -- ModalMgr.supervisor:bind(hsupervisor_keys[1], hsupervisor_keys[2], "👋 退出主模态", function()
+    --     ModalMgr.supervisor:exit()
+    -- end)
+    ModalMgr.supervisor = hs.hotkey.modal.new(nil, nil, '进入主模态')
     -- 帮助面板
     ModalMgr.supervisor:bind(hshelp_keys[1], hshelp_keys[2], "🟢 打开/关闭帮助面板", function()
         ModalMgr:toggleCheatsheet({ all = ModalMgr.supervisor })

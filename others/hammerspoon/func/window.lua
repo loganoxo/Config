@@ -541,7 +541,7 @@ local function window_resize_bind(condition)
         end)
 
         -- 窗口直接居中(不改变宽高)
-        hs.hotkey.bind(HYPER_KEY, "C", "窗口直接居中", function()
+        hs.hotkey.bind(HYPER_KEY, "0", "窗口直接居中", function()
             center()
         end)
 
@@ -559,7 +559,7 @@ local function window_resize_bind(condition)
     if condition == "all" or condition == "modal" then
 
         -- 窗口直接居中(不改变宽高)
-        winModal:bind("", "C", "窗口直接居中", function()
+        winModal:bind("", "0", "窗口直接居中", function()
             center()
         end)
 
@@ -819,9 +819,6 @@ local function window_center_bind(condition)
                 centerY(i / 10)
             end)
         end
-        winModal:bind("", "0", "窗口按比例居中(0.98)", function()
-            centerXY(9.8 / 10, 9.8 / 10)
-        end)
         winModal:bind("ctrl", "0", "宽度更大", function()
             centerX(9.8 / 10)
         end)
@@ -837,9 +834,6 @@ local function window_center_bind(condition)
                 centerXY(i / 10, i / 10)
             end)
         end
-        LeftRightHotkey:bind({ "rAlt" }, "0", "窗口按比例居中(0.98)", function()
-            centerXY(9.8 / 10, 9.8 / 10)
-        end)
     end
 
     --winModal:bind("", "W", "手动输入比例(宽)居中", function()

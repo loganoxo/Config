@@ -155,6 +155,11 @@ if false; then
     fi
 fi
 
+# curl
+if _logan_if_command_exist "brew"; then
+    export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+fi
+
 # go安装的包的路径
 export GOPATH=$HOME/.go
 export PATH=$PATH:$GOPATH/bin
